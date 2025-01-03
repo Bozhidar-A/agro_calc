@@ -9,4 +9,9 @@ describe('Welcome component', () => {
       'https://mantine.dev/guides/next/'
     );
   });
+
+  it('has Mantine text', () => {
+    render(<Welcome />);
+    expect(screen.getByText('Mantine'));
+  });
 });
