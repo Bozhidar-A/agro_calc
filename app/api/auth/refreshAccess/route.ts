@@ -5,18 +5,17 @@ import { VerifyTokenServer } from '@/lib/auth.server';
 
 export async function GET(req: NextRequest) {
     try {
-        const status = await BackendRefreshToken();
+        return await BackendRefreshAccessToken();
 
-        return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
+        // return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }
 
-export async function BackendRefreshToken() {
+export async function BackendRefreshAccessToken() {
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get('refreshToken')?.value;
-    console.log("GET -> refreshToken", refreshToken)
 
     if (!refreshToken) {
         return NextResponse.json({ message: 'No refresh token found' }, { status: 401 });
@@ -26,8 +25,6 @@ export async function BackendRefreshToken() {
     if (!validToken) {
         return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 });
     }
-
-    console.log("GET REFRESH -> decoded", decoded)
 
     // Generate new access token
     const newAccessToken = await new SignJWT({ userId: decoded?.payload?.userId, type: 'access' })
@@ -44,5 +41,5 @@ export async function BackendRefreshToken() {
         path: '/'
     });
 
-    console.log("GET -> newAccessToken", newAccessToken)
+    return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
 }

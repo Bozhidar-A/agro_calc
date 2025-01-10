@@ -82,7 +82,7 @@ export async function POST(req: Request) {
         });
     } catch (error) {
         console.log("Eroor in login route");
-        console.log(error);
+        console.error(error);
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }

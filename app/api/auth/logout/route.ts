@@ -42,9 +42,6 @@ export async function BackendLogout(req) {
 
         const data = await deletedToken.json();
 
-        console.log("BackendLogout -> deletedToken", deletedToken.ok)
-        console.log("BackendLogout -> data", data)
-
         if (!deletedToken.ok) {
             //This should never happen
             throw new Error('Failed to delete refresh token');

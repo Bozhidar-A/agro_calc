@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ArrayContainsAndItemsStartsWith } from "./lib/util";
 import { BackendLogout } from "./app/api/auth/logout/route";
 import { cookies } from "next/headers";
-import { BackendRefreshToken } from "./app/api/auth/refresh/route";
+import { BackendRefreshAccessToken } from "./app/api/auth/refreshAccess/route";
 
 
 export async function middleware(request: NextRequest) {
@@ -54,7 +54,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    console.log("access ", cookieStore.get("accessToken"));
+    // console.log("access ", cookieStore.get("accessToken"));
+    // console.log("refesh ", cookieStore.get("refreshToken"));
     if (cookieStore.get("accessToken") === undefined) {
         //not authenticated?
         //accessing a protected route?
@@ -77,9 +78,6 @@ export async function middleware(request: NextRequest) {
     });
     const { validToken, decoded } = await validationFetch.json();
 
-    console.log("validToken ", validToken);
-    console.log("decoded ", decoded);
-
     //decoded has the user id in payload.userId
     //can pass to logout instead of cookie
 
@@ -97,12 +95,13 @@ export async function middleware(request: NextRequest) {
         //     credentials: 'include',
         // });
 
+        console.log("refreshing token");
         //try to refresh the access token
         try {
             //this should never throw
-            await BackendRefreshToken();
+            await BackendRefreshAccessToken(cookieStore);
         } catch (error) {
-            console.log("BackendRefreshToken threw: ", error);
+            console.error("BackendRefreshToken threw: ", error);
             //failed to refresh the access token
             //force logout and redirect to login page
             await BackendLogout(request);
