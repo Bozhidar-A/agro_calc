@@ -22,6 +22,7 @@ export async function middleware(request: NextRequest) {
                 "/auth/login",
                 "/auth/register",
             ],
+            graphql: "/api/graphql"
         }
     }
 
@@ -29,6 +30,23 @@ export async function middleware(request: NextRequest) {
     //if the request is internal, continue
     if (request.headers.get('x-internal-request') === process.env.INTERNAL_API_REQUEST_SECRET) {
         console.log("internal request");
+        return NextResponse.next();
+    }
+
+    //graphql breaks my setup a bit
+    //its one POST route and you pass the query in the body
+    //some stuff like DeleteRefreshToken is something only the backend should be able to do
+    //there is no easy way to check WHAT is being requested
+    //so I have to use the yoga context to pass a flag to the resolvers
+    //if there is no SET VALUE to the internal header, the request is trying to be internal
+    //but it is not
+    //throw error
+    if (request.nextUrl.pathname === routeDefinitions.protected.graphql && request.headers.has('x-internal-request')) {
+        //we dont know the value of the internal header
+        //but it is trying to go to the graphql endpoint
+        //try it
+        //let the yoga context handle it
+        //handle the fail in the fetch
         return NextResponse.next();
     }
 
@@ -81,13 +99,19 @@ export async function middleware(request: NextRequest) {
         console.log("refreshing token");
         //try to refresh the access token
         try {
-            //this should never throw
             await BackendRefreshAccessToken();
         } catch (error) {
             console.error("BackendRefreshToken threw: ", error);
             //failed to refresh the access token
             //force logout and redirect to login page
-            await BackendLogout(request);
+            try {
+                await BackendLogout(request);
+            } catch (error) {
+                //this means that something IS VERY WRONG
+                //or there is no .env file
+                console.log("Failed to logout user. Is there a .env file?");
+                console.error("BackendLogout threw: ", error);
+            }
             return NextResponse.redirect(new URL('/auth/login?updateAuthState=refreshTokenExpired', request.url));
         }
     }

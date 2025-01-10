@@ -1,15 +1,15 @@
 import { SignJWT } from 'jose';
 import { cookies } from "next/headers";
-import { NextResponse } from 'next/server';
 import { VerifyTokenServer } from '@/lib/auth.server';
+import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
-        return await BackendRefreshAccessToken();
+        await BackendRefreshAccessToken();
 
-        // return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
+        return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ message: `Internal Server Error: ${error}` }, { status: 500 });
     }
 }
 
@@ -18,12 +18,14 @@ export async function BackendRefreshAccessToken() {
     const refreshToken = cookieStore.get('refreshToken')?.value;
 
     if (!refreshToken) {
-        return NextResponse.json({ message: 'No refresh token found' }, { status: 401 });
+        // return NextResponse.json({ message: 'No refresh token found' }, { status: 401 });
+        throw new Error('No refresh token found');
     }
 
-    const [validToken, decoded] = await VerifyTokenServer(process.env.JWT_REFRESH_SECRET, refreshToken, 'refresh');
+    const [validToken, decoded] = await VerifyTokenServer(process.env.JWT_REFRESH_SECRET || '', refreshToken, 'refresh');
     if (!validToken) {
-        return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 });
+        // return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 });
+        throw new Error('Invalid refresh token');
     }
 
     // Generate new access token
@@ -40,6 +42,4 @@ export async function BackendRefreshAccessToken() {
         maxAge: 900, // 15 minutes
         path: '/'
     });
-
-    return NextResponse.json({ message: 'Access token refreshed' }, { status: 200 });
 }

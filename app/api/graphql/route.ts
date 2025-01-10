@@ -8,6 +8,15 @@ interface NextContext {
 }
 
 const { handleRequest } = createYoga<NextContext>({
+    context: ({ request }) => {
+        const isInternalRequest = request.headers.get('x-internal-request') === process.env.INTERNAL_API_REQUEST_SECRET;
+
+        return {
+            isInternalRequest, // Pass this flag to the resolvers
+            headers: request.headers,
+        };
+    },
+
     schema: createSchema({
         typeDefs,
         resolvers
