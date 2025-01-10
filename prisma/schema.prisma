@@ -30,5 +30,7 @@ model RefreshToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 
+  //one token value per user gaurenteed
+  @@unique([token, userId]) // Compound unique constraint
   @@index([userId])
 }
