@@ -3,7 +3,6 @@
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from "@/store/slices/authSLice";
 import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -89,8 +88,7 @@ export default function Login() {
 
     return (
         <div>
-            <h1>Register</h1>
-            <p>{Cookies.get('refreshToken')}</p>
+            <h1>Login</h1>
 
             <form onSubmit={form.onSubmit((values) => HandleSubmit(values))}>
                 <TextInput
