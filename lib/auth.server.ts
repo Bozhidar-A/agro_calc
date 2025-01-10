@@ -1,3 +1,4 @@
+import { QUERIES } from "@/app/api/graphql/callable";
 import { jwtVerify } from "jose";
 
 export async function VerifyTokenServer(secret: string, token: string, type: string) {
@@ -19,18 +20,25 @@ export async function VerifyTokenServer(secret: string, token: string, type: str
         return [false, null];
     }
 
-    // Check if refresh token exists in database
-    // const storedToken = await prisma.refreshToken.findFirst({
-    //     where: {
-    //         // id: decoded.payload,
-    //         token
-    //     }
-    // });
+    if (type === "refresh") {
+        const variables = {
+            query: QUERIES.REFRESH_TOKEN_TOKEN,
+            token
+        }
+        const refreshGQL = await fetch("http://localhost:3000/api/graphql", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(variables)
+        });
+        const refreshData = await refreshGQL.json();
+        console.log("VerifyTokenServer -> refreshData", refreshData)
 
-    // console.log("VerifyTokenServer -> storedToken", storedToken)
-    // if (!storedToken) {
-    //     return [false, null];
-    // }
+        if (refreshData.errors) {
+            return [false, null];
+        }
+    }
 
     return [true, decoded];
 }
