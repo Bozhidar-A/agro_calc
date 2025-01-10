@@ -1,5 +1,5 @@
 import { compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 import { cookies } from 'next/headers'
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from 'next/server';
@@ -18,19 +18,25 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 });
         }
 
+        //nuke all old refresh tokens
+        await prisma.refreshToken.deleteMany({
+            where: {
+                userId: user.id
+            }
+        });
+
         // Generate access token (short-lived)
-        const accessToken = sign(
-            { userId: user.id, type: 'access' },
-            process.env.JWT_SECRET,
-            { expiresIn: '15m' }
-        );
+        const accessToken = await new SignJWT({ userId: user.id, type: 'access' })
+            .setProtectedHeader({ alg: 'HS256' })
+            .setExpirationTime('15m')
+            .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
         // Generate refresh token (long-lived)
-        const refreshToken = sign(
-            { userId: user.id, type: 'refresh' },
-            process.env.JWT_REFRESH_SECRET,
-            { expiresIn: '7d' }
-        );
+        const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
+            .setProtectedHeader({ alg: 'HS256' })
+            .setExpirationTime('7d')
+            .sign(new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
+
 
         // Store refresh token in database
         await prisma.refreshToken.create({
@@ -55,7 +61,7 @@ export async function POST(req: Request) {
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60, // 7 days
-            path: '/'
+            path: '/auth/refresh'
         })
 
         // Return user data (but not tokens)
@@ -63,6 +69,8 @@ export async function POST(req: Request) {
             status: 200,
         });
     } catch (error) {
+        console.log("Eroor in login route");
+        console.log(error);
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }

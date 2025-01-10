@@ -1,9 +1,31 @@
 'use client';
 
+import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from "@/store/slices/authSLice";
 import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import Cookies from "js-cookie";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const updateAuthState = searchParams.get('updateAuthState');
+        //This seems VERY stupid, but I know on failed auth of any kind
+        //a redirect to here will happen
+        //this SHOULD be a safe way to handle local state update
+        //when it can't be done from the server
+        if (updateAuthState === 'refreshTokenExpired') {
+            dispatch(AuthLogout());
+            // Perform additional actions (e.g., show a toast or log out user)
+        }
+
+    }, [searchParams]);
+
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
@@ -38,19 +60,37 @@ export default function Login() {
     }
 
     function HandleSubmit(values) {
+        dispatch(AuthStart("login"));
+
         const { email, password } = values;
         fetch('/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
-        }).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));
+        }).then(async res => {
+            const data = await res.json();
+            if (!res.ok) {
+                dispatch(AuthFailure(data.message));
+                alert(data.message);
+                return;
+            }
+            alert('User logged in');
+            dispatch(AuthSuccess(data.user));
+            router.push('/');
+        }).catch(err => {
+            dispatch(AuthFailure("Internal Server Error"));
+            alert('Internal Server Error');
+            console.log(err);
+        });
     }
 
     return (
         <div>
             <h1>Register</h1>
+            <p>{Cookies.get('refreshToken')}</p>
 
             <form onSubmit={form.onSubmit((values) => HandleSubmit(values))}>
                 <TextInput
