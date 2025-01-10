@@ -27,7 +27,7 @@ export async function BackendLogout(req) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-internal-request': process.env.INTERNAL_REQUEST_SECRET || '',
+                'x-internal-request': process.env.INTERNAL_API_REQUEST_SECRET || '',
             },
             body: JSON.stringify({
                 query: MUTATIONS.DELETE_REFRESH_TOKEN,
@@ -35,11 +35,16 @@ export async function BackendLogout(req) {
             })
         })
 
-        const data = await deletedToken.json();
+        if (!deletedToken.ok) {
+            throw new Error('Failed to delete refresh token');
+        }
+
+        // const data = await deletedToken.json();
+        // console.log(data);
 
         if (!deletedToken.ok) {
             //This should never happen
-            throw new Error('Failed to delete refresh token');
+            throw new Error(`Failed to delete refresh token: ${deletedToken.statusText}`);
         }
 
     }

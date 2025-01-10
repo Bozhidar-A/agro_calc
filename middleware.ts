@@ -27,7 +27,8 @@ export async function middleware(request: NextRequest) {
 
     //prefire internal requests
     //if the request is internal, continue
-    if (request.headers.get('x-internal-request') === process.env.INTERNAL_REQUEST_SECRET) {
+    if (request.headers.get('x-internal-request') === process.env.INTERNAL_API_REQUEST_SECRET) {
+        console.log("internal request");
         return NextResponse.next();
     }
 

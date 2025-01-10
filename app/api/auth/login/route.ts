@@ -3,6 +3,7 @@ import { SignJWT } from 'jose';
 import { cookies } from 'next/headers'
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from 'next/server';
+import { QUERIES } from '../../graphql/callable';
 
 export async function POST(req: Request) {
     try {
@@ -13,6 +14,20 @@ export async function POST(req: Request) {
         const user = await prisma.user.findUnique({
             where: { email }
         });
+        const variables = {
+            email
+        }
+        const userReq = await fetch(new URL('/api/graphql', req.url), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: QUERIES.USER_EMAIL,
+                variables
+            })
+        });
+        // const user = await userReq.json();
 
         if (!user || !await compare(password, user.password)) {
             return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 });

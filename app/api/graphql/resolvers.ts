@@ -22,7 +22,8 @@ export const resolvers = {
                             userId,
                         },
                     },
-                });
+                })
+                console.log("Deleted token: ", deletedToken);
                 return deletedToken;
             } catch (error) {
                 throw new Error("Failed to delete refresh token. Ensure the token and userId are correct.");
