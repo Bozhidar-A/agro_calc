@@ -23,7 +23,7 @@ export async function VerifyTokenServer(secret: string, token: string, type: str
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "x-internal-request": process.env.INTERNAL_REQUEST_SECRET || ""
+                "x-internal-request": process.env.INTERNAL_API_REQUEST_SECRET || ""
             },
             body: JSON.stringify({
                 query: QUERIES.REFRESH_TOKEN_TOKEN,
