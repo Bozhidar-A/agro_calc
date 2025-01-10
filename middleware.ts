@@ -7,20 +7,9 @@ import { BackendRefreshAccessToken } from "./app/api/auth/refreshAccess/route";
 
 export async function middleware(request: NextRequest) {
     const routeDefinitions = {
-        // public: {
-        //     api: [
-        //         "/api/auth/login",
-        //         "/api/auth/refresh",
-        //         "/api/auth/register",
-        //         "/api/auth/logout",
-        //     ],
-        //     pages: [
-        //         "/"
-        //     ],
-        // },
         protected: {
             api: [
-
+                "/api/graphql",
             ],
             pages: [
                 "/prot"
@@ -34,6 +23,12 @@ export async function middleware(request: NextRequest) {
                 "/auth/register",
             ],
         }
+    }
+
+    //prefire internal requests
+    //if the request is internal, continue
+    if (request.headers.get('x-internal-request') === process.env.INTERNAL_REQUEST_SECRET) {
+        return NextResponse.next();
     }
 
     const cookieStore = await cookies();
@@ -54,8 +49,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // console.log("access ", cookieStore.get("accessToken"));
-    // console.log("refesh ", cookieStore.get("refreshToken"));
     if (cookieStore.get("accessToken") === undefined) {
         //not authenticated?
         //accessing a protected route?
@@ -76,30 +69,19 @@ export async function middleware(request: NextRequest) {
             type: 'access'
         })
     });
-    const { validToken, decoded } = await validationFetch.json();
+    // const { validToken, decoded } = await validationFetch.json();
+    const { validToken } = await validationFetch.json();
 
     //decoded has the user id in payload.userId
     //can pass to logout instead of cookie
 
     if (!validToken) {
 
-        // const refreshFetchRes = await fetch(new URL('/api/auth/refresh', request.url), {
-        //     //this is beyond stupid, but it works
-        //     //i genuinely don't know why this is necessary
-        //     headers: new Headers(request.headers),
-        //     // headers: {
-        //     //     Cookie: request.headers.get('cookie') || '', 
-        //     //     
-        //     // },
-        //     //you can also do it like this
-        //     credentials: 'include',
-        // });
-
         console.log("refreshing token");
         //try to refresh the access token
         try {
             //this should never throw
-            await BackendRefreshAccessToken(cookieStore);
+            await BackendRefreshAccessToken();
         } catch (error) {
             console.error("BackendRefreshToken threw: ", error);
             //failed to refresh the access token

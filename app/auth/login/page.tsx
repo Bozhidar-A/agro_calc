@@ -15,7 +15,7 @@ export default function Login() {
 
     useEffect(() => {
         const updateAuthState = searchParams.get('updateAuthState');
-        //This seems VERY stupid, but I know on failed auth of any kind
+        //This seems VERY stupid, but I know on failed auth due to expired refresh token
         //a redirect to here will happen
         //this SHOULD be a safe way to handle local state update
         //when it can't be done from the server

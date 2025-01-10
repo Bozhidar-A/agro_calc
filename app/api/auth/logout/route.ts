@@ -17,12 +17,6 @@ export async function BackendLogout(req) {
     const cookieStore = await cookies();
 
     if (cookieStore.get('refreshToken')) {
-        // await prisma.refreshToken.deleteMany({
-        //     where: {
-        //         token: cookieStore.get('refreshToken')?.value || ""
-        //     }
-        // });
-
         const variables = {
             //null check for ts to be happy
             token: cookieStore.get('refreshToken')?.value || "",
@@ -33,6 +27,7 @@ export async function BackendLogout(req) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'x-internal-request': process.env.INTERNAL_REQUEST_SECRET || '',
             },
             body: JSON.stringify({
                 query: MUTATIONS.DELETE_REFRESH_TOKEN,

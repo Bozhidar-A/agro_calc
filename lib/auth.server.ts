@@ -22,7 +22,8 @@ export async function VerifyTokenServer(secret: string, token: string, type: str
         const refreshGQL = await fetch(new URL("/api/graphql", process.env.HOST_URL), {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "x-internal-request": process.env.INTERNAL_REQUEST_SECRET || ""
             },
             body: JSON.stringify({
                 query: QUERIES.REFRESH_TOKEN_TOKEN,
