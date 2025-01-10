@@ -30,6 +30,7 @@ export async function POST(req: Request) {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({ email, password })
         });
         const loginResJson = await loginRes.json();
@@ -39,7 +40,8 @@ export async function POST(req: Request) {
         }
         return NextResponse.json({ message: 'User created', ...loginResJson }, { status: 201 });
     } catch (error) {
-        console.error(error);
+        console.log("Eroor in register route");
+        console.log(error);
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }

@@ -1,4 +1,4 @@
-import { sign } from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 import { cookies } from "next/headers";
 import { NextResponse } from 'next/server';
 import { VerifyTokenServer } from '@/lib/auth.server';
@@ -6,7 +6,8 @@ import { VerifyTokenServer } from '@/lib/auth.server';
 export async function GET(req: any) {
     try {
         const cookieStore = await cookies();
-        const refreshToken = req.cookies.refreshToken;
+        const refreshToken = cookieStore.get('refreshToken')?.value;
+        console.log("GET -> refreshToken", refreshToken)
 
         if (!refreshToken) {
             return NextResponse.json({ message: 'No refresh token found' }, { status: 401 });
@@ -18,11 +19,10 @@ export async function GET(req: any) {
         }
 
         // Generate new access token
-        const newAccessToken = sign(
-            { userId: decoded?.userId, type: 'access' },
-            process.env.JWT_SECRET,
-            { expiresIn: '15m' }
-        );
+        const newAccessToken = await new SignJWT({ userId: decoded?.userId, type: 'access' })
+            .setProtectedHeader({ alg: 'HS256' })
+            .setExpirationTime('15m')
+            .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
         // Set new access token cookie
         cookieStore.set('accessToken', newAccessToken, {
