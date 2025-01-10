@@ -1,16 +1,12 @@
-export const MUTATIONS = {
-  DELETE_REFRESH_TOKEN: `
-  mutation DeleteRefreshToken($token: String!, $userId: ID!) {
-    DeleteRefreshToken(token: $token, userId: $userId) {
+export const QUERIES = {
+  USERS: `
+  query Users {
+    Users {
       id
-      token
-      userId
+      email
     }
   }
-`
-}
-
-export const QUERIES = {
+`,
   USER_ID: `
   query UserID($id: ID!) {
     UserID(id: $id) {
@@ -33,10 +29,18 @@ export const QUERIES = {
       id
       token
       userId
-      user {
-        id
-        email
-      }
+    }
+  }
+`
+}
+
+export const MUTATIONS = {
+  DELETE_REFRESH_TOKEN: `
+  mutation DeleteRefreshToken($token: String!, $userId: ID!) {
+    DeleteRefreshToken(token: $token, userId: $userId) {
+      id
+      token
+      userId
     }
   }
 `

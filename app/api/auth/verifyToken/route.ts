@@ -5,7 +5,7 @@ export async function POST(req) {
     try {
         const { secret, token, type } = await req.json();
 
-        const [validToken, decoded] = await VerifyTokenServer(secret, token, type);
+        const [validToken, decoded] = await VerifyTokenServer(secret, token.value, type);
 
         return NextResponse.json({
             validToken,

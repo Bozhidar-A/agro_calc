@@ -7,33 +7,33 @@ export async function VerifyTokenServer(secret: string, token: string, type: str
     }
 
     // Verify refresh token
-    console.log("VerifyTokenServer -> token", token)
-    console.log("VerifyTokenServer -> secret", secret)
+
     const decoded = await jwtVerify(token, new TextEncoder().encode(secret));
 
-    console.log("VerifyTokenServer -> decoded", decoded)
-
-
-    console.log("VerifyTokenServer -> type", type)
     if (decoded?.payload?.type !== type) {
-        console.log("Invalid token type")
+        console.error("Invalid token type")
         return [false, null];
     }
 
     if (type === "refresh") {
         const variables = {
-            query: QUERIES.REFRESH_TOKEN_TOKEN,
             token
         }
-        const refreshGQL = await fetch("http://localhost:3000/api/graphql", {
+        const refreshGQL = await fetch(new URL("/api/graphql", process.env.HOST_URL), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(variables)
+            body: JSON.stringify({
+                query: QUERIES.REFRESH_TOKEN_TOKEN,
+                variables
+            })
         });
+        if (!refreshGQL.ok) {
+            console.log(refreshGQL.url);
+        }
+
         const refreshData = await refreshGQL.json();
-        console.log("VerifyTokenServer -> refreshData", refreshData)
 
         if (refreshData.errors) {
             return [false, null];
