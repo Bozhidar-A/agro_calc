@@ -20,7 +20,8 @@ export async function POST(req: Request) {
         const userReq = await fetch(new URL('/api/graphql', req.url), {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-internal-request': process.env.INTERNAL_API_REQUEST_SECRET || '',
             },
             body: JSON.stringify({
                 query: QUERIES.USER_EMAIL,

@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { GraphQLUnauthorizedError } from "@/lib/util";
+import { GraphQLError } from "graphql";
 
 export const resolvers = {
     Query: {
@@ -13,7 +15,10 @@ export const resolvers = {
         },
     },
     Mutation: {
-        DeleteRefreshToken: async (_: never, { token, userId }: { token: string, userId: string }) => {
+        DeleteRefreshToken: async (_: never, { token, userId }: { token: string, userId: string }, content) => {
+            console.log("DeleteRefreshToken context: ", content);
+            GraphQLUnauthorizedError(content, "DeleteRefreshToken");
+
             try {
                 const deletedToken = await prisma.refreshToken.delete({
                     where: {
@@ -26,7 +31,8 @@ export const resolvers = {
                 console.log("Deleted token: ", deletedToken);
                 return deletedToken;
             } catch (error) {
-                throw new Error("Failed to delete refresh token. Ensure the token and userId are correct.");
+                console.error(error);
+                throw new GraphQLError("Failed to delete refresh token. Ensure the token and userId are correct.");
             }
         },
     },
