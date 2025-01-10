@@ -1,8 +1,11 @@
-import { NextResponse } from "next/server";
-import { VerifyTokenServer } from "./lib/auth.server";
+import { NextRequest, NextResponse } from "next/server";
 import { ArrayContainsAndItemsStartsWith } from "./lib/util";
+import { BackendLogout } from "./app/api/auth/logout/route";
+import { cookies } from "next/headers";
+import { BackendRefreshToken } from "./app/api/auth/refresh/route";
 
-export async function middleware(request) {
+
+export async function middleware(request: NextRequest) {
     const routeDefinitions = {
         // public: {
         //     api: [
@@ -24,13 +27,16 @@ export async function middleware(request) {
             ],
             afterAuthAPI: [
                 "/api/auth/login",
+                "/api/auth/register",
             ],
             afterAuthPages: [
                 "/auth/login",
+                "/auth/register",
             ],
         }
     }
 
+    const cookieStore = await cookies();
     const { pathname } = request.nextUrl;
 
     if (pathname === "/") {
@@ -48,7 +54,8 @@ export async function middleware(request) {
         return NextResponse.next();
     }
 
-    if (request.cookies.get('accessToken') === undefined) {
+    console.log("access ", cookieStore.get("accessToken"));
+    if (cookieStore.get("accessToken") === undefined) {
         //not authenticated?
         //accessing a protected route?
         //straight to jail
@@ -57,17 +64,49 @@ export async function middleware(request) {
 
 
     //try to verify the access token
-    const [validToken, decoded] = await VerifyTokenServer(process.env.JWT_SECRET, request.cookies.get('accessToken')?.value, 'access');
+    const validationFetch = await fetch(new URL('/api/auth/verifyToken', request.url), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            secret: process.env.JWT_SECRET,
+            token: cookieStore.get("accessToken"),
+            type: 'access'
+        })
+    });
+    const { validToken, decoded } = await validationFetch.json();
+
+    console.log("validToken ", validToken);
+    console.log("decoded ", decoded);
+
+    //decoded has the user id in payload.userId
+    //can pass to logout instead of cookie
 
     if (!validToken) {
-        //try to refresh the access token
-        const refreshFetchRes = await fetch('/api/auth/refresh');
 
-        if (!refreshFetchRes.ok) {
+        // const refreshFetchRes = await fetch(new URL('/api/auth/refresh', request.url), {
+        //     //this is beyond stupid, but it works
+        //     //i genuinely don't know why this is necessary
+        //     headers: new Headers(request.headers),
+        //     // headers: {
+        //     //     Cookie: request.headers.get('cookie') || '', 
+        //     //     
+        //     // },
+        //     //you can also do it like this
+        //     credentials: 'include',
+        // });
+
+        //try to refresh the access token
+        try {
+            //this should never throw
+            await BackendRefreshToken();
+        } catch (error) {
+            console.log("BackendRefreshToken threw: ", error);
             //failed to refresh the access token
             //force logout and redirect to login page
-            await fetch('/api/auth/logout');
-            return NextResponse.redirect(new URL('/auth/login', request.url));
+            await BackendLogout(request);
+            return NextResponse.redirect(new URL('/auth/login?updateAuthState=refreshTokenExpired', request.url));
         }
     }
 

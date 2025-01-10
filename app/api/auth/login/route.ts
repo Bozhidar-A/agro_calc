@@ -61,7 +61,19 @@ export async function POST(req: Request) {
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 7 * 24 * 60 * 60, // 7 days
-            path: '/auth/refresh'
+            // path: '/auth/refresh'
+            // apperently it is bad paractice to set to /
+            // will do for dev
+            //TODO: figure out and fix
+            path: '/'
+        })
+
+        cookieStore.set('userId', user.id, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60, // 7 days
+            path: '/'
         })
 
         // Return user data (but not tokens)
