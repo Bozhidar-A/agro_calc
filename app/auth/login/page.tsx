@@ -90,7 +90,7 @@ export default function Login() {
         <div>
             <h1>Login</h1>
 
-            <form onSubmit={form.onSubmit((values) => HandleSubmit(values))}>
+            <form onSubmit={(values) => HandleSubmit(values)}>
                 <TextInput
                     withAsterisk
                     label="Email"
