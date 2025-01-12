@@ -3,5 +3,11 @@
 import { createTheme } from '@mantine/core';
 
 export const theme = createTheme({
-  /* Put your mantine theme override here */
+  components: {
+    ActionIcon: {
+      defaultProps: {
+        color: 'light-dark(var(--mantine-color-black), var(--mantine-color-white))'
+      }
+    }
+  }
 });

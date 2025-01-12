@@ -1,3 +1,5 @@
+'use client';
+
 import { AuthLogout } from "@/store/slices/authSLice";
 import { Button } from "@mantine/core";
 import { useDispatch } from "react-redux";
