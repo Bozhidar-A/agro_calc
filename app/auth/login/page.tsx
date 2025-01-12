@@ -72,6 +72,7 @@ export default function Login() {
         }).then(async res => {
             const data = await res.json();
             if (!res.ok) {
+                console.log(data);
                 dispatch(AuthFailure(data.message));
                 alert(data.message);
                 return;
@@ -80,9 +81,9 @@ export default function Login() {
             dispatch(AuthSuccess(data.user));
             router.push('/');
         }).catch(err => {
+            console.error(err);
             dispatch(AuthFailure("Internal Server Error"));
             alert('Internal Server Error');
-            console.log(err);
         });
     }
 
@@ -90,7 +91,7 @@ export default function Login() {
         <div>
             <h1>Login</h1>
 
-            <form onSubmit={(values) => HandleSubmit(values)}>
+            <form onSubmit={form.onSubmit((values) => HandleSubmit(values))}>
                 <TextInput
                     withAsterisk
                     label="Email"
@@ -111,6 +112,6 @@ export default function Login() {
                     <Button type="submit">Submit</Button>
                 </Group>
             </form>
-        </div>
+        </div >
     )
 }
