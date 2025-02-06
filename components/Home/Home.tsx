@@ -31,7 +31,7 @@ export default function HomePage() {
                 className="mt-6"
             >
                 <Button className="px-6 py-3 text-lg bg-green-700 hover:bg-green-600 text-white rounded-xl shadow-lg">
-                    Get Started
+                    <Link href="/idk">Get Started</Link>
                 </Button>
             </motion.div>
 
