@@ -23,7 +23,11 @@ export function renderWithProviders(ui: React.ReactNode, objectExtra: {} = {}, m
   return testingLibraryRender(
     <Provider store={mockStore}>
       <PersistGate loading={<h1>Loading...</h1>} persistor={mockPersistor}>
-        {ui}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+        >{ui}</ThemeProvider>
       </PersistGate>
     </Provider>, objectExtra
   )
