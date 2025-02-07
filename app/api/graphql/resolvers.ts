@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { GraphQLUnauthorizedError } from "@/lib/util";
+import { GraphQLUnauthorizedError } from "@/lib/utils";
 import { GraphQLError } from "graphql";
 
 export const resolvers = {

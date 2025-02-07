@@ -40,28 +40,33 @@ export default function Header() {
                     <ThemeSwitcher />
 
                     <Sheet open={open} onOpenChange={setOpen}>
-                        <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon">
+                        <SheetTrigger asChild data-testid="open-sheet-button">
+                            <Button variant="ghost" size="icon" name="menu">
                                 <Menu className="h-6 w-6" />
+                                <span className="sr-only">Menu Icon</span>
                             </Button>
                         </SheetTrigger>
 
-                        <SheetContent>
+                        <SheetContent data-testid="sheet-content">
                             {authObj.isAuthenticated ? <SheetTitle>Welcome, {authObj.user.email}</SheetTitle> : <SheetTitle>Menu</SheetTitle>}
 
                             <div className="flex flex-col space-y-6 mt-6">
                                 {
                                     authObj.isAuthenticated ? (
-                                        <Button asChild onClick={() => {
+                                        <Button onClick={() => {
                                             handleLogout();
                                             setOpen(false);
                                         }}>
-                                            <Link href="#" className="hover:underline">Logout</Link>
+                                            Logout
                                         </Button>
                                     ) : (
-                                        <div className="flex flex-row space-x-4">
-                                            <Link href="/auth/login" className="hover:underline" onClick={() => setOpen(false)}>login</Link>
-                                            <Link href="/auth/register" className="hover:underline" onClick={() => setOpen(false)}>register</Link>
+                                        <div className="flex flex-row justify-center space-x-4">
+                                            <Button asChild>
+                                                <Link href="/auth/login" className="hover:underline" onClick={() => setOpen(false)}>Login</Link>
+                                            </Button>
+                                            <Button asChild>
+                                                <Link href="/auth/register" className="hover:underline" onClick={() => setOpen(false)}>Register</Link>
+                                            </Button>
                                         </div>
                                     )
                                 }
