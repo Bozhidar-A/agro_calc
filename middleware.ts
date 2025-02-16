@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ArrayContainsAndItemsStartsWith } from "./lib/util";
+import { ArrayContainsAndItemsStartsWith } from "./lib/utils";
 import { BackendLogout } from "./app/api/auth/logout/route";
 import { cookies } from "next/headers";
 import { BackendRefreshAccessToken } from "./app/api/auth/refreshAccess/route";

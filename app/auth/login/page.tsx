@@ -1,11 +1,24 @@
 'use client';
 
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from "@/store/slices/authSLice";
-import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string()
+        .min(6, "Password is too short")
+        .regex(/[a-z]/, "Password must contain a lowercase letter")
+        .regex(/[A-Z]/, "Password must contain an uppercase letter")
+        .regex(/[0-9]/, "Password must contain a number"),
+});
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -14,104 +27,62 @@ export default function Login() {
 
     useEffect(() => {
         const updateAuthState = searchParams.get('updateAuthState');
-        //This seems VERY stupid, but I know on failed auth due to expired refresh token
-        //a redirect to here will happen
-        //this SHOULD be a safe way to handle local state update
-        //when it can't be done from the server
         if (updateAuthState === 'refreshTokenExpired') {
             dispatch(AuthLogout());
-            // Perform additional actions (e.g., show a toast or log out user)
         }
-
     }, [searchParams]);
 
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            email: '',
-            password: '',
-        },
-
-        validate: {
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => PasswordCheck(value),
-        },
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema)
     });
 
-    function PasswordCheck(value: string) {
-        if (value.length < 6) {
-            return 'Password is too short';
-        }
-
-        if (!/[a-z]/.test(value)) {
-            return 'Password must contain a lowercase letter';
-        }
-
-        if (!/[A-Z]/.test(value)) {
-            return 'Password must contain an uppercase letter';
-        }
-
-        if (!/[0-9]/.test(value)) {
-            return 'Password must contain a number';
-        }
-
-        return null;
-    }
-
-    function HandleSubmit(values) {
+    function HandleSubmit(data) {
         dispatch(AuthStart("login"));
-
-        const { email, password } = values;
         fetch('/api/auth/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email: data.email, password: data.password })
         }).then(async res => {
-            const data = await res.json();
+            const result = await res.json();
             if (!res.ok) {
-                console.log(data);
-                dispatch(AuthFailure(data.message));
-                alert(data.message);
+                dispatch(AuthFailure(result.message));
+                alert(result.message);
                 return;
             }
             alert('User logged in');
-            dispatch(AuthSuccess(data.user));
+            dispatch(AuthSuccess(result.user));
             router.push('/');
-        }).catch(err => {
-            console.error(err);
+        }).catch(() => {
             dispatch(AuthFailure("Internal Server Error"));
             alert('Internal Server Error');
         });
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="flex items-center justify-center p-6">
+            <div className="w-full max-w-md space-y-6 p-8">
+                <h2 className="text-2xl font-bold text-center">Login</h2>
+                <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">
+                    <div>
+                        <Label htmlFor="email">Email</Label>
+                        <Input id="email" type="email" {...register("email")} />
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+                    </div>
 
-            <form onSubmit={form.onSubmit((values) => HandleSubmit(values))}>
-                <TextInput
-                    withAsterisk
-                    label="Email"
-                    placeholder="your@email.com"
-                    key={form.key('email')}
-                    {...form.getInputProps('email')}
-                />
+                    <div>
+                        <Label htmlFor="password">Password</Label>
+                        <Input id="password" type="password" {...register("password")} />
+                        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+                    </div>
 
-                <PasswordInput
-                    withAsterisk
-                    label="Password"
-                    placeholder="Your password"
-                    key={form.key('password')}
-                    {...form.getInputProps('password')}
-                />
-
-                <Group justify="flex-end" mt="md">
-                    <Button type="submit">Submit</Button>
-                </Group>
-            </form>
-        </div >
-    )
+                    <Button type="submit" className="w-full">Submit</Button>
+                </form>
+            </div>
+        </div>
+    );
 }
