@@ -1,47 +1,73 @@
 export const QUERIES = {
   USERS: `
-  query Users {
-    Users {
-      id
-      email
+    query Users {
+      Users {
+        id
+        email
+      }
     }
-  }
-`,
-  USER_ID: `
-  query UserID($id: ID!) {
-    UserID(id: $id) {
-      id
-      email
+  `,
+  USER_BY_ID: `
+    query UserById($id: ID!) {
+      UserById(id: $id) {
+        id
+        email
+      }
     }
-  }
-`,
-  USER_EMAIL: `
-  query UserEmail($email: String!) {
-    UserEmail(email: $email) {
-      id
-      email
+  `,
+  USER_BY_EMAIL: `
+    query UserByEmail($email: String!) {
+      UserByEmail(email: $email) {
+        id
+        email
+        password
+      }
     }
-  }
-`,
-  REFRESH_TOKEN_TOKEN: `
-  query RefreshTokenToken($token: String!) {
-    RefreshTokenToken(token: $token) {
-      id
-      token
-      userId
+  `,
+  REFRESH_TOKEN: `
+    query RefreshToken($token: String!) {
+      RefreshToken(token: $token) {
+        id
+        token
+        userId
+      }
     }
-  }
-`
-}
+  `
+} as const;
 
 export const MUTATIONS = {
-  DELETE_REFRESH_TOKEN: `
-  mutation DeleteRefreshToken($token: String!, $userId: ID!) {
-    DeleteRefreshToken(token: $token, userId: $userId) {
-      id
-      token
-      userId
+  INSERT_REFRESH_TOKEN_FOR_USER: `
+    mutation InsertRefreshTokenForUser($token: String!, $userId: ID!) {
+      InsertRefreshTokenForUser(token: $token, userId: $userId) {
+        id
+        token
+        userId
+      }
     }
-  }
-`
+  `,
+  DELETE_REFRESH_TOKEN: `
+    mutation DeleteRefreshToken($token: String!, $userId: ID!) {
+      DeleteRefreshToken(token: $token, userId: $userId) {
+        id
+        token
+        userId
+      }
+    }
+  `,
+  DELETE_ALL_REFRESH_TOKENS_FOR_USER: `
+    mutation DeleteAllRefreshTokensForUser($userId: ID!) {
+      DeleteAllRefreshTokensForUser(userId: $userId)
+    }
+  `,
+  HANDLE_LOGIN_ATTEMPT: `
+   mutation HandleLoginAttempt($email: String!, $password: String!) {
+    HandleLoginAttempt(email: $email, password: $password) {
+      user {
+        id
+        email
+      }
+      refreshToken
+    }
 }
+  `
+} as const;

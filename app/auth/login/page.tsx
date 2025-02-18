@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BackendLogin } from "@/lib/auth-utils";
 
 const schema = z.object({
     email: z.string().email("Invalid email address"),
@@ -22,7 +23,6 @@ const schema = z.object({
 
 export default function Login() {
     const dispatch = useDispatch();
-    const router = useRouter();
     const searchParams = useSearchParams();
 
     useEffect(() => {
@@ -40,27 +40,38 @@ export default function Login() {
         resolver: zodResolver(schema)
     });
 
-    function HandleSubmit(data) {
+    async function HandleSubmit(data) {
         dispatch(AuthStart("login"));
-        fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ email: data.email, password: data.password })
-        }).then(async res => {
-            const result = await res.json();
-            if (!res.ok) {
-                dispatch(AuthFailure(result.message));
-                alert(result.message);
-                return;
-            }
-            alert('User logged in');
-            dispatch(AuthSuccess(result.user));
-            router.push('/');
-        }).catch(() => {
-            dispatch(AuthFailure("Internal Server Error"));
-            alert('Internal Server Error');
-        });
+        // fetch('/api/auth/login', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     credentials: 'include',
+        //     body: JSON.stringify({ email: data.email, password: data.password })
+        // }).then(async res => {
+        //     const result = await res.json();
+        //     if (!res.ok) {
+        //         dispatch(AuthFailure(result.message));
+        //         alert(result.message);
+        //         return;
+        //     }
+        //     alert('User logged in');
+        //     dispatch(AuthSuccess(result.user));
+        //     router.push('/');
+        // }).catch(() => {
+        //     dispatch(AuthFailure("Internal Server Error"));
+        //     alert('Internal Server Error');
+        // });
+
+        const backendWork = await BackendLogin(data.email, data.password);
+
+        if (!backendWork.success) {
+            dispatch(AuthFailure(backendWork.message));
+            alert(backendWork.message);
+            return;
+        }
+
+        dispatch(AuthSuccess(backendWork.user));
+        alert('User logged in');
     }
 
     return (

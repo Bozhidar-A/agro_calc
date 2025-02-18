@@ -25,12 +25,10 @@ model User {
 model RefreshToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String
+  userId    String   @unique //one token per user
   user      User     @relation(fields: [userId], references: [id])
   expiresAt DateTime
   createdAt DateTime @default(now())
 
-  //one token value per user gaurenteed
-  @@unique([token, userId]) // Compound unique constraint
   @@index([userId])
 }
