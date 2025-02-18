@@ -6,12 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 import { GraphQLError } from "graphql";
+import { Log } from "./logger";
 
 export function ArrayContainsAndItemsStartsWith(array: string[], item: any) {
   return array.some((i) => i.startsWith(item));
 }
 
-export function GraphQLUnauthorizedError(context, location) {
+export function GraphqlVerifyInternalRequest(context, location) {
+  Log(["GraphQL", "Internal Verifyer"], `isInternalRequest value: ${context.isInternalRequest}`);
+
   if (!context.isInternalRequest) {
     console.error(`Unauthorized GraphQL request in ${location}`);
     throw new GraphQLError("Unauthorized GraphQL request");

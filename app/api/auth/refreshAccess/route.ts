@@ -1,6 +1,6 @@
 import { SignJWT } from 'jose';
 import { cookies } from "next/headers";
-import { VerifyTokenServer } from '@/lib/auth.server';
+import { BackendVerifyToken } from '@/lib/auth-utils';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -22,7 +22,7 @@ export async function BackendRefreshAccessToken() {
         throw new Error('No refresh token found');
     }
 
-    const [validToken, decoded] = await VerifyTokenServer(process.env.JWT_REFRESH_SECRET || '', refreshToken, 'refresh');
+    const [validToken, decoded] = await BackendVerifyToken(process.env.JWT_REFRESH_SECRET || '', refreshToken, 'refresh');
     if (!validToken) {
         // return NextResponse.json({ message: 'Invalid refresh token' }, { status: 401 });
         throw new Error('Invalid refresh token');

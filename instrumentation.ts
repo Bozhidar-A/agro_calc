@@ -7,8 +7,8 @@ export function register() {
         process.exit(1);
     }
 
-    if (!process.env.HOST_URL) {
-        console.error("HOST_URL not set");
+    if (!process.env.NEXT_PUBLIC_HOST_URL) {
+        console.error("NEXT_PUBLIC_HOST_URL not set");
         process.exit(1);
     }
 

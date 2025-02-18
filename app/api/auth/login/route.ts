@@ -11,6 +11,9 @@ export async function POST(req: Request) {
         const data = await req.json();
         const { email, password } = data;
 
+        console.log("Login route");
+        console.log(email, password);
+
         const user = await prisma.user.findUnique({
             where: { email }
         });
@@ -24,11 +27,13 @@ export async function POST(req: Request) {
                 'x-internal-request': process.env.INTERNAL_API_REQUEST_SECRET || '',
             },
             body: JSON.stringify({
-                query: QUERIES.USER_EMAIL,
+                query: QUERIES.USER_BY_EMAIL,
                 variables
             })
         });
         // const user = await userReq.json();
+
+        console.log(user?.password);
 
         if (!user || !await compare(password, user.password)) {
             return NextResponse.json({ message: 'Invalid email or password' }, { status: 401 });
