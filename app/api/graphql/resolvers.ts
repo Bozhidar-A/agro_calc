@@ -5,7 +5,7 @@ import { Log } from "@/lib/logger";
 import { Delete, Hand } from "lucide-react";
 import { compare } from "bcryptjs";
 import { SignJWT } from "jose";
-import { DeleteAllRefreshTokensByUserId, FindUserByEmail, InsertRefreshTokenByUserId } from "@/prisma/prisma-utils";
+import { CreateNewUser, DeleteAllRefreshTokensByUserId, FindUserByEmail, InsertRefreshTokenByUserId } from "@/prisma/prisma-utils";
 
 interface ResolverContext {
     isInternalRequest: boolean;
@@ -126,75 +126,6 @@ export const resolvers = {
                 );
             }
         },
-        // HandleLoginAttempt: async (
-        //     _: never,
-        //     { email, password }: { email: string; password: string },
-        //     context: ResolverContext
-        // ) => {
-        //     try {
-        //         //find the user
-        //         const userRes = await context.resolvers.Query.UserByEmail(_, { email });
-
-        //         if (!userRes) {
-        //             Log([
-        //                 "Auth",
-        //                 "Login",
-        //                 "GraphQL",
-        //                 "HandleLoginAttempt"
-        //             ], "No user found");
-        //             throw new GraphQLError("Invalid email or password");
-        //         }
-
-        //         //compare passwords
-        //         if (!await compare(password, userRes.password)) {
-        //             Log([
-        //                 "Auth",
-        //                 "Login",
-        //                 "GraphQL",
-        //                 "HandleLoginAttempt"
-        //             ], "Invalid password");
-        //             throw new GraphQLError("Invalid email or password");
-        //         }
-
-        //         //delete all old refresh tokens
-        //         //just in case
-        //         await context.resolvers.Mutation.DeleteAllRefreshTokensForUser(_, { userId: userRes.id }, context);
-
-        //         // Generate refresh token (long-lived)
-        //         const refreshToken = await new SignJWT({ userId: userRes.id, type: 'refresh' })
-        //             .setProtectedHeader({ alg: 'HS256' })
-        //             .setExpirationTime('7d')
-        //             .sign(new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
-
-        //         //insert new refresh token
-        //         await context.resolvers.Mutation.InsertRefreshTokenForUser(_, { token: refreshToken, userId: userRes.id }, context);
-
-        //         Log([
-        //             "Auth",
-        //             "Login",
-        //             "GraphQL",
-        //             "HandleLoginAttempt"
-        //         ], `Refresh token: ${refreshToken}`);
-
-        //         return {
-        //             user: {
-        //                 id: userRes.id,
-        //                 email: userRes.email,
-        //             },
-        //             refreshToken: "tmp"
-        //         }
-        //     } catch (error) {
-        //         console.error(error);
-        //         Log([
-        //             "Auth",
-        //             "Login",
-        //             "GraphQL",
-        //             "HandleLoginAttempt"
-        //         ], error.message);
-        //         throw new GraphQLError("Invalid email or password");
-        //     }
-
-        // },
         HandleLoginAttempt: async (
             _: never,
             { email, password }: { email: string; password: string },
@@ -276,6 +207,76 @@ export const resolvers = {
                     "HandleLoginAttempt"
                 ], `Failed to handle login attempt in GraphQL: ${error.message}`);
                 throw new GraphQLError("Internal server error");
+            }
+        },
+        HandleRegisterAttempt: async (
+            _: never,
+            { email, password }: { email: string; password: string },
+            context: ResolverContext
+        ) => {
+            GraphqlVerifyInternalRequest(context, 'HandleRegisterAttempt');
+
+            try {
+                //check if the user already exists
+                const user = await FindUserByEmail(email);
+
+                if (user) {
+                    Log([
+                        "Auth",
+                        "Register",
+                        "GraphQL",
+                        "HandleRegisterAttempt"
+                    ], "User already exists");
+                    throw new GraphQLError("User already exists");
+                }
+
+                //create the user
+                const newUser = await CreateNewUser(email, password);
+
+                Log([
+                    "Auth",
+                    "Register",
+                    "GraphQL",
+                    "HandleRegisterAttempt"
+                ], `User created: ${newUser.id}`);
+
+                return newUser;
+            } catch (error) {
+                Log([
+                    "Auth",
+                    "Register",
+                    "GraphQL",
+                    "HandleRegisterAttempt"
+                ], `Failed to handle register attempt in GraphQL: ${error.message}`);
+                throw new GraphQLError("Internal server error");
+            }
+        },
+        HandleLogoutAttempt: async (
+            _: never,
+            { token, userId }: { token: string; userId: string },
+            context: ResolverContext
+        ) => {
+            GraphqlVerifyInternalRequest(context, 'HandleLogoutAttempt');
+
+            try {
+                const result = await prisma.refreshToken.deleteMany({
+                    where: { token, userId }
+                });
+
+                Log([
+                    "GraphQL",
+                    "HandleLogoutAttempt",
+                ], result.count.toString());
+
+                return result.count.toString();
+            } catch (error) {
+                Log([
+                    "GraphQL",
+                    "HandleLogoutAttempt",
+                ], `Failed to delete refresh token: ${error}`);
+                throw new GraphQLError(
+                    'Failed to delete refresh token. Please ensure the token and userId are valid.'
+                );
             }
         }
     }

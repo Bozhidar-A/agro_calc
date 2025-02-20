@@ -42,25 +42,6 @@ export default function Login() {
 
     async function HandleSubmit(data) {
         dispatch(AuthStart("login"));
-        // fetch('/api/auth/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     credentials: 'include',
-        //     body: JSON.stringify({ email: data.email, password: data.password })
-        // }).then(async res => {
-        //     const result = await res.json();
-        //     if (!res.ok) {
-        //         dispatch(AuthFailure(result.message));
-        //         alert(result.message);
-        //         return;
-        //     }
-        //     alert('User logged in');
-        //     dispatch(AuthSuccess(result.user));
-        //     router.push('/');
-        // }).catch(() => {
-        //     dispatch(AuthFailure("Internal Server Error"));
-        //     alert('Internal Server Error');
-        // });
 
         const backendWork = await BackendLogin(data.email, data.password);
 
