@@ -8,6 +8,8 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle } from "@/components/ui/s
 import { Menu } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthLogout } from "@/store/slices/authSLice";
+import { BackendLogout } from "@/lib/auth-utils";
+import { Log } from "@/lib/logger";
 
 export default function Header() {
     const authObj = useSelector((state) => state.auth);
@@ -15,21 +17,16 @@ export default function Header() {
 
     const [open, setOpen] = useState(false);
 
-    const handleLogout = () => {
-        fetch('/api/auth/logout').then(async res => {
-            const data = await res.json();
+    async function HandleLogout() {
+        const backendWork = await BackendLogout(authObj.user.id);
 
-            if (res.status === 401) {
-                alert('Unauthorized');
-            }
-            console.log(data);
+        if (backendWork.success) {
             dispatch(AuthLogout());
-        }).catch((error) => {
-            alert('Logout failed');
-            console.log(error);
-        });
+            return;
+        }
 
-    };
+        Log(["auth", "logout"], backendWork.message);
+    }
 
     return (
         <header className="w-full py-4 shadow-md shadow-green-500/50 h-max-20vh">
@@ -54,7 +51,7 @@ export default function Header() {
                                 {
                                     authObj.isAuthenticated ? (
                                         <Button onClick={() => {
-                                            handleLogout();
+                                            HandleLogout();
                                             setOpen(false);
                                         }}>
                                             Logout

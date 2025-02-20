@@ -28,5 +28,7 @@ export const typeDefs = `
         DeleteRefreshToken(token: String!, userId: ID!): RefreshToken
         DeleteAllRefreshTokensForUser(userId: ID!): String
         HandleLoginAttempt(email: String!, password: String!): LoginResponse
+        HandleRegisterAttempt(email: String!, password: String!): User
+        HandleLogoutAttempt(token: String!, userId: ID!): String
     }
 `

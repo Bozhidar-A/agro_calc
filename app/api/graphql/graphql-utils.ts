@@ -20,20 +20,22 @@ export async function GraphQLCaller(logPath: string[], query: string, variables:
         Log(logPath, `GraphQL fetch error: ${response.statusText}`);
         return {
             success: false,
-            message: "Internal Server Error",
+            message: "Internal Server Error - GraphQL fetch error",
         }
     }
 
     const data = await response.json();
 
     if (data.errors) {
+        let combinedErrors = "";
         data.errors.forEach((error: { message: string }) => {
             Log(logPath, error.message);
+            combinedErrors += `${error.message} ; `;
         });
 
         return {
             success: false,
-            message: "Internal Server Error",
+            message: combinedErrors,
         }
     }
 

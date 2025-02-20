@@ -1,7 +1,17 @@
 import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 
 export async function FindUserByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
+}
+
+export async function CreateNewUser(email: string, password: string) {
+    return await prisma.user.create({
+        data: {
+            email,
+            password: await hash(password, parseInt(process.env.SALT_ROUNDS!)),
+        }
+    });
 }
 
 export async function DeleteAllRefreshTokensByUserId(userId: string) {

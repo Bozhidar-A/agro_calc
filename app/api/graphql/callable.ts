@@ -68,6 +68,19 @@ export const MUTATIONS = {
       }
       refreshToken
     }
-}
+  }
+  `,
+  HANDLE_REGISTER_ATTEMPT: `
+    mutation HandleRegisterAttempt($email: String!, $password: String!) {
+      HandleRegisterAttempt(email: $email, password: $password) {
+        id
+        email
+      }
+    }
+  `,
+  HANDLE_LOGOUT_ATTEMPT: `
+    mutation HandleLogoutAttempt($token: String!, $userId: ID!) {
+      HandleLogoutAttempt(token: $token, userId: $userId)
+    }
   `
 } as const;
