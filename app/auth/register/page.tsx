@@ -1,94 +1,98 @@
 'use client';
 
-import { AuthFailure, AuthStart, AuthSuccess } from "@/store/slices/authSLice";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { BackendRegister } from "@/lib/auth-utils";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { BackendRegister } from '@/lib/auth-utils';
 
-const schema = z.object({
-    email: z.string().email("Invalid email address"),
-    password: z.string()
-        .min(6, "Password is too short")
-        .regex(/[a-z]/, "Password must contain a lowercase letter")
-        .regex(/[A-Z]/, "Password must contain an uppercase letter")
-        .regex(/[0-9]/, "Password must contain a number"),
-    confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-});
+const schema = z
+  .object({
+    email: z.string().email('Invalid email address'),
+    password: z
+      .string()
+      .min(6, 'Password is too short')
+      .regex(/[a-z]/, 'Password must contain a lowercase letter')
+      .regex(/[A-Z]/, 'Password must contain an uppercase letter')
+      .regex(/[0-9]/, 'Password must contain a number'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 export default function Register() {
-    const dispatch = useDispatch();
-    const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+  const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: zodResolver(schema)
-    });
+  async function HandleSubmit(data) {
+    const backendWork = await BackendRegister(data.email, data.password);
 
-    async function HandleSubmit(data) {
-        dispatch(AuthStart("register"));
-
-        const backendWork = await BackendRegister(data.email, data.password);
-
-        if (!backendWork.success) {
-            dispatch(AuthFailure(backendWork.message));
-            alert(backendWork.message);
-            return;
-        }
-
-        dispatch(AuthSuccess(backendWork.user));
-        alert('User registered');
+    if (!backendWork.success) {
+      toast.error('There was an error', {
+        description: backendWork.message,
+      });
+      return;
     }
 
-    return (
-        <div className="flex items-center justify-center p-6">
-            <div className="w-full max-w-md space-y-6 p-8">
-                <h2 className="text-2xl font-bold text-center text-green-500">Register</h2>
-                <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">
-                    <div>
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" {...register("email")} />
-                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-                    </div>
+    toast.success('Successful registered! Please log in.');
+    router.push('/auth/login');
+  }
 
-                    <div>
-                        <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" {...register("password")} />
-                        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-                    </div>
+  return (
+    <div className="flex items-center justify-center p-6">
+      <div className="w-full max-w-md space-y-6 p-8">
+        <h2 className="text-2xl font-bold text-center text-green-500">Register</h2>
+        <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" type="email" {...register('email')} />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          </div>
 
-                    <div>
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
-                        <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
-                        {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
-                    </div>
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" type="password" {...register('password')} />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          </div>
 
-                    <Button type="submit" className="w-full">Submit</Button>
+          <div>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+            )}
+          </div>
 
-                    <Separator className="border-[0.5px] border-black dark:border-white" />
+          <Button type="submit" className="w-full">
+            Submit
+          </Button>
 
-                    <div className="flex items-center justify-center space-x-2">
-                        <h2>Have an account?</h2>
-                        <Button asChild>
-                            <Link href="/auth/login" className="hover:underline">Login</Link>
-                        </Button>
-                    </div>
+          <Separator className="border-[0.5px] border-black dark:border-white" />
 
-                </form>
-            </div>
-        </div>
-    );
+          <div className="flex items-center justify-center space-x-2">
+            <h2>Have an account?</h2>
+            <Button asChild>
+              <Link href="/auth/login" className="hover:underline">
+                Login
+              </Link>
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
