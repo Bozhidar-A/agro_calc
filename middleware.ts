@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ArrayContainsAndItemsStartsWith } from "./lib/utils";
-import { BackendLogout } from "./app/api/auth/logout/route";
+import { BackendLogout, BackendVerifyToken, BackendRefreshAccessToken } from "./lib/auth-utils";
 import { cookies } from "next/headers";
-import { BackendRefreshAccessToken } from "./app/api/auth/refreshAccess/route";
-
+import { Log } from "./lib/logger";
 
 export async function middleware(request: NextRequest) {
     const routeDefinitions = {
@@ -24,29 +23,17 @@ export async function middleware(request: NextRequest) {
             ],
             graphql: "/api/graphql"
         }
-    }
+    };
 
-    //prefire internal requests
-    //if the request is internal, continue
+    // Prefire internal requests
     if (request.headers.get('x-internal-request') === process.env.INTERNAL_API_REQUEST_SECRET) {
-        console.log("internal request");
+        Log(["middleware"], "Internal request detected, continuing");
         return NextResponse.next();
     }
 
-    //graphql breaks my setup a bit
-    //its one POST route and you pass the query in the body
-    //some stuff like DeleteRefreshToken is something only the backend should be able to do
-    //there is no easy way to check WHAT is being requested
-    //so I have to use the yoga context to pass a flag to the resolvers
-    //if there is no SET VALUE to the internal header, the request is trying to be internal
-    //but it is not
-    //throw error
+    // Special GraphQL handling
     if (request.nextUrl.pathname === routeDefinitions.protected.graphql && request.headers.has('x-internal-request')) {
-        //we dont know the value of the internal header
-        //but it is trying to go to the graphql endpoint
-        //try it
-        //let the yoga context handle it
-        //handle the fail in the fetch
+        Log(["middleware"], "Internal request detected for GraphQL, continuing");
         return NextResponse.next();
     }
 
@@ -54,85 +41,70 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     if (pathname === "/") {
-        //if the route is the home page, continue
         return NextResponse.next();
     }
 
-    if (
-        !ArrayContainsAndItemsStartsWith([
-            ...routeDefinitions.protected.api,
-            ...routeDefinitions.protected.pages,
-        ], pathname)
-    ) {
-        // If the route is not in any of the protected arrays, continue
-        return NextResponse.next();
-    }
+    const isProtectedRoute = ArrayContainsAndItemsStartsWith([
+        ...routeDefinitions.protected.api,
+        ...routeDefinitions.protected.pages,
+    ], pathname);
 
-    if (cookieStore.get("accessToken") === undefined) {
-        //not authenticated?
-        //accessing a protected route?
-        //straight to jail
-        return NextResponse.redirect(new URL('/auth/login', request.url));
-    }
+    const isAfterAuthRoute = ArrayContainsAndItemsStartsWith([
+        ...routeDefinitions.protected.afterAuthAPI,
+        ...routeDefinitions.protected.afterAuthPages,
+    ], pathname);
 
+    const accessToken = cookieStore.get('accessToken')?.value;
 
-    //try to verify the access token
-    const validationFetch = await fetch(new URL('/api/auth/verifyToken', request.url), {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            secret: process.env.JWT_SECRET,
-            token: cookieStore.get("accessToken"),
-            type: 'access'
-        })
-    });
-    // const { validToken, decoded } = await validationFetch.json();
-    const { validToken } = await validationFetch.json();
+    //check if user is trying to access protected route
+    if (isProtectedRoute) {
+        Log(["middleware"], `Trying to access rotected route: ${pathname}`);
 
-    //decoded has the user id in payload.userId
-    //can pass to logout instead of cookie
+        //no token?
+        if (!accessToken) {
+            Log(["middleware"], `No access token found, redirecting to login page`);
+            //straight to jail
+            return NextResponse.redirect(new URL('/auth/login', request.url));
+        }
 
-    if (!validToken) {
+        //try to check if token is valid
+        const [validAccessToken, decodedAccessToken] = await BackendVerifyToken(process.env.JWT_SECRET || '', accessToken, 'access');
+        Log(["middleware"], `Is supplied access token valid?: ${validAccessToken}`);
+        Log(["middleware"], `Decoded data from token: ${JSON.stringify(decodedAccessToken)}`);
 
-        console.log("refreshing token");
-        //try to refresh the access token
-        try {
-            await BackendRefreshAccessToken();
-        } catch (error) {
-            console.error("BackendRefreshToken threw: ", error);
-            //failed to refresh the access token
-            //force logout and redirect to login page
+        if (!validAccessToken) {
+            Log(["middleware"], `Access token is invalid, trying to refresh`);
+
             try {
-                await BackendLogout(request);
+                await BackendRefreshAccessToken();
             } catch (error) {
-                //this means that something IS VERY WRONG
-                //or there is no .env file
-                console.log("Failed to logout user. Is there a .env file?");
-                console.error("BackendLogout threw: ", error);
+                Log(["middleware", "refresh", "error"], `BackendRefreshAccessToken threw: ${error.message}`);
+
+                //try to logout user
+                const logoutAction = await BackendLogout(cookieStore.get("userId")?.value ?? "UNKNOWN???");
+
+                //this should never happen
+                //if it does, log it and fix it
+                //can only really happen if user crafts a malicious request
+                if (!logoutAction.success) {
+                    Log(["middleware", "logout", "error"], `BackendLogout failed with: ${logoutAction.message}`);
+                }
+
+                return NextResponse.redirect(new URL('/auth/login?updateAuthState=refreshTokenExpired', request.url));
             }
-            return NextResponse.redirect(new URL('/auth/login?updateAuthState=refreshTokenExpired', request.url));
         }
     }
 
-    if (ArrayContainsAndItemsStartsWith(routeDefinitions.protected.afterAuthAPI, pathname) || ArrayContainsAndItemsStartsWith(routeDefinitions.protected.afterAuthPages, pathname)) {
-        //user shouldn't be able to access this route if they are authenticated
-        return NextResponse.redirect('/');
+    //check if user is authenticated and trying to access protected after auth routes
+    if (accessToken && isAfterAuthRoute) {
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
-    return NextResponse.next(); //if the route is protected and the user is authenticated, continue
+    return NextResponse.next();
 }
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except:
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         * - public folder
-         */
         '/((?!_next/static|_next/image|favicon.ico|public/).*)',
     ],
 };
