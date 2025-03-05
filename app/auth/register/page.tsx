@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { BackendRegister } from "@/lib/auth-utils";
 
 const schema = z.object({
     email: z.string().email("Invalid email address"),
@@ -37,23 +38,19 @@ export default function Register() {
         resolver: zodResolver(schema)
     });
 
-    function HandleSubmit(data) {
+    async function HandleSubmit(data) {
         dispatch(AuthStart("register"));
-        fetch('/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ email: data.email, password: data.password })
-        }).then(async res => {
-            const result = await res.json();
-            if (!res.ok) {
-                dispatch(AuthFailure(result.message));
-                return;
-            }
-            dispatch(AuthSuccess(result.user));
-            alert('User created');
-            router.push('/');
-        }).catch(() => dispatch(AuthFailure("Internal Server Error")));
+
+        const backendWork = await BackendRegister(data.email, data.password);
+
+        if (!backendWork.success) {
+            dispatch(AuthFailure(backendWork.message));
+            alert(backendWork.message);
+            return;
+        }
+
+        dispatch(AuthSuccess(backendWork.user));
+        alert('User registered');
     }
 
     return (
@@ -84,7 +81,7 @@ export default function Register() {
                     <Separator className="border-[0.5px] border-black dark:border-white" />
 
                     <div className="flex items-center justify-center space-x-2">
-                        <h2>Dont have an account?</h2>
+                        <h2>Have an account?</h2>
                         <Button asChild>
                             <Link href="/auth/login" className="hover:underline">Login</Link>
                         </Button>
