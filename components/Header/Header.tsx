@@ -85,6 +85,7 @@ export default function Header() {
                         Register
                       </Link>
                     </Button>
+
                   </div>
                 )}
                 <Link href="/" className="hover:underline" onClick={() => setOpen(false)}>
@@ -95,6 +96,9 @@ export default function Header() {
                 </Link>
                 <Link href="/prot" className="hover:underline" onClick={() => setOpen(false)}>
                   prot
+                </Link>
+                <Link href="/calculators/combined" className="hover:underline" onClick={() => setOpen(false)}>
+                  Combined
                 </Link>
               </div>
             </SheetContent>
