@@ -160,16 +160,7 @@ const ParticipationSummary = ({ form }) => {
     const hasNegativeValues = totalLegumes < 0 || totalCereals < 0;
 
     return (
-        <div className="border p-4 rounded-md">
-            <div className="flex justify-between mb-2">
-                <span className="font-semibold">Total Mix Participation:</span>
-                <span className={isIncorrect ? "text-red-500 font-bold" : "text-green-600 font-bold"}>
-                    {total.toFixed(1)}%
-                </span>
-            </div>
-            {hasNegativeValues && <p className="text-red-500 font-medium">Values cannot be negative.</p>}
-            {isIncorrect && <p className="text-red-500 font-medium">Total must be 100%. Adjust values.</p>}
-        </div>
+        
     );
 };
 

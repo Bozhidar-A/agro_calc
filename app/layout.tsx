@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: any }) {
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header />
-            <main className="max-w-7xl mx-auto p-6">{children}</main>
+            <main>{children}</main>
             <Toaster position="top-right" />
           </ThemeProvider>
         </Providers>

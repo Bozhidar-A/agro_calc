@@ -48,6 +48,7 @@ model SeedingDataCombination {
   plantId String @unique
   plant   Plant  @relation(fields: [plantId], references: [id])
 
+  plantType           String
   minSeedingRate      Float
   maxSeedingRate      Float
   priceFor1kgSeedsBGN Float

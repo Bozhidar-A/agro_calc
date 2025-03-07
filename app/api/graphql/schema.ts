@@ -16,11 +16,20 @@ export const typeDefs = `
         userId: ID!
         user: User!
     }
+    
+    type SeedingCombined {
+        latinName: String!
+        plantType: String!
+        minSeedingRate: Float!
+        maxSeedingRate: Float!
+        priceFor1kgSeedsBGN: Float!
+    }
 
     type Query{
         UserById(id: ID!): User
         UserByEmail(email: String!): User
         RefreshToken(token: String!): RefreshToken
+        SeedingCombinedAll: [SeedingCombined]
     }
 
     type Mutation{

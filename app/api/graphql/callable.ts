@@ -1,12 +1,4 @@
 export const QUERIES = {
-  USERS: `
-    query Users {
-      Users {
-        id
-        email
-      }
-    }
-  `,
   USER_BY_ID: `
     query UserById($id: ID!) {
       UserById(id: $id) {
@@ -32,7 +24,18 @@ export const QUERIES = {
         userId
       }
     }
-  `
+  `,
+  SEEDING_COMBINED_ALL: `
+    query SeedingCombinedAll {
+      SeedingCombinedAll {
+        latinName
+        plantType
+        minSeedingRate
+        maxSeedingRate
+        priceFor1kgSeedsBGN
+      }
+    }
+  `,
 } as const;
 
 export const MUTATIONS = {
