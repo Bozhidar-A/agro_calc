@@ -36,6 +36,37 @@ export const resolvers = {
             }
             return refreshToken;
         },
+        SeedingCombinedAll: async () => {
+            const finalData = [];
+
+            const combinedSeedingData = await prisma.seedingDataCombination.findMany();
+
+            if (!combinedSeedingData) {
+                throw new GraphQLError('No seeding data found. Was DB seeded?');
+            }
+
+            for (const data of combinedSeedingData) {
+                const basePlant = await prisma.plant.findFirst({
+                    where: {
+                        id: data.plantId
+                    }
+                })
+
+                if (!basePlant) {
+                    throw new GraphQLError(`Plant with id ${data.plantId} not found`);
+                }
+
+                finalData.push({
+                    latinName: basePlant?.latinName,
+                    plantType: data.plantType,
+                    minSeedingRate: data.minSeedingRate,
+                    maxSeedingRate: data.maxSeedingRate,
+                    priceFor1kgSeedsBGN: data.priceFor1kgSeedsBGN
+                });
+            }
+
+            return finalData;
+        }
     },
     Mutation: {
         InsertRefreshTokenForUser: async (

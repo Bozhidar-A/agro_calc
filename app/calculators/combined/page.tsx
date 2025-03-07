@@ -1,65 +1,330 @@
 'use client';
 
+import { QUERIES } from '@/app/api/graphql/callable';
+import { GraphQLCaller } from '@/app/api/graphql/graphql-utils';
+import { Button } from '@/components/ui/button';
+import { Form, FormField } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
+interface PlantDBData {
+    latinName: string;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}
+
+
 const CreateZodSchemaForPlantRow = z.object({
-  active: z.boolean(),
-  dropdownPlant: z.string(),
-  seedingRate: z.number().min(0, 'Seeding rate must be at least 0'),
-  participation: z
-    .number()
-    .min(0, 'Participation must be at least 0%')
-    .max(100, 'Participation cannot exceed 100%'),
-  seedingRateInCombination: z.number().min(0, 'Seeding rate in combination must be at least 0'),
-  priceSeedsPerDaBGN: z.number().min(0, 'Price must be at least 0'),
+    active: z.boolean(),
+    dropdownPlant: z.string(),
+    seedingRate: z.number().min(0, 'Seeding rate must be at least 0'),
+    participation: z
+        .number()
+        .min(0, 'Participation must be at least 0%')
+        .max(100, 'Participation cannot exceed 100%'),
+    seedingRateInCombination: z.number().min(0, 'Seeding rate in combination must be at least 0'),
+    priceSeedsPerDaBGN: z.number().min(0, 'Price must be at least 0'),
 });
 
 function CreateDefaultValues() {
-  return {
-    legumes: Array(3).fill({
-      active: false,
-      dropdownPlant: '',
-      seedingRate: 0,
-      participation: 0,
-      seedingRateInCombination: 0,
-      priceSeedsPerDaBGN: 0,
-    }),
-    cereals: Array(3).fill({
-      active: false,
-      dropdownPlant: '',
-      seedingRate: 0,
-      participation: 0,
-      seedingRateInCombination: 0,
-      priceSeedsPerDaBGN: 0,
-    }),
-  };
+    return {
+        legume: Array(3).fill({
+            active: false,
+            dropdownPlant: '',
+            seedingRate: 0,
+            participation: 0,
+            seedingRateInCombination: 0,
+            priceSeedsPerDaBGN: 0,
+        }),
+        cereal: Array(3).fill({
+            active: false,
+            dropdownPlant: '',
+            seedingRate: 0,
+            participation: 0,
+            seedingRateInCombination: 0,
+            priceSeedsPerDaBGN: 0,
+        }),
+    };
 }
 
 function CalculateParticipation(items) {
-  let totalParticipation = 0;
-  for (const item of items) {
-    if (item.active) {
-      totalParticipation += Number(item.participation) || 0;
+    let totalParticipation = 0;
+    for (const item of items) {
+        if (item.active) {
+            totalParticipation += Number(item.participation) || 0;
+        }
     }
-  }
-  return totalParticipation;
+    return totalParticipation;
 }
 
 function ValidateMixBalance(data) {
-  const totalLegumes = CalculateParticipation(data.legumes);
-  const totalCereals = CalculateParticipation(data.cereals);
-  return (
-    totalLegumes <= 60 && totalCereals <= 40 && Math.abs(totalLegumes + totalCereals - 100) < 0.01
-  );
+    const totalLegumes = CalculateParticipation(data.legume);
+    const totalCereals = CalculateParticipation(data.cereal);
+    const total = totalLegumes + totalCereals;
+
+    if (totalLegumes > 60 || totalCereals > 40 || total !== 100) {
+        return false;
+    }
+
+    return true;
 }
 
-const formSchema = z
-  .object({
-    legumes: z.array(CreateZodSchemaForPlantRow),
-    cereals: z.array(CreateZodSchemaForPlantRow),
-  })
-  .refine(ValidateMixBalance, {
-    message: 'Legumes max 60%, cereals max 40%, and total must be 100%',
-  });
+function UpdateSeedingComboAndPriceDA(form, name, dbData) {
+    const [section, index, fieldName] = name.split('.');
+    const basePath = `${section}.${index}`;
+    const item = form.getValues(basePath);
 
-export default function Combined() {}
+    if (item.active && item.seedingRate && item.participation && item.dropdownPlant) {
+        const seedingRateInCombinationTmp = (item.seedingRate * item.participation) / 100;
+
+        const selectedPlant = dbData.find((plant) => plant.latinName === item.dropdownPlant);
+        if (selectedPlant) {
+            const newSeedingRateInCombination = (item.seedingRate * item.participation) / 100;
+            const newPriceSeedsPerDaBGN = newSeedingRateInCombination * selectedPlant.priceFor1kgSeedsBGN;
+
+            // Only update if values changed to avoid infinite loop
+            const prevSeedingRateInCombination = form.getValues(`${basePath}.seedingRateInCombination`);
+            const prevPriceSeedsPerDaBGN = form.getValues(`${basePath}.priceSeedsPerDaBGN`);
+
+            if (prevSeedingRateInCombination !== newSeedingRateInCombination) {
+                form.setValue(`${basePath}.seedingRateInCombination`, newSeedingRateInCombination, { shouldValidate: false });
+            }
+
+            if (prevPriceSeedsPerDaBGN !== newPriceSeedsPerDaBGN) {
+                form.setValue(`${basePath}.priceSeedsPerDaBGN`, newPriceSeedsPerDaBGN, { shouldValidate: false });
+            }
+        }
+    }
+}
+
+
+
+function SeedSection({ name, title, maxPercentage, form, dbData }) {
+    const participation = CalculateParticipation(form.watch(name));
+
+    return (
+        <div className="border-b pb-4">
+            <h2 className="text-lg font-semibold mb-4">{title}</h2>
+            <div className="flex justify-between">
+                <span>Total Participation: {participation.toFixed(1)}%</span>
+                <span className={participation > maxPercentage ? "text-red-500 font-bold" : ""}>
+                    Max: {maxPercentage}%
+                </span>
+            </div>
+            {participation > maxPercentage && <p className="text-red-500 font-medium">Reduce participation.</p>}
+            <div className="grid gap-4">
+                <div className="grid grid-cols-6 gap-4 font-medium text-lg m-2">
+                    <div>Active</div>
+                    <div>Plant Type</div>
+                    <div>Seeding Rate</div>
+                    <div>Participation %</div>
+                    <div>Combined Rate</div>
+                    <div>Price/Da (BGN)</div>
+                </div>
+                {form.watch(name).map((_, index) => (
+                    <SeedRow key={index} form={form} name={name} index={index} dbData={dbData} />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+function SeedRow({ form, name, index, dbData }) {
+    // Get the selected plant
+    const selectedPlant = dbData.find((plant) => plant.latinName === form.watch(`${name}.${index}.dropdownPlant`));
+
+    return (
+        <div className="grid grid-cols-6 gap-4 items-center">
+            <FormField control={form.control} name={`${name}.${index}.active`} render={({ field }) => (
+                <div className="flex justify-center items-center">
+                    <Input type="checkbox" checked={field.value} onChange={field.onChange} className="w-5 h-5" />
+                </div>
+            )} />
+
+            <FormField control={form.control} name={`${name}.${index}.dropdownPlant`} render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value} disabled={!form.watch(`${name}.${index}.active`)}>
+                    <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectContent>
+                        {dbData.map((plant) => (
+                            plant.plantType === name && (
+                                <SelectItem key={plant.latinName} value={plant.latinName}>
+                                    {plant.latinName}
+                                </SelectItem>
+                            )
+                        ))}
+                    </SelectContent>
+                </Select>
+            )} />
+
+            {/* Seeding Rate */}
+            <FormField control={form.control} name={`${name}.${index}.seedingRate`} render={({ field, fieldState }) => (
+                <div>
+                    <Input
+                        type="number"
+                        step="0.1"
+                        {...field}
+                        disabled={!form.watch(`${name}.${index}.active`)}
+                        onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} // Convert to number
+                    />
+                    {/* Show min/max dynamically */}
+                    {selectedPlant && (
+                        <p className="text-yellow-500 text-sm">
+                            Min: {selectedPlant.minSeedingRate} | Max: {selectedPlant.maxSeedingRate}
+                        </p>
+                    )}
+                    {fieldState.error && <p className="text-red-500 text-sm">{fieldState.error.message}</p>}
+                </div>
+            )} />
+
+            {/* Participation */}
+            <FormField control={form.control} name={`${name}.${index}.participation`} render={({ field, fieldState }) => (
+                <div>
+                    <Input
+                        type="number"
+                        step="0.1"
+                        min={0}
+                        max={100}
+                        {...field}
+                        disabled={!form.watch(`${name}.${index}.active`)}
+                        onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
+                    />
+                    {fieldState.error && <p className="text-red-500 text-sm">{fieldState.error.message}</p>}
+                </div>
+            )} />
+
+            {/* seedingRateInCombination */}
+            <FormField control={form.control} name={`${name}.${index}.seedingRateInCombination`} render={({ field }) => (
+                <Input disabled value={form.watch(`${name}.${index}.seedingRateInCombination`) || 0} />
+            )} />
+
+            {/* priceSeedsPerDaBGN */}
+            <FormField control={form.control} name={`${name}.${index}.priceSeedsPerDaBGN`} render={({ field }) => (
+                <Input disabled value={form.watch(`${name}.${index}.priceSeedsPerDaBGN`) || 0} />
+            )} />
+        </div>
+    );
+}
+
+
+export default function Combined() {
+    //state for the fetched data from db
+    const [dbData, setDbData] = useState<PlantDBData[]>([]);
+
+    //fetch all the data from the db for this calculator and save it in the state
+    useEffect(() => {
+        const fetchData = async () => {
+            const initData = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql"], QUERIES.SEEDING_COMBINED_ALL, {});
+
+            if (!initData.success) {
+                toast.error("Failed to fetch data", {
+                    description: initData.message,
+                });
+                console.log(initData.message);
+                return;
+            }
+
+            console.log(initData.data);
+            //convert to PlantDBData[] and save it in the state
+            //ts is happy
+            setDbData((initData.data as { SeedingCombinedAll: PlantDBData[] }).SeedingCombinedAll);
+        };
+        fetchData();
+    }, []);
+
+    //object making react-hook-form and zod work together
+    const formSchema = z
+        .object({
+            legume: z.array(CreateZodSchemaForPlantRow),
+            cereal: z.array(CreateZodSchemaForPlantRow),
+            // isDataValid: z.boolean(),
+        })
+        //all of this is blocking
+        .superRefine((data, ctx) => {
+            const isValid = ValidateMixBalance(data);
+
+            if (!isValid) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Legumes max 60%, cereals max 40%, and total must be 100%',
+                    path: ['root']
+                });
+
+            }
+        });
+
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: CreateDefaultValues(),
+        mode: 'onBlur'
+    });
+
+    //watcher to handle form value change
+    //calculated vals
+    useEffect(() => {
+        const subscription = form.watch((_, { name }) => {
+            if (name && (name.includes('participation') || name.includes('seedingRate') || name.includes('dropdownPlant'))) {
+                UpdateSeedingComboAndPriceDA(form, name, dbData);
+            }
+
+            if (name && name.includes('participation')) {
+                //devs know? about this, still not fixed, hacky workaround
+                //https://github.com/orgs/react-hook-form/discussions/8516#discussioncomment-9138591
+                //force all refined validations to run
+                //will add the error for participation if one is applicable
+                //VERY VERY hacky
+                form.trigger(); // workaround trigger
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form, dbData]);
+
+    function onSubmit(data) {
+        console.log(data);
+    }
+
+    if (dbData.length === 0) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10vh)] text-center">
+            <h1 className="text-2xl font-bold">Seed Mixture Planner</h1>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-5xl">
+                    <SeedSection name="legume" title="Многогодишни бобови фуражни култури" maxPercentage={60} form={form} dbData={dbData} />
+                    <SeedSection name="cereal" title="Многогодишни житни фуражни култури" maxPercentage={40} form={form} dbData={dbData} />
+                    <div className="border p-4 rounded-md">
+                        <div className="flex justify-between mb-2">
+                            <span className="font-semibold">Total Mix Participation:</span>
+                            <span>{CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'))}%</span>
+                        </div>
+                        <div className="flex justify-between mb-2">
+                            <span className="font-semibold">Total Price:</span>
+                            <div>
+                                <span>
+                                    {form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
+                                        form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)}
+                                </span>
+                                <span> BGN</span>
+                            </div>
+                        </div>
+                        {form.formState.errors.root && (
+                            <p className="text-red-500">{form.formState.errors.root.message}</p>
+                        )}
+                    </div>
+                    <Button type="submit" className="w-full" disabled={!form.formState.isValid}>
+                        Пресметни
+                    </Button>
+                </form>
+            </Form>
+        </div>
+    )
+}
