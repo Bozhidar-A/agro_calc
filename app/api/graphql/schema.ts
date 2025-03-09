@@ -31,7 +31,7 @@ export const typeDefs = `
         seedingRate: Float!
         participation: Float!
         combinedRate: Float!
-        pricePerDA: Float!
+        pricePerDABGN: Float!
     }
 
     type Query{
