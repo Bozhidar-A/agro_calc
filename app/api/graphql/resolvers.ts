@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { GraphQLError } from "graphql";
-import { GraphqlVerifyInternalRequest } from "@/lib/utils";
+import { GraphqlVerifyAuthedRequest, GraphqlVerifyInternalRequest } from "@/lib/utils";
 import { Log } from "@/lib/logger";
 import { Delete, Hand } from "lucide-react";
 import { compare } from "bcryptjs";
@@ -57,6 +57,7 @@ export const resolvers = {
                 }
 
                 finalData.push({
+                    id: data.id,
                     latinName: basePlant?.latinName,
                     plantType: data.plantType,
                     minSeedingRate: data.minSeedingRate,
@@ -307,6 +308,29 @@ export const resolvers = {
                 ], `Failed to delete refresh token: ${error}`);
                 throw new GraphQLError(
                     'Failed to delete refresh token. Please ensure the token and userId are valid.'
+                );
+            }
+        },
+        //calculator mutations
+        InsertCombinedResult: async (
+            _: never,
+            { plants, totalPrice, userId, isDataValid }: { plants: any; totalPrice: number; userId: string; isDataValid: boolean },
+            context: ResolverContext
+        ) => {
+
+            try {
+                Log([
+                    "GraphQL",
+                    "InsertCombinedResult",
+                    "DEBUG"
+                ], `plants: ${JSON.stringify(plants)}; totalPrice: ${totalPrice}; userId: ${userId}; isDataValid: ${isDataValid}`);
+            } catch (error) {
+                Log([
+                    "GraphQL",
+                    "InsertCombinedResult",
+                ], `Failed to insert combined result: ${error}`);
+                throw new GraphQLError(
+                    'Failed to insert combined result. Please ensure the data is valid.'
                 );
             }
         }

@@ -1,6 +1,6 @@
 'use client';
 
-import { QUERIES } from '@/app/api/graphql/callable';
+import { MUTATIONS, QUERIES } from '@/app/api/graphql/callable';
 import { GraphQLCaller } from '@/app/api/graphql/graphql-utils';
 import { Button } from '@/components/ui/button';
 import { Form, FormField } from '@/components/ui/form';
@@ -9,8 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import { number, z } from 'zod';
 
 interface PlantDBData {
     latinName: string;
@@ -18,6 +19,21 @@ interface PlantDBData {
     minSeedingRate: number;
     maxSeedingRate: number;
     priceFor1kgSeedsBGN: number;
+}
+
+interface ActivePlantsFormData {
+    plantId: string;
+    seedingRate: number;
+    participation: number;
+    combinedRate: number;
+    pricePerDA: number;
+}
+
+interface CombinedCalcDBData {
+    plants: ActivePlantsFormData[];
+    totalPrice: number;
+    userId: string;
+    isDataValid: boolean;
 }
 
 
@@ -170,7 +186,7 @@ function SeedRow({ form, name, index, dbData }) {
                         type="number"
                         step="0.1"
                         {...field}
-                        disabled={!form.watch(`${name}.${index}.active`)}
+                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.dropdownPlant`) === ""}
                         onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} // Convert to number
                     />
                     {/* Show min/max dynamically */}
@@ -192,7 +208,7 @@ function SeedRow({ form, name, index, dbData }) {
                         min={0}
                         max={100}
                         {...field}
-                        disabled={!form.watch(`${name}.${index}.active`)}
+                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.dropdownPlant`) === ""}
                         onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
                     />
                     {fieldState.error && <p className="text-red-500 text-sm">{fieldState.error.message}</p>}
@@ -212,15 +228,26 @@ function SeedRow({ form, name, index, dbData }) {
     );
 }
 
+function RoundToSecondFloat(num: number) {
+    return num.toFixed(2);
+}
 
 export default function Combined() {
+    const authObj = useSelector((state) => state.auth);
+
     //state for the fetched data from db
     const [dbData, setDbData] = useState<PlantDBData[]>([]);
+
+    //react-hook-form doesnt support warnings, so i have to hack my way around it
+    const [warnings, setWarnings] = useState<Record<string, string>>({});
+    function addWarning(field: string, message: string) {
+        setWarnings((prev) => ({ ...prev, [field]: message }));
+    }
 
     //fetch all the data from the db for this calculator and save it in the state
     useEffect(() => {
         const fetchData = async () => {
-            const initData = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql"], QUERIES.SEEDING_COMBINED_ALL, {});
+            const initData = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql", "Fetch SEEDING_COMBINED_ALL"], QUERIES.SEEDING_COMBINED_ALL, {});
 
             if (!initData.success) {
                 toast.error("Failed to fetch data", {
@@ -273,6 +300,28 @@ export default function Combined() {
                 UpdateSeedingComboAndPriceDA(form, name, dbData);
             }
 
+            if (name.includes('seedingRate')) {
+                const [section, index] = name.split('.');
+                const basePath = `${section}.${index}`;
+                const item = form.getValues(basePath);
+
+                if (item.active && item.dropdownPlant) {
+                    const selectedPlant = dbData.find((plant) => plant.latinName === item.dropdownPlant);
+                    if (selectedPlant) {
+                        if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
+                            addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
+                        }
+                        else {
+                            setWarnings((prev) => {
+                                const newWarnings = { ...prev };
+                                delete newWarnings[`${basePath}.seedingRate`];
+                                return newWarnings;
+                            });
+                        }
+                    }
+                }
+            }
+
             if (name && name.includes('participation')) {
                 //devs know? about this, still not fixed, hacky workaround
                 //https://github.com/orgs/react-hook-form/discussions/8516#discussioncomment-9138591
@@ -286,8 +335,44 @@ export default function Combined() {
         return () => subscription.unsubscribe();
     }, [form, dbData]);
 
-    function onSubmit(data) {
-        console.log(data);
+    async function onSubmit(data) {
+        if (!authObj.isAuthenticated) {
+            toast.error("You need to be logged in to save this data");
+            return;
+        }
+
+        const plants: ActivePlantsFormData[] = [];
+        for (const plant of data.legume) {
+            if (plant.active) {
+                plants.push({
+                    plantId: dbData.find((dbPlant) => dbPlant.latinName === plant.dropdownPlant).latinName,
+                    seedingRate: plant.seedingRate,
+                    participation: plant.participation,
+                    combinedRate: plant.seedingRateInCombination,
+                    pricePerDA: plant.priceSeedsPerDaBGN,
+                });
+            }
+        }
+
+        const combinedData: CombinedCalcDBData = {
+            plants,
+            totalPrice: parseFloat(RoundToSecondFloat(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
+                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
+            userId: authObj.user.id,
+            isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
+        };
+
+        const res = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql", "Insert INSERT_COMBINED_RESULT"], MUTATIONS.INSERT_COMBINED_RESULT, combinedData, false);
+
+        if (!res.success) {
+            toast.error("Failed to save data", {
+                description: res.message,
+            });
+            console.log(res.message);
+            return;
+        }
+
+        toast.success("Data saved successfully");
     }
 
     if (dbData.length === 0) {
@@ -310,8 +395,10 @@ export default function Combined() {
                             <span className="font-semibold">Total Price:</span>
                             <div>
                                 <span>
-                                    {form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-                                        form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)}
+                                    {RoundToSecondFloat(
+                                        form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
+                                        form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)
+                                    )}
                                 </span>
                                 <span> BGN</span>
                             </div>
@@ -319,10 +406,17 @@ export default function Combined() {
                         {form.formState.errors.root && (
                             <p className="text-red-500">{form.formState.errors.root.message}</p>
                         )}
+                        {
+                            Object.entries(warnings).map(([field, message]) => (
+                                <p key={field} className="text-yellow-500">{message}</p>
+                            ))
+                        }
                     </div>
-                    <Button type="submit" className="w-full" disabled={!form.formState.isValid}>
-                        Пресметни
-                    </Button>
+                    {
+                        authObj.isAuthenticated && (<Button type="submit" className="w-full" disabled={!form.formState.isValid}>
+                            Запази тази сметка
+                        </Button>)
+                    }
                 </form>
             </Form>
         </div>
