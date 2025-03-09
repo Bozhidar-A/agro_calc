@@ -62,7 +62,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center p-6">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
       <div className="w-full max-w-md space-y-6 p-8">
         <h2 className="text-2xl font-bold text-center">Login</h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">

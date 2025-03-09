@@ -18,11 +18,20 @@ export const typeDefs = `
     }
     
     type SeedingCombined {
+        id: ID!
         latinName: String!
         plantType: String!
         minSeedingRate: Float!
         maxSeedingRate: Float!
         priceFor1kgSeedsBGN: Float!
+    }
+
+    input SeedingCombinedPlantCalcData {
+        plantId: ID!
+        seedingRate: Float!
+        participation: Float!
+        combinedRate: Float!
+        pricePerDA: Float!
     }
 
     type Query{
@@ -39,5 +48,12 @@ export const typeDefs = `
         HandleLoginAttempt(email: String!, password: String!): LoginResponse
         HandleRegisterAttempt(email: String!, password: String!): User
         HandleLogoutAttempt(token: String!, userId: ID!): String
+
+        InsertCombinedResult(
+            plants: [SeedingCombinedPlantCalcData!]
+            totalPrice: Float!
+            userId: ID!
+            isDataValid: Boolean!
+        ): Boolean
     }
 `

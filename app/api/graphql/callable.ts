@@ -28,6 +28,7 @@ export const QUERIES = {
   SEEDING_COMBINED_ALL: `
     query SeedingCombinedAll {
       SeedingCombinedAll {
+        id
         latinName
         plantType
         minSeedingRate
@@ -85,5 +86,20 @@ export const MUTATIONS = {
     mutation HandleLogoutAttempt($token: String!, $userId: ID!) {
       HandleLogoutAttempt(token: $token, userId: $userId)
     }
-  `
+  `,
+  INSERT_COMBINED_RESULT: `
+    mutation InsertCombinedResult(
+      $plants: [SeedingCombinedPlantCalcData!]
+      $totalPrice: Float!
+      $userId: ID!
+      $isDataValid: Boolean!
+    ) {
+      InsertCombinedResult(
+        plants: $plants
+        totalPrice: $totalPrice
+        userId: $userId
+        isDataValid: $isDataValid
+      )
+    }
+  `,
 } as const;
