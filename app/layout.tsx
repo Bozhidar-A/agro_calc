@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: any }) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header />
             <main>{children}</main>
-            <Toaster position="top-right" />
+            <Toaster />
           </ThemeProvider>
         </Providers>
       </body>
