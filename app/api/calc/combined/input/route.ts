@@ -1,8 +1,8 @@
 import { Log } from "@/lib/logger";
 import { GetCombinedInputData } from "@/prisma/prisma-utils";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
     try {
         Log(["calc", "combined", "input", "fetch"], `GET called`);
         const res = await GetCombinedInputData()

@@ -1,3 +1,4 @@
+import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
@@ -76,6 +77,26 @@ export async function GetCombinedInputData() {
     return finalData;
 }
 
-export async function InsertCombinedHistoryEntry(params: type) {
+export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBData) {
+    const combinedCalcHistoryEntry = await prisma.seedingDataCombinationHistory.create({
+        data: {
+            userId: combinedData.userId,
+            totalPrice: combinedData.totalPrice,
+            isDataValid: combinedData.isDataValid,
+            plants: {
+                create: combinedData.plants.map((plant) => ({
+                    plantId: plant.plantId,
+                    seedingRate: plant.seedingRate,
+                    participation: plant.participation,
+                    combinedRate: plant.combinedRate,
+                    pricePerDa: plant.pricePerDABGN, // Ensure this matches the DB schema
+                })),
+            },
+        },
+        include: {
+            plants: true, // Include related plants in the response
+        },
+    });
 
+    return combinedCalcHistoryEntry;
 }

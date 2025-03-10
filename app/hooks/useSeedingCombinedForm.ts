@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { GraphQLCaller } from "@/app/api/graphql/graphql-utils";
 import { MUTATIONS } from "@/app/api/graphql/callable";
 import { CreateDefaultValues, CreateZodSchemaForPlantRow, RoundToSecondStr, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombinedUtils";
+import { APICaller } from "@/lib/api-util";
 
 interface ActivePlantsFormData {
     plantId: string;
@@ -15,7 +16,7 @@ interface ActivePlantsFormData {
     pricePerDABGN: number;
 }
 
-interface CombinedCalcDBData {
+export interface CombinedCalcDBData {
     plants: ActivePlantsFormData[];
     totalPrice: number;
     userId: string;
@@ -137,7 +138,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
             isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
         };
 
-        const res = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql", "Insert INSERT_COMBINED_RESULT"], MUTATIONS.INSERT_COMBINED_RESULT, combinedData, false);
+        const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", combinedData);
 
         if (!res.success) {
             toast.error("Failed to save data", {

@@ -1,8 +1,8 @@
 import { BackendRegister } from "@/lib/auth-utils"
 import { Log } from "@/lib/logger";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
     try {
         const { email, password } = await req.json();
 
