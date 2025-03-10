@@ -31,6 +31,7 @@ export default function Login() {
   useEffect(() => {
     const updateAuthState = searchParams.get('updateAuthState');
     if (updateAuthState === 'refreshTokenExpired') {
+      toast.error('Your session has expired. Please login again.');
       dispatch(AuthLogout());
     }
   }, [searchParams]);
