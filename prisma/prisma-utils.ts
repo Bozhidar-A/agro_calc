@@ -1,3 +1,4 @@
+import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
 
@@ -14,7 +15,16 @@ export async function CreateNewUser(email: string, password: string) {
     });
 }
 
+export async function FindRefreshToken(token: string) {
+    return await prisma.refreshToken.findUnique({ where: { token } });
+}
+
 export async function DeleteAllRefreshTokensByUserId(userId: string) {
+    if (!userId) {
+        Log(['prisma', 'DeleteAllRefreshTokensByUserId'], `No userId provided`);
+        return;
+    }
+
     return await prisma.refreshToken.deleteMany({ where: { userId } });
 }
 
