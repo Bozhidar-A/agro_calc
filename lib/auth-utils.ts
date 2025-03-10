@@ -5,6 +5,8 @@ import { jwtVerify, SignJWT } from 'jose';
 import { MUTATIONS, QUERIES } from '@/app/api/graphql/callable';
 import { GraphQLCaller } from '@/app/api/graphql/graphql-utils';
 import { Log } from './logger';
+import { DeleteAllRefreshTokensByUserId, FindUserByEmail, InsertRefreshTokenByUserId } from '@/prisma/prisma-utils';
+import { compare } from 'bcryptjs';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -74,21 +76,39 @@ export async function BackendLogin(email: string, password: string) {
   try {
     const cookieStore = await cookies();
 
-    const loginUserData = await GraphQLCaller(
-      ['auth', 'login', 'graphql'],
-      MUTATIONS.HANDLE_LOGIN_ATTEMPT,
-      {
-        email,
-        password,
-      }
-    );
+    //find the user
+    const user = await FindUserByEmail(email);
 
-    if (!loginUserData.success) {
+    if (!user) {
       return { success: false, message: 'Invalid email or password' };
     }
 
+    //compare passwords
+    if (!await compare(password, user.password)) {
+      Log(['auth', 'login'], `Invalid password for user ${user.id}`);
+    }
+
+    //delete all old refresh tokens
+    //just in case
+    const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
+
+    Log(['auth', 'login'], `Deleted ${deletedTokensCount} old refresh tokens for user ${user.id}`);
+
+    // Generate refresh token (long-lived)
+    const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('7d')
+      .sign(new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
+
+    Log(['auth', 'login'], `refreshToken: ${refreshToken} for user ${user.id}`);
+
+    //insert new refresh token
+    const insertedToken = await InsertRefreshTokenByUserId(refreshToken, user.id);
+
+    Log(['auth', 'login'], `Inserted new refresh token ${insertedToken.id} for user ${user.id}`);
+
     const accessToken = await new SignJWT({
-      userId: loginUserData.data.HandleLoginAttempt.user.id,
+      userId: user.id,
       type: 'access',
     })
       .setProtectedHeader({ alg: 'HS256' })
@@ -106,7 +126,7 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    cookieStore.set('refreshToken', loginUserData.data.HandleLoginAttempt.refreshToken, {
+    cookieStore.set('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -118,7 +138,7 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    cookieStore.set('userId', loginUserData.data.HandleLoginAttempt.user.id, {
+    cookieStore.set('userId', user.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -126,13 +146,13 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    Log(['auth', 'login'], `Logged in user ${loginUserData.data.HandleLoginAttempt.user.id}`);
+    Log(['auth', 'login'], `Logged in user ${user.id}`);
 
     return {
       success: true,
       user: {
-        id: loginUserData.data.HandleLoginAttempt.user.id,
-        email: loginUserData.data.HandleLoginAttempt.user.email,
+        id: user.id,
+        email: user.email,
       },
     };
   } catch (error) {
