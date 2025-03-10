@@ -7,7 +7,7 @@ export default function HomePage() {
     const authObj = useSelector((state) => state.auth);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-20vh)] text-center">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8vh)] text-center">
             <motion.h1
                 className="text-6xl font-bold text-green-800"
                 initial={{ opacity: 0, y: -20 }}
