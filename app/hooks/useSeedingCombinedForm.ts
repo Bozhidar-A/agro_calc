@@ -60,6 +60,15 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     //calculated vals
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
+            if (name?.includes('dropdownPlant')) {
+                const [section, index] = name.split('.');
+                const basePath = `${section}.${index}`;
+
+                //on active dropdown plant change update the hidden id state var
+                console.log(dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant))
+                form.setValue(`${basePath}.id`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).id);
+            }
+
             if (name && (name.includes('participation') || name.includes('seedingRate') || name.includes('dropdownPlant'))) {
                 UpdateSeedingComboAndPriceDA(form, name, dbData);
             }
@@ -70,7 +79,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 const item = form.getValues(basePath);
 
                 if (item.active && item.dropdownPlant) {
-                    const selectedPlant = dbData.find((plant) => plant.latinName === item.dropdownPlant);
+                    const selectedPlant = dbData.find((plant) => plant.id === item.id);
                     if (selectedPlant) {
                         if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
                             addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
@@ -100,6 +109,8 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     }, [form, dbData]);
 
     async function onSubmit(data) {
+        console.log(data);
+
         if (!authObj.isAuthenticated) {
             toast.error("You need to be logged in to save this data");
             return;
@@ -109,7 +120,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         for (const plant of data.legume) {
             if (plant.active) {
                 plants.push({
-                    plantId: dbData.find((dbPlant) => dbPlant.latinName === plant.dropdownPlant).latinName,
+                    plantId: plant.id,
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.seedingRateInCombination,

@@ -45,6 +45,7 @@ model Plant {
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
 }
 
+//combined
 model SeedingDataCombination {
   id      String @id @default(cuid())
   plantId String @unique

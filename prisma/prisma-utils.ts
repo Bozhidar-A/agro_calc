@@ -37,3 +37,45 @@ export async function InsertRefreshTokenByUserId(token: string, userId: string) 
         }
     });
 }
+
+//calc stuff
+
+//combined
+export async function GetCombinedInputData() {
+    const finalData = [];
+
+    const combinedSeedingData = await prisma.seedingDataCombination.findMany();
+
+    if (!combinedSeedingData) {
+        Log(['prisma', 'GetCombinedInputData'], `No seeding data found`);
+        throw new Error(`No seeding data found`);
+    }
+
+    for (const data of combinedSeedingData) {
+        const basePlant = await prisma.plant.findFirst({
+            where: {
+                id: data.plantId
+            }
+        })
+
+        if (!basePlant) {
+            Log(['prisma', 'GetCombinedInputData'], `No plant found with id: ${data.plantId}`);
+            throw new Error(`No plant found with id: ${data.plantId}`);
+        }
+
+        finalData.push({
+            id: basePlant?.id,
+            latinName: basePlant?.latinName,
+            plantType: data.plantType,
+            minSeedingRate: data.minSeedingRate,
+            maxSeedingRate: data.maxSeedingRate,
+            priceFor1kgSeedsBGN: data.priceFor1kgSeedsBGN
+        });
+    }
+
+    return finalData;
+}
+
+export async function InsertCombinedHistoryEntry(params: type) {
+
+}

@@ -1,17 +1,17 @@
 'use client';
 
-import { QUERIES } from '@/app/api/graphql/callable';
-import { GraphQLCaller } from '@/app/api/graphql/graphql-utils';
 import useSeedingCombinedForm from '@/app/hooks/useSeedingCombinedForm';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { APICaller } from '@/lib/api-util';
 import { CalculateParticipation, RoundToSecondStr } from '@/lib/seedingCombinedUtils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
 interface PlantDBData {
+    id: string;
     latinName: string;
     plantType: string;
     minSeedingRate: number;
@@ -28,7 +28,8 @@ export default function Combined() {
     //fetch all the data from the db for this calculator and save it in the state
     useEffect(() => {
         const fetchData = async () => {
-            const initData = await GraphQLCaller(["Seeding Combined Calculator", "Page", "Graphql", "Fetch SEEDING_COMBINED_ALL"], QUERIES.SEEDING_COMBINED_ALL, {});
+            const initData = await APICaller(['calc', 'combined', 'page', 'init'], '/api/calc/combined/input', "GET");
+            console.log(initData);
 
             if (!initData.success) {
                 toast.error("Failed to fetch data", {
@@ -41,19 +42,19 @@ export default function Combined() {
             console.log(initData.data);
             //convert to PlantDBData[] and save it in the state
             //ts is happy
-            setDbData((initData.data as { SeedingCombinedAll: PlantDBData[] }).SeedingCombinedAll);
+            setDbData((initData.data));
         };
         fetchData();
     }, []);
 
     const { form, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
 
-    if (dbData.length === 0) {
+    if (!dbData || dbData.length === 0) {
         return <div>Loading...</div>;
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-10vh)] text-center">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
             <h1 className="text-2xl font-bold">Seed Mixture Planner</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-5xl">
