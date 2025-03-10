@@ -4,7 +4,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 
 export function SeedCombinedRow({ form, name, index, dbData }) {
     // Get the selected plant
-    const selectedPlant = dbData.find((plant) => plant.latinName === form.watch(`${name}.${index}.dropdownPlant`));
+    const selectedPlant = dbData.find((plant) => plant.id === form.watch(`${name}.${index}.id`));
 
     return (
         <div className="grid grid-cols-6 gap-4 items-center">
@@ -36,7 +36,7 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
                         type="number"
                         step="0.1"
                         {...field}
-                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.dropdownPlant`) === ""}
+                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.id`) === ""}
                         onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} // Convert to number
                     />
                     {/* Show min/max dynamically */}
@@ -58,7 +58,7 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
                         min={0}
                         max={100}
                         {...field}
-                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.dropdownPlant`) === ""}
+                        disabled={!form.watch(`${name}.${index}.active`) || form.watch(`${name}.${index}.id`) === ""}
                         onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))}
                     />
                     {fieldState.error && <p className="text-red-500 text-sm">{fieldState.error.message}</p>}

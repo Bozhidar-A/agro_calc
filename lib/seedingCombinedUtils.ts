@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const CreateZodSchemaForPlantRow = z.object({
     active: z.boolean(),
+    id: z.string(),
     dropdownPlant: z.string(),
     seedingRate: z.number().min(0, 'Seeding rate must be at least 0'),
     participation: z
@@ -16,6 +17,7 @@ export function CreateDefaultValues() {
     return {
         legume: Array(3).fill({
             active: false,
+            id: '',
             dropdownPlant: '',
             seedingRate: 0,
             participation: 0,
@@ -24,6 +26,7 @@ export function CreateDefaultValues() {
         }),
         cereal: Array(3).fill({
             active: false,
+            id: '',
             dropdownPlant: '',
             seedingRate: 0,
             participation: 0,
@@ -61,7 +64,7 @@ export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
     const item = form.getValues(basePath);
 
     if (item.active && item.seedingRate && item.participation && item.dropdownPlant) {
-        const selectedPlant = dbData.find((plant) => plant.latinName === item.dropdownPlant);
+        const selectedPlant = dbData.find((plant) => plant.id === item.id);
         if (selectedPlant) {
             const newSeedingRateInCombination = (item.seedingRate * item.participation) / 100;
             const newPriceSeedsPerDaBGN = newSeedingRateInCombination * selectedPlant.priceFor1kgSeedsBGN;
