@@ -1,6 +1,6 @@
 import { Log } from "./logger";
 
-export async function APICaller(logPath: string[], route: string, method: string, variables: any) {
+export async function APICaller(logPath: string[], route: string, method: string, variables?: any) {
     const headers = {
         "Content-Type": "application/json",
     };
