@@ -46,7 +46,7 @@ export default function Login() {
   async function HandleSubmit(data) {
     dispatch(AuthStart('login'));
 
-    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', data);
+    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', "POST", data);
 
     if (!backendWork.success) {
       dispatch(AuthFailure(backendWork.message));
