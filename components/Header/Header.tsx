@@ -8,9 +8,9 @@ import { toast } from 'sonner';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { BackendLogout } from '@/lib/auth-utils';
 import { Log } from '@/lib/logger';
 import { AuthLogout } from '@/store/slices/authSLice';
+import { APICaller } from '@/lib/api-util';
 
 export default function Header() {
   const authObj = useSelector((state) => state.auth);
@@ -19,7 +19,9 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   async function HandleLogout() {
-    const backendWork = await BackendLogout(authObj.user.id);
+    const backendWork = await APICaller(['auth', 'logout'], '/api/auth/logout', 'POST', {
+      userId: authObj.user.id,
+    });
 
     if (backendWork.success) {
       dispatch(AuthLogout());
@@ -85,6 +87,7 @@ export default function Header() {
                         Register
                       </Link>
                     </Button>
+
                   </div>
                 )}
                 <Link href="/" className="hover:underline" onClick={() => setOpen(false)}>
@@ -95,6 +98,9 @@ export default function Header() {
                 </Link>
                 <Link href="/prot" className="hover:underline" onClick={() => setOpen(false)}>
                   prot
+                </Link>
+                <Link href="/calculators/combined" className="hover:underline" onClick={() => setOpen(false)}>
+                  Combined
                 </Link>
               </div>
             </SheetContent>

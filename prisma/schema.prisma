@@ -13,13 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//auth
+
 model User {
-  id           String         @id @default(cuid())
-  email        String         @unique
-  password     String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  RefreshToken RefreshToken[]
+  id                            String                          @id @default(cuid())
+  email                         String                          @unique
+  password                      String
+  createdAt                     DateTime                        @default(now())
+  updatedAt                     DateTime                        @updatedAt
+  RefreshToken                  RefreshToken[]
+  SeedingDataCombinationHistory SeedingDataCombinationHistory[]
 }
 
 model RefreshToken {
@@ -31,4 +34,46 @@ model RefreshToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+//calc stuff
+model Plant {
+  id        String @id @default(cuid())
+  latinName String @unique
+
+  seedingDataCombination                 SeedingDataCombination?
+  SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
+}
+
+//combined
+model SeedingDataCombination {
+  id      String @id @default(cuid())
+  plantId String @unique
+  plant   Plant  @relation(fields: [plantId], references: [id])
+
+  plantType           String
+  minSeedingRate      Float
+  maxSeedingRate      Float
+  priceFor1kgSeedsBGN Float
+}
+
+model SeedingDataCombinationHistory {
+  id          String                                   @id @default(cuid())
+  plants      SeedingDataCombinationHistoryPlantData[]
+  userId      String
+  user        User                                     @relation(fields: [userId], references: [id])
+  totalPrice  Float
+  isDataValid Boolean
+}
+
+model SeedingDataCombinationHistoryPlantData {
+  id                              String                         @id @default(cuid())
+  plantId                         String
+  plant                           Plant                          @relation(fields: [plantId], references: [id])
+  seedingRate                     Float
+  participation                   Float
+  combinedRate                    Float
+  pricePerDa                      Float
+  SeedingDataCombinationHistory   SeedingDataCombinationHistory? @relation(fields: [seedingDataCombinationHistoryId], references: [id])
+  seedingDataCombinationHistoryId String?
 }

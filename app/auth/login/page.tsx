@@ -10,8 +10,8 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BackendLogin } from '@/lib/auth-utils';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSLice';
+import { APICaller } from '@/lib/api-util';
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -31,6 +31,7 @@ export default function Login() {
   useEffect(() => {
     const updateAuthState = searchParams.get('updateAuthState');
     if (updateAuthState === 'refreshTokenExpired') {
+      toast.error('Your session has expired. Please login again.');
       dispatch(AuthLogout());
     }
   }, [searchParams]);
@@ -46,7 +47,7 @@ export default function Login() {
   async function HandleSubmit(data) {
     dispatch(AuthStart('login'));
 
-    const backendWork = await BackendLogin(data.email, data.password);
+    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', "POST", data);
 
     if (!backendWork.success) {
       dispatch(AuthFailure(backendWork.message));
@@ -62,7 +63,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center p-6">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
       <div className="w-full max-w-md space-y-6 p-8">
         <h2 className="text-2xl font-bold text-center">Login</h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">

@@ -2,9 +2,9 @@
 
 import { cookies } from 'next/headers';
 import { jwtVerify, SignJWT } from 'jose';
-import { MUTATIONS, QUERIES } from '@/app/api/graphql/callable';
-import { GraphQLCaller } from '@/app/api/graphql/graphql-utils';
 import { Log } from './logger';
+import { CreateNewUser, DeleteAllRefreshTokensByUserId, FindRefreshToken, FindUserByEmail, InsertRefreshTokenByUserId } from '@/prisma/prisma-utils';
+import { compare } from 'bcryptjs';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -16,25 +16,31 @@ export async function BackendVerifyToken(secret: string, token: string, type: st
     const decoded = await jwtVerify(token, new TextEncoder().encode(secret));
 
     if (decoded?.payload?.type !== type) {
-      console.error('Invalid token type');
+      Log(['auth', 'verifyToken'], `Invalid token type: ${decoded?.payload?.type}`);
       return [false, null];
     }
 
     //also check if it exists in the db
     if (type === 'refresh') {
-      const graphqlData = await GraphQLCaller(
-        ['auth', 'BackendVerifyToken', 'refresh', 'graphql'],
-        QUERIES.REFRESH_TOKEN,
-        {
-          token,
-        }
-      );
+      Log(['auth', 'verifyToken'], `Checking refresh token in db: ${token}`);
 
-      if (!graphqlData.success) {
-        return [false, null];
+      //VERY UGLY HACK
+      //AWFUL
+      //baiscally you cant use pg? functions in the edge runtime that middleware runs in [1]
+      //or soemthing else is missing
+      //so we have to do this
+      //[1] https://github.com/prisma/prisma/issues/24430#issuecomment-2153025329
+      if (process.env.NEXT_RUNTIME === 'nodejs') {
+        const foundRefreshToken = await FindRefreshToken(token);
+
+        if (!foundRefreshToken) {
+          Log(['auth', 'verifyToken'], `Refresh token not found in db: ${token}`);
+          return [false, null];
+        }
       }
     }
 
+    Log(['auth', 'verifyToken'], `Token verified: ${token}`);
     return [true, decoded];
   } catch (error) {
     Log(['auth', 'verifyToken'], `BackendVerifyToken failed with: ${error.message}`);
@@ -44,25 +50,21 @@ export async function BackendVerifyToken(secret: string, token: string, type: st
 
 export async function BackendRegister(email: string, password: string) {
   try {
-    const registerUserData = await GraphQLCaller(
-      ['auth', 'register', 'graphql'],
-      MUTATIONS.HANDLE_REGISTER_ATTEMPT,
-      {
-        email,
-        password,
-      }
-    );
+    //check if the user already exists
+    const user = await FindUserByEmail(email);
 
-    if (!registerUserData.success) {
+    if (user) {
+      Log(['auth', 'register'], `User already exists: ${email}`);
       return { success: false, message: 'User already exists' };
     }
 
+    //create the user
+    const newUser = await CreateNewUser(email, password);
+
+    Log(['auth', 'register'], `Created new user: ${newUser.id}`);
+
     return {
       success: true,
-      user: {
-        id: registerUserData.data.HandleRegisterAttempt.id,
-        email: registerUserData.data.HandleRegisterAttempt.email,
-      },
     };
   } catch (error) {
     Log(['auth', 'register'], `BackendRegister failed with: ${error.message}`);
@@ -74,21 +76,38 @@ export async function BackendLogin(email: string, password: string) {
   try {
     const cookieStore = await cookies();
 
-    const loginUserData = await GraphQLCaller(
-      ['auth', 'login', 'graphql'],
-      MUTATIONS.HANDLE_LOGIN_ATTEMPT,
-      {
-        email,
-        password,
-      }
-    );
+    //find the user
+    const user = await FindUserByEmail(email);
 
-    if (!loginUserData.success) {
+    if (!user) {
       return { success: false, message: 'Invalid email or password' };
     }
 
+    //compare passwords
+    if (!await compare(password, user.password)) {
+      Log(['auth', 'login'], `Invalid password for user ${user.id}`);
+    }
+
+    //delete all old refresh tokens
+    //just in case
+    const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
+    Log(['auth', 'login'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`);
+
+    // Generate refresh token (long-lived)
+    const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('7d')
+      .sign(new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
+
+    Log(['auth', 'login'], `refreshToken: ${refreshToken} for user ${user.id}`);
+
+    //insert new refresh token
+    const insertedToken = await InsertRefreshTokenByUserId(refreshToken, user.id);
+
+    Log(['auth', 'login'], `Inserted new refresh token ${insertedToken.id} for user ${user.id}`);
+
     const accessToken = await new SignJWT({
-      userId: loginUserData.data.HandleLoginAttempt.user.id,
+      userId: user.id,
       type: 'access',
     })
       .setProtectedHeader({ alg: 'HS256' })
@@ -106,7 +125,7 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    cookieStore.set('refreshToken', loginUserData.data.HandleLoginAttempt.refreshToken, {
+    cookieStore.set('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -118,7 +137,7 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    cookieStore.set('userId', loginUserData.data.HandleLoginAttempt.user.id, {
+    cookieStore.set('userId', user.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -126,13 +145,13 @@ export async function BackendLogin(email: string, password: string) {
       path: '/',
     });
 
-    Log(['auth', 'login'], `Logged in user ${loginUserData.data.HandleLoginAttempt.user.id}`);
+    Log(['auth', 'login'], `Logged in user ${user.id}`);
 
     return {
       success: true,
       user: {
-        id: loginUserData.data.HandleLoginAttempt.user.id,
-        email: loginUserData.data.HandleLoginAttempt.user.email,
+        id: user.id,
+        email: user.email,
       },
     };
   } catch (error) {
@@ -147,7 +166,16 @@ export async function BackendLogout(userId: string) {
 
     const refreshTokenVal = cookieStore.get('refreshToken')?.value;
 
-    if (!refreshTokenVal) {
+    if (refreshTokenVal) {
+
+      //ugly hack 2
+      if (process.env.NEXT_RUNTIME === 'nodejs') {
+        //delete all refresh tokens
+        const deletedTokensCount = await DeleteAllRefreshTokensByUserId(userId);
+
+        Log(['auth', 'logout'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`);
+      }
+    } else {
       // No refresh token found
       //VERY wierd and bad
       //should never happen
@@ -155,19 +183,6 @@ export async function BackendLogout(userId: string) {
       //an internal error/state desync error should not cause an sao incident
       //its also bloody stupid
       Log(['auth', 'logout'], 'No refresh token found');
-    }
-
-    const logoutUserData = await GraphQLCaller(
-      ['auth', 'logout', 'graphql'],
-      MUTATIONS.HANDLE_LOGOUT_ATTEMPT,
-      {
-        token: cookieStore.get('refreshToken')?.value || '',
-        userId,
-      }
-    );
-
-    if (!logoutUserData.success) {
-      return { success: false, message: 'Failed to logout' };
     }
 
     // Clear cookies
@@ -195,6 +210,7 @@ export async function BackendRefreshAccessToken() {
     refreshToken,
     'refresh'
   );
+
   if (!validToken) {
     throw new Error('Invalid refresh token');
   }
