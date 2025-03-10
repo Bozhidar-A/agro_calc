@@ -10,8 +10,8 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BackendLogin } from '@/lib/auth-utils';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSLice';
+import { APICaller } from '@/lib/api-util';
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -46,7 +46,7 @@ export default function Login() {
   async function HandleSubmit(data) {
     dispatch(AuthStart('login'));
 
-    const backendWork = await BackendLogin(data.email, data.password);
+    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', data);
 
     if (!backendWork.success) {
       dispatch(AuthFailure(backendWork.message));
