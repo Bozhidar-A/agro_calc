@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { BackendRegister } from '@/lib/auth-utils';
+import { APICaller } from '@/lib/api-util';
 
 const schema = z
   .object({
@@ -39,7 +40,7 @@ export default function Register() {
   const router = useRouter();
 
   async function HandleSubmit(data) {
-    const backendWork = await BackendRegister(data.email, data.password);
+    const backendWork = await APICaller(['auth', 'register'], '/api/auth/register', 'POST', data);
 
     if (!backendWork.success) {
       toast.error('There was an error', {
