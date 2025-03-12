@@ -1,6 +1,7 @@
 'use client';
 
 import useSeedingCombinedForm from '@/app/hooks/useSeedingCombinedForm';
+import PlantCombinedCharts from '@/components/PlantCombinedCharts/PlantCombinedCharts';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
@@ -47,7 +48,7 @@ export default function Combined() {
         fetchData();
     }, []);
 
-    const { form, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
+    const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
 
     if (!dbData || dbData.length === 0) {
         return <div>Loading...</div>;
@@ -90,6 +91,10 @@ export default function Combined() {
                         authObj.isAuthenticated && (<Button type="submit" className="w-full" disabled={!form.formState.isValid}>
                             Запази тази сметка
                         </Button>)
+                    }
+
+                    {
+                        form.formState.isValid && (<PlantCombinedCharts data={finalData} />)
                     }
                 </form>
             </Form>

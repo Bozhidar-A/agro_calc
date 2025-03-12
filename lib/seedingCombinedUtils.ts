@@ -3,6 +3,7 @@ import { z } from "zod";
 export const CreateZodSchemaForPlantRow = z.object({
     active: z.boolean(),
     id: z.string(),
+    plantType: z.string(),
     dropdownPlant: z.string(),
     seedingRate: z.number().min(0, 'Seeding rate must be at least 0'),
     participation: z
@@ -18,6 +19,7 @@ export function CreateDefaultValues() {
         legume: Array(3).fill({
             active: false,
             id: '',
+            plantType: '',
             dropdownPlant: '',
             seedingRate: 0,
             participation: 0,
@@ -27,6 +29,7 @@ export function CreateDefaultValues() {
         cereal: Array(3).fill({
             active: false,
             id: '',
+            plantType: '',
             dropdownPlant: '',
             seedingRate: 0,
             participation: 0,

@@ -3,13 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { GraphQLCaller } from "@/app/api/graphql/graphql-utils";
-import { MUTATIONS } from "@/app/api/graphql/callable";
 import { CreateDefaultValues, CreateZodSchemaForPlantRow, RoundToSecondStr, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombinedUtils";
 import { APICaller } from "@/lib/api-util";
 
 interface ActivePlantsFormData {
     plantId: string;
+    plantType: string;
     seedingRate: number;
     participation: number;
     combinedRate: number;
@@ -24,6 +23,52 @@ export interface CombinedCalcDBData {
 }
 
 export default function useSeedingCombinedForm(authObj, dbData) {
+    //final data to save to db
+    const [finalData, setFinalData] = useState<CombinedCalcDBData | null>(null);
+
+    function UpdateFinalData(data) {
+        const plants: ActivePlantsFormData[] = [];
+        for (const plant of data.legume) {
+            console.log(plant);
+            if (plant.active) {
+                plants.push({
+                    plantId: plant.id,
+                    plantType: plant.plantType,
+                    seedingRate: plant.seedingRate,
+                    participation: plant.participation,
+                    combinedRate: plant.seedingRateInCombination,
+                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                });
+            }
+        }
+
+        for (const plant of data.cereal) {
+            console.log(plant);
+            if (plant.active) {
+                plants.push({
+                    plantId: plant.id,
+                    plantType: plant.plantType,
+                    seedingRate: plant.seedingRate,
+                    participation: plant.participation,
+                    combinedRate: plant.seedingRateInCombination,
+                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                });
+            }
+        }
+
+        const combinedData: CombinedCalcDBData = {
+            plants,
+            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
+                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
+            userId: authObj.user.id,
+            isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
+        };
+
+        console.log("combinedData", combinedData);
+
+        return combinedData;
+    }
+
     //react-hook-form doesnt support warnings, so i have to hack my way around it
     const [warnings, setWarnings] = useState<Record<string, string>>({});
     function addWarning(field: string, message: string) {
@@ -68,6 +113,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 //on active dropdown plant change update the hidden id state var
                 console.log(dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant))
                 form.setValue(`${basePath}.id`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).id);
+                form.setValue(`${basePath}.plantType`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).plantType);
             }
 
             if (name && (name.includes('participation') || name.includes('seedingRate') || name.includes('dropdownPlant'))) {
@@ -104,6 +150,9 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 //VERY VERY hacky
                 form.trigger(); // workaround trigger
             }
+
+            //update the final data to save to db
+            setFinalData(UpdateFinalData(form.getValues()));
         });
 
         return () => subscription.unsubscribe();
@@ -117,28 +166,9 @@ export default function useSeedingCombinedForm(authObj, dbData) {
             return;
         }
 
-        const plants: ActivePlantsFormData[] = [];
-        for (const plant of data.legume) {
-            if (plant.active) {
-                plants.push({
-                    plantId: plant.id,
-                    seedingRate: plant.seedingRate,
-                    participation: plant.participation,
-                    combinedRate: plant.seedingRateInCombination,
-                    pricePerDABGN: plant.priceSeedsPerDaBGN,
-                });
-            }
-        }
+        console.log(finalData);
 
-        const combinedData: CombinedCalcDBData = {
-            plants,
-            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
-            userId: authObj.user.id,
-            isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
-        };
-
-        const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", combinedData);
+        const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {
             toast.error("Failed to save data", {
@@ -151,5 +181,5 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         toast.success("Data saved successfully");
     }
 
-    return { form, onSubmit, warnings };
+    return { form, finalData, onSubmit, warnings };
 };
