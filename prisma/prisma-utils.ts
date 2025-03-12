@@ -86,6 +86,7 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
             plants: {
                 create: combinedData.plants.map((plant) => ({
                     plantId: plant.plantId,
+                    plantType: plant.plantType,
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.combinedRate,

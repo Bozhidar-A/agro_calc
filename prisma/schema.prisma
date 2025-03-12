@@ -45,6 +45,11 @@ model Plant {
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
 }
 
+// enum plantType {
+//   legume //бобови
+//   cereal //зърнени
+// }
+
 //combined
 model SeedingDataCombination {
   id      String @id @default(cuid())
@@ -70,6 +75,7 @@ model SeedingDataCombinationHistoryPlantData {
   id                              String                         @id @default(cuid())
   plantId                         String
   plant                           Plant                          @relation(fields: [plantId], references: [id])
+  plantType                       String
   seedingRate                     Float
   participation                   Float
   combinedRate                    Float
