@@ -6,6 +6,9 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
     // Get the selected plant
     const selectedPlant = dbData.find((plant) => plant.id === form.watch(`${name}.${index}.id`));
 
+    // Get all selected plant names in the form
+    const selectedPlantNames = form.watch(name).map((row) => row.dropdownPlant).filter(Boolean);
+
     return (
         <div className="grid grid-cols-6 gap-4 items-center">
             <FormField control={form.control} name={`${name}.${index}.active`} render={({ field }) => (
@@ -20,7 +23,10 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
                     <SelectContent>
                         {dbData.map((plant) => (
                             plant.plantType === name && (
-                                <SelectItem key={plant.latinName} value={plant.latinName}>
+                                <SelectItem
+                                    key={plant.latinName}
+                                    value={plant.latinName}
+                                    disabled={selectedPlantNames.includes(plant.latinName) && field.value !== plant.latinName}>
                                     {plant.latinName}
                                 </SelectItem>
                             )

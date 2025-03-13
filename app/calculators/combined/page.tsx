@@ -6,7 +6,7 @@ import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombin
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { APICaller } from '@/lib/api-util';
-import { CalculateParticipation, RoundToSecondStr } from '@/lib/seedingCombinedUtils';
+import { CalculateParticipation, FormatCombinedFormSavedToGraphDisplay, RoundToSecondStr } from '@/lib/seedingCombinedUtils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
@@ -30,8 +30,6 @@ export default function Combined() {
     useEffect(() => {
         const fetchData = async () => {
             const initData = await APICaller(['calc', 'combined', 'page', 'init'], '/api/calc/combined/input', "GET");
-            console.log(initData);
-
             if (!initData.success) {
                 toast.error("Failed to fetch data", {
                     description: initData.message,
@@ -40,7 +38,6 @@ export default function Combined() {
                 return;
             }
 
-            console.log(initData.data);
             //convert to PlantDBData[] and save it in the state
             //ts is happy
             setDbData((initData.data));
@@ -56,18 +53,18 @@ export default function Combined() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
-            <h1 className="text-2xl font-bold">Seed Mixture Planner</h1>
+            <h1 className="text-2xl font-bold">Сеитбена норма на смеска</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-5xl">
                     <SeedCombinedSection name="legume" title="Многогодишни бобови фуражни култури" maxPercentage={60} form={form} dbData={dbData} />
                     <SeedCombinedSection name="cereal" title="Многогодишни житни фуражни култури" maxPercentage={40} form={form} dbData={dbData} />
                     <div className="border p-4 rounded-md">
                         <div className="flex justify-between mb-2">
-                            <span className="font-semibold">Total Mix Participation:</span>
+                            <span className="font-semibold">Общо участие в смеската:</span>
                             <span>{CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'))}%</span>
                         </div>
                         <div className="flex justify-between mb-2">
-                            <span className="font-semibold">Total Price:</span>
+                            <span className="font-semibold">Крайна цена:</span>
                             <div>
                                 <span>
                                     {RoundToSecondStr(
@@ -94,7 +91,7 @@ export default function Combined() {
                     }
 
                     {
-                        form.formState.isValid && (<PlantCombinedCharts data={finalData} />)
+                        form.formState.isValid && (<PlantCombinedCharts data={FormatCombinedFormSavedToGraphDisplay(finalData, dbData)} />)
                     }
                 </form>
             </Form>
