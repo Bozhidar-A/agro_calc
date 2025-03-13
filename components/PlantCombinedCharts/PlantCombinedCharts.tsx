@@ -1,10 +1,25 @@
 "use client";
 import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
+import { GetBGNameFromMap } from "@/lib/utils";
 
-export default function PlantCombinedCharts({ data }: { data: CombinedCalcDBData | null }) {
+export interface CombinedHistoryDataPlant {
+    plantLatinName: string;
+    plantType: string;
+    seedingRate: number;
+    participation: number;
+    combinedRate: number;
+    pricePerDABGN: number;
+}
+
+export interface CombinedHistoryData {
+    plants: CombinedHistoryDataPlant[];
+    totalPrice: number;
+    userId: string;
+    isDataValid: boolean;
+}
+
+export default function PlantCombinedCharts({ data }: { data: CombinedHistoryData | null }) {
     if (!data || !data.plants || data.plants.length === 0) {
         return null;
     }
@@ -15,16 +30,16 @@ export default function PlantCombinedCharts({ data }: { data: CombinedCalcDBData
             {/* Bar Chart: Seeding Rate by Plant Type */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Seeding Rate by Plant Type</CardTitle>
+                    <CardTitle>Сеидбена норма по растение</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={data.plants}>
-                            <XAxis dataKey="plantType" />
+                            <XAxis dataKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="seedingRate" fill="#8884d8" name="Seeding Rate" />
+                            <Bar dataKey="seedingRate" fill="#8884d8" name="Сеидбена норма" />
                         </BarChart>
                     </ResponsiveContainer>
                 </CardContent>
@@ -33,12 +48,12 @@ export default function PlantCombinedCharts({ data }: { data: CombinedCalcDBData
             {/* Pie Chart: Participation Distribution */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Participation Distribution</CardTitle>
+                    <CardTitle>Разпределение по участие</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
-                            <Pie data={data.plants} dataKey="participation" nameKey="plantType" fill="#82ca9d" label />
+                            <Pie data={data.plants} dataKey="participation" nameKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} fill="#82ca9d" label />
                             <Tooltip />
                             <Legend />
                         </PieChart>
@@ -49,12 +64,12 @@ export default function PlantCombinedCharts({ data }: { data: CombinedCalcDBData
             {/* Line Chart: Price per DA */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Price per DA Comparison</CardTitle>
+                    <CardTitle>Цена за декър сравнение</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={data.plants}>
-                            <XAxis dataKey="plantType" />
+                            <XAxis dataKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />
@@ -67,16 +82,16 @@ export default function PlantCombinedCharts({ data }: { data: CombinedCalcDBData
             {/* Scatter Chart: Seeding Rate vs Combined Rate */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Seeding Rate vs Combined Rate</CardTitle>
+                    <CardTitle>Седибена норма самосточтелно срещу в смеска</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <ScatterChart>
-                            <XAxis dataKey="seedingRate" name="Seeding Rate" />
-                            <YAxis dataKey="combinedRate" name="Combined Rate" />
+                            <XAxis dataKey="seedingRate" name="Сеидбена норма - самостоятелно" />
+                            <YAxis dataKey="combinedRate" name="Сеидбена норма - в смескат" />
                             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                             <Legend />
-                            <Scatter name="Plants" data={data.plants} fill="#0088FE" />
+                            <Scatter name="Растение" data={data.plants} fill="#0088FE" />
                         </ScatterChart>
                     </ResponsiveContainer>
                 </CardContent>

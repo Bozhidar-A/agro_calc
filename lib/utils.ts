@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 import { GraphQLError } from "graphql";
 import { Log } from "./logger";
+import latinNamesMap from "./latinNamesMap";
 
 export function ArrayContainsAndItemsStartsWith(array: string[], item: any) {
   return array.some((i) => i.startsWith(item));
@@ -19,4 +20,14 @@ export function GraphqlVerifyInternalRequest(context, location) {
     console.error(`Unauthorized GraphQL request in ${location}`);
     throw new GraphQLError("Unauthorized GraphQL request");
   }
+}
+
+export function GetBGNameFromMap(lang: string, str: string) {
+  console.log("GetBGNameFromMap", lang, str);
+  console.log("res", latinNamesMap[lang][str]);
+  if (latinNamesMap[lang][str]) {
+    return latinNamesMap[lang][str];
+  }
+
+  return str;
 }

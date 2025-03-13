@@ -29,7 +29,6 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     function UpdateFinalData(data) {
         const plants: ActivePlantsFormData[] = [];
         for (const plant of data.legume) {
-            console.log(plant);
             if (plant.active) {
                 plants.push({
                     plantId: plant.id,
@@ -43,7 +42,6 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         }
 
         for (const plant of data.cereal) {
-            console.log(plant);
             if (plant.active) {
                 plants.push({
                     plantId: plant.id,
@@ -63,8 +61,6 @@ export default function useSeedingCombinedForm(authObj, dbData) {
             userId: authObj.user.id,
             isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
         };
-
-        console.log("combinedData", combinedData);
 
         return combinedData;
     }
@@ -111,7 +107,6 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 const basePath = `${section}.${index}`;
 
                 //on active dropdown plant change update the hidden id state var
-                console.log(dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant))
                 form.setValue(`${basePath}.id`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).id);
                 form.setValue(`${basePath}.plantType`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).plantType);
             }
@@ -159,15 +154,10 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     }, [form, dbData]);
 
     async function onSubmit(data) {
-        console.log(data);
-
         if (!authObj.isAuthenticated) {
             toast.error("You need to be logged in to save this data");
             return;
         }
-
-        console.log(finalData);
-
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {

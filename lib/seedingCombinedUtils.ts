@@ -1,3 +1,4 @@
+import { CombinedHistoryData, CombinedHistoryDataPlant } from "@/components/PlantCombinedCharts/PlantCombinedCharts";
 import { z } from "zod";
 
 export const CreateZodSchemaForPlantRow = z.object({
@@ -95,4 +96,32 @@ export function RoundToSecondStr(num: number) {
 function ToFixedNumber(num: number, digits: number, base = 10) {
     const pow = Math.pow(base, digits);
     return (Math.round(num * pow) / pow);
+}
+
+//func to format the saved data to a format easy to use in graph display in the form itself
+//avoids fetches to the db
+//a bit hacky
+export function FormatCombinedFormSavedToGraphDisplay(submitedData, dbData) {
+    const finalData: CombinedHistoryData = {
+        plants: [] as CombinedHistoryDataPlant[],
+        totalPrice: 0,
+        userId: '',
+        isDataValid: false,
+    };
+
+    finalData.userId = submitedData.userId;
+    finalData.totalPrice = submitedData.totalPrice;
+    finalData.isDataValid = submitedData.isDataValid;
+
+    for (const submitedPlant of submitedData.plants) {
+        const dbPlant = dbData.find((plant) => plant.id === submitedPlant.plantId);
+        if (dbPlant) {
+            finalData.plants.push({
+                plantLatinName: dbPlant.latinName,
+                ...submitedPlant,
+            });
+        }
+    }
+
+    return finalData;
 }
