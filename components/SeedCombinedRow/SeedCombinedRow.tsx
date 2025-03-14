@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { FormField } from "@/components/ui/form";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { GetLangNameFromMap } from "@/lib/utils";
 
 export function SeedCombinedRow({ form, name, index, dbData }) {
     // Get the selected plant
@@ -19,15 +20,16 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
 
             <FormField control={form.control} name={`${name}.${index}.dropdownPlant`} render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value} disabled={!form.watch(`${name}.${index}.active`)}>
-                    <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectTrigger className="text-xl py-3 px-4"><SelectValue placeholder="Select" /></SelectTrigger>
                     <SelectContent>
                         {dbData.map((plant) => (
                             plant.plantType === name && (
                                 <SelectItem
+                                    className="text-xl py-3 px-4"
                                     key={plant.latinName}
                                     value={plant.latinName}
                                     disabled={selectedPlantNames.includes(plant.latinName) && field.value !== plant.latinName}>
-                                    {plant.latinName}
+                                    {GetLangNameFromMap('bg', plant.latinName)}
                                 </SelectItem>
                             )
                         ))}
@@ -39,6 +41,7 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
             <FormField control={form.control} name={`${name}.${index}.seedingRate`} render={({ field, fieldState }) => (
                 <div>
                     <Input
+                        className="!text-xl"
                         type="number"
                         step="0.1"
                         {...field}
@@ -46,8 +49,8 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
                         onChange={(e) => field.onChange(e.target.value === "" ? "" : Number(e.target.value))} // Convert to number
                     />
                     {/* Show min/max dynamically */}
-                    {selectedPlant && (
-                        <p className="text-yellow-500 text-sm">
+                    {selectedPlant && form.watch(`${name}.${index}.active`) && (
+                        <p className="text-yellow-500 text-lg">
                             Min: {selectedPlant.minSeedingRate} | Max: {selectedPlant.maxSeedingRate}
                         </p>
                     )}
@@ -59,6 +62,7 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
             <FormField control={form.control} name={`${name}.${index}.participation`} render={({ field, fieldState }) => (
                 <div>
                     <Input
+                        className="!text-xl"
                         type="number"
                         step="0.1"
                         min={0}
@@ -73,12 +77,12 @@ export function SeedCombinedRow({ form, name, index, dbData }) {
 
             {/* seedingRateInCombination */}
             <FormField control={form.control} name={`${name}.${index}.seedingRateInCombination`} render={({ field }) => (
-                <Input disabled value={form.watch(`${name}.${index}.seedingRateInCombination`) || 0} />
+                <Input className="!text-xl" disabled value={form.watch(`${name}.${index}.seedingRateInCombination`) || 0} />
             )} />
 
             {/* priceSeedsPerDaBGN */}
             <FormField control={form.control} name={`${name}.${index}.priceSeedsPerDaBGN`} render={({ field }) => (
-                <Input disabled value={form.watch(`${name}.${index}.priceSeedsPerDaBGN`) || 0} />
+                <Input className="!text-xl" disabled value={form.watch(`${name}.${index}.priceSeedsPerDaBGN`) || 0} />
             )} />
         </div>
     );
