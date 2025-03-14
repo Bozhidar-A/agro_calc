@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
-interface PlantDBData {
+interface PlantCombinedDBData {
     id: string;
     latinName: string;
     plantType: string;
@@ -24,7 +24,7 @@ export default function Combined() {
     const authObj = useSelector((state) => state.auth);
 
     //state for the fetched data from db
-    const [dbData, setDbData] = useState<PlantDBData[]>([]);
+    const [dbData, setDbData] = useState<PlantCombinedDBData[]>([]);
 
     //fetch all the data from the db for this calculator and save it in the state
     useEffect(() => {
@@ -55,24 +55,24 @@ export default function Combined() {
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
             <h1 className="text-2xl font-bold">Сеитбена норма на смеска</h1>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-5xl">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full max-w-7xl">
                     <SeedCombinedSection name="legume" title="Многогодишни бобови фуражни култури" maxPercentage={60} form={form} dbData={dbData} />
                     <SeedCombinedSection name="cereal" title="Многогодишни житни фуражни култури" maxPercentage={40} form={form} dbData={dbData} />
                     <div className="border p-4 rounded-md">
                         <div className="flex justify-between mb-2">
-                            <span className="font-semibold">Общо участие в смеската:</span>
-                            <span>{CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'))}%</span>
+                            <span className="font-semibold text-2xl">Общо участие в смеската:</span>
+                            <span className='text-2xl'>{CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'))}%</span>
                         </div>
                         <div className="flex justify-between mb-2">
-                            <span className="font-semibold">Крайна цена:</span>
+                            <span className="font-semibold text-2xl">Крайна цена:</span>
                             <div>
-                                <span>
+                                <span className='text-2xl'>
                                     {RoundToSecondStr(
                                         form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
                                         form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)
                                     )}
                                 </span>
-                                <span> BGN</span>
+                                <span className='text-2xl'> BGN</span>
                             </div>
                         </div>
                         {form.formState.errors.root && (
@@ -85,7 +85,7 @@ export default function Combined() {
                         }
                     </div>
                     {
-                        authObj.isAuthenticated && (<Button type="submit" className="w-full" disabled={!form.formState.isValid}>
+                        authObj.isAuthenticated && (<Button type="submit" className="w-full text-2xl" disabled={!form.formState.isValid}>
                             Запази тази сметка
                         </Button>)
                     }

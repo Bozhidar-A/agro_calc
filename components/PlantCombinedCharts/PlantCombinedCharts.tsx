@@ -1,7 +1,7 @@
 "use client";
 import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GetBGNameFromMap } from "@/lib/utils";
+import { GetLangNameFromMap } from "@/lib/utils";
 
 export interface CombinedHistoryDataPlant {
     plantLatinName: string;
@@ -35,7 +35,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={data.plants}>
-                            <XAxis dataKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} />
+                            <XAxis dataKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />
@@ -53,7 +53,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
-                            <Pie data={data.plants} dataKey="participation" nameKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} fill="#82ca9d" label />
+                            <Pie data={data.plants} dataKey="participation" nameKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} fill="#82ca9d" label />
                             <Tooltip />
                             <Legend />
                         </PieChart>
@@ -69,7 +69,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={data.plants}>
-                            <XAxis dataKey={(item) => GetBGNameFromMap('bg', item.plantLatinName)} />
+                            <XAxis dataKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />

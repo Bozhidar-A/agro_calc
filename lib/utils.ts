@@ -22,9 +22,7 @@ export function GraphqlVerifyInternalRequest(context, location) {
   }
 }
 
-export function GetBGNameFromMap(lang: string, str: string) {
-  console.log("GetBGNameFromMap", lang, str);
-  console.log("res", latinNamesMap[lang][str]);
+export function GetLangNameFromMap(lang: string, str: string) {
   if (latinNamesMap[lang][str]) {
     return latinNamesMap[lang][str];
   }

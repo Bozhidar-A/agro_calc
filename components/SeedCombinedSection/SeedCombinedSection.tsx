@@ -8,14 +8,14 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
         <div className="border-b pb-4">
             <h2 className="text-lg font-semibold mb-4">{title}</h2>
             <div className="flex justify-between">
-                <span>Общо участие: {participation.toFixed(1)}%</span>
-                <span className={participation > maxPercentage ? "text-red-500 font-bold" : ""}>
+                <span className="text-xl">Общо участие: {participation.toFixed(1)}%</span>
+                <span className={participation > maxPercentage ? "text-red-500 font-bold text-xl" : "text-xl"}>
                     Максимално: {maxPercentage}%
                 </span>
             </div>
-            {participation > maxPercentage && <p className="text-red-500 font-medium">Reduce participation.</p>}
+            {participation > maxPercentage && <p className="text-red-500 font-medium text-xl">Reduce participation.</p>}
             <div className="grid gap-4">
-                <div className="grid grid-cols-6 gap-4 font-medium text-lg m-2">
+                <div className="grid grid-cols-6 gap-4 font-medium text-xl m-2">
                     <div>Активно?</div>
                     <div>Растиение</div>
                     <div>Сеидбена норма - самостоятелно</div>
