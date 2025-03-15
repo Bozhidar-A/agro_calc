@@ -102,6 +102,9 @@ export default function Header() {
                 <Link href="/calculators/combined" className="hover:underline" onClick={() => setOpen(false)}>
                   Combined
                 </Link>
+                <Link href="/calculators/sowing" className="hover:underline" onClick={() => setOpen(false)}>
+                  Sowing Rate
+                </Link>
               </div>
             </SheetContent>
           </Sheet>

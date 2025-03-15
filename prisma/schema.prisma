@@ -41,14 +41,148 @@ model Plant {
   id        String @id @default(cuid())
   latinName String @unique
 
+  //combined
   seedingDataCombination                 SeedingDataCombination?
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
+  SowingRatePlant                        SowingRatePlant?
 }
 
-// enum plantType {
-//   legume //бобови
-//   cereal //зърнени
+//sowing rate
+model SowingRatePlant {
+  id String @id @default(cuid())
+
+  // Relationship back to Plant
+  plantId String @unique
+  plant   Plant  @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  //sowing rate
+  coefficientSecurity         SowingRateCoefficientSecurity?
+  wantedPlantsPerMeterSquared SowingRateWantedPlantsPerMeterSquared?
+  massPer1000g                SowingRateMassPer1000g?
+  purity                      SowingRatePurity?
+  germination                 SowingRateGermination?
+  rowSpacingCm                SowingRateRowSpacingCm?
+}
+
+model SowingRateCoefficientSecurity {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+
+  // // One-to-many relation to store coefficient values separately
+  // values SowingRateCoefficientSecurityValue[]
+}
+
+// model SowingRateCoefficientSecurityValue {
+//   id    String @id @default(cuid())
+//   value Float
+
+//   // Relationship back to SowingRateCoefficientSecurity
+//   coefficientSecurityId String
+//   coefficientSecurity   SowingRateCoefficientSecurity @relation(fields: [coefficientSecurityId], references: [id], onDelete: Cascade)
 // }
+
+model SowingRateWantedPlantsPerMeterSquared {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
+
+model SowingRateMassPer1000g {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
+
+model SowingRatePurity {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
+
+model SowingRateGermination {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
+
+model SowingRateRowSpacingCm {
+  id   String @id @default(cuid())
+  type String @default("slider")
+  unit String
+
+  // Fields for slider type
+  step         Float?
+  minSliderVal Float?
+  maxSliderVal Float?
+
+  // Field for const type
+  constValue Float?
+
+  // Relationship back to Plant
+  sowingPlantId String          @unique
+  sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
 
 //combined
 model SeedingDataCombination {

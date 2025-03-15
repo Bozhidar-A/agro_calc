@@ -29,6 +29,9 @@
         --chart-3: 197 37% 24%;
         --chart-4: 43 74% 66%;
         --chart-5: 27 87% 67%;
+
+        --within-bounds-color: #318018;
+        --out-of-bounds-color: #ff0000;
     }
 
     .dark {
@@ -56,6 +59,9 @@
         --chart-3: 30 80% 55%;
         --chart-4: 280 65% 60%;
         --chart-5: 340 75% 55%;
+
+        --within-bounds-color: #318018;
+        --out-of-bounds-color: #ff0000;
     }
 }
 
@@ -67,4 +73,132 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+/* within-safe-range */
+/*********** Baseline, reset styles ***********/
+input.within-safe-range[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 25rem;
+}
+
+/* Removes default focus */
+input.within-safe-range[type="range"]:focus {
+    outline: none;
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input.within-safe-range[type="range"]::-webkit-slider-runnable-track {
+    background-color: var(--within-bounds-color);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input.within-safe-range[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    margin-top: -4px;
+    /* Centers thumb on the track */
+    background-color: #0091ff;
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+}
+
+input.within-safe-range[type="range"]:focus::-webkit-slider-thumb {
+    outline: 3px solid #0091ff;
+    outline-offset: 0.125rem;
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input.within-safe-range[type="range"]::-moz-range-track {
+    background-color: var(--within-bounds-color);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input.within-safe-range[type="range"]::-moz-range-thumb {
+    background-color: #0091ff;
+    border: none;
+    /*Removes extra border that FF applies*/
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+}
+
+input.within-safe-range[type="range"]:focus::-moz-range-thumb {
+    outline: 3px solid #0091ff;
+    outline-offset: 0.125rem;
+}
+
+/* outside-safe-range */
+/*********** Baseline, reset styles ***********/
+input.outside-safe-range[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 25rem;
+}
+
+/* Removes default focus */
+input.outside-safe-range[type="range"]:focus {
+    outline: none;
+}
+
+/******** Chrome, Safari, Opera and Edge Chromium styles ********/
+/* slider track */
+input.outside-safe-range[type="range"]::-webkit-slider-runnable-track {
+    background-color: var(--out-of-bounds-color);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input.outside-safe-range[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    margin-top: -4px;
+    /* Centers thumb on the track */
+    background-color: #0091ff;
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+}
+
+input.outside-safe-range[type="range"]:focus::-webkit-slider-thumb {
+    outline: 3px solid #0091ff;
+    outline-offset: 0.125rem;
+}
+
+/*********** Firefox styles ***********/
+/* slider track */
+input.outside-safe-range[type="range"]::-moz-range-track {
+    background-color: var(--out-of-bounds-color);
+    border-radius: 0.5rem;
+    height: 0.5rem;
+}
+
+/* slider thumb */
+input.outside-safe-range[type="range"]::-moz-range-thumb {
+    background-color: #0091ff;
+    border: none;
+    /*Removes extra border that FF applies*/
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+}
+
+input.outside-safe-range[type="range"]:focus::-moz-range-thumb {
+    outline: 3px solid #0091ff;
+    outline-offset: 0.125rem;
 }
