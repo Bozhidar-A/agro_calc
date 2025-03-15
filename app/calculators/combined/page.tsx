@@ -85,7 +85,7 @@ export default function Combined() {
                         }
                     </div>
                     {
-                        authObj.isAuthenticated && (<Button type="submit" className="w-full text-2xl" disabled={!form.formState.isValid}>
+                        authObj.isAuthenticated && (<Button type="submit" className="w-full" disabled={!form.formState.isValid}>
                             Запази тази сметка
                         </Button>)
                     }
