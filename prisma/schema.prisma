@@ -187,16 +187,17 @@ model SowingRateRowSpacingCm {
 }
 
 model SowingRateHistory {
-  id                                 String  @id @default(cuid())
+  id                                 String   @id @default(cuid())
   plantId                            String
-  plant                              Plant   @relation(fields: [plantId], references: [id])
+  plant                              Plant    @relation(fields: [plantId], references: [id])
   userId                             String
-  user                               User    @relation(fields: [userId], references: [id])
+  user                               User     @relation(fields: [userId], references: [id])
   sowingRateSafeSeedsPerMeterSquared Float
   sowingRatePlantsPerDecare          Float
   usedSeedsKgPerDecare               Float
   internalRowHeightCm                Float
   isDataValid                        Boolean
+  createdAt                          DateTime @default(now())
 }
 
 //combined
@@ -218,6 +219,7 @@ model SeedingDataCombinationHistory {
   user        User                                     @relation(fields: [userId], references: [id])
   totalPrice  Float
   isDataValid Boolean
+  createdAt   DateTime                                 @default(now())
 }
 
 model SeedingDataCombinationHistoryPlantData {
