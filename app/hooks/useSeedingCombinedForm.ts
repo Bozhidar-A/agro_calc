@@ -3,8 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { CreateDefaultValues, CreateZodSchemaForPlantRow, RoundToSecondStr, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombinedUtils";
+import { CreateDefaultValues, CreateZodSchemaForPlantRow, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombined-utils";
 import { APICaller } from "@/lib/api-util";
+import { RoundToSecondStr } from "@/lib/math-util";
 
 interface ActivePlantsFormData {
     plantId: string;
@@ -155,20 +156,20 @@ export default function useSeedingCombinedForm(authObj, dbData) {
 
     async function onSubmit(data) {
         if (!authObj.isAuthenticated) {
-            toast.error("You need to be logged in to save this data");
+            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
             return;
         }
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {
-            toast.error("Failed to save data", {
+            toast.error("Възникна грешка", {
                 description: res.message,
             });
             console.log(res.message);
             return;
         }
 
-        toast.success("Data saved successfully");
+        toast.success("Изчислението е запазено успешно!");
     }
 
     return { form, finalData, onSubmit, warnings };

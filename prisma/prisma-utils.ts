@@ -1,5 +1,6 @@
 import { SowingRateDBData } from "@/app/calculators/sowing/page";
 import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
+import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
@@ -100,8 +101,10 @@ export async function GetSowingInputData() {
 
     for (const plant of sowingData) {
         finalData.push({
+            id: plant.id,
+
             plant: {
-                plantId: plant.id,
+                plantId: plant.plant.id,
                 plantLatinName: plant.plant.latinName,
             },
 
@@ -219,6 +222,22 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
     });
 
     return combinedCalcHistoryEntry;
+}
+
+export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
+    console.log(data);
+
+    return await prisma.sowingRateHistory.create({
+        data: {
+            userId: data.userId,
+            plantId: data.plantId,
+            sowingRateSafeSeedsPerMeterSquared: data.sowingRateSafeSeedsPerMeterSquared,
+            sowingRatePlantsPerDecare: data.sowingRatePlantsPerDecare,
+            usedSeedsKgPerDecare: data.usedSeedsKgPerDecare,
+            internalRowHeightCm: data.internalRowHeightCm,
+            isDataValid: data.isDataValid,
+        },
+    });
 }
 
 //wiki stuff

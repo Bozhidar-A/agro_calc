@@ -7,9 +7,46 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { SowingRateDBData } from "../calculators/sowing/page";
+import { CmToMeters, MetersSquaredToDecare, MetersToCm, ToFixedNumber } from "@/lib/math-util";
+import { IsValueOutOfBounds } from "@/lib/sowing-utils";
+
+export interface SowingRateSaveData {
+    userId: string;
+    plantId: string;
+    plantLatinName: string;
+    sowingRateSafeSeedsPerMeterSquared: number;
+    sowingRatePlantsPerDecare: number;
+    usedSeedsKgPerDecare: number;
+    internalRowHeightCm: number;
+    isDataValid: boolean;
+}
 
 export default function useSowingRateForm(authObj, dbData) {
     const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
+    const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
+        userId: '',
+        plantId: '',
+        plantLatinName: '',
+        sowingRateSafeSeedsPerMeterSquared: 0,
+        sowingRatePlantsPerDecare: 0,
+        usedSeedsKgPerDecare: 0,
+        internalRowHeightCm: 0,
+        isDataValid: false
+    });
+
+    //react-hook-form doesnt support warnings, so i have to hack my way around it
+    const [warnings, setWarnings] = useState<Record<string, string>>({});
+    function addWarning(field: string, message: string) {
+        setWarnings((prev) => ({ ...prev, [field]: message }));
+    }
+    function removeWarning(field: string) {
+        setWarnings((prev) => {
+            const newWarnings = { ...prev };
+            delete newWarnings[field];
+            return newWarnings;
+        });
+    }
+
 
     const formSchema = z.object({
         cultureLatinName: z.string(),
@@ -44,11 +81,10 @@ export default function useSowingRateForm(authObj, dbData) {
 
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
-            console.log(name);
-            console.log(form.getValues('cultureLatinName'));
-            if (name === 'cultureLatinName') {
-                console.log("setting")
-                const plant = dbData.find(entry => entry.plant.plantLatinName === form.getValues('cultureLatinName'));
+            const plant = dbData.find(entry => entry.plant.plantLatinName === form.getValues('cultureLatinName'));
+
+            if (name === 'cultureLatinName' && plant) {
+                console.log(plant);
                 setActivePlantDbData(plant);
 
                 form.setValue('coefficientSecurity', plant.coefficientSecurity.type === 'slider' ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue);
@@ -57,30 +93,153 @@ export default function useSowingRateForm(authObj, dbData) {
                 form.setValue('purity', plant.purity.type === 'slider' ? plant.purity.minSliderVal : plant.purity.constValue);
                 form.setValue('germination', plant.germination.type === 'slider' ? plant.germination.minSliderVal : plant.germination.constValue);
                 form.setValue('rowSpacing', plant.rowSpacing.type === 'slider' ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue);
+                return;
+            }
+
+            if (!plant) {
+                //dont do the checks if we dont have a plant
+                return;
+            }
+
+            //this feels stupid, but it works
+            if (IsValueOutOfBounds(
+                form.getValues('coefficientSecurity'),
+                plant.coefficientSecurity.type,
+                plant.coefficientSecurity.minSliderVal,
+                plant.coefficientSecurity.maxSliderVal,
+                plant.coefficientSecurity.constValue)) {
+                addWarning('coefficientSecurity', 'Value out of bounds!');
+            } else {
+                removeWarning('coefficientSecurity');
+            }
+
+            if (IsValueOutOfBounds(
+                form.getValues('wantedPlantsPerMeterSquared'),
+                plant.wantedPlantsPerMeterSquared.type,
+                plant.wantedPlantsPerMeterSquared.minSliderVal,
+                plant.wantedPlantsPerMeterSquared.maxSliderVal,
+                plant.wantedPlantsPerMeterSquared.constValue)) {
+                addWarning('wantedPlantsPerMeterSquared', 'Value out of bounds!');
+            } else {
+                removeWarning('wantedPlantsPerMeterSquared');
+            }
+
+            if (IsValueOutOfBounds(
+                form.getValues('massPer1000g'),
+                plant.massPer1000g.type,
+                plant.massPer1000g.minSliderVal,
+                plant.massPer1000g.maxSliderVal,
+                plant.massPer1000g.constValue)) {
+                addWarning('massPer1000g', 'Value out of bounds!');
+            } else {
+                removeWarning('massPer1000g');
+            }
+
+            if (IsValueOutOfBounds(
+                form.getValues('purity'),
+                plant.purity.type,
+                plant.purity.minSliderVal,
+                plant.purity.maxSliderVal,
+                plant.purity.constValue)) {
+                addWarning('purity', 'Value out of bounds!');
+            } else {
+                removeWarning('purity');
+            }
+
+            if (IsValueOutOfBounds(
+                form.getValues('germination'),
+                plant.germination.type,
+                plant.germination.minSliderVal,
+                plant.germination.maxSliderVal,
+                plant.germination.constValue)) {
+                addWarning('germination', 'Value out of bounds!');
+            } else {
+                removeWarning('germination');
+            }
+
+            if (IsValueOutOfBounds(
+                form.getValues('rowSpacing'),
+                plant.rowSpacing.type,
+                plant.rowSpacing.minSliderVal,
+                plant.rowSpacing.maxSliderVal,
+                plant.rowSpacing.constValue)) {
+                addWarning('rowSpacing', 'Value out of bounds!');
+            } else {
+                removeWarning('rowSpacing');
             }
         });
 
         return () => subscription.unsubscribe();
-    }, [form, dbData])
+    }, [form, dbData]);
+
+    useEffect(() => {
+        const calculateSavingData = () => {
+            // Only calculate if we have a selected plant
+            if (!activePlantDbData) return;
+
+            const formValues = form.getValues();
+
+            // Get all the required values
+            const wantedPlantsPerMeterSquared = (formValues.wantedPlantsPerMeterSquared * 100) /
+                (formValues.germination * formValues.coefficientSecurity);
+
+            const sowingRatePlantsPerDecare = MetersSquaredToDecare(wantedPlantsPerMeterSquared);
+
+            const usedSeedsKgPerDecare = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
+                (formValues.purity * formValues.germination);
+
+            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerDecare;
+
+            // Create the saveable data
+            const saveableData: SowingRateSaveData = {
+                userId: authObj?.user?.id || '',
+                plantId: activePlantDbData.plant.plantId,
+                plantLatinName: activePlantDbData.plant.plantLatinName,
+                sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
+                sowingRatePlantsPerDecare: ToFixedNumber(sowingRatePlantsPerDecare, 0),
+                usedSeedsKgPerDecare: ToFixedNumber(usedSeedsKgPerDecare, 2),
+                internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
+                isDataValid: form.formState.isValid && Object.keys(warnings).length === 0
+            };
+
+            setDataToBeSaved(saveableData);
+        };
+
+        // Call immediately to update calculations on activePlantDbData change
+        calculateSavingData();
+
+        // Also subscribe to form changes
+        const subscription = form.watch(() => {
+            calculateSavingData();
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form, activePlantDbData, authObj]);
 
 
     async function onSubmit(data) {
         if (!authObj.isAuthenticated) {
-            toast.error("You need to be logged in to save this data");
+            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
             return;
         }
-        // const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
-        // if (!res.success) {
-        //     toast.error("Failed to save data", {
-        //         description: res.message,
-        //     });
-        //     console.log(res.message);
-        //     return;
-        // }
+        if (!activePlantDbData) {
+            toast.error("Не сте избрали растение за изчисление!");
+            return;
+        }
 
-        toast.success("Data saved successfully");
+        const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/sowing/history', "POST", dataToBeSaved);
+
+        if (!res.success) {
+            toast.error("Имаше грешка при запазване на изчислението", {
+                description: res.message,
+            });
+            console.log(res.message);
+            return;
+        }
+
+        toast.success("Изчислението е запазено успешно!");
     }
 
-    return { form, onSubmit, activePlantDbData };
+    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved };
 }
