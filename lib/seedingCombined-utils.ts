@@ -1,5 +1,6 @@
 import { CombinedHistoryData, CombinedHistoryDataPlant } from "@/components/PlantCombinedCharts/PlantCombinedCharts";
 import { z } from "zod";
+import { ToFixedNumber } from "./math-util";
 
 export const CreateZodSchemaForPlantRow = z.object({
     active: z.boolean(),
@@ -88,15 +89,6 @@ export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
     }
 }
 
-export function RoundToSecondStr(num: number) {
-    return num.toFixed(2);
-}
-
-//https://stackoverflow.com/a/29494612
-function ToFixedNumber(num: number, digits: number, base = 10) {
-    const pow = Math.pow(base, digits);
-    return (Math.round(num * pow) / pow);
-}
 
 //func to format the saved data to a format easy to use in graph display in the form itself
 //avoids fetches to the db

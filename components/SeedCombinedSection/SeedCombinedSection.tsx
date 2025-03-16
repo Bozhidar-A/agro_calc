@@ -1,5 +1,5 @@
 import { SeedCombinedRow } from "@/components/SeedCombinedRow/SeedCombinedRow";
-import { CalculateParticipation } from "@/lib/seedingCombinedUtils";
+import { CalculateParticipation } from "@/lib/seedingCombined-utils";
 
 export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }) {
     const participation = CalculateParticipation(form.watch(name));

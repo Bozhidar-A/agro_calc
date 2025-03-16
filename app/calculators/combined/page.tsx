@@ -6,7 +6,8 @@ import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombin
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { APICaller } from '@/lib/api-util';
-import { CalculateParticipation, FormatCombinedFormSavedToGraphDisplay, RoundToSecondStr } from '@/lib/seedingCombinedUtils';
+import { RoundToSecondStr } from '@/lib/math-util';
+import { CalculateParticipation, FormatCombinedFormSavedToGraphDisplay } from '@/lib/seedingCombined-utils';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';

@@ -23,6 +23,7 @@ model User {
   updatedAt                     DateTime                        @updatedAt
   RefreshToken                  RefreshToken[]
   SeedingDataCombinationHistory SeedingDataCombinationHistory[]
+  SowingRateHistory             SowingRateHistory[]
 }
 
 model RefreshToken {
@@ -45,6 +46,7 @@ model Plant {
   seedingDataCombination                 SeedingDataCombination?
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
   SowingRatePlant                        SowingRatePlant?
+  SowingRateHistory                      SowingRateHistory[]
 }
 
 //sowing rate
@@ -182,6 +184,19 @@ model SowingRateRowSpacingCm {
   // Relationship back to Plant
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
+}
+
+model SowingRateHistory {
+  id                                 String  @id @default(cuid())
+  plantId                            String
+  plant                              Plant   @relation(fields: [plantId], references: [id])
+  userId                             String
+  user                               User    @relation(fields: [userId], references: [id])
+  sowingRateSafeSeedsPerMeterSquared Float
+  sowingRatePlantsPerDecare          Float
+  usedSeedsKgPerDecare               Float
+  internalRowHeightCm                Float
+  isDataValid                        Boolean
 }
 
 //combined
