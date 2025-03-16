@@ -12,6 +12,7 @@ import { Leaf, Ruler, Scale, Droplet, Sprout } from "lucide-react"
 import useSowingRateForm from "@/app/hooks/useSowingRateForm"
 import { APICaller } from "@/lib/api-util"
 import { GetLangNameFromMap } from "@/lib/utils"
+import SowingCharts from "@/components/SowingCharts/SowingCharts"
 
 export interface SowingRateDBData {
     id: string
@@ -392,6 +393,10 @@ export default function SowingRate() {
                                             }
                                         </div>
                                     )}
+
+                                    {
+                                        form.formState.isValid && (<SowingCharts data={dataToBeSaved} />)
+                                    }
                                 </>
                             )}
                         </form>
