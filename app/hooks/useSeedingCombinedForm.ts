@@ -71,6 +71,13 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     function addWarning(field: string, message: string) {
         setWarnings((prev) => ({ ...prev, [field]: message }));
     }
+    function removeWarning(field: string) {
+        setWarnings((prev) => {
+            const newWarnings = { ...prev };
+            delete newWarnings[field];
+            return newWarnings;
+        });
+    }
 
     //object making react-hook-form and zod work together
     const formSchema = z
@@ -103,7 +110,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     //calculated vals
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
-            if (name?.includes('dropdownPlant')) {
+            if (name && name.includes('dropdownPlant')) {
                 const [section, index] = name.split('.');
                 const basePath = `${section}.${index}`;
 
@@ -116,7 +123,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 UpdateSeedingComboAndPriceDA(form, name, dbData);
             }
 
-            if (name.includes('seedingRate')) {
+            if (name && name.includes('seedingRate')) {
                 const [section, index] = name.split('.');
                 const basePath = `${section}.${index}`;
                 const item = form.getValues(basePath);
@@ -128,11 +135,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                             addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
                         }
                         else {
-                            setWarnings((prev) => {
-                                const newWarnings = { ...prev };
-                                delete newWarnings[`${basePath}.seedingRate`];
-                                return newWarnings;
-                            });
+                            removeWarning(`${basePath}.seedingRate`);
                         }
                     }
                 }
@@ -145,6 +148,33 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                 //will add the error for participation if one is applicable
                 //VERY VERY hacky
                 form.trigger(); // workaround trigger
+            }
+
+            if (name && name.includes("active")) {
+                const [section, index] = name.split('.');
+                const basePath = `${section}.${index}`;
+                const item = form.getValues(basePath);
+
+                if (!item.active) {
+                    //again hacky when active is false, clear all errors and warnings
+                    removeWarning(`${basePath}.seedingRate`);
+                    form.clearErrors(`${basePath}.seedingRate`);
+                    removeWarning(`${basePath}.participation`);
+                    form.clearErrors(`${basePath}.participation`);
+                } else {
+                    const selectedPlant = dbData.find((plant) => plant.id === item.id);
+                    if (selectedPlant) {
+                        if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
+                            addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
+                        } else {
+                            removeWarning(`${basePath}.seedingRate`);
+                            form.clearErrors(`${basePath}.seedingRate`);
+                        }
+                    }
+
+                    // // Revalidate participation if needed
+                    // form.trigger();
+                }
             }
 
             //update the final data to save to db
