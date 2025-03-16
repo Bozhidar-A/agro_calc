@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSLice';
 import { APICaller } from '@/lib/api-util';
+import Link from 'next/link';
 
 const schema = z.object({
   email: z.string().email('Invalid email address'),
@@ -83,6 +84,15 @@ export default function Login() {
             Submit
           </Button>
         </form>
+
+        <div className="flex items-center justify-center space-x-2">
+          <h2>Don't have an account?</h2>
+          <Button asChild>
+            <Link href="/auth/login" className="hover:underline">
+              Register
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
   );
