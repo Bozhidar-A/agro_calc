@@ -59,7 +59,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
             plants,
             totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
                 data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
-            userId: authObj.user.id,
+            userId: authObj?.user?.id || "",
             isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
         };
 
@@ -185,7 +185,9 @@ export default function useSeedingCombinedForm(authObj, dbData) {
     }, [form, dbData]);
 
     async function onSubmit(data) {
-        if (!authObj.isAuthenticated) {
+        let isAuthed = authObj?.isAuthenticated || false;
+
+        if (!isAuthed) {
             toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
             return;
         }
