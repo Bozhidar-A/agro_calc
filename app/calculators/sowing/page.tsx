@@ -318,14 +318,14 @@ export default function SowingRate() {
                                         />
                                         <BuildSowingRateRow
                                             varName="germination"
-                                            displayName="Кълнова способност"
+                                            displayName="Лабораторна кълняемост на семената"
                                             activePlantDbData={activePlantDbData}
                                             form={form}
                                             icon={<Leaf className="h-5 w-5" />}
                                         />
                                         <BuildSowingRateRow
                                             varName="rowSpacing"
-                                            displayName="Редово разстояние"
+                                            displayName="Междуредово разстояние"
                                             activePlantDbData={activePlantDbData}
                                             form={form}
                                             icon={<Ruler className="h-5 w-5" />}
@@ -382,15 +382,11 @@ export default function SowingRate() {
                                                 </CardContent>
                                             </Card>
 
-                                            {
-                                                authObj.isAuthenticated && (
-                                                    <div className="flex justify-center mt-8">
-                                                        <Button type="submit" size="lg" className="px-8 text-xl w-full">
-                                                            Запази изчислението
-                                                        </Button>
-                                                    </div>
-                                                )
-                                            }
+                                            <div className="flex justify-center mt-8">
+                                                <Button type="submit" size="lg" className="px-8 text-xl w-full">
+                                                    Запази изчислението
+                                                </Button>
+                                            </div>
                                         </div>
                                     )}
 
