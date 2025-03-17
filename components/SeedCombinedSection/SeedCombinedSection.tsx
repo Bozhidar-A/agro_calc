@@ -20,7 +20,7 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
 
     return (
         <Card className="overflow-hidden">
-            <CardHeader className={`${isOverLimit ? "bg-red-50" : "bg-muted"} pb-4`}>
+            <CardHeader className="bg-muted pb-4">
                 <CardTitle className="flex items-center gap-2 text-xl">
                     <Plant className="h-5 w-5" />
                     {title}
