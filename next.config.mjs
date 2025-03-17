@@ -19,4 +19,5 @@ export default withBundleAnalyzer({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  output: "standalone",
 });
