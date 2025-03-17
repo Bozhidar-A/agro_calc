@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "init-db": "npx prisma migrate reset --force",
     "dev": "next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
@@ -22,9 +23,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
-    "@mantine/core": "7.15.2",
-    "@mantine/form": "^7.15.2",
-    "@mantine/hooks": "7.15.2",
     "@next/bundle-analyzer": "^14.2.4",
     "@prisma/client": "^6.1.0",
     "@radix-ui/react-checkbox": "^1.1.4",
