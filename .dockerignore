@@ -1,9 +1,9 @@
-Dockerfile
-.dockerignore
+# Ignore node_modules and build files, but keep prisma and config files
 node_modules
-npm-debug.log
-README.md
-.env*
 .next
-.git
-# Add more files and directories according to your porject needs
+dist
+.env
+#allow prisma and config files
+!.next.config.mjs
+!.tsconfig.json
+!prisma

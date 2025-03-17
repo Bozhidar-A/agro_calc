@@ -9,9 +9,6 @@ export default withBundleAnalyzer({
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
-  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
