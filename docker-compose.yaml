@@ -1,0 +1,46 @@
+services:
+  agro_calc:
+    image: "ghcr.io/bozhidar-a/ba-bachelor-work:latest"
+    profiles:
+      - remote
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - agro_calc_db
+
+  agro_calc_local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "ba_bachelor_work:latest"
+    profiles:
+      - local
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - agro_calc_db
+
+  agro_calc_db:
+    image: postgres
+    restart: always
+    environment:
+      #without POSTGRES_USER it will default to postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: agro_calc_db
+    volumes:
+      - ./agro_calc_db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  agro_calc_db_data: 

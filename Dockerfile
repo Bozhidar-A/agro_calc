@@ -1,55 +1,69 @@
 #https://medium.com/@FandaSidak/dockerfile-with-next-js-app-using-yarn-4-fc553152a356
 #Dockerfile that works for nextjs and yarn
+#very heavily modified from the original
 
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS builder
-RUN corepack enable
+
+# Install necessary packages
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
+RUN corepack enable
+
 WORKDIR /app
 
+# Copy package.json and yarn lock files
+COPY package.json yarn.lock* ./
+
+# Create .yarnrc.yml file to ensure node-modules linking strategy
+RUN echo 'nodeLinker: "node-modules"' > .yarnrc.yml
+
 # Install dependencies
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN echo 'nodeLinker: "node-modules"' > ./.yarnrc.yml
 RUN yarn install --immutable
 
-# Copy Prisma schema and generate the Prisma Client
-COPY prisma ./prisma
+# Copy the rest of the application
+COPY . .
+
+# Generate Prisma client
 RUN npx prisma generate
 
-# Rebuild the source code only when needed
-COPY ./ ./
-COPY ./next.config.mjs ./tsconfig.json ./
-
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
+# Disable Next.js telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build the application
-RUN yarn run build
+RUN yarn build
 
 # Production image, copy all the files and run next
 FROM base AS runner
+
 WORKDIR /app
 
 ENV NODE_ENV production
 
+# Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY ./public ./public
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Copy public directory
+COPY --from=builder /app/public ./public
 
+# Copy build output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+# Copy Prisma files
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# Switch to non-root user
 USER nextjs
+
 EXPOSE 3000
+
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
-CMD ["node", "server.js"]
+
+# Run migrations and start the server
+CMD ["sh", "-c", "npx prisma migrate deploy && node server.js"]
