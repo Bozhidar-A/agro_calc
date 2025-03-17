@@ -35,8 +35,6 @@ export default function HomePage() {
                 </Button>
             </motion.div>
 
-            <Link href="/prot">Test Prot</Link>
-            <Link href="/idk">Test Non</Link>
             <p>{JSON.stringify(authObj)}</p>
         </div>
     );

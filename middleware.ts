@@ -25,22 +25,11 @@ export async function middleware(request: NextRequest) {
         }
     };
 
-    // Prefire internal requests
-    if (request.headers.get('x-internal-request') === process.env.INTERNAL_API_REQUEST_SECRET) {
-        Log(["middleware"], "Internal request detected, continuing");
-        return NextResponse.next();
-    }
-
-    // Special GraphQL handling
-    if (request.nextUrl.pathname === routeDefinitions.protected.graphql && request.headers.has('x-internal-request')) {
-        Log(["middleware"], "Internal request detected for GraphQL, continuing");
-        return NextResponse.next();
-    }
-
     const cookieStore = await cookies();
     const { pathname } = request.nextUrl;
 
     if (pathname === "/") {
+        Log(["middleware"], `Trying to access root route, letting through`);
         return NextResponse.next();
     }
 
