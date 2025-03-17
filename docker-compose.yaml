@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "ba_bachelor_work:latest"
+    image: "ghcr.io/bozhidar-a/ba-bachelor-work:latest"
     profiles:
       - local
     ports:
