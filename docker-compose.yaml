@@ -25,16 +25,16 @@ services:
       - agro_calc_db
 
   agro_calc_db:
-    image: postgres
+    image: postgres:latest
     restart: always
     environment:
       #without POSTGRES_USER it will default to postgres
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: LwFWA8uLTz6qwJoLKM6owXqUEaQrdJMw3FVhKuWJHx4j9u62Qu6FYTSwvWopuzot
       POSTGRES_DB: agro_calc_db
     volumes:
       - ./agro_calc_db_data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5433:5432
 
   adminer:
     image: adminer
