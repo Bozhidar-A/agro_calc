@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/${{ github.actor }}/bozhidar-a-bachelor-work:latest # Change to your image name
+  IMAGE_NAME: ghcr.io/bozhidar-a/ba-bachelor-work:latest"
 
 jobs:
   publish:
