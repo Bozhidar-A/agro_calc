@@ -1,0 +1,9 @@
+# Ignore node_modules and build files, but keep prisma and config files
+node_modules
+.next
+dist
+.env
+#allow prisma and config files
+!.next.config.mjs
+!.tsconfig.json
+!prisma
