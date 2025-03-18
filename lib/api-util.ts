@@ -7,7 +7,7 @@ export async function APICaller(logPath: string[], route: string, method: string
 
     Log(logPath, `Calling ${route} with ${JSON.stringify(variables)}`);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST_URL}${route}`, {
+    const res = await fetch(`${route}`, {
         method,
         credentials: 'include',
         headers,

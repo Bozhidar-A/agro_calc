@@ -1,0 +1,40 @@
+name: publish
+
+on:
+  push:
+    branches: ['release']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ghcr.io/${{ github.actor }}/bozhidar-a-bachelor-work:latest # Change to your image name
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Login to GitHub Container Registry (ghcr.io)
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GHCR_TOKEN }}
+
+    - name: Build and push image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ env.IMAGE_NAME }}
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify Watchtower to update container
+      run: |
+        curl -X POST "http://85.235.66.241:6000/v1/update" \
+          -H "Authorization: Bearer ${{ secrets.WATCHTOWER_API_TOKEN }}" \
+          -H "Content-Type: application/json"
