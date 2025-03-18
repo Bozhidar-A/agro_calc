@@ -28,13 +28,3 @@ jobs:
         context: .
         push: true
         tags: ${{ env.IMAGE_NAME }}
-
-  deploy:
-    needs: publish
-    runs-on: ubuntu-latest
-    steps:
-    - name: Notify Watchtower to update container
-      run: |
-        curl -X POST "http://85.235.66.241:6000/v1/update" \
-          -H "Authorization: Bearer ${{ secrets.WATCHTOWER_API_TOKEN }}" \
-          -H "Content-Type: application/json"
