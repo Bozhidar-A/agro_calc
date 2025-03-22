@@ -1,10 +1,16 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { jwtVerify, SignJWT } from 'jose';
-import { Log } from './logger';
-import { CreateNewUser, DeleteAllRefreshTokensByUserId, FindRefreshToken, FindUserByEmail, InsertRefreshTokenByUserId } from '@/prisma/prisma-utils';
 import { compare } from 'bcryptjs';
+import { jwtVerify, SignJWT } from 'jose';
+import {
+  CreateNewUser,
+  DeleteAllRefreshTokensByUserId,
+  FindRefreshToken,
+  FindUserByEmail,
+  InsertRefreshTokenByUserId,
+} from '@/prisma/prisma-utils';
+import { Log } from './logger';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -58,6 +64,41 @@ export async function BackendRegister(email: string, password: string) {
       return { success: false, message: 'User already exists' };
     }
 
+    //force checks the format text@text.text
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      Log(['auth', 'register'], `Invalid email: ${email}`);
+      return { success: false, message: 'Invalid email' };
+    }
+
+    //force checks the password according to the frontend zod schema
+    // password: z
+    //       .string()
+    //       .min(6, 'Password is too short')
+    //       .regex(/[a-z]/, 'Password must contain a lowercase letter')
+    //       .regex(/[A-Z]/, 'Password must contain an uppercase letter')
+    //       .regex(/[0-9]/, 'Password must contain a number'),
+    //        .regex(/[$-/:-?{-~!"^_`\[\]]/, 'Password must contain at least one special character'),
+    if (password.length < 6) {
+      Log(['auth', 'register'], `Password too short: ${email}`);
+      return { success: false, message: 'Password too short' };
+    }
+    if (!/[a-z]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a lowercase letter: ${email}`);
+      return { success: false, message: 'Password must contain a lowercase letter' };
+    }
+    if (!/[A-Z]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain an uppercase letter: ${email}`);
+      return { success: false, message: 'Password must contain an uppercase letter' };
+    }
+    if (!/[0-9]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a number: ${email}`);
+      return { success: false, message: 'Password must contain a number' };
+    }
+    if (!/[$-/:-?{-~!"^_`\[\]]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a special character: ${email}`);
+      return { success: false, message: 'Password must contain a special character' };
+    }
+
     //create the user
     const newUser = await CreateNewUser(email, password);
 
@@ -84,14 +125,17 @@ export async function BackendLogin(email: string, password: string) {
     }
 
     //compare passwords
-    if (!await compare(password, user.password)) {
+    if (!(await compare(password, user.password))) {
       Log(['auth', 'login'], `Invalid password for user ${user.id}`);
     }
 
     //delete all old refresh tokens
     //just in case
     const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
-    Log(['auth', 'login'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`);
+    Log(
+      ['auth', 'login'],
+      `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`
+    );
 
     // Generate refresh token (long-lived)
     const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
@@ -167,13 +211,15 @@ export async function BackendLogout(userId: string) {
     const refreshTokenVal = cookieStore.get('refreshToken')?.value;
 
     if (refreshTokenVal) {
-
       //ugly hack 2
       if (process.env.NEXT_RUNTIME === 'nodejs') {
         //delete all refresh tokens
         const deletedTokensCount = await DeleteAllRefreshTokensByUserId(userId);
 
-        Log(['auth', 'logout'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`);
+        Log(
+          ['auth', 'logout'],
+          `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`
+        );
       }
     } else {
       // No refresh token found
