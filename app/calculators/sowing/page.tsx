@@ -1,405 +1,465 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { toast } from "sonner"
-import { Form, FormField } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Leaf, Ruler, Scale, Droplet, Sprout } from "lucide-react"
-import useSowingRateForm from "@/app/hooks/useSowingRateForm"
-import { APICaller } from "@/lib/api-util"
-import { GetLangNameFromMap } from "@/lib/utils"
-import SowingCharts from "@/components/SowingCharts/SowingCharts"
+import { useEffect, useState } from 'react';
+import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { toast } from 'sonner';
+import useSowingRateForm from '@/app/hooks/useSowingRateForm';
+import { useTranslate } from '@/app/hooks/useTranslate';
+import SowingCharts from '@/components/SowingCharts/SowingCharts';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Form, FormField } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { APICaller } from '@/lib/api-util';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export interface SowingRateDBData {
-    id: string
-    plant: Plant
-    coefficientSecurity: CoefficientSecurity
-    wantedPlantsPerMeterSquared: WantedPlantsPerMeterSquared
-    massPer1000g: MassPer1000g
-    purity: Purity
-    germination: Germination
-    rowSpacing: RowSpacing
+  id: string;
+  plant: Plant;
+  coefficientSecurity: CoefficientSecurity;
+  wantedPlantsPerMeterSquared: WantedPlantsPerMeterSquared;
+  massPer1000g: MassPer1000g;
+  purity: Purity;
+  germination: Germination;
+  rowSpacing: RowSpacing;
 }
 
 interface Plant {
-    plantId: string
-    plantLatinName: string
+  plantId: string;
+  plantLatinName: string;
 }
 
 interface CoefficientSecurity {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 interface WantedPlantsPerMeterSquared {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 interface MassPer1000g {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 interface Purity {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 interface Germination {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 interface RowSpacing {
-    type: string // "slider" or "const"
-    unit: string
-    step?: number
-    minSliderVal?: number
-    maxSliderVal?: number
-    constValue?: number
+  type: string; // "slider" or "const"
+  unit: string;
+  step?: number;
+  minSliderVal?: number;
+  maxSliderVal?: number;
+  constValue?: number;
 }
 
 function FetchUnitIfExist(data) {
-    return data.unit ? `${data.unit}` : ""
+  return data.unit ? `${data.unit}` : '';
 }
 
-interface BuildSowingRateRowProps<T extends Exclude<keyof SowingRateDBData, "plant">> {
-    varName: T
-    displayName: string
-    activePlantDbData: SowingRateDBData
-    form: any
-    icon: React.ReactNode
+interface BuildSowingRateRowProps<T extends Exclude<keyof SowingRateDBData, 'plant'>> {
+  varName: T;
+  displayName: string;
+  activePlantDbData: SowingRateDBData;
+  form: any;
+  icon: React.ReactNode;
+  translator: (key: string) => string;
 }
 
-function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, "plant">>({
-    varName,
-    displayName,
-    activePlantDbData,
-    form,
-    icon,
+function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>({
+  varName,
+  displayName,
+  activePlantDbData,
+  form,
+  icon,
+  translator,
 }: BuildSowingRateRowProps<T>) {
-    const neededData = activePlantDbData[varName]
+  const neededData = activePlantDbData[varName];
 
-    let inputValidityClass = "border-green-500 focus-visible:ring-green-500";
-    let inputValidityClassSlider = "within-safe-range";
+  let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
+  let inputValidityClassSlider = 'within-safe-range';
 
-    if (neededData.type === "slider") {
-        if (form.watch(varName) < neededData.minSliderVal || form.watch(varName) > neededData.maxSliderVal) {
-            inputValidityClass = "border-red-500 focus-visible:ring-red-500"
-            inputValidityClassSlider = "outside-safe-range"
-        }
-    } else if (neededData.type === "const") {
-        if (form.watch(varName) < neededData.constValue || form.watch(varName) > neededData.constValue) {
-            inputValidityClass = "border-red-500 focus-visible:ring-red-500"
-            inputValidityClassSlider = "outside-safe-range";
-        }
+  if (neededData.type === 'slider') {
+    if (
+      form.watch(varName) < neededData.minSliderVal ||
+      form.watch(varName) > neededData.maxSliderVal
+    ) {
+      inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
+      inputValidityClassSlider = 'outside-safe-range';
     }
+  } else if (neededData.type === 'const') {
+    if (
+      form.watch(varName) < neededData.constValue ||
+      form.watch(varName) > neededData.constValue
+    ) {
+      inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
+      inputValidityClassSlider = 'outside-safe-range';
+    }
+  }
 
-    return (
-        <Card className="overflow-hidden">
-            <CardHeader className="bg-muted pb-2">
-                <CardTitle className="flex items-center gap-2 text-lg">
-                    {icon}
-                    {displayName}
-                </CardTitle>
-                <CardDescription>
-                    {neededData.type === "slider"
-                        ? `Препоръчителен диапазон: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
-                        : `Препорачителна стойност: ${neededData.constValue || ""} ${FetchUnitIfExist(neededData)}`}
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4">
-                <div className="flex flex-col gap-2">
-                    {neededData.type === "slider" ? (
-                        <>
-                            <FormField
-                                control={form.control}
-                                name={varName}
-                                render={({ field }) => (
-                                    <Input className={`text-center text-xl ${inputValidityClass}`}
-                                        type="number"
-                                        {...field}
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)} />
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name={varName}
-                                render={({ field }) => (
-                                    <Input
-                                        className={`w-full ${inputValidityClassSlider}`}
-                                        type="range"
-                                        min={neededData.minSliderVal}
-                                        max={neededData.maxSliderVal}
-                                        step={0.01}
-                                        {...field}
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                                    />
-                                )}
-                            />
-                        </>
-                    ) : (
-                        <FormField
-                            control={form.control}
-                            name={varName}
-                            render={({ field }) => (
-                                <Input className={`text-center text-xl ${inputValidityClass}`}
-                                    type="number"
-                                    {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
-                            )}
-                        />
-                    )}
-                    <div className="text-center font-medium mt-1">
-                        {`${form.watch(varName) || 0} ${FetchUnitIfExist(neededData)}`}
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    )
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="bg-muted pb-2">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          {icon}
+          {displayName}
+        </CardTitle>
+        <CardDescription>
+          {neededData.type === 'slider'
+            ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
+            : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue || ''} ${FetchUnitIfExist(neededData)}`}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="pt-4">
+        <div className="flex flex-col gap-2">
+          {neededData.type === 'slider' ? (
+            <>
+              <FormField
+                control={form.control}
+                name={varName}
+                render={({ field }) => (
+                  <Input
+                    className={`text-center text-xl ${inputValidityClass}`}
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                  />
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={varName}
+                render={({ field }) => (
+                  <Input
+                    className={`w-full ${inputValidityClassSlider}`}
+                    type="range"
+                    min={neededData.minSliderVal}
+                    max={neededData.maxSliderVal}
+                    step={0.01}
+                    {...field}
+                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                  />
+                )}
+              />
+            </>
+          ) : (
+            <FormField
+              control={form.control}
+              name={varName}
+              render={({ field }) => (
+                <Input
+                  className={`text-center text-xl ${inputValidityClass}`}
+                  type="number"
+                  {...field}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                />
+              )}
+            />
+          )}
+          <div className="text-center font-medium mt-1">
+            {`${form.watch(varName) || 0} ${FetchUnitIfExist(neededData)}`}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }
 
-function DisplayOutputRow({ data, text, unit }: { data: number, text: string, unit: string }) {
-    return (
-        <div className="flex flex-row justify-between items-center gap-4">
-            <div className="text-lg font-medium">{text}:</div>
-            <div className="text-lg font-bold">{data}, {unit}</div>
-        </div>
-    )
+function DisplayOutputRow({ data, text, unit }: { data: number; text: string; unit: string }) {
+  return (
+    <div className="flex flex-row justify-between items-center gap-4">
+      <div className="text-lg font-medium">{text}:</div>
+      <div className="text-lg font-bold">
+        {data}, {unit}
+      </div>
+    </div>
+  );
 }
 
 export default function SowingRate() {
-    const authObj = useSelector((state) => state.auth)
-    const [dbData, setDbData] = useState<SowingRateDBData[]>([])
-    const [calculatedRate, setCalculatedRate] = useState<number | null>(null)
+  const authObj = useSelector((state) => state.auth);
+  const translator = useTranslate();
+  const [dbData, setDbData] = useState<SowingRateDBData[]>([]);
+  const [calculatedRate, setCalculatedRate] = useState<number | null>(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await APICaller(["calc", "sowingRate", "page", "init"], "/api/calc/sowing/input", "GET")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await APICaller(
+          ['calc', 'sowingRate', 'page', 'init'],
+          '/api/calc/sowing/input',
+          'GET'
+        );
 
-                if (!res.success) {
-                    toast.error("Грешка при зареждане на данните", {
-                        description: res.message,
-                    })
-                    return
-                }
-
-                setDbData(res.data)
-            } catch (error) {
-                toast.error("Грешка при зареждане на данните", {
-                    description: "Моля, опитайте отново по-късно.",
-                })
-            }
+        if (!res.success) {
+          toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+            description: res.message,
+          });
+          return;
         }
-        fetchData()
-    }, [])
 
-    const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(authObj, dbData)
+        setDbData(res.data);
+      } catch (error) {
+        toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+          description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+        });
+      }
+    };
+    fetchData();
+  }, []);
 
-    // Calculate sowing rate when form values change
-    useEffect(() => {
-        if (activePlantDbData && form.watch("cultureLatinName")) {
-            const coefficientSecurity = form.watch("coefficientSecurity") || 0
-            const wantedPlants = form.watch("wantedPlantsPerMeterSquared") || 0
-            const massPer1000g = form.watch("massPer1000g") || 0
-            const purity = form.watch("purity") || 0
-            const germination = form.watch("germination") || 0
-            const rowSpacing = form.watch("rowSpacing") || 0
+  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(
+    authObj,
+    dbData
+  );
 
-            if (coefficientSecurity && wantedPlants && massPer1000g && purity && germination && rowSpacing) {
-                // Formula: (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) / (purity * germination * 1000)
-                const rate = (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) / (purity * germination * 1000)
-                setCalculatedRate(Number.parseFloat(rate.toFixed(2)))
-            }
-        }
-    }, [form.watch(), activePlantDbData])
+  // Calculate sowing rate when form values change
+  useEffect(() => {
+    if (activePlantDbData && form.watch('cultureLatinName')) {
+      const coefficientSecurity = form.watch('coefficientSecurity') || 0;
+      const wantedPlants = form.watch('wantedPlantsPerMeterSquared') || 0;
+      const massPer1000g = form.watch('massPer1000g') || 0;
+      const purity = form.watch('purity') || 0;
+      const germination = form.watch('germination') || 0;
+      const rowSpacing = form.watch('rowSpacing') || 0;
 
-    return (
-        <div className="container mx-auto py-8 px-4">
-            <Card className="w-full max-w-7xl mx-auto">
-                <CardHeader className="text-center bg-primary text-primary-foreground">
-                    <CardTitle className="text-3xl">Калкулатор за сеитбена норма</CardTitle>
-                    <CardDescription className="text-primary-foreground/80 text-lg">
-                        Изчислете точната сеитбена норма за вашите култури
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-6">
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                            <div className="space-y-4 flex flex-col items-center">
-                                <h2 className="text-2xl font-semibold">Изберете култура</h2>
-                                <FormField
-                                    control={form.control}
-                                    name="cultureLatinName"
-                                    render={({ field }) => (
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="text-xl py-6">
-                                                <SelectValue placeholder="Изберете култура" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {dbData.map((plant) => (
-                                                    <SelectItem
-                                                        key={plant.plant.plantId}
-                                                        value={plant.plant.plantLatinName}
-                                                        className="text-lg py-3"
-                                                    >
-                                                        {GetLangNameFromMap("bg", plant.plant.plantLatinName)}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    )}
-                                />
-                            </div>
+      if (
+        coefficientSecurity &&
+        wantedPlants &&
+        massPer1000g &&
+        purity &&
+        germination &&
+        rowSpacing
+      ) {
+        // Formula: (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) / (purity * germination * 1000)
+        const rate =
+          (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) /
+          (purity * germination * 1000);
+        setCalculatedRate(Number.parseFloat(rate.toFixed(2)));
+      }
+    }
+  }, [form.watch(), activePlantDbData]);
 
-                            {form.watch("cultureLatinName") && activePlantDbData && (
-                                <>
-                                    <div className="bg-muted p-4 rounded-lg mb-6 flex flex-col items-center">
-                                        <h3 className="text-xl font-medium mb-2">Избрана култура</h3>
-                                        <p className="text-2xl font-bold">
-                                            {GetLangNameFromMap("bg", form.watch("cultureLatinName"))}
-                                            <span className="text-muted-foreground ml-2"><i>({form.watch("cultureLatinName")})</i></span>
-                                        </p>
-                                    </div>
+  return (
+    <div className="container mx-auto py-8 px-4">
+      <Card className="w-full max-w-7xl mx-auto">
+        <CardHeader className="text-center bg-primary text-primary-foreground">
+          <CardTitle className="text-3xl">
+            {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC)}
+          </CardTitle>
+          <CardDescription className="text-primary-foreground/80 text-lg">
+            <Button
+              type="button"
+              onClick={() => {
+                alert('IMPLEMENT TUTORIAL WITH REACT-JOYRIDE HERE');
+              }}
+              className="bg-sky-500 text-white hover:bg-sky-600"
+            >
+              {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
+            </Button>
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="space-y-4 flex flex-col items-center">
+                <h2 className="text-2xl font-semibold">
+                  {translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
+                </h2>
+                <FormField
+                  control={form.control}
+                  name="cultureLatinName"
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="text-xl py-6">
+                        <SelectValue
+                          placeholder={translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {dbData.map((plant) => (
+                          <SelectItem
+                            key={plant.plant.plantId}
+                            value={plant.plant.plantLatinName}
+                            className="text-lg py-3"
+                          >
+                            {translator(plant.plant.plantLatinName)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        <BuildSowingRateRow
-                                            varName="coefficientSecurity"
-                                            displayName="Коефициент сигурност"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Scale className="h-5 w-5" />}
-                                        />
-                                        <BuildSowingRateRow
-                                            varName="wantedPlantsPerMeterSquared"
-                                            displayName="Желани растения на кв. м"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Sprout className="h-5 w-5" />}
-                                        />
-                                        <BuildSowingRateRow
-                                            varName="massPer1000g"
-                                            displayName="Маса на 1000g семена"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Scale className="h-5 w-5" />}
-                                        />
-                                        <BuildSowingRateRow
-                                            varName="purity"
-                                            displayName="Чистота"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Droplet className="h-5 w-5" />}
-                                        />
-                                        <BuildSowingRateRow
-                                            varName="germination"
-                                            displayName="Лабораторна кълняемост на семената"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Leaf className="h-5 w-5" />}
-                                        />
-                                        <BuildSowingRateRow
-                                            varName="rowSpacing"
-                                            displayName="Междуредово разстояние"
-                                            activePlantDbData={activePlantDbData}
-                                            form={form}
-                                            icon={<Ruler className="h-5 w-5" />}
-                                        />
-                                    </div>
+              {form.watch('cultureLatinName') && activePlantDbData && (
+                <>
+                  <div className="bg-muted p-4 rounded-lg mb-6 flex flex-col items-center">
+                    <h3 className="text-xl font-medium mb-2">
+                      {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
+                    </h3>
+                    <p className="text-2xl font-bold">
+                      {translator(form.watch('cultureLatinName'))}
+                      <span className="text-muted-foreground ml-2">
+                        <i>({form.watch('cultureLatinName')})</i>
+                      </span>
+                    </p>
+                  </div>
 
-                                    {
-                                        Object.keys(warnings).length > 0 && (
-                                            <div className="flex flex-col items-center space-y-4 mt-8">
-                                                <h2 className="text-yellow-500 text-xl">Имате стойности извън препоръчани лимит!</h2>
-                                            </div>
-                                        )
-                                    }
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <BuildSowingRateRow
+                      varName="coefficientSecurity"
+                      displayName={translator(
+                        SELECTABLE_STRINGS.SOWING_RATE_INPUT_COEFFICIENT_SECURITY
+                      )}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Scale className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                    <BuildSowingRateRow
+                      varName="wantedPlantsPerMeterSquared"
+                      displayName={translator(
+                        SELECTABLE_STRINGS.SOWING_RATE_INPUT_WANTED_PLANTS_PER_M2
+                      )}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Sprout className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                    <BuildSowingRateRow
+                      varName="massPer1000g"
+                      displayName={translator(
+                        SELECTABLE_STRINGS.SOWING_RATE_INPUT_MASS_PER_1000g_SEEDS
+                      )}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Scale className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                    <BuildSowingRateRow
+                      varName="purity"
+                      displayName={translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_PURITY)}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Droplet className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                    <BuildSowingRateRow
+                      varName="germination"
+                      displayName={translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_GERMINATION)}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Leaf className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                    <BuildSowingRateRow
+                      varName="rowSpacing"
+                      displayName={translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_ROW_SPACING)}
+                      activePlantDbData={activePlantDbData}
+                      form={form}
+                      icon={<Ruler className="h-5 w-5" />}
+                      translator={translator}
+                    />
+                  </div>
 
-                                    {/* <p>{JSON.stringify(form.formState.errors)}</p>
-                                    <p>{JSON.stringify(warnings)}</p> */}
+                  {Object.keys(warnings).length > 0 && (
+                    <div className="flex flex-col items-center space-y-4 mt-8">
+                      <h2 className="text-yellow-500 text-xl">
+                        {translator(SELECTABLE_STRINGS.HAS_VALUE_OUTSIDE_SUGGESTED_RANGE)}
+                      </h2>
+                    </div>
+                  )}
 
-                                    {form.formState.isValid && calculatedRate !== null && (
-                                        <div>
-                                            <Card className="mt-8 bg-primary text-primary-foreground">
-                                                <CardContent className="pt-6">
-                                                    <div className="flex flex-col items-center justify-center space-y-4">
-                                                        <DisplayOutputRow
-                                                            data={dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}
-                                                            text="Сеитбена норма"
-                                                            unit="брой семена на m²"
-                                                        />
-                                                        <DisplayOutputRow
-                                                            data={dataToBeSaved.sowingRatePlantsPerDecare}
-                                                            text="Сеитбена норма"
-                                                            unit="брой растения на декар"
-                                                        />
-                                                        <DisplayOutputRow
-                                                            data={dataToBeSaved.usedSeedsKgPerDecare}
-                                                            text="Използвани семена"
-                                                            unit="кг/дка"
-                                                        />
-                                                        <DisplayOutputRow
-                                                            data={dataToBeSaved.internalRowHeightCm}
-                                                            text="Междуредно разстояние"
-                                                            unit="см"
-                                                        />
-                                                        <p className="text-primary-foreground/80 text-center max-w-lg">
-                                                            Това е препоръчителната сеитбена норма базирана на въведените от вас параметри. Може да варира според конкретните условия на полето.
-                                                        </p>
-                                                        {/* <p>
-                                                            {JSON.stringify(activePlantDbData)}
-                                                        </p>
-                                                        <p>
-                                                            {JSON.stringify(dataToBeSaved)}
-                                                        </p> */}
-                                                    </div>
+                  {form.formState.isValid && calculatedRate !== null && (
+                    <div>
+                      <Card className="mt-8 bg-primary text-primary-foreground">
+                        <CardContent className="pt-6">
+                          <div className="flex flex-col items-center justify-center space-y-4">
+                            <DisplayOutputRow
+                              data={dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              unit={translator(
+                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PER_M2
+                              )}
+                            />
+                            <DisplayOutputRow
+                              data={dataToBeSaved.sowingRatePlantsPerDecare}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              unit={translator(
+                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PER_DA
+                              )}
+                            />
+                            <DisplayOutputRow
+                              data={dataToBeSaved.usedSeedsKgPerDecare}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_DA)}
+                            />
+                            <DisplayOutputRow
+                              data={dataToBeSaved.internalRowHeightCm}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
+                            />
+                            <p className="text-primary-foreground/80 text-center max-w-lg">
+                              {translator(SELECTABLE_STRINGS.SOWING_RATE_THIS_IS_SUGGESTED)}:
+                            </p>
+                          </div>
+                        </CardContent>
+                      </Card>
 
-                                                </CardContent>
-                                            </Card>
+                      <div className="flex justify-center mt-8">
+                        <Button type="submit" size="lg" className="px-8 text-xl w-full">
+                          {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
 
-                                            <div className="flex justify-center mt-8">
-                                                <Button type="submit" size="lg" className="px-8 text-xl w-full">
-                                                    Запази изчислението
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {
-                                        form.formState.isValid && (<SowingCharts data={dataToBeSaved} />)
-                                    }
-                                </>
-                            )}
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-        </div>
-    )
+                  {form.formState.isValid && <SowingCharts data={dataToBeSaved} />}
+                </>
+              )}
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
-
