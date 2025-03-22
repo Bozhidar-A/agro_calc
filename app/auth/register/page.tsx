@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { BackendRegister } from '@/lib/auth-utils';
 import { APICaller } from '@/lib/api-util';
 
 const schema = z
@@ -36,6 +35,7 @@ export default function Register() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
+    mode: 'onChange',
   });
   const router = useRouter();
 
@@ -57,7 +57,7 @@ export default function Register() {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
       <div className="w-full max-w-md space-y-6 p-8">
         <h2 className="text-2xl font-bold text-center text-green-500">Register</h2>
-        <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" {...register('email')} />
