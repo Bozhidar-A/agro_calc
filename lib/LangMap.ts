@@ -2,7 +2,7 @@
 
 import { THEMES } from './LocalSettingsMaps';
 
-interface LangMap {
+interface LangMapInteraface {
   [key: string]: {
     [key: string]: string;
   };
@@ -80,7 +80,7 @@ export enum SELECTABLE_STRINGS {
   SOWING_RATE_VIZ_PLANTING_EFFICIENCY_SUGGESTED = 'SOWING_RATE_VIZ_PLANTING_EFFICIENCY_SUGGESTED',
 }
 
-const LangMap: LangMap = {
+const LangMap: LangMapInteraface = {
   BG: {
     //plants
     'Pisum sativum': 'Грах',
