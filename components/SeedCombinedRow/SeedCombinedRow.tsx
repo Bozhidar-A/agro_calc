@@ -3,8 +3,8 @@
 import { Input } from "@/components/ui/input"
 import { FormField } from "@/components/ui/form"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { GetLangNameFromMap } from "@/lib/utils"
 import { Checkbox } from "@/components/ui/checkbox"
+import { useTranslate } from "@/app/hooks/useTranslate"
 import { cn } from "@/lib/utils"
 
 interface SeedCombinedRowProps {
@@ -15,6 +15,8 @@ interface SeedCombinedRowProps {
 }
 
 export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowProps) {
+    const translator = useTranslate();
+
     // Get the selected plant
     const selectedPlant = dbData.find((plant) => plant.id === form.watch(`${name}.${index}.id`))
 
@@ -59,7 +61,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
                                             value={plant.latinName}
                                             disabled={selectedPlantNames.includes(plant.latinName) && field.value !== plant.latinName}
                                         >
-                                            {GetLangNameFromMap("bg", plant.latinName)}
+                                            {translator(plant.latinName)}
                                         </SelectItem>
                                     ),
                             )}

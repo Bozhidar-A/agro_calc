@@ -1,7 +1,7 @@
 "use client";
 import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GetLangNameFromMap } from "@/lib/utils";
+import { useTranslate } from "@/app/hooks/useTranslate";
 
 export interface CombinedHistoryDataPlant {
     plantLatinName: string;
@@ -24,6 +24,8 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
         return null;
     }
 
+    const translator = useTranslate();
+
     // The data already has the correct property names
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -35,7 +37,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={data.plants}>
-                            <XAxis dataKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} />
+                            <XAxis dataKey={(item) => translator(item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />
@@ -53,7 +55,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
-                            <Pie data={data.plants} dataKey="participation" nameKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} fill="#82ca9d" label />
+                            <Pie data={data.plants} dataKey="participation" nameKey={(item) => translator(item.plantLatinName)} fill="#82ca9d" label />
                             <Tooltip />
                             <Legend />
                         </PieChart>
@@ -69,7 +71,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={data.plants}>
-                            <XAxis dataKey={(item) => GetLangNameFromMap('bg', item.plantLatinName)} />
+                            <XAxis dataKey={(item) => translator(item.plantLatinName)} />
                             <YAxis />
                             <Tooltip />
                             <Legend />
