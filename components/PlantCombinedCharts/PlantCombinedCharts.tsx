@@ -81,20 +81,31 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 </CardContent>
             </Card>
 
-            {/* Scatter Chart: Seeding Rate vs Combined Rate */}
+            {/* Replace Scatter Chart with Grouped Bar Chart */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Седибена норма самосточтелно срещу в смеска</CardTitle>
+                    <CardTitle>Сравнение на сеидбени норми</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                        <ScatterChart>
-                            <XAxis dataKey="seedingRate" name="Сеидбена норма - самостоятелно" />
-                            <YAxis dataKey="combinedRate" name="Сеидбена норма - в смескат" />
-                            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                        <BarChart data={data.plants}>
+                            <XAxis dataKey={(item) => translator(item.plantLatinName)} />
+                            <YAxis />
+                            <Tooltip />
                             <Legend />
-                            <Scatter name="Растение" data={data.plants} fill="#0088FE" />
-                        </ScatterChart>
+                            <Bar
+                                dataKey="seedingRate"
+                                fill="#8884d8"
+                                name="Сеидбена норма - самостоятелно"
+                                radius={[4, 4, 0, 0]}
+                            />
+                            <Bar
+                                dataKey="combinedRate"
+                                fill="#82ca9d"
+                                name="Сеидбена норма - в смеската"
+                                radius={[4, 4, 0, 0]}
+                            />
+                        </BarChart>
                     </ResponsiveContainer>
                 </CardContent>
             </Card>

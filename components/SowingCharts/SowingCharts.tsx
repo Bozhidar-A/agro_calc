@@ -6,11 +6,6 @@ import {
   Legend,
   Pie,
   PieChart,
-  PolarAngleAxis,
-  PolarGrid,
-  PolarRadiusAxis,
-  Radar,
-  RadarChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -114,27 +109,50 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Radar Chart - Overall view of all metrics */}
+        {/* Metrics Overview - Custom display for large numbers */}
         <Card>
           <CardHeader>
             <CardTitle>{translator(SELECTABLE_STRINGS.SOWING_RATE_VIZ_ALL_ELEMENTS)}</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <RadarChart outerRadius={90} data={radarData}>
-                <PolarGrid />
-                <PolarAngleAxis dataKey="metric" />
-                <PolarRadiusAxis angle={30} domain={[0, 'auto']} />
-                <Radar
-                  name={plantName}
-                  dataKey="value"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                  fillOpacity={0.6}
-                />
-                <Tooltip />
-              </RadarChart>
-            </ResponsiveContainer>
+            <div className="grid grid-cols-1 gap-4">
+              {radarData.map((item, index) => {
+                // Format the value based on its magnitude
+                const formatValue = (value: number) => {
+                  if (value >= 1000000) {
+                    return `${(value / 1000000).toFixed(1)}M`;
+                  }
+                  if (value >= 1000) {
+                    return `${(value / 1000).toFixed(1)}K`;
+                  }
+                  return value.toFixed(1);
+                };
+
+                // Calculate percentage of max value for visual indicator
+                const percentage = (item.value / item.fullMark) * 100;
+
+                return (
+                  <div key={item.metric} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">{item.metric}</span>
+                      <span className="text-sm font-bold">{formatValue(item.value)}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div
+                        className="h-2.5 rounded-full"
+                        style={{
+                          width: `${Math.min(percentage, 100)}%`,
+                          backgroundColor: COLORS[index % COLORS.length],
+                        }}
+                      />
+                    </div>
+                    <div className="text-xs text-gray-500 text-right">
+                      Max: {formatValue(item.fullMark)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </CardContent>
         </Card>
 
