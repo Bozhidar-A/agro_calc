@@ -63,13 +63,13 @@ export default function Combined() {
 
   if (!dbData || dbData.length === 0) {
     return (
-      <div className="container mx-auto py-8 flex items-center justify-center min-h-[50vh]">
+      <div className="container mx-auto py-4 sm:py-8 flex items-center justify-center min-h-[50vh]">
         <Card className="w-full max-w-md">
-          <CardContent className="pt-6 flex flex-col items-center">
-            <div className="animate-spin mb-4">
-              <PieChart className="h-10 w-10 text-primary" />
+          <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
+            <div className="animate-spin mb-3 sm:mb-4">
+              <PieChart className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
             </div>
-            <p className="text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
+            <p className="text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
           </CardContent>
         </Card>
       </div>
@@ -80,22 +80,22 @@ export default function Combined() {
     CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'));
   const totalPrice = RoundToSecondStr(
     form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-      form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)
+    form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)
   );
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-primary text-primary-foreground">
-          <CardTitle className="text-3xl">Сеитбена норма на смеска</CardTitle>
-          <CardDescription className="text-primary-foreground/80 text-lg">
+          <CardTitle className="text-2xl sm:text-3xl">Сеитбена норма на смеска</CardTitle>
+          <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             Изчислете точната сеитбена норма за вашите смески от култури
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
+        <CardContent className="pt-4 sm:pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+              <div className="space-y-4 sm:space-y-6">
                 <SeedCombinedSection
                   name="legume"
                   title="Многогодишни бобови фуражни култури"
@@ -114,33 +114,33 @@ export default function Combined() {
               </div>
 
               <Card className="overflow-hidden">
-                <CardHeader className="bg-muted pb-4">
-                  <CardTitle className="flex items-center gap-2 text-xl">
-                    <Leaf className="h-5 w-5" />
+                <CardHeader className="bg-muted pb-3 sm:pb-4">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                    <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                     Обобщение на смеската
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-4">
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center border-b pb-3">
-                      <span className="font-semibold text-xl">Общо участие в смеската:</span>
+                <CardContent className="pt-3 sm:pt-4">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
+                      <span className="font-semibold text-lg sm:text-xl">Общо участие в смеската:</span>
                       <span
-                        className={`text-xl font-bold ${totalParticipation !== 100 ? 'text-yellow-500' : 'text-green-500'}`}
+                        className={`text-lg sm:text-xl font-bold ${totalParticipation !== 100 ? 'text-yellow-500' : 'text-green-500'}`}
                       >
                         {totalParticipation}%
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center border-b pb-3">
-                      <span className="font-semibold text-xl">Крайна цена:</span>
+                    <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
+                      <span className="font-semibold text-lg sm:text-xl">Крайна цена:</span>
                       <div>
-                        <span className="text-xl font-bold">{totalPrice}</span>
-                        <span className="text-xl"> BGN</span>
+                        <span className="text-lg sm:text-xl font-bold">{totalPrice}</span>
+                        <span className="text-lg sm:text-xl"> BGN</span>
                       </div>
                     </div>
 
                     {form.formState.errors.root && (
-                      <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600">
+                      <div className="p-2 sm:p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm sm:text-base">
                         {form.formState.errors.root.message}
                       </div>
                     )}
@@ -154,8 +154,8 @@ export default function Combined() {
                                         )} */}
 
                     {Object.keys(warnings).length > 0 && (
-                      <div className="flex flex-col items-center space-y-4 mt-8">
-                        <h2 className="text-yellow-500 text-xl">
+                      <div className="flex flex-col items-center space-y-3 sm:space-y-4 mt-6 sm:mt-8">
+                        <h2 className="text-yellow-500 text-lg sm:text-xl text-center">
                           Имате стойности извън препоръчани лимит!
                         </h2>
                       </div>
@@ -167,7 +167,7 @@ export default function Combined() {
               {authObj.isAuthenticated && (
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full max-w-md mx-auto"
                   size="lg"
                   disabled={!form.formState.isValid}
                 >
@@ -176,11 +176,11 @@ export default function Combined() {
               )}
 
               {form.formState.isValid && (
-                <div className="mt-8">
+                <div className="mt-6 sm:mt-8">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Визуализация на смеската</CardTitle>
-                      <CardDescription>
+                      <CardTitle className="text-xl sm:text-2xl">Визуализация на смеската</CardTitle>
+                      <CardDescription className="text-base sm:text-lg">
                         Графично представяне на участието на културите в смеската
                       </CardDescription>
                     </CardHeader>
