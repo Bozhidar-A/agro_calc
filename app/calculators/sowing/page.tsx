@@ -279,29 +279,29 @@ export default function SowingRate() {
   }, [form.watch(), activePlantDbData]);
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-primary text-primary-foreground">
-          <CardTitle className="text-3xl">
+          <CardTitle className="text-2xl sm:text-3xl">
             {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC)}
           </CardTitle>
-          <CardDescription className="text-primary-foreground/80 text-lg">
+          <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
               type="button"
               onClick={() => {
                 alert('IMPLEMENT TUTORIAL WITH REACT-JOYRIDE HERE');
               }}
-              className="bg-sky-500 text-white hover:bg-sky-600"
+              className="bg-sky-500 text-white hover:bg-sky-600 text-sm sm:text-base"
             >
               {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
             </Button>
           </CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
+        <CardContent className="pt-4 sm:pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="space-y-4 flex flex-col items-center">
-                <h2 className="text-2xl font-semibold">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+              <div className="space-y-3 sm:space-y-4 flex flex-col items-center">
+                <h2 className="text-xl sm:text-2xl font-semibold">
                   {translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
                 </h2>
                 <FormField
@@ -309,7 +309,7 @@ export default function SowingRate() {
                   name="cultureLatinName"
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="text-xl py-6">
+                      <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
                         <SelectValue
                           placeholder={translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
                         />
@@ -319,7 +319,7 @@ export default function SowingRate() {
                           <SelectItem
                             key={plant.plant.plantId}
                             value={plant.plant.plantLatinName}
-                            className="text-lg py-3"
+                            className="text-base sm:text-lg py-2 sm:py-3"
                           >
                             {translator(plant.plant.plantLatinName)}
                           </SelectItem>
@@ -332,11 +332,11 @@ export default function SowingRate() {
 
               {form.watch('cultureLatinName') && activePlantDbData && (
                 <>
-                  <div className="bg-muted p-4 rounded-lg mb-6 flex flex-col items-center">
-                    <h3 className="text-xl font-medium mb-2">
+                  <div className="bg-muted p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
+                    <h3 className="text-lg sm:text-xl font-medium mb-2">
                       {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                     </h3>
-                    <p className="text-2xl font-bold">
+                    <p className="text-xl sm:text-2xl font-bold text-center">
                       {translator(form.watch('cultureLatinName'))}
                       <span className="text-muted-foreground ml-2">
                         <i>({form.watch('cultureLatinName')})</i>
@@ -344,7 +344,7 @@ export default function SowingRate() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     <BuildSowingRateRow
                       varName="coefficientSecurity"
                       displayName={translator(
@@ -411,9 +411,9 @@ export default function SowingRate() {
 
                   {form.formState.isValid && calculatedRate !== null && (
                     <div>
-                      <Card className="mt-8 bg-primary text-primary-foreground">
-                        <CardContent className="pt-6">
-                          <div className="flex flex-col items-center justify-center space-y-4">
+                      <Card className="mt-6 sm:mt-8 bg-primary text-primary-foreground">
+                        <CardContent className="pt-4 sm:pt-6">
+                          <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4">
                             <DisplayOutputRow
                               data={dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
@@ -445,8 +445,8 @@ export default function SowingRate() {
                         </CardContent>
                       </Card>
 
-                      <div className="flex justify-center mt-8">
-                        <Button type="submit" size="lg" className="px-8 text-xl w-full">
+                      <div className="flex justify-center mt-6 sm:mt-8">
+                        <Button type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md">
                           {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                         </Button>
                       </div>
