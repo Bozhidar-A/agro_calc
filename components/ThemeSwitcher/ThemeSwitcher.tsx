@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { THEMES } from '@/lib/LocalSettingsMaps';
-import { GetStrFromLangMapKey } from '@/lib/utils';
 import { LocalSetTheme } from '@/store/slices/localSettingsSlice';
 
 function ThemeIcon(theme: string | undefined) {

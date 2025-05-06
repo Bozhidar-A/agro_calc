@@ -29,11 +29,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   // For the pie chart - relationship between components
   const pieData = [
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_DA),
+      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
       value: data.usedSeedsKgPerDecare,
     },
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_DA),
+      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
       value: data.sowingRateSafeSeedsPerMeterSquared / 100,
     }, // Scale down for better visualization
     {
@@ -56,12 +56,12 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
       fullMark: maxValues.seedsPerMeter,
     },
     {
-      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_DA),
+      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
       value: data.sowingRatePlantsPerDecare,
       fullMark: maxValues.plantsPerDecare,
     },
     {
-      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_DA),
+      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
       value: data.usedSeedsKgPerDecare * 10, // Scale up for better visualization
       fullMark: maxValues.kgPerDecare * 10,
     },
@@ -79,7 +79,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
       value: data.sowingRateSafeSeedsPerMeterSquared,
     },
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_DA),
+      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
       value: data.sowingRatePlantsPerDecare / 100,
     }, // Scale down for visualization
     {
@@ -204,11 +204,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                     // Undo scaling for display in tooltip
                     if (
                       name ===
-                      translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_DA)
+                      translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE)
                     ) {
                       return (value * 100).toFixed(0);
                     }
-                    if (name === translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_DA)) {
+                    if (name === translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)) {
                       return (value / 10).toFixed(2);
                     }
                     return value;

@@ -51,7 +51,7 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                         <div>Сеидбена норма - самостоятелно</div>
                         <div>Участие (%)</div>
                         <div>Сеидбена норма - в смеската</div>
-                        <div>Цена на семена за da/BGN</div>
+                        <div>Цена на семена за дка/BGN</div>
                     </div>
 
                     <div className="grid grid-cols-1 md:hidden gap-2 font-medium text-sm border-b pb-2">

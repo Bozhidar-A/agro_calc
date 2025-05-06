@@ -1,13 +1,14 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { SUPPORTED_LANGS, THEMES } from '@/lib/LocalSettingsMaps';
+import { SUPPORTED_LANGS, THEMES, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/LocalSettingsMaps';
 
 const localSettingsSlice = createSlice({
   name: 'localSettings',
   initialState: {
-    lang: SUPPORTED_LANGS.LANG_BG,
+    lang: SUPPORTED_LANGS.BG.code,
     theme: THEMES.THEME_SYSTEM,
+    unitOfMeasurementLength: UNIT_OF_MEASUREMENT_LENGTH.ACRES,
   },
   reducers: {
     LocalSetLang: (state, action) => {
@@ -16,8 +17,11 @@ const localSettingsSlice = createSlice({
     LocalSetTheme: (state, action) => {
       state.theme = action.payload;
     },
+    LocalSetUnitOfMeasurementLength: (state, action) => {
+      state.unitOfMeasurementLength = action.payload;
+    },
   },
 });
 
-export const { LocalSetLang, LocalSetTheme } = localSettingsSlice.actions;
+export const { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } = localSettingsSlice.actions;
 export default localSettingsSlice.reducer;

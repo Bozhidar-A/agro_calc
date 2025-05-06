@@ -14,6 +14,11 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 import { AuthLogout } from '@/store/slices/authSlice';
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
+import MeasurementSwitcher from '../MeasurementSwitcher/MeasurementSwitcher';
 
 export default function Header() {
   const authObj = useSelector((state) => state.auth);
@@ -44,8 +49,8 @@ export default function Header() {
         </Link>
 
         <div className="flex items-center space-x-4">
-          <ThemeSwitcher />
-          <LangSwitcher />
+          {/* <ThemeSwitcher />
+          <LangSwitcher /> */}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild data-testid="open-sheet-button">
@@ -96,6 +101,42 @@ export default function Header() {
                     </Button>
                   </div>
                 )}
+                <hr />
+                <div className="flex flex-row justify-center">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button>{translator(SELECTABLE_STRINGS.SETTINGS)}</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px]"> {/* Increased width */}
+                      <DialogHeader>
+                        <DialogTitle>{translator(SELECTABLE_STRINGS.SETTINGS)}</DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="theme" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_THEME)}:
+                          </Label>
+                          <ThemeSwitcher />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="language" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_LANGUAGE)}:
+                          </Label>
+                          <LangSwitcher />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="unit" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT)}:
+                          </Label>
+                          <div className="col-span-3">
+                            <MeasurementSwitcher />
+                          </div>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
                 <Link href="/" className="hover:underline" onClick={() => setOpen(false)}>
                   Home
                 </Link>
