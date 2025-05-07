@@ -19,9 +19,10 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 import MeasurementSwitcher from '../MeasurementSwitcher/MeasurementSwitcher';
+import { RootState } from '@/store/store';
 
 export default function Header() {
-  const authObj = useSelector((state) => state.auth);
+  const authObj = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const translator = useTranslate();
 
