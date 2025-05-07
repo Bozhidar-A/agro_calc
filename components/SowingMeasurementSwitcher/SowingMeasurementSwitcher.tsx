@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps";
 import { KgPerAcreToKgPerHectare, SowingRatePlantsPerAcreToHectare, ToFixedNumber } from "@/lib/math-util";
 
-export default function SowingMeasurementSwitcher(dataToBeSaved: SowingRateSaveData) {
+export default function SowingMeasurementSwitcher({ dataToBeSaved }: { dataToBeSaved: SowingRateSaveData }) {
     const translator = useTranslate();
     const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
 
