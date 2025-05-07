@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import useSeedingCombinedForm from '@/app/hooks/useSeedingCombinedForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
-import PlantCombinedCharts from '@/components/PlantCombinedCharts/PlantCombinedCharts';
+import CombinedCharts from '@/components/CombinedCharts/CombinedCharts';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -188,7 +188,7 @@ export default function Combined() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <PlantCombinedCharts
+                      <CombinedCharts
                         data={FormatCombinedFormSavedToGraphDisplay(finalData, dbData)}
                       />
                     </CardContent>

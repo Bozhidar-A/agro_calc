@@ -3,6 +3,9 @@ import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, X
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
+import { useSelector } from "react-redux";
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps";
+import { KgPerAcreToKgPerHectare } from "@/lib/math-util";
 
 export interface CombinedHistoryDataPlant {
     plantLatinName: string;
@@ -20,12 +23,13 @@ export interface CombinedHistoryData {
     isDataValid: boolean;
 }
 
-export default function PlantCombinedCharts({ data }: { data: CombinedHistoryData | null }) {
+export default function CombinedCharts({ data }: { data: CombinedHistoryData | null }) {
     if (!data || !data.plants || data.plants.length === 0) {
         return null;
     }
 
     const translator = useTranslate();
+    const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
 
     // The data already has the correct property names
     return (
@@ -64,10 +68,10 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                 </CardContent>
             </Card>
 
-            {/* Line Chart: Price per DA */}
+            {/* Line Chart: Price per Acre/Hectare */}
             <Card>
                 <CardHeader>
-                    <CardTitle>{translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON)}</CardTitle>
+                    <CardTitle>{unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ? translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON) : translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -76,7 +80,12 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Line type="monotone" dataKey="pricePerAcreBGN" stroke="#ff7300" name={translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL)} />
+                            <Line
+                                type="monotone"
+                                dataKey={(item) => unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ? item.pricePerAcreBGN : KgPerAcreToKgPerHectare(item.pricePerAcreBGN)}
+                                stroke="#ff7300"
+                                name={translator(unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ? SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL : SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL)}
+                            />
                         </LineChart>
                     </ResponsiveContainer>
                 </CardContent>
