@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { RootState } from "@/store/store";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
 export default function HomePage() {
-    const authObj = useSelector((state) => state.auth);
+    const authObj = useSelector((state: RootState) => state.auth);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">

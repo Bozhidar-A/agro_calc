@@ -21,6 +21,7 @@ import {
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import SowingMeasurementSwitcher from '@/components/SowingMeasurementSwitcher/SowingMeasurementSwitcher';
+import { RootState } from '@/store/store';
 
 export interface SowingRateDBData {
   id: string;
@@ -216,7 +217,7 @@ export function DisplayOutputRow({ data, text, unit }: { data: number; text: str
 }
 
 export default function SowingRate() {
-  const authObj = useSelector((state) => state.auth);
+  const authObj = useSelector((state: RootState) => state.auth);
   const translator = useTranslate();
   const [dbData, setDbData] = useState<SowingRateDBData[]>([]);
   const [calculatedRate, setCalculatedRate] = useState<number | null>(null);
