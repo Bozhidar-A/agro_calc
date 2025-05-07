@@ -423,7 +423,7 @@ export default function SowingRate() {
                                 SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2
                               )}
                             />
-                            <SowingMeasurementSwitcher {...dataToBeSaved} />
+                            <SowingMeasurementSwitcher dataToBeSaved={dataToBeSaved} />
                             <DisplayOutputRow
                               data={dataToBeSaved.internalRowHeightCm}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
