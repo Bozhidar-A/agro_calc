@@ -30,7 +30,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   const pieData = [
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
-      value: data.usedSeedsKgPerDecare,
+      value: data.usedSeedsKgPerAcre,
     },
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
@@ -44,8 +44,8 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
 
   const maxValues = {
     seedsPerMeter: 10000, // Assumed maximum seeds per meter squared
-    plantsPerDecare: 50000, // Assumed maximum plants per decare
-    kgPerDecare: 500, // Assumed maximum kg per decare
+    plantsPerAcre: 50000, // Assumed maximum plants per Acre
+    kgPerAcre: 500, // Assumed maximum kg per Acre
     rowHeightCm: 50, // Assumed maximum row height cm
   };
 
@@ -57,13 +57,13 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
     },
     {
       metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
-      value: data.sowingRatePlantsPerDecare,
-      fullMark: maxValues.plantsPerDecare,
+      value: data.sowingRatePlantsPerAcre,
+      fullMark: maxValues.plantsPerAcre,
     },
     {
       metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
-      value: data.usedSeedsKgPerDecare * 10, // Scale up for better visualization
-      fullMark: maxValues.kgPerDecare * 10,
+      value: data.usedSeedsKgPerAcre * 10, // Scale up for better visualization
+      fullMark: maxValues.kgPerAcre * 10,
     },
     {
       metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING),
@@ -80,11 +80,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
     },
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
-      value: data.sowingRatePlantsPerDecare / 100,
+      value: data.sowingRatePlantsPerAcre / 100,
     }, // Scale down for visualization
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS),
-      value: data.usedSeedsKgPerDecare * 10,
+      value: data.usedSeedsKgPerAcre * 10,
     }, // Scale up for visualization
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING),
@@ -243,7 +243,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                       SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_SEEDS_TO_PLANTS
                     ),
                     efficiency:
-                      (data.sowingRatePlantsPerDecare / (data.usedSeedsKgPerDecare * 1000)) * 100,
+                      (data.sowingRatePlantsPerAcre / (data.usedSeedsKgPerAcre * 1000)) * 100,
                     fill: '#0088FE',
                   },
                   {

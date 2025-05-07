@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { SowingRateDBData } from "../calculators/sowing/page";
-import { CmToMeters, MetersSquaredToDecare, MetersToCm, ToFixedNumber } from "@/lib/math-util";
+import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/lib/math-util";
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 
 export interface SowingRateSaveData {
@@ -15,8 +15,8 @@ export interface SowingRateSaveData {
     plantId: string;
     plantLatinName: string;
     sowingRateSafeSeedsPerMeterSquared: number;
-    sowingRatePlantsPerDecare: number;
-    usedSeedsKgPerDecare: number;
+    sowingRatePlantsPerAcre: number;
+    usedSeedsKgPerAcre: number;
     internalRowHeightCm: number;
     isDataValid: boolean;
 }
@@ -28,8 +28,8 @@ export default function useSowingRateForm(authObj, dbData) {
         plantId: '',
         plantLatinName: '',
         sowingRateSafeSeedsPerMeterSquared: 0,
-        sowingRatePlantsPerDecare: 0,
-        usedSeedsKgPerDecare: 0,
+        sowingRatePlantsPerAcre: 0,
+        usedSeedsKgPerAcre: 0,
         internalRowHeightCm: 0,
         isDataValid: false
     });
@@ -183,12 +183,12 @@ export default function useSowingRateForm(authObj, dbData) {
             const wantedPlantsPerMeterSquared = (formValues.wantedPlantsPerMeterSquared * 100) /
                 (formValues.germination * formValues.coefficientSecurity);
 
-            const sowingRatePlantsPerDecare = MetersSquaredToDecare(wantedPlantsPerMeterSquared);
+            const sowingRatePlantsPerAcre = MetersSquaredToAcre(wantedPlantsPerMeterSquared);
 
-            const usedSeedsKgPerDecare = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
+            const usedSeedsKgPerAcre = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
                 (formValues.purity * formValues.germination);
 
-            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerDecare;
+            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
 
             // Create the saveable data
             const saveableData: SowingRateSaveData = {
@@ -196,8 +196,8 @@ export default function useSowingRateForm(authObj, dbData) {
                 plantId: activePlantDbData.plant.plantId,
                 plantLatinName: activePlantDbData.plant.plantLatinName,
                 sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
-                sowingRatePlantsPerDecare: ToFixedNumber(sowingRatePlantsPerDecare, 0),
-                usedSeedsKgPerDecare: ToFixedNumber(usedSeedsKgPerDecare, 2),
+                sowingRatePlantsPerAcre: ToFixedNumber(sowingRatePlantsPerAcre, 0),
+                usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
                 internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
                 isDataValid: form.formState.isValid && Object.keys(warnings).length === 0
             };

@@ -193,8 +193,8 @@ model SowingRateHistory {
   userId                             String
   user                               User     @relation(fields: [userId], references: [id])
   sowingRateSafeSeedsPerMeterSquared Float
-  sowingRatePlantsPerDecare          Float
-  usedSeedsKgPerDecare               Float
+  sowingRatePlantsPerAcre            Float
+  usedSeedsKgPerAcre                 Float
   internalRowHeightCm                Float
   isDataValid                        Boolean
   createdAt                          DateTime @default(now())

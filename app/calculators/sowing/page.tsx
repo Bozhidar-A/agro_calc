@@ -422,14 +422,14 @@ export default function SowingRate() {
                               )}
                             />
                             <DisplayOutputRow
-                              data={dataToBeSaved.sowingRatePlantsPerDecare}
+                              data={dataToBeSaved.sowingRatePlantsPerAcre}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                               unit={translator(
                                 SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PER_DA
                               )}
                             />
                             <DisplayOutputRow
-                              data={dataToBeSaved.usedSeedsKgPerDecare}
+                              data={dataToBeSaved.usedSeedsKgPerAcre}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                               unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)}
                             />

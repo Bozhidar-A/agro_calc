@@ -9,7 +9,7 @@ export function ToFixedNumber(num: number, digits: number, base = 10) {
 }
 
 
-export function MetersSquaredToDecare(metersSquared: number): number {
+export function MetersSquaredToAcre(metersSquared: number): number {
     return metersSquared * 1000;
 }
 
