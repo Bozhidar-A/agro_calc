@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { CreateDefaultValues, CreateZodSchemaForPlantRow, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombined-utils";
 import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
+import { useTranslate } from '@/app/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 interface ActivePlantsFormData {
     plantId: string;
@@ -23,7 +25,25 @@ export interface CombinedCalcDBData {
     isDataValid: boolean;
 }
 
-export default function useSeedingCombinedForm(authObj, dbData) {
+interface AuthState {
+    user: any;
+    isAuthenticated: boolean;
+    loading: boolean;
+    error: string | null;
+    authType: string | null;
+}
+
+export interface PlantCombinedDBData {
+    id: string;
+    latinName: string;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}
+
+export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
+    const translator = useTranslate();
     //final data to save to db
     const [finalData, setFinalData] = useState<CombinedCalcDBData | null>(null);
 
@@ -184,24 +204,24 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         return () => subscription.unsubscribe();
     }, [form, dbData]);
 
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         let isAuthed = authObj?.isAuthenticated || false;
 
         if (!isAuthed) {
-            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {
-            toast.error("Възникна грешка", {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
                 description: res.message,
             });
             console.log(res.message);
             return;
         }
 
-        toast.success("Изчислението е запазено успешно!");
+        toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
     return { form, finalData, onSubmit, warnings };

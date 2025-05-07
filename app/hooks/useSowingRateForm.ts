@@ -9,6 +9,9 @@ import { z } from "zod";
 import { SowingRateDBData } from "../calculators/sowing/page";
 import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/lib/math-util";
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
+import { useTranslate } from '@/app/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { AuthState } from '@/store/slices/authSlice';
 
 export interface SowingRateSaveData {
     userId: string;
@@ -21,7 +24,17 @@ export interface SowingRateSaveData {
     isDataValid: boolean;
 }
 
-export default function useSowingRateForm(authObj, dbData) {
+export interface SowingRateDBData {
+    id: string;
+    latinName: string;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}
+
+export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
+    const translator = useTranslate();
     const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
         userId: '',
@@ -217,28 +230,28 @@ export default function useSowingRateForm(authObj, dbData) {
     }, [form, activePlantDbData, authObj]);
 
 
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         if (!authObj.isAuthenticated) {
-            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
 
         if (!activePlantDbData) {
-            toast.error("Не сте избрали растение за изчисление!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NO_PLANT_SELECTED));
             return;
         }
 
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/sowing/history', "POST", dataToBeSaved);
 
         if (!res.success) {
-            toast.error("Имаше грешка при запазване на изчислението", {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
                 description: res.message,
             });
             console.log(res.message);
             return;
         }
 
-        toast.success("Изчислението е запазено успешно!");
+        toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
     return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved };
