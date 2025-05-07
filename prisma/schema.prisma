@@ -230,7 +230,7 @@ model SeedingDataCombinationHistoryPlantData {
   seedingRate                     Float
   participation                   Float
   combinedRate                    Float
-  pricePerDa                      Float
+  pricePerAcreBGN                 Float
   SeedingDataCombinationHistory   SeedingDataCombinationHistory? @relation(fields: [seedingDataCombinationHistoryId], references: [id])
   seedingDataCombinationHistoryId String?
 }

@@ -212,7 +212,7 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.combinedRate,
-                    pricePerDa: plant.pricePerDABGN, // Ensure this matches the DB schema
+                    pricePerAcreBGN: plant.pricePerAcreBGN, // Ensure this matches the DB schema
                 })),
             },
         },

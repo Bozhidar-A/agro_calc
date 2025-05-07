@@ -13,7 +13,7 @@ interface ActivePlantsFormData {
     seedingRate: number;
     participation: number;
     combinedRate: number;
-    pricePerDABGN: number;
+    pricePerAcreBGN: number;
 }
 
 export interface CombinedCalcDBData {
@@ -37,7 +37,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.seedingRateInCombination,
-                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                    pricePerAcreBGN: plant.priceSeedsPerAcreBGN,
                 });
             }
         }
@@ -50,15 +50,15 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.seedingRateInCombination,
-                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                    pricePerAcreBGN: plant.priceSeedsPerAcreBGN,
                 });
             }
         }
 
         const combinedData: CombinedCalcDBData = {
             plants,
-            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
+            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
+                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
             userId: authObj?.user?.id || "",
             isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
         };

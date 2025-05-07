@@ -13,7 +13,7 @@ export const CreateZodSchemaForPlantRow = z.object({
         .min(0, 'Participation must be at least 0%')
         .max(100, 'Participation cannot exceed 100%'),
     seedingRateInCombination: z.number().min(0, 'Seeding rate in combination must be at least 0'),
-    priceSeedsPerDaBGN: z.number().min(0, 'Price must be at least 0'),
+    priceSeedsPerAcreBGN: z.number().min(0, 'Price must be at least 0'),
 });
 
 export function CreateDefaultValues() {
@@ -26,7 +26,7 @@ export function CreateDefaultValues() {
             seedingRate: 0,
             participation: 0,
             seedingRateInCombination: 0,
-            priceSeedsPerDaBGN: 0,
+            priceSeedsPerAcreBGN: 0,
         }),
         cereal: Array(3).fill({
             active: false,
@@ -36,7 +36,7 @@ export function CreateDefaultValues() {
             seedingRate: 0,
             participation: 0,
             seedingRateInCombination: 0,
-            priceSeedsPerDaBGN: 0,
+            priceSeedsPerAcreBGN: 0,
         }),
     };
 }
@@ -72,18 +72,18 @@ export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
         const selectedPlant = dbData.find((plant) => plant.id === item.id);
         if (selectedPlant) {
             const newSeedingRateInCombination = (item.seedingRate * item.participation) / 100;
-            const newPriceSeedsPerDaBGN = newSeedingRateInCombination * selectedPlant.priceFor1kgSeedsBGN;
+            const newpriceSeedsPerAcreBGN = newSeedingRateInCombination * selectedPlant.priceFor1kgSeedsBGN;
 
             // Only update if values changed to avoid infinite loop
             const prevSeedingRateInCombination = form.getValues(`${basePath}.seedingRateInCombination`);
-            const prevPriceSeedsPerDaBGN = form.getValues(`${basePath}.priceSeedsPerDaBGN`);
+            const prevpriceSeedsPerAcreBGN = form.getValues(`${basePath}.priceSeedsPerAcreBGN`);
 
             if (prevSeedingRateInCombination !== newSeedingRateInCombination) {
                 form.setValue(`${basePath}.seedingRateInCombination`, newSeedingRateInCombination, { shouldValidate: false });
             }
 
-            if (prevPriceSeedsPerDaBGN !== newPriceSeedsPerDaBGN) {
-                form.setValue(`${basePath}.priceSeedsPerDaBGN`, ToFixedNumber(newPriceSeedsPerDaBGN, 2), { shouldValidate: false });
+            if (prevpriceSeedsPerAcreBGN !== newpriceSeedsPerAcreBGN) {
+                form.setValue(`${basePath}.priceSeedsPerAcreBGN`, ToFixedNumber(newpriceSeedsPerAcreBGN, 2), { shouldValidate: false });
             }
         }
     }

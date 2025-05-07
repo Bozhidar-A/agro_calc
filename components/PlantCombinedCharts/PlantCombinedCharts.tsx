@@ -10,7 +10,7 @@ export interface CombinedHistoryDataPlant {
     seedingRate: number;
     participation: number;
     combinedRate: number;
-    pricePerDABGN: number;
+    pricePerAcreBGN: number;
 }
 
 export interface CombinedHistoryData {
@@ -76,7 +76,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Line type="monotone" dataKey="pricePerDABGN" stroke="#ff7300" name={translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL)} />
+                            <Line type="monotone" dataKey="pricePerAcreBGN" stroke="#ff7300" name={translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL)} />
                         </LineChart>
                     </ResponsiveContainer>
                 </CardContent>
