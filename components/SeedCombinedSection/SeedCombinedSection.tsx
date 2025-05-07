@@ -7,6 +7,8 @@ import { SeedCombinedRow } from "@/components/SeedCombinedRow/SeedCombinedRow"
 import { TreesIcon as Plant, Percent } from "lucide-react"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
+import { useSelector } from "react-redux"
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps"
 
 interface SeedCombinedSectionProps {
     name: string
@@ -18,6 +20,7 @@ interface SeedCombinedSectionProps {
 
 export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }: SeedCombinedSectionProps) {
     const translator = useTranslate();
+    const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
     const participation = CalculateParticipation(form.watch(name))
     const isOverLimit = participation > maxPercentage
 
@@ -54,7 +57,13 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                         <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE)}</div>
                         <div>{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</div>
                         <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX)}</div>
-                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</div>
+                        <div>
+                            {
+                                unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+                                    translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL) :
+                                    translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL)
+                            }
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:hidden gap-2 font-medium text-sm border-b pb-2">
