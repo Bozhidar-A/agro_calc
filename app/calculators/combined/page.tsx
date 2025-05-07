@@ -80,8 +80,8 @@ export default function Combined() {
   const totalParticipation =
     CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'));
   const totalPrice = RoundToSecondStr(
-    form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-    form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0)
+    form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
+    form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0)
   );
 
   return (

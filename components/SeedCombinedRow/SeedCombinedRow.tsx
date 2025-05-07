@@ -154,7 +154,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
                 <span className="text-sm md:hidden font-medium">Цена на семена за da/BGN:</span>
                 <FormField
                     control={form.control}
-                    name={`${name}.${index}.priceSeedsPerDaBGN`}
+                    name={`${name}.${index}.priceSeedsPerAcreBGN`}
                     render={({ field }) => (
                         <Input
                             className="text-sm md:text-base bg-muted"
