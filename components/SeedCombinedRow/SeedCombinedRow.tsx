@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { cn } from "@/lib/utils"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
+import CombinedMeasurementSwitcher from "../CombinedMeasurementSwitcher/CombinedMeasurementSwitcher"
 
 interface SeedCombinedRowProps {
     form: any
@@ -79,7 +80,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
             </div>
 
             <div className="space-y-1">
-                <span className="text-sm md:hidden font-medium">Сеидбена норма - самостоятелно:</span>
+                <span className="text-sm md:hidden font-medium">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE)}</span>
                 <FormField
                     control={form.control}
                     name={`${name}.${index}.seedingRate`}
@@ -113,7 +114,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
             </div>
 
             <div className="space-y-1">
-                <span className="text-sm md:hidden font-medium">Участие (%):</span>
+                <span className="text-sm md:hidden font-medium">{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</span>
                 <FormField
                     control={form.control}
                     name={`${name}.${index}.participation`}
@@ -136,7 +137,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
             </div>
 
             <div className="space-y-1">
-                <span className="text-sm md:hidden font-medium">Сеидбена норма - в смеската:</span>
+                <span className="text-sm md:hidden font-medium">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX)}</span>
                 <FormField
                     control={form.control}
                     name={`${name}.${index}.seedingRateInCombination`}
@@ -149,19 +150,11 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
                     )}
                 />
             </div>
-
             <div className="space-y-1">
-                <span className="text-sm md:hidden font-medium">Цена на семена за da/BGN:</span>
-                <FormField
-                    control={form.control}
-                    name={`${name}.${index}.priceSeedsPerAcreBGN`}
-                    render={({ field }) => (
-                        <Input
-                            className="text-sm md:text-base bg-muted"
-                            disabled
-                            value={field.value || 0}
-                        />
-                    )}
+                <CombinedMeasurementSwitcher
+                    form={form}
+                    name={name}
+                    index={index}
                 />
             </div>
         </div>
