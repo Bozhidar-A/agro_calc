@@ -166,14 +166,16 @@ export default function Combined() {
               </Card>
 
               {authObj.isAuthenticated && (
-                <Button
-                  type="submit"
-                  className="w-full max-w-md mx-auto"
-                  size="lg"
-                  disabled={!form.formState.isValid}
-                >
-                  {translator(SELECTABLE_STRINGS.COMBINED_SAVE_CALCULATION)}
-                </Button>
+                <div className="flex justify-center w-full">
+                  <Button
+                    type="submit"
+                    className="w-full max-w-md"
+                    size="lg"
+                    disabled={!form.formState.isValid}
+                  >
+                    {translator(SELECTABLE_STRINGS.COMBINED_SAVE_CALCULATION)}
+                  </Button>
+                </div>
               )}
 
               {form.formState.isValid && (
