@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/select';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import SowingMeasurementSwitcher from '@/components/SowingMeasurementSwitcher/SowingMeasurementSwitcher';
 
 export interface SowingRateDBData {
   id: string;
@@ -203,7 +204,7 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   );
 }
 
-function DisplayOutputRow({ data, text, unit }: { data: number; text: string; unit: string }) {
+export function DisplayOutputRow({ data, text, unit }: { data: number; text: string; unit: string }) {
   return (
     <div className="flex flex-row justify-between items-center gap-4">
       <div className="text-lg font-medium">{text}:</div>
@@ -421,22 +422,11 @@ export default function SowingRate() {
                                 SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2
                               )}
                             />
-                            <DisplayOutputRow
-                              data={dataToBeSaved.sowingRatePlantsPerAcre}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
-                              unit={translator(
-                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE
-                              )}
-                            />
-                            <DisplayOutputRow
-                              data={dataToBeSaved.usedSeedsKgPerAcre}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}
-                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)}
-                            />
+                            <SowingMeasurementSwitcher {...dataToBeSaved} />
                             <DisplayOutputRow
                               data={dataToBeSaved.internalRowHeightCm}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
-                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
+                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}
                             />
                             <p className="text-primary-foreground/80 text-center max-w-lg">
                               {translator(SELECTABLE_STRINGS.SOWING_RATE_THIS_IS_SUGGESTED)}:

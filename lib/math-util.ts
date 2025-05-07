@@ -8,9 +8,20 @@ export function ToFixedNumber(num: number, digits: number, base = 10) {
     return (Math.round(num * pow) / pow);
 }
 
-
 export function MetersSquaredToAcre(metersSquared: number): number {
     return metersSquared * 1000;
+}
+
+export function MetersSquaredToHectare(metersSquared: number): number {
+    return metersSquared * 0.0001; // 1 square meter = 0.0001 hectares
+}
+
+export function SowingRatePlantsPerAcreToHectare(sowingRatePlantsPerAcre: number): number {
+    return sowingRatePlantsPerAcre * 0.404686; // 1 acre = 0.404686 hectares
+}
+
+export function KgPerAcreToKgPerHectare(kgPerAcre: number): number {
+    return kgPerAcre / 0.404686;
 }
 
 export function CmToMeters(cm: number): number {
