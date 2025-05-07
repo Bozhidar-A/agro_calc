@@ -2,6 +2,7 @@
 import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslate } from "@/app/hooks/useTranslate";
+import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 
 export interface CombinedHistoryDataPlant {
     plantLatinName: string;
@@ -32,7 +33,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
             {/* Bar Chart: Seeding Rate by Plant Type */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Сеидбена норма по растение</CardTitle>
+                    <CardTitle>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_BY_PLANT_TYPE)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -41,7 +42,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="seedingRate" fill="#8884d8" name="Сеидбена норма" />
+                            <Bar dataKey="seedingRate" fill="#8884d8" name={translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE)} />
                         </BarChart>
                     </ResponsiveContainer>
                 </CardContent>
@@ -50,7 +51,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
             {/* Pie Chart: Participation Distribution */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Разпределение по участие</CardTitle>
+                    <CardTitle>{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_DISTRIBUTION)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -66,7 +67,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
             {/* Line Chart: Price per DA */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Цена за декър сравнение</CardTitle>
+                    <CardTitle>{translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -75,7 +76,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Line type="monotone" dataKey="pricePerDABGN" stroke="#ff7300" name="Price per DA (BGN)" />
+                            <Line type="monotone" dataKey="pricePerDABGN" stroke="#ff7300" name={translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL)} />
                         </LineChart>
                     </ResponsiveContainer>
                 </CardContent>
@@ -84,7 +85,7 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
             {/* Replace Scatter Chart with Grouped Bar Chart */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Сравнение на сеидбени норми</CardTitle>
+                    <CardTitle>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_COMPARISON)}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -96,13 +97,13 @@ export default function PlantCombinedCharts({ data }: { data: CombinedHistoryDat
                             <Bar
                                 dataKey="seedingRate"
                                 fill="#8884d8"
-                                name="Сеидбена норма - самостоятелно"
+                                name={translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE_PLANT)}
                                 radius={[4, 4, 0, 0]}
                             />
                             <Bar
                                 dataKey="combinedRate"
                                 fill="#82ca9d"
-                                name="Сеидбена норма - в смеската"
+                                name={translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX_PLANT)}
                                 radius={[4, 4, 0, 0]}
                             />
                         </BarChart>
