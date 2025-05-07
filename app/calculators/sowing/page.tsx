@@ -418,24 +418,24 @@ export default function SowingRate() {
                               data={dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                               unit={translator(
-                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PER_M2
+                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2
                               )}
                             />
                             <DisplayOutputRow
                               data={dataToBeSaved.sowingRatePlantsPerAcre}
                               text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                               unit={translator(
-                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PER_DA
+                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE
                               )}
                             />
                             <DisplayOutputRow
                               data={dataToBeSaved.usedSeedsKgPerAcre}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}
                               unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)}
                             />
                             <DisplayOutputRow
                               data={dataToBeSaved.internalRowHeightCm}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
+                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
                               unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
                             />
                             <p className="text-primary-foreground/80 text-center max-w-lg">
