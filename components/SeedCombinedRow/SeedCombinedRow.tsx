@@ -6,6 +6,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { cn } from "@/lib/utils"
+import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 
 interface SeedCombinedRowProps {
     form: any
@@ -45,18 +46,18 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
                         <Checkbox checked={field.value} onCheckedChange={field.onChange} className="h-4 w-4 md:h-5 md:w-5" />
                     )}
                 />
-                <span className="text-sm md:hidden">Активно</span>
+                <span className="text-sm md:hidden">{translator(SELECTABLE_STRINGS.COMBINED_ACTIVE)}</span>
             </div>
 
             <div className="space-y-1">
-                <span className="text-sm md:hidden font-medium">Растиение:</span>
+                <span className="text-sm md:hidden font-medium">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</span>
                 <FormField
                     control={form.control}
                     name={`${name}.${index}.dropdownPlant`}
                     render={({ field }) => (
                         <Select onValueChange={field.onChange} value={field.value} disabled={!isActive}>
                             <SelectTrigger className="text-sm md:text-base">
-                                <SelectValue placeholder="Изберете" />
+                                <SelectValue placeholder={translator(SELECTABLE_STRINGS.COMBINED_PLEASE_SELECT_PLANT)} />
                             </SelectTrigger>
                             <SelectContent>
                                 {dbData.map(

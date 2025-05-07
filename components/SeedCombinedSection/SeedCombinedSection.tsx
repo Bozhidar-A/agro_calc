@@ -5,6 +5,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CalculateParticipation } from "@/lib/seedingCombined-utils"
 import { SeedCombinedRow } from "@/components/SeedCombinedRow/SeedCombinedRow"
 import { TreesIcon as Plant, Percent } from "lucide-react"
+import { useTranslate } from "@/app/hooks/useTranslate"
+import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 
 interface SeedCombinedSectionProps {
     name: string
@@ -15,6 +17,7 @@ interface SeedCombinedSectionProps {
 }
 
 export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }: SeedCombinedSectionProps) {
+    const translator = useTranslate();
     const participation = CalculateParticipation(form.watch(name))
     const isOverLimit = participation > maxPercentage
 
@@ -28,10 +31,10 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-2">
                     <div className="flex items-center gap-2">
                         <Percent className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-base sm:text-lg">Общо участие: {participation.toFixed(1)}%</span>
+                        <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION_LABEL)}: {participation.toFixed(1)}%</span>
                     </div>
                     <span className={`text-base sm:text-lg font-medium ${isOverLimit ? "text-red-500" : "text-green-500"}`}>
-                        Максимално: {maxPercentage}%
+                        {translator(SELECTABLE_STRINGS.COMBINED_MAX_PARTICIPATION)}: {maxPercentage}%
                     </span>
                 </div>
             </CardHeader>
@@ -39,23 +42,23 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                 {isOverLimit && (
                     <Alert variant="destructive" className="mb-3 sm:mb-4">
                         <AlertDescription className="text-sm sm:text-base">
-                            Участието надвишава максималния процент. Моля, намалете участието.
+                            {translator(SELECTABLE_STRINGS.COMBINED_VALUES_OUTSIDE_LIMIT)}
                         </AlertDescription>
                     </Alert>
                 )}
 
                 <div className="grid gap-3 sm:gap-4">
                     <div className="hidden md:grid grid-cols-6 gap-4 font-medium text-sm md:text-base border-b pb-2">
-                        <div className="text-center">Активно?</div>
-                        <div>Растиение</div>
-                        <div>Сеидбена норма - самостоятелно</div>
-                        <div>Участие (%)</div>
-                        <div>Сеидбена норма - в смеската</div>
-                        <div>Цена на семена за дка/BGN</div>
+                        <div className="text-center">{translator(SELECTABLE_STRINGS.COMBINED_ACTIVE)}</div>
+                        <div>{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</div>
+                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE)}</div>
+                        <div>{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</div>
+                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX)}</div>
+                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</div>
                     </div>
 
                     <div className="grid grid-cols-1 md:hidden gap-2 font-medium text-sm border-b pb-2">
-                        <div className="text-center">Растиение</div>
+                        <div className="text-center">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</div>
                     </div>
 
                     {form.watch(name).map((_, index) => (
