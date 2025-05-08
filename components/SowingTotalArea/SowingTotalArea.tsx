@@ -8,34 +8,34 @@ import { useTranslate } from "@/app/hooks/useTranslate"
 import { FormField } from "../ui/form"
 import { IsValueOutOfBounds } from "@/lib/sowing-utils"
 import { CalculatorValueTypes } from "@/lib/utils"
-import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
+import type { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
 import SowingOutput from "../SowingOutput/SowingOutput"
 import { useSelector } from "react-redux"
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps"
 
 //Heavy based on BuildSowingRateRow component
-export default function SowingTotalArea({ form, dataToBeSaved }: { form: any, dataToBeSaved: SowingRateSaveData }) {
-    const translator = useTranslate();
-    const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
+export default function SowingTotalArea({ form, dataToBeSaved }: { form: any; dataToBeSaved: SowingRateSaveData }) {
+    const translator = useTranslate()
+    const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength)
 
-    let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
+    let inputValidityClass = "border-green-500 focus-visible:ring-green-500"
 
-    if (IsValueOutOfBounds(form.watch('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
-        inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
+    if (IsValueOutOfBounds(form.watch("totalArea"), CalculatorValueTypes.ABOVE_ZERO)) {
+        inputValidityClass = "border-red-500 focus-visible:ring-red-500"
     }
 
     function SpoofToBeSavedDataWithTotalArea(totalArea: number) {
-        const spoofedData = { ...dataToBeSaved };
-        spoofedData.sowingRateSafeSeedsPerMeterSquared *= totalArea;
-        spoofedData.sowingRatePlantsPerAcre *= totalArea;
-        spoofedData.usedSeedsKgPerAcre *= totalArea;
-        spoofedData.totalArea = totalArea;
-        return spoofedData;
+        const spoofedData = { ...dataToBeSaved }
+        spoofedData.sowingRateSafeSeedsPerMeterSquared *= totalArea
+        spoofedData.sowingRatePlantsPerAcre *= totalArea
+        spoofedData.usedSeedsKgPerAcre *= totalArea
+        spoofedData.totalArea = totalArea
+        return spoofedData
     }
 
     return (
         <Card className="overflow-hidden">
-            <CardHeader className="bg-muted pb-2">
+            <CardHeader className="bg-primary text-primary-foreground pb-2">
                 <CardTitle className="flex items-center gap-2 text-lg">
                     <CalculatorIcon className="h-5 w-5" />
                     {translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA)}
@@ -55,20 +55,24 @@ export default function SowingTotalArea({ form, dataToBeSaved }: { form: any, da
                             />
                         )}
                     />
-                    <div className="text-center font-medium mt-1">
-                        {`${form.watch('totalArea') || 0} ${unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-                            translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_ACRES) :
-                            translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES)}`}
-                        {
-                            !IsValueOutOfBounds(form.watch('totalArea'), CalculatorValueTypes.ABOVE_ZERO) && (
-                                <SowingOutput dataToBeSaved={SpoofToBeSavedDataWithTotalArea(form.watch('totalArea'))} />
-                            )
-                        }
+                    <div className="flex flex-col items-center mt-1">
+                        <div className="font-medium">
+                            {/* display number and unit of measurement */}
+                            {`${form.watch("totalArea") || 0} ${unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES
+                                ? translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_ACRES)
+                                : translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES)
+                                }`}
+                        </div>
 
+                        {/* display the output with spoofed data */}
+                        {!IsValueOutOfBounds(form.watch("totalArea"), CalculatorValueTypes.ABOVE_ZERO) && (
+                            <div className="mt-4">
+                                <SowingOutput dataToBeSaved={SpoofToBeSavedDataWithTotalArea(form.watch("totalArea"))} />
+                            </div>
+                        )}
                     </div>
-
                 </div>
             </CardContent>
         </Card>
-    );
+    )
 }

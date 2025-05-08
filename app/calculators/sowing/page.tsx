@@ -121,7 +121,6 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
   let inputValidityClassSlider = 'within-safe-range';
 
-  //TODO: swap with IsValueOutOfBounds????
   if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData?.minSliderVal, neededData?.maxSliderVal, neededData?.constValue)) {
     inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
     inputValidityClassSlider = 'outside-safe-range';
