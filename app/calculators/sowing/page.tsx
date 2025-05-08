@@ -20,8 +20,9 @@ import {
 } from '@/components/ui/select';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import SowingMeasurementSwitcher from '@/components/SowingMeasurementSwitcher/SowingMeasurementSwitcher';
 import { RootState } from '@/store/store';
+import SowingOutput from '@/components/SowingOutput/SowingOutput';
+import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 
 export interface SowingRateDBData {
   id: string;
@@ -119,6 +120,7 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
   let inputValidityClassSlider = 'within-safe-range';
 
+  //TODO: swap with IsValueOutOfBounds????
   if (neededData.type === 'slider') {
     if (
       form.watch(varName) < neededData.minSliderVal ||
@@ -412,29 +414,10 @@ export default function SowingRate() {
                   )}
 
                   {form.formState.isValid && calculatedRate !== null && (
-                    <div>
-                      <Card className="mt-6 sm:mt-8 bg-primary text-primary-foreground">
-                        <CardContent className="pt-4 sm:pt-6">
-                          <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4">
-                            <DisplayOutputRow
-                              data={dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
-                              unit={translator(
-                                SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2
-                              )}
-                            />
-                            <SowingMeasurementSwitcher dataToBeSaved={dataToBeSaved} />
-                            <DisplayOutputRow
-                              data={dataToBeSaved.internalRowHeightCm}
-                              text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)}
-                              unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}
-                            />
-                            <p className="text-primary-foreground/80 text-center max-w-lg">
-                              {translator(SELECTABLE_STRINGS.SOWING_RATE_THIS_IS_SUGGESTED)}:
-                            </p>
-                          </div>
-                        </CardContent>
-                      </Card>
+                    <div className="flex flex-col gap-4 sm:gap-6">
+                      <SowingOutput dataToBeSaved={dataToBeSaved} />
+
+                      <SowingTotalArea form={form} dataToBeSaved={dataToBeSaved} />
 
                       <div className="flex justify-center mt-6 sm:mt-8">
                         <Button type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md">

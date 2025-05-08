@@ -12,6 +12,7 @@ import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthState } from '@/store/slices/authSlice';
+import { CalculatorValueTypes } from "@/lib/utils";
 
 export interface SowingRateSaveData {
     userId: string;
@@ -21,6 +22,7 @@ export interface SowingRateSaveData {
     sowingRatePlantsPerAcre: number;
     usedSeedsKgPerAcre: number;
     internalRowHeightCm: number;
+    totalArea: number;
     isDataValid: boolean;
 }
 
@@ -44,6 +46,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         sowingRatePlantsPerAcre: 0,
         usedSeedsKgPerAcre: 0,
         internalRowHeightCm: 0,
+        totalArea: 1,
         isDataValid: false
     });
 
@@ -58,6 +61,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             delete newWarnings[field];
             return newWarnings;
         });
+    }
+    function CountWarnings() {
+        return Object.keys(warnings).length;
     }
 
 
@@ -75,7 +81,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         germination: z.number()
             .min(0, 'Germination must be at least 0'),
         rowSpacing: z.number()
-            .min(0, 'Row spacing must be at least 0')
+            .min(0, 'Row spacing must be at least 0'),
     });
 
     const form = useForm({
@@ -87,7 +93,8 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             massPer1000g: 0,
             purity: 0,
             germination: 0,
-            rowSpacing: 0
+            rowSpacing: 0,
+            totalArea: 1
         },
         mode: 'onBlur'
     })
@@ -180,6 +187,13 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             } else {
                 removeWarning('rowSpacing');
             }
+
+            if (IsValueOutOfBounds(form.getValues('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
+                addWarning('totalArea', 'Value out of bounds!');
+            } else {
+                removeWarning('totalArea');
+            }
+
         });
 
         return () => subscription.unsubscribe();
@@ -188,7 +202,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
     useEffect(() => {
         const calculateSavingData = () => {
             // Only calculate if we have a selected plant
-            if (!activePlantDbData) return;
+            if (!activePlantDbData) {
+                return;
+            }
 
             const formValues = form.getValues();
 
@@ -212,6 +228,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 sowingRatePlantsPerAcre: ToFixedNumber(sowingRatePlantsPerAcre, 0),
                 usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
                 internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
+                totalArea: formValues.totalArea,
                 isDataValid: form.formState.isValid && Object.keys(warnings).length === 0
             };
 
@@ -254,5 +271,5 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
-    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved };
+    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, CountWarnings };
 }

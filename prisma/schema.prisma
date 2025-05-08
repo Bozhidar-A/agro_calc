@@ -196,6 +196,7 @@ model SowingRateHistory {
   sowingRatePlantsPerAcre            Float
   usedSeedsKgPerAcre                 Float
   internalRowHeightCm                Float
+  totalArea                          Float
   isDataValid                        Boolean
   createdAt                          DateTime @default(now())
 }

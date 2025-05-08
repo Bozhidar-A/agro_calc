@@ -4,8 +4,11 @@ export function RoundToSecondStr(num: number) {
 
 //https://stackoverflow.com/a/29494612
 export function ToFixedNumber(num: number, digits: number, base = 10) {
-    const pow = Math.pow(base, digits);
-    return (Math.round(num * pow) / pow);
+    if (num === 0) {
+        return 0;
+    }
+    const pow = base ** digits;
+    return Math.round(num * pow) / pow;
 }
 
 export function MetersSquaredToAcre(metersSquared: number): number {
