@@ -235,6 +235,7 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
             sowingRatePlantsPerAcre: data.sowingRatePlantsPerAcre,
             usedSeedsKgPerAcre: data.usedSeedsKgPerAcre,
             internalRowHeightCm: data.internalRowHeightCm,
+            totalArea: data.totalArea,
             isDataValid: data.isDataValid,
         },
     });

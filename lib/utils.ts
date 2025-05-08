@@ -3,6 +3,12 @@ import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
 import { SUPPORTED_LANGS } from './LocalSettingsMaps';
 
+export enum CalculatorValueTypes {
+  SLIDER = "slider",
+  CONST = "const",
+  ABOVE_ZERO = "aboveZero"
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
