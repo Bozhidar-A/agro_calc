@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
+import { Droplet, Leaf, PieChart, Ruler, Scale, Sprout } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import useSowingRateForm from '@/app/hooks/useSowingRateForm';
@@ -23,6 +23,7 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { RootState } from '@/store/store';
 import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
+import { IsValueOutOfBounds } from '@/lib/sowing-utils';
 
 export interface SowingRateDBData {
   id: string;
@@ -121,22 +122,9 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   let inputValidityClassSlider = 'within-safe-range';
 
   //TODO: swap with IsValueOutOfBounds????
-  if (neededData.type === 'slider') {
-    if (
-      form.watch(varName) < neededData.minSliderVal ||
-      form.watch(varName) > neededData.maxSliderVal
-    ) {
-      inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
-      inputValidityClassSlider = 'outside-safe-range';
-    }
-  } else if (neededData.type === 'const') {
-    if (
-      form.watch(varName) < neededData.constValue ||
-      form.watch(varName) > neededData.constValue
-    ) {
-      inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
-      inputValidityClassSlider = 'outside-safe-range';
-    }
+  if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData?.minSliderVal, neededData?.maxSliderVal, neededData?.constValue)) {
+    inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
+    inputValidityClassSlider = 'outside-safe-range';
   }
 
   return (
@@ -281,6 +269,21 @@ export default function SowingRate() {
       }
     }
   }, [form.watch(), activePlantDbData]);
+
+  if (!dbData || dbData.length === 0) {
+    return (
+      <div className="container mx-auto py-4 sm:py-8 flex items-center justify-center min-h-[50vh]">
+        <Card className="w-full max-w-md">
+          <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
+            <div className="animate-spin mb-3 sm:mb-4">
+              <PieChart className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+            </div>
+            <p className="text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
