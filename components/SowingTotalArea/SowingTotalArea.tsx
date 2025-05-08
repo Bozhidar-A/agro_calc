@@ -18,11 +18,6 @@ export default function SowingTotalArea({ form, dataToBeSaved }: { form: any, da
     const translator = useTranslate();
     const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
 
-    // Total calculations based on field area
-    // const totalSeedsPerM2 = dataToBeSaved.sowingRateSafeSeedsPerMeterSquared * fieldArea
-    // const totalPlantsPerAcre = dataToBeSaved.sowingRatePlantsPerAcre * fieldArea
-    // const totalSeedsKgPerAcre = dataToBeSaved.usedSeedsKgPerAcre * fieldArea
-
     let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
 
     if (IsValueOutOfBounds(form.watch('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
