@@ -1,3 +1,5 @@
+import { CalculatorValueTypes } from "./lib/utils";
+
 const dbData = {
   plants: [
     //there is some cross over but what can be seperated is seperated
@@ -57,42 +59,42 @@ const dbData = {
       //   values: [0.80, 0.85, 0.90, 0.95, 0.99]
       // },
       coefficientSecurity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.01,
         unit: "",
         minSliderVal: 0.80,
         maxSliderVal: 0.99
       },
       wantedPlantsPerMeterSquared: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "plants/m²",
         minSliderVal: 600,
         maxSliderVal: 700
       },
       massPer1000g: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.1,
         unit: "g",
         minSliderVal: 1.8,
         maxSliderVal: 2.2
       },
       purity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75,
         maxSliderVal: 99
       },
       germination: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75.0,
         maxSliderVal: 100.0
       },
       rowSpacingCm: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "cm",
         minSliderVal: 10,
@@ -106,40 +108,40 @@ const dbData = {
       //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
       // },
       coefficientSecurity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.01,
         unit: "",
         minSliderVal: 0.90,
         maxSliderVal: 0.99
       },
       wantedPlantsPerMeterSquared: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "plants/m²",
         minSliderVal: 300,
         maxSliderVal: 400
       },
       massPer1000g: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.1,
         unit: "g",
         minSliderVal: 170,
         maxSliderVal: 230
       },
       purity: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "%",
         val: 99.0
       },
       germination: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75.0,
         maxSliderVal: 100.0
       },
       rowSpacingCm: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "cm",
         val: 12.5
       }
@@ -151,40 +153,40 @@ const dbData = {
       //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
       // },
       coefficientSecurity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.01,
         unit: "",
         minSliderVal: 0.90,
         maxSliderVal: 0.99
       },
       wantedPlantsPerMeterSquared: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "plants/m²",
         minSliderVal: 30,
         maxSliderVal: 40
       },
       massPer1000g: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "g",
         minSliderVal: 115,
         maxSliderVal: 200
       },
       purity: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "%",
         val: 99.0
       },
       germination: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75.0,
         maxSliderVal: 100.0
       },
       rowSpacingCm: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "cm",
         val: 70
       }
@@ -196,40 +198,40 @@ const dbData = {
       //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
       // },
       coefficientSecurity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.01,
         unit: "",
         minSliderVal: 0.90,
         maxSliderVal: 0.99
       },
       wantedPlantsPerMeterSquared: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "plants/m²",
         minSliderVal: 25,
         maxSliderVal: 35
       },
       massPer1000g: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "g",
         minSliderVal: 16,
         maxSliderVal: 18
       },
       purity: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "%",
         val: 99.0
       },
       germination: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75.0,
         maxSliderVal: 100.0
       },
       rowSpacingCm: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "cm",
         minSliderVal: 24,
@@ -238,45 +240,41 @@ const dbData = {
     },
     {
       plantName: "Zea mays", // Corn
-      // coefficientSecurity: {
-      //   type: "buttons",
-      //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
-      // },
       coefficientSecurity: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.01,
         unit: "",
         minSliderVal: 0.90,
         maxSliderVal: 0.99
       },
       wantedPlantsPerMeterSquared: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "plants/m²",
         minSliderVal: 7,
         maxSliderVal: 7.5
       },
       massPer1000g: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 0.1,
         unit: "g",
         minSliderVal: 200,
         maxSliderVal: 300
       },
       purity: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "%",
         val: 99.0
       },
       germination: {
-        type: "slider",
+        type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: "%",
         minSliderVal: 75.0,
         maxSliderVal: 100.0
       },
       rowSpacingCm: {
-        type: "const",
+        type: CalculatorValueTypes.CONST,
         unit: "cm",
         val: 70
       }
