@@ -16,15 +16,18 @@ export function MetersSquaredToAcre(metersSquared: number): number {
 }
 
 export function MetersSquaredToHectare(metersSquared: number): number {
-    return metersSquared * 0.0001; // 1 square meter = 0.0001 hectares
+    //acre * 10 = hectare
+    return metersSquared * 10000;
 }
 
 export function SowingRatePlantsPerAcreToHectare(sowingRatePlantsPerAcre: number): number {
-    return sowingRatePlantsPerAcre * 0.404686; // 1 acre = 0.404686 hectares
+    //acre * 10 = hectare
+    return sowingRatePlantsPerAcre * 10;
 }
 
 export function KgPerAcreToKgPerHectare(kgPerAcre: number): number {
-    return kgPerAcre / 0.404686;
+    //acre * 10 = hectare
+    return kgPerAcre * 10;
 }
 
 export function CmToMeters(cm: number): number {
