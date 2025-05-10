@@ -19,6 +19,7 @@ import {
   FormatCombinedFormSavedToGraphDisplay,
 } from '@/lib/seedingCombined-utils';
 import { RootState } from '@/store/store';
+import { CombinationTypes } from '@/lib/utils';
 
 interface PlantCombinedDBData {
   id: string;
@@ -78,10 +79,10 @@ export default function Combined() {
   }
 
   const totalParticipation =
-    CalculateParticipation(form.watch('legume')) + CalculateParticipation(form.watch('cereal'));
+    CalculateParticipation(form.watch(CombinationTypes.LEGUME)) + CalculateParticipation(form.watch(CombinationTypes.CEREAL));
   const totalPrice = RoundToSecondStr(
-    form.watch('legume').reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
-    form.watch('cereal').reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0)
+    form.watch(CombinationTypes.LEGUME).reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
+    form.watch(CombinationTypes.CEREAL).reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0)
   );
 
   return (
