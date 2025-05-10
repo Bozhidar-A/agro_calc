@@ -47,6 +47,8 @@ model Plant {
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
   SowingRatePlant                        SowingRatePlant?
   SowingRateHistory                      SowingRateHistory[]
+
+  Chemical Chemical[]
 }
 
 //sowing rate
@@ -234,4 +236,65 @@ model SeedingDataCombinationHistoryPlantData {
   pricePerAcreBGN                 Float
   SeedingDataCombinationHistory   SeedingDataCombinationHistory? @relation(fields: [seedingDataCombinationHistoryId], references: [id])
   seedingDataCombinationHistoryId String?
+}
+
+//chemical protection
+
+enum ChemicalType {
+  HERBICIDE
+  INSECTICIDE
+  FUNGICIDE
+}
+
+enum ChemicalApplicationStage {
+  AFTER_PLANTING_BEFORE_GERMINATION
+  NON_VEGETATIVE
+  VEGETATIVE
+  SPECIAL_VEGETATIVE
+}
+
+model Chemical {
+  id      String @id @default(cuid())
+  plantId String @unique
+  plant   Plant  @relation(fields: [plantId], references: [id])
+
+  nameKey               String
+  type                  ChemicalType
+  activeIngredients     ChemicalActiveIngredient[]
+  applicationStage      ChemicalApplicationStage
+  //SPECIAL_VEGETATIVE means there is a bit more information about the application stage
+  applicationStageNotes String
+
+  chemicalTargets ChemicalTarget[]
+
+  dosage          Float
+  dosageUnit      String
+  maxApplications Float
+
+  minIntervalBetweenApplicationsDays Float
+  maxIntervalBetweenApplicationsDays Float
+  quarantinePeriodDays               Float
+  pricePer1LiterBGN                  Float
+  pricePerAcreBGN                    Float
+
+  additionalInfo      String
+  additionalInfoNotes String
+}
+
+model ChemicalActiveIngredient {
+  id         String   @id @default(cuid())
+  chemicalId String
+  chemical   Chemical @relation(fields: [chemicalId], references: [id])
+
+  nameKey  String
+  quantity Float
+  unit     String
+}
+
+model ChemicalTarget {
+  id         String   @id @default(cuid())
+  chemicalId String
+  chemical   Chemical @relation(fields: [chemicalId], references: [id])
+
+  nameKey String
 }
