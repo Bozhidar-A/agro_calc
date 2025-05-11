@@ -1233,30 +1233,1058 @@ const dbData = {
       // Системен стробилуринов фунгицид с предпазно, лечебно и изкореняващо действие.
       // Позволява да се прилага в максимална доза 100 ml/da. Работен разтвор 80 l/da.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC_INFO_NOTES,
+    },
+    //Glycine max (Соя Soybean)
+    {
+      //TODO: check if copy of stomp aqua from above???
+      // СТОМП АКВА
+      plantName: LatinNames.GLYCINE_MAX,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 455 g/l пендиметалин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
+          quantity: 455,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 250,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 49.5,
+      pricePerAcreBGN: 12.38,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO,
+      // Може да се използва в доза до 300 ml/da. Да не се третира при температури над 30 °С поради силно изпарение на работния разтвор.
+      // Внасянето се извършва с работен разтвор от 20 до 60 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO_NOTES,
+    },
+    {
+      // СИРТАКИ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 360 g/l кломазон
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
+          quantity: 360,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 40,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 263.79,
+      pricePerAcreBGN: 10.55,
+      // Третирането се извършва след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI_INFO,
+      // За по-висока ефикасност на хербицида, плевелните видове трябва да са в начални фази от развитието си...
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI_INFO_NOTES,
+    },
+    {
+      // ДУАЛ ГОЛД 960 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 960 g/l S-метолахлор
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR,
+          quantity: 960,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 150,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 49,
+      pricePerAcreBGN: 7.35,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
+      // За увеличаване ефикасността срещу широколистните плевели е препоръчително добавяне на противошироколистен хербицид в работния разтвор при третирането...
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES,
+    },
+    {
+      // САЛТУС
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 80 g/l имазамокс
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
+          quantity: 80,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Внася се във фаза втори – четвърти троен лист на соята.",
+      chemicalTargets: [],
+      dosage: 65,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 135.24,
+      pricePerAcreBGN: 8.79,
+      //Внася се във фаза втори – четвърти троен лист на соята.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS_INFO,
+      //Селективен системен хербицид с висока ефикасност, когато плевелните видове са във фенофаза втори-четвърти лист (фаза „кръстосване“ на листата). Позволява миксиране с хербициди с активно вещество бентазон за смесено приложение. Не трябва да се смесва с инсектициди от групата на карбаматите и органофосфорните съединения. Под въздействие на стресови абиотични условия хербицидът може да причини преходна фитотоксичност на културата, която се проявява с леко пожълтяване (хлороза) и краткотраен застой в нарастването на соята, който не рефлектират върху добива. Внасянето се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване. 
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS_INFO_NOTES
+    },
+    {
+      // ПАНТЕРА 40 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 40 g/l квизалофоп-П-тефурил
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_TEFRIL,
+          quantity: 40,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Внася се във фаза втори – четвърти троен лист преди начало на цъфтеж на соята.",
+      chemicalTargets: [],
+      dosage: 150,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 60,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 42.49,
+      pricePerAcreBGN: 6.37,
+      //Внася се във фаза втори – четвърти троен лист преди начало на цъфтеж на соята.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC_INFO,
+      //Не изисква добавяне на прилепител или омокрител. Внасянето се извършва с работен разтвор от 20 до 40 l/da вода в зависимост от наличното земеделско оборудване. 
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC_INFO_NOTES
+    },
+    {
+      // ЛЕБРОН 0,5 Г
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 5 g/kg тефлутрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN,
+          quantity: 5,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "Внася се едновременно със сеитбата на културата на дълбочина в почвата 4-5 cm.",
+      chemicalTargets: [],
+      dosage: 1500,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 12.8,
+      pricePerAcreBGN: 19.20,
+      //Внася се едновременно със сеитбата на културата на дълбочина в почвата 4-5 cm.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G_INFO,
+      //Инсектицид за почвено приложение срещу почвени неприятели от групата на пиретроидите, действа контактно и чрез газовата си фаза в почвата. Поради високото налягане на парите си, тефлутринът се разпространява бързо в орницата. Достигнал до неприятелите, действа на нервната им система като нарушава функцията на невроните. В резултат храненето им се преустановява и впоследствие те загиват. Инсектицида може да се прилага в доза до 2,0 kg продукт / da.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G_INFO_NOTES
+    },
+    {
+      // МЕТЕОР
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 15,7 g/l делтаметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+          quantity: 15.7,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Внасянето се извършва при поява на неприятелите над икономическия праг на вредност. При нападение от скакалци инсектицида се внася 80 ml/da.",
+      chemicalTargets: [],
+      dosage: 60,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 15,
+      pricePer1LiterBGN: 18,
+      pricePerAcreBGN: 1.08,
+      //Внасянето се извършва при поява на неприятелите над икономическия праг на вредност. При нападение от скакалци инсектицида се внася 80 ml/da.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO,
+      //Шиpoĸooбxвaтeн несистемен пиретроиден инсектицид със стомашно и контактно действие, paзpeшeн зa yпoтpeбa при различни видoвe селскостопански култури. Oбxвaтa нa дeйcтвиe нa инceĸтицидa вĸлючвa шиpoĸa гaмa лиcтни въшĸи, бpъмбapи, гъceници, пeпepyди, чepвeи и дpyги видове нaceĸoми. Внасянето се извършва с работен разтвор от 80 до 100 l/da вода в зависимост от наличното земеделско оборудване. 
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO_NOTES
+    },
+    {
+      // ДЕКА ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 100 g/l делтаметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+          quantity: 100,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.",
+      chemicalTargets: [],
+      dosage: 50,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 14,
+      maxIntervalBetweenApplicationsDays: 14,
+      quarantinePeriodDays: 3,
+      pricePer1LiterBGN: 33,
+      pricePerAcreBGN: 1.65,
+      // Внасянето се извършва с работен разтвор до 100 l/da вода в зависимост от наличното земеделско оборудване. Инсектицидът е опасен за пчелите (SPe8).
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO,
+      // Притежава много бърз инициален (нокдаун) ефект срещу голям брой смучещи и гризещи неприятели по оранжерийни, зърнени, технически, фуражни, зеленчукови, картофи, овощни видове и лозя.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO_NOTES
+    },
+    {
+      // ФЛИПЕР ЕВ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 479,8 g/l мастни киселини
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
+          quantity: 479.8,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Третирането на посева може да се извършва от поникване до пълна зрялост на граха при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.",
+      chemicalTargets: [],
+      dosage: 1600,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 5,
+      minIntervalBetweenApplicationsDays: 10,
+      maxIntervalBetweenApplicationsDays: 10,
+      quarantinePeriodDays: 7,
+      pricePer1LiterBGN: 48.4,
+      pricePerAcreBGN: 77.44,
+      // Третирането на посева може да се извършва от поникване до пълна зрялост на граха при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
+      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Безвреден за пчелите!
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
+    },
+    {
+      // ТРИКА ЕКСПЕРТ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 4 g/l ламбда - цихалотрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+          quantity: 4,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "Прилага се локализирано, по време на сеитба в браздата.",
+      chemicalTargets: [],
+      dosage: 1300,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 18.26,
+      pricePerAcreBGN: 14.17,
+      // Прилага се локализирано, по време на сеитба в браздата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO,
+      // Локализирането на инсектицида до семената по време на сеитба или до корените по време на окопаване/загърляне формира образуването на защитен филм около семето или коренчетата, предпазва от почвени инсекти като гъсеници на нощенки, ларви на бръмбари, телени червеи и други неприятели. В гранулите на Трика Експерт, като коформуланти са включени азот и фосфор в съотношение 7:35. Поради тази причина с прилагането на препарата се постига двоен ефект- предпазване и подхранване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO_NOTES
+    },
+    {
+      // СУИЧ 62.5 ВГ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 250 g/l флудиоксонил
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUDIOXONIL,
+          quantity: 250,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        },
+        {
+          // 375 g/kg ципродинил
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPRODINIL,
+          quantity: 375,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Внася се в междуфазните периоди – от начало на цъфтеж до напълно оформени бобове (достигнали типичен размер) на грахът.",
+      chemicalTargets: [],
+      dosage: 80,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 21,
+      pricePer1LiterBGN: 445.55,
+      pricePerAcreBGN: 35.64,
+      // Внася се в междуфазните периоди – от начало на цъфтеж до напълно оформени бобове (достигнали типичен размер) на грахът.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO,
+      // Комбиниран широкоспектърен фунгицид с несистемно предпазно, и системно предпазно и лечебно действие. Може да се прилага в доза до 100 g/da.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO_NOTES
+    },
+    {
+      // СЯРА ВГ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 800 g/kg сяра
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_SULFUR,
+          quantity: 800,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Третирането се извършва при благоприятни метеорологични условия за масово развитие на болестта.",
+      chemicalTargets: [],
+      dosage: 500,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 14,
+      maxIntervalBetweenApplicationsDays: 14,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 0.9,
+      pricePerAcreBGN: 0.45,
+      // Третирането се извършва при благоприятни метеорологични условия за масово развитие на болестта.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO,
+      // Несистемен неорганичен фунгицид и акарицид с контактно и фумигиращо действие. Внасянето се извършва с работен разтвор от 50 до 100 l/da вода в зависимост от наличното земеделско оборудване. Подходящ за употреба в биологичното земеделие.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO_NOTES
+    },
+    {
+      // РЕТЕНГО 20ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 200 g/l пираклостробин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRACLOSTROBIN,
+          quantity: 200,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "Третирането на посева може да се извърши от поникване до пълно оформяне на бобовите на соята.",
+      chemicalTargets: [],
+      dosage: 80,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 102,
+      pricePerAcreBGN: 8.16,
+      // Третирането на посева може да се извърши от поникване до пълно оформяне на бобовите на соята.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO,
+      // Системен неорганичен фунгицид и акарицид с контактно и фумигиращо действие. Подходящ за употреба в биологичното земеделие. Внасянето на фунгицида се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO_NOTES
+    },
+    {
+      // ФЛИПЕР ЕВ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 479,8 g/l мастни киселини
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
+          quantity: 479.8,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "Третирането на посева може да се извършва от поникване до пълна зрялост на соята при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.",
+      chemicalTargets: [],
+      dosage: 1600,
+      dosageUnit: ChemicalDosageUnit.G_DA,
+      maxApplications: 5,
+      minIntervalBetweenApplicationsDays: 7,
+      maxIntervalBetweenApplicationsDays: 7,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 48.4,
+      pricePerAcreBGN: 77.44,
+      // Третирането на посева може да се извършва от поникване до пълна зрялост на соята при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
+      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Внасянето се извършва с работен разтвор от 30 до 200 l/da вода в зависимост от наличното земеделско оборудване.Безвреден за пчелите!
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
+    },
+    {
+      // ДИФКОР 250 СК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 250 g/l дифеноконазол
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE,
+          quantity: 250,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 50,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 14,
+      maxIntervalBetweenApplicationsDays: 14,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 98.37,
+      pricePerAcreBGN: 4.92,
+      // Третирането  се извършва в междуфазните периоди от девети троен лист до пълна зрялост на соята. Само в семепроизводни посеви.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC_INFO,
+      // Продуктът е устойчив на измиване от валежи, паднали 2 часа след третирането, а също така притежава добро продължително действие. Внасянето се извършва с работен разтвор от 20 до 100 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC_INFO_NOTES
+    },
+    //Sorghum vulgare var. tehnicum (Сорго, Sorghum) 
+    {
+      // СТОМП АКВА
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 455 g/l пендиметалин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
+          quantity: 455,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 250,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 49.5,
+      pricePerAcreBGN: 12.38,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO,
+      // Да не се третира при температури над 30 °С поради силно изпарение на работния разтвор. Внасянето се извършва с работен разтвор от 20 до 60 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO_NOTES
+    },
+    {
+      // АГРАКСОН 500 СЛ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 500 g/l МЦПА
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MCPA,
+          quantity: 500,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 160,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 20.09,
+      pricePerAcreBGN: 3.21,
+      // Третирането се извършва до фенофаза четвърти лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL_INFO,
+      // Селективен, системен, хормоноподобен хербицид, предназначен за борба с едногодишните и многогодишни, широколистни плевели изисква плевелите да са в активен растеж. Внасянето се извършва с работен разтвор от 40 до 60 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL_INFO_NOTES
+    },
+    {
+      // ДЖАНЕРО 480 СЛ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 480 g/l дикамба
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+          quantity: 480,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 35,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 37.22,
+      pricePerAcreBGN: 1.30,
+      // Третирането се извършва ранно вегетационно от фенофаза втори лист до шести лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL_INFO,
+      // За разширяване спектъра на действие може да се смесва с НИШИН 4 ОД или ОСОРНО СК. Внасянето се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL_INFO_NOTES
+    },
+    {
+      // ДУАЛ ГОЛД 960 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 960 g/l S-метолахлор
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
+          quantity: 960,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 150,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 49,
+      pricePerAcreBGN: 7.35,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
+      // Семената на соргото задължително се третират с антидот Concept C! Внасянето се извършва с работен разтвор от 30 до 60 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES
+    },
+    {
+      // КИДЕКА ПРО
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 100 g/l месотрион
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MESOTRIONE,
+          quantity: 100,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 50,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 10,
+      maxIntervalBetweenApplicationsDays: 10,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 37.97,
+      pricePerAcreBGN: 1.90,
+      // Третирането на соргото може да се извърши от втори до девети лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO,
+      // Хербицидът е с изразено системно почвено действие. Периодът на защитно действие продължава от 40 до 60 дни след третиране. Инхибира нарастването на на чувствителните плевели до два дни след приложението му. Внасянето се извършва с работен разтвор от 8 до 40 l/da вода при интервал между приложенията 10 дни в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO_NOTES
+    },
+    {
+      // ЛАМДЕКС ЕКСТРА
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 25 g/kg ламбда - цихалотрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+          quantity: 25,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 42,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 57.87,
+      pricePerAcreBGN: 2.43,
+      // Внасянето на инсектицида се извършва в междуфазните периоди от начало на изметляване до край на цъфтеж на соргото.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO,
+      // Механизъм на действие: несистемен пиретроиден инсектицид с контактно и стомашно действие. Внасянето се извършва с работен разтвор от 70 до 100 l/da вода в зависимост от наличното земеделско оборудване. Инсектицидът е опасен за пчелите (SPe8).
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO_NOTES
+    },
+    {
+      // КОЛОМБО ПРО
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 8 g/kg циперметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPERMETHRIN,
+          quantity: 8,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 1200,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 21.50,
+      pricePerAcreBGN: 25.80,
+      // Продукта се прилага като сухи гранули на дълбочина 4 cm в почвата
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO,
+      // Mexaнизъм нa дeйcтвиe: нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
+    },
+    {
+      // ФЛИПЕР ЕВ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 479,8 g/l мастни киселини
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
+          quantity: 479.8,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 1500,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 5,
+      minIntervalBetweenApplicationsDays: 7,
+      maxIntervalBetweenApplicationsDays: 7,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 48.4,
+      pricePerAcreBGN: 72.60,
+      // Третирането на посева може да се извършва от поникване до пълна зрялост на културата при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
+      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Внасянето се извършва с работен разтвор от 30 до 200 l/da вода в зависимост от наличното земеделско оборудване.  Безвреден за пчелите!
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
+    },
+    {
+      //TODO: duplicated in given data???
+      // СИВАНТО ЕНЕРДЖИ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 10 g/l делтаметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+          quantity: 10,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        },
+        {
+          // 75 g/l флупирадифурон
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUPYRADIFURONE,
+          quantity: 75,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 75,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 76.59,
+      pricePerAcreBGN: 5.74,
+      // Третирането се извършва при благоприятни метеорологични условия за масова поява на неприятеля.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY_INFO,
+      // Системен, вегетационен двукомпонентен инсектицид с комбинирано (системно и контактно) действие, с отличен контрол върху широк спектър от смучещи неприятели с много добър инициален (нокдаун) ефект при голям брой неприятели и дълго последействие.  Внасянето се извършва с работен разтвор от 40 до 80 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY_INFO_NOTES
+    },
+    //Zea mays (Царевица, Corn)
+    {
+      // БИСМАРК КС
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 55 g/l кломазон
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
+          quantity: 55,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        },
+        {
+          // 275 g/l пендиметалин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
+          quantity: 275,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 150,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 63.65,
+      pricePerAcreBGN: 9.55,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC_INFO,
+      // Абсорбира се от плевелните семена при поникването им. Чувствителните плевели могат да бъдат контролирани в ранните фази от развитието им. Внасянето се извършва с работен разтвор от 40 до 140 l/da вода в зависимост от наличното земеделско оборудване. Хербицидът може да се прилага при царевица в доза до 200 ml/da.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC_INFO_NOTES
+    },
+    {
+      // АРАТ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 500 g/kg дикамба
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+          quantity: 500,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        },
+        {
+          // 250 g/kg тритосулфурон
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TRITOSULFURON,
+          quantity: 250,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 20,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 150.55,
+      pricePerAcreBGN: 3.01,
+      // Третирането на царевицата се извършва от фаза втори лист до шести лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT_INFO,
+      // Използването на хербицида не се препоръчва при резки температурни амплитуди (голяма разлика между дневната и нощна температури), наводнени посеви или силно депресирани в резултат на засушаване, както и да не се добавят органофосфорни инсектициди в резервоарна смес. Третирането се извършва с работен разтвор от 20 до 40 l/da вода в зависимост от наличното земеделско оборудване. Да не се използва при сладка царевица!
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT_INFO_NOTES
+    },
+    {
+      // АМИНОПИЕЛИК 600 СЛ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 600 g/l 2,4-Д аминна сол
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_2_4D_AMINE_SALT,
+          quantity: 600,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 120,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 151.55,
+      pricePerAcreBGN: 18.19,
+      // Внася се във фенофази - от трети до пети лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL_INFO,
+      // Хербицидът е с бърз инициален ефектът срещу чувствителните плевели. Първите фитосимптоматични повреди (изисквания на дръжките, стъблата и листата на плевелите) се визуализират на следващия ден ден след третирането. Третирането се извършва с работен разтвор от 30 до 40 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL_INFO_NOTES
+    },
+    {
+      // ДЖАНЕРО 480 СЛ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 480 g/l дикамба
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+          quantity: 480,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 50,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 37.22,
+      pricePerAcreBGN: 1.86,
+      // Внася се във фенофази - от втори до шести лист на културата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO,
+      // Да не се използва на варовити почви, поради вероятност да предизвика фитотоксичност при царевицата.За разширяване спектъра на действие може да се смесва с НИШИН 4 ОД или ОСОРНО СК. Третирането на посевите се извършва с работен разтвор от 27,5 до 30 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO_NOTES
+    },
+    {
+      // ДУАЛ ГОЛД 960 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
+      type: ChemicalType.HERBICIDE,
+      activeIngredients: [
+        {
+          // 960 g/l S-метолахлор
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
+          quantity: 960,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 150,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 49.00,
+      pricePerAcreBGN: 7.35,
+      // Внася се след сеитба, преди поникване на културата и на плевелите.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
+      // Семената на соргото задължително се третират предсеитбено с антидот Concept C! Внасянето се извършва с работен разтвор от 30 до 60 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES
+    },
+    {
+      // КОЛОМБО ПРО
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 8 g/kg циперметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYHALOTHRIN,
+          quantity: 8,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 1200,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 21.5,
+      pricePerAcreBGN: 25.8,
+      // Продукта се прилага като сухи гранули  в повърхностния почвен слой  на дълбочина 4 cm.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO,
+      // Нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
+    },
+    {
+      // КОРАГЕН 20 СК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 200 г/л ринаксипир
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_RYNAXYPYR,
+          quantity: 200,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 15,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 10,
+      maxIntervalBetweenApplicationsDays: 10,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 775,
+      pricePerAcreBGN: 11.63,
+      // Третирането на посева се извършва при поява на неприятелите над икономическия праг на вредност.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC_INFO,
+      // Инсектицидът е със стомашно и контактно действие, придвижва трансламинарно в растението и има удължено последействие, като запазва високата си активност 14-21 дни след третирането с изразен ово-ларвициден ефект, като при някои видове действа и на възрастните. Внасянето на инсектицида се извършва с работен разтвор от 30 до 80 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC_INFO_NOTES
+    },
+    {
+      // К-ОБИОЛ 6 УЛВ
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 6 g/l делтаметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+          quantity: 6,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 4.2,
+      dosageUnit: ChemicalDosageUnit.G_100KG_SEEDS,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 7,
+      pricePer1LiterBGN: 388,
+      pricePerAcreBGN: 1.63,
+      // Борба със складови неприятели - Житояди (Гъгрици), Брашнени бръмбъри, Зърнопробивачи, Грахови и Бобови гъгрици, Молци.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV_INFO,
+      // Инсектицидът контролира успешно вредителите във всичките им фази на развитие – яйце, ларва, пупа и възрастно насекомо. Ефективният срок на защита е 12 месеца. Напълно безопасен и съгласуван с всички европейски и световни наредби. След завършване на производствения цикъл и преработка на суровината, не се откриват остатъчни вещества.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV_INFO_NOTES
+    },
+    {
+      // ИНАЗУМА
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 100 г/кг ацетамиприд
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID,
+          quantity: 100,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        },
+        {
+          // 30 г/кг ламбда-цихалотрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+          quantity: 30,
+          unit: ChemicalActiveIngredientDosageUnit.G_KG
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 20,
+      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 14,
+      maxIntervalBetweenApplicationsDays: 14,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 251.25,
+      pricePerAcreBGN: 5.03,
+      // Третирането на посева се извършва двукратно през 14 дни при поява на неприятеля над икономическия праг на вредност, до фенофаза изметляване на царевицата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO,
+      // Внасянето на инсектицида се извършва с работен разтвор от 30 до 50 l/da вода в зависимост от наличното земеделско оборудване. Да не се прилага при култури в периода на активен цъфтеж или при наличие на цъфтяща плевелна растителност с цел опазване на пчелите и други насекоми опрашители. Опасен е за пчелите (SPe 8).
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO_NOTES
+    },
+    {
+      // ДЕЦИС 100 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC,
+      type: ChemicalType.INSECTICIDE,
+      activeIngredients: [
+        {
+          // 100 g/l делтаметрин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+          quantity: 100,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 7.5,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 2,
+      minIntervalBetweenApplicationsDays: 14,
+      maxIntervalBetweenApplicationsDays: 14,
+      quarantinePeriodDays: 14,
+      pricePer1LiterBGN: 193.75,
+      pricePerAcreBGN: 1.45,
+      // Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO,
+      // Притежава много бърз инициален (нокдаун) ефект срещу голям брой смучещи и гризещи неприятели по оранжерийни, зърнени, технически, фуражни, зеленчукови, картофи, овощни видове и лозя. Внасянето се извършва с работен разтвор от 40 до 140 l/da вода в зависимост от наличното земеделско оборудване. Инсектицидът е опасен за пчелите (SPe8).
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO_NOTES
+    },
+    {
+      // РЕТЕНГО 20 ЕК
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 200 g/l пираклостробин
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRACLOSTROBIN,
+          quantity: 200,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 70,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 102,
+      pricePerAcreBGN: 7.14,
+      // Третирането на посева се извършва при поява на неприятеля над икономическия праг на вредност от фенофаза начало на удължаване на стъблото до масов цъфтеж на царевицата.
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO,
+      // Фунгицидът спомага за преодоляване на абиотичния стрес при царевицата и повишаване на добива. Може да се използва Превантивно преди установяване на заразата. Внасянето на фунгицида се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO_NOTES
+    },
+    {
+      // РЕДИГО М
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M,
+      type: ChemicalType.FUNGICIDE,
+      activeIngredients: [
+        {
+          // 100 g/l Протиоконазол
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PROTHIOCONAZOLE,
+          quantity: 100,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        },
+        {
+          // 20 g/l Металаксил
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METALAXYL,
+          quantity: 20,
+          unit: ChemicalActiveIngredientDosageUnit.G_L
+        }
+      ],
+      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
+      applicationStageNotes: "",
+      chemicalTargets: [],
+      dosage: 3,
+      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      maxApplications: 1,
+      minIntervalBetweenApplicationsDays: 0,
+      maxIntervalBetweenApplicationsDays: 0,
+      quarantinePeriodDays: 0,
+      pricePer1LiterBGN: 18.97,
+      pricePerAcreBGN: 0.06,
+      // Предсеитбено обеззаразяване на семена
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M_INFO,
+      // Третирането на посева се извършва при поява на неприятеля над икономическия праг на вредност от фенофаза начало на удължаване на стъблото до масов цъфтеж на царевицата. Обеззаразяването на семената от царевица може да се извърши с работен разтвор от 0,1 до 1,9 l вода за 100 kg семена. Препоръчителна доза за приложение на фунгицида е 15 ml продукт на 50 000 бр. семена, при сеитбена норма 10 000 семена на декар. Да се използват специализирани машини за обеззаразяване на семена.
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M_INFO_NOTES
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   ]
 };
 
