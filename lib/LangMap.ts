@@ -1,6 +1,5 @@
-'use client';
 
-import { THEMES } from './LocalSettingsMaps';
+import { THEMES } from '@/lib/utils';
 
 interface LangMapInteraface {
   [key: string]: {

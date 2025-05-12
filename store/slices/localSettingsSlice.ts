@@ -1,7 +1,7 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { SUPPORTED_LANGS, THEMES, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/LocalSettingsMaps';
+import { SUPPORTED_LANGS, THEMES, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 
 const localSettingsSlice = createSlice({
   name: 'localSettings',

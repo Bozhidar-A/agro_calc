@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/LocalSettingsMaps';
+import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../ui/button';
 import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';

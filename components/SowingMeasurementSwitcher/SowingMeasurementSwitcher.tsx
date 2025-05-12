@@ -3,7 +3,7 @@ import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { DisplayOutputRow } from "@/app/calculators/sowing/page";
 import { useSelector } from "react-redux";
-import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps";
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
 import { KgPerAcreToKgPerHectare, SowingRatePlantsPerAcreToHectare, ToFixedNumber } from "@/lib/math-util";
 
 export default function SowingMeasurementSwitcher({ dataToBeSaved }: { dataToBeSaved: SowingRateSaveData }) {

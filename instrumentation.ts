@@ -1695,7 +1695,7 @@ const dbData = {
     },
     {
       // АГРАКСОН 500 СЛ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1717,9 +1717,9 @@ const dbData = {
       pricePer1LiterBGN: 20.09,
       pricePerAcreBGN: 3.21,
       // Третирането се извършва до фенофаза четвърти лист на културата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL_INFO,
       // Селективен, системен, хормоноподобен хербицид, предназначен за борба с едногодишните и многогодишни, широколистни плевели изисква плевелите да са в активен растеж. Внасянето се извършва с работен разтвор от 40 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGRAXON_500_SL_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL_INFO_NOTES
     },
     {
       // ДЖАНЕРО 480 СЛ

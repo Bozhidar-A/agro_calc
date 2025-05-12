@@ -1,5 +1,5 @@
 import { useTranslate } from "@/app/hooks/useTranslate";
-import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps";
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { FormField } from "../ui/form";
 import { Input } from "../ui/input";
