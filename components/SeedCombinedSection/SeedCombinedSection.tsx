@@ -8,7 +8,7 @@ import { TreesIcon as Plant, Percent } from "lucide-react"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import { useSelector } from "react-redux"
-import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/LocalSettingsMaps"
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
 
 interface SeedCombinedSectionProps {
     name: string

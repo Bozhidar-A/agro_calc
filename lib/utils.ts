@@ -1,7 +1,30 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
-import { SUPPORTED_LANGS } from './LocalSettingsMaps';
+
+export const SUPPORTED_LANGS = {
+  BG: {
+    code: 'BG',
+    name: 'Български',
+    flag: '🇧🇬',
+  },
+  EN: {
+    code: 'EN',
+    name: 'English',
+    flag: '🇬🇧',
+  },
+};
+
+export const enum THEMES {
+  THEME_LIGHT = 'light',
+  THEME_DARK = 'dark',
+  THEME_SYSTEM = 'system',
+}
+
+export const enum UNIT_OF_MEASUREMENT_LENGTH {
+  ACRES = 'ACRES',
+  HECTARES = 'HECTARES',
+}
 
 export enum LatinNames {
   // Seeding crops
@@ -67,7 +90,6 @@ export enum ChemicalType {
 
 export enum ChemicalApplicationStage {
   AFTER_PLANTING_BEFORE_GERMINATION = "After planting before germination",
-  NON_VEGETATIVE = "Non-vegetative",
   OUT_OF_VEGETATION = "Out of vegetation",
   VEGETATION = "Vegetation",
   SPECIAL_VEGETATION = "Special vegetation"

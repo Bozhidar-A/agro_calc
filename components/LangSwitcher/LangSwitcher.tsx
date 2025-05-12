@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SUPPORTED_LANGS } from '@/lib/LocalSettingsMaps';
+import { SUPPORTED_LANGS } from '@/lib/utils';
 import { LocalSetLang } from '@/store/slices/localSettingsSlice';
 
 function ThemeIcon(theme: string | undefined) {
