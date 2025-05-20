@@ -98,8 +98,16 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             rowSpacing: 0,
             totalArea: 1,
         },
-        mode: 'onBlur'
+        mode: 'onChange',
+        reValidateMode: 'onBlur'
     })
+
+    // Trigger validation on mount
+    //EXTREMELY HACKY SOLUTION, but it works
+    //this is to make the form validate on mount specifically for errors
+    useEffect(() => {
+        form.trigger();
+    }, []);
 
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
@@ -221,6 +229,8 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
 
             const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
 
+            console.log("isValid:", form.formState.isValid && CountWarnings() === 0)
+
             // Create the saveable data
             const saveableData: SowingRateSaveData = {
                 userId: authObj?.user?.id || '',
@@ -231,7 +241,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
                 internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
                 totalArea: formValues.totalArea,
-                isDataValid: form.formState.isValid && Object.keys(warnings).length === 0
+                isDataValid: form.formState.isValid && CountWarnings() === 0
             };
 
             setDataToBeSaved(saveableData);
@@ -246,7 +256,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         });
 
         return () => subscription.unsubscribe();
-    }, [form, activePlantDbData, authObj]);
+    }, [form, activePlantDbData, authObj, warnings]);
 
 
     async function onSubmit(data: any) {
