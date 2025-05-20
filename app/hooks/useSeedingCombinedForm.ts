@@ -80,7 +80,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
                 data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
             userId: authObj?.user?.id || "",
-            isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
+            isDataValid: (form.formState.isValid && CountWarnings() === 0),
         };
 
         return combinedData;
@@ -97,6 +97,9 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             delete newWarnings[field];
             return newWarnings;
         });
+    }
+    function CountWarnings() {
+        return Object.keys(warnings).length;
     }
 
     //object making react-hook-form and zod work together
@@ -125,6 +128,27 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
         defaultValues: CreateDefaultValues(),
         mode: 'onBlur'
     });
+
+    // Update finalData when validation state changes
+    useEffect(() => {
+        if (finalData) {
+            setFinalData(prev => ({
+                ...prev!,
+                isDataValid: (form.formState.isValid && CountWarnings() === 0)
+            }));
+        }
+    }, [form.formState.isValid, warnings]);
+
+    // Debug form state changes
+    useEffect(() => {
+        console.log('Form state changed:', {
+            isValid: form.formState.isValid,
+            isDirty: form.formState.isDirty,
+            isSubmitting: form.formState.isSubmitting,
+            errors: form.formState.errors,
+            warnings
+        });
+    }, [form.formState.isValid, form.formState.isDirty, form.formState.isSubmitting, form.formState.errors, warnings]);
 
     //watcher to handle form value change
     //calculated vals
@@ -211,6 +235,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
+
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {
@@ -224,5 +249,5 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
         toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
-    return { form, finalData, onSubmit, warnings };
+    return { form, finalData, onSubmit, warnings, CountWarnings };
 };
