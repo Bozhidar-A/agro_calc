@@ -14,10 +14,8 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 import { AuthLogout } from '@/store/slices/authSlice';
 import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 import MeasurementSwitcher from '../MeasurementSwitcher/MeasurementSwitcher';
 import { RootState } from '@/store/store';
 

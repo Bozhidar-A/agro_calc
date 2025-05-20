@@ -2,7 +2,7 @@
 
 import { Moon, Sun, SunMoon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { THEMES } from '@/lib/LocalSettingsMaps';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { LocalSetTheme } from '@/store/slices/localSettingsSlice';
 
 function ThemeIcon(theme: string | undefined) {
@@ -42,27 +42,27 @@ export function ThemeSwitcher() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           onClick={() => {
-            setTheme(THEMES.THEME_LIGHT);
-            dispatch(LocalSetTheme(THEMES.THEME_LIGHT));
+            setTheme(SELECTABLE_STRINGS.THEME_LIGHT);
+            dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_LIGHT));
           }}
         >
-          {translator(THEMES.THEME_LIGHT)}
+          {translator(SELECTABLE_STRINGS.THEME_LIGHT)}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setTheme(THEMES.THEME_DARK);
-            dispatch(LocalSetTheme(THEMES.THEME_DARK));
+            setTheme(SELECTABLE_STRINGS.THEME_DARK);
+            dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_DARK));
           }}
         >
-          {translator(THEMES.THEME_DARK)}
+          {translator(SELECTABLE_STRINGS.THEME_DARK)}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setTheme(THEMES.THEME_SYSTEM);
-            dispatch(LocalSetTheme(THEMES.THEME_SYSTEM));
+            setTheme(SELECTABLE_STRINGS.THEME_SYSTEM);
+            dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_SYSTEM));
           }}
         >
-          {translator(THEMES.THEME_SYSTEM)}
+          {translator(SELECTABLE_STRINGS.THEME_SYSTEM)}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

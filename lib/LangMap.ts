@@ -58,6 +58,10 @@ export enum SELECTABLE_STRINGS {
   SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES = 'SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES',
   SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL = 'SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL',
 
+  THEME_LIGHT = 'light',
+  THEME_DARK = 'dark',
+  THEME_SYSTEM = 'system',
+
   //sowing
   SOWING_RATE_CALC = 'SOWING_RATE_CALC',
   SOWING_RATE_PICK_CULTURE = 'SOWING_RATE_PICK_CULTURE',
@@ -162,9 +166,9 @@ const LangMap: LangMapInteraface = {
     'Festuca pratensis': 'Ливадна власатка',
     'Festuca rubra': 'Червена власатка',
 
-    [THEMES.THEME_LIGHT]: 'Светла тема',
-    [THEMES.THEME_DARK]: 'Тъмна тема',
-    [THEMES.THEME_SYSTEM]: 'Системна тема',
+    [SELECTABLE_STRINGS.THEME_LIGHT]: 'Светла тема',
+    [SELECTABLE_STRINGS.THEME_DARK]: 'Тъмна тема',
+    [SELECTABLE_STRINGS.THEME_SYSTEM]: 'Системна тема',
 
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Добре дошли, ',
     [SELECTABLE_STRINGS.MENU]: 'Меню',
@@ -303,9 +307,9 @@ const LangMap: LangMapInteraface = {
     'Festuca rubra': 'Red fescue',
 
     //general
-    [THEMES.THEME_LIGHT]: 'Light',
-    [THEMES.THEME_DARK]: 'Dark',
-    [THEMES.THEME_SYSTEM]: 'System',
+    [SELECTABLE_STRINGS.THEME_LIGHT]: 'Light',
+    [SELECTABLE_STRINGS.THEME_DARK]: 'Dark',
+    [SELECTABLE_STRINGS.THEME_SYSTEM]: 'System',
 
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Welcome, ',
     [SELECTABLE_STRINGS.MENU]: 'Menu',
