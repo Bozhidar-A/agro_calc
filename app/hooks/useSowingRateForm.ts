@@ -93,7 +93,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             purity: 0,
             germination: 0,
             rowSpacing: 0,
-            totalArea: 1
+            totalArea: 1,
         },
         mode: 'onBlur'
     })
