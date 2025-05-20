@@ -81,6 +81,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             .min(0, 'Germination must be at least 0'),
         rowSpacing: z.number()
             .min(0, 'Row spacing must be at least 0'),
+        totalArea: z.number()
+            .min(0, 'Total area must be at least 0')
+            .transform(val => isNaN(val) ? 0 : val),
     });
 
     const form = useForm({
