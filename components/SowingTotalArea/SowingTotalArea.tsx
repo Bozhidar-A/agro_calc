@@ -7,11 +7,11 @@ import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { FormField } from "../ui/form"
 import { IsValueOutOfBounds } from "@/lib/sowing-utils"
-import { CalculatorValueTypes } from "@/lib/utils"
+import { CalculatorValueTypes, UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
 import type { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
 import SowingOutput from "../SowingOutput/SowingOutput"
 import { useSelector } from "react-redux"
-import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
+
 
 //Heavy based on BuildSowingRateRow component
 export default function SowingTotalArea({ form, dataToBeSaved }: { form: any; dataToBeSaved: SowingRateSaveData }) {

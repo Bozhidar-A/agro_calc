@@ -1,6 +1,3 @@
-
-import { THEMES } from '@/lib/utils';
-
 interface LangMapInteraface {
   [key: string]: {
     [key: string]: string;
@@ -58,9 +55,53 @@ export enum SELECTABLE_STRINGS {
   SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES = 'SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES',
   SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL = 'SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL',
 
+  //settings themes
   THEME_LIGHT = 'light',
   THEME_DARK = 'dark',
   THEME_SYSTEM = 'system',
+
+  //latin names
+  // Seeding crops
+  PISUM_SATIVUM = 'Pisum sativum', // Грах (Pea)
+  GLYCINE_MAX = 'Glycine max', // Соя (Soybean)
+  SORGHUM_VULGARE_VAR_TEHNICUM = 'Sorghum vulgare var. tehnicum', // Сорго (Sorghum)
+  ZEA_MAYS = 'Zea mays', // Царевица (Corn)
+
+  // Legumes (бобови)
+  MEDICAGO_SATIVA = 'Medicago sativa', // Люцерна (Alfalfa)
+  TRIFOLIUM_STELLATUM = 'Trifolium stellatum', // Звездан (Star Clover)
+  TRIFOLIUM_PRATENSE = 'Trifolium pratense', // Червена детелина (Red Clover)
+  TRIFOLIUM_REPENS = 'Trifolium repens', // Бяла детелина (White Clover)
+
+  // Cereals / Grasses (зърнени / треви)
+  LOLIUM_PERENNE = 'Lolium perenne', // Пасищен райграс (Perennial Ryegrass)
+  AGROPYRON_CRISTATUM = 'Agropyron cristatum', // Гребенчат житняк (Crested Wheatgrass)
+  DACTYLIS_GLOMERATA = 'Dactylis glomerata', // Ежова главица (Orchard Grass)
+  AVENULA_PUBESCENS = 'Avenula pubescens', // Безосилеста овсига (Downy Oatgrass)
+  FESTUCA_PRATENSIS = 'Festuca pratensis', // Ливадна власатка (Meadow Fescue)
+  FESTUCA_RUBRA = 'Festuca rubra', // Червена власатка (Red Fescue)
+
+  // chemical protection enemy targets
+  // Балур (Johnson Grass)
+  SORGHUM_HALEPENSE = 'Sorghum halepense',
+  // Кисела трева
+  ACID_GRASS = 'Acid grass',
+  // Кокоше просо
+  ECHINOCHLOA_CRUS_GALLI = 'Echinochloa crus-galli',
+  // Кръвно просо
+  PANICUM_SANGUINALE = 'Panicum sanguinale',
+  // Кощрява
+  POLYGONUM_AVICULARE = 'Polygonum aviculare',
+  // Метлица
+  SETARIA_VIRIDIS = 'Setaria viridis',
+  // Овчарска торбичка
+  CAPSELLA_BURSA_PASTORIS = 'Capsella bursa-pastoris',
+  // Тученица
+  PORTULACA_OLERACEA = 'Portulaca oleracea',
+  // Черно куче грозде
+  SOLANUM_NIGRUM = 'Solanum nigrum',
+  // Видове щир
+  AMARANTHUS_SPP = 'Amaranthus spp.',
 
   //sowing
   SOWING_RATE_CALC = 'SOWING_RATE_CALC',
@@ -151,20 +192,20 @@ export enum SELECTABLE_STRINGS {
 const LangMap: LangMapInteraface = {
   BG: {
     //plants
-    'Pisum sativum': 'Грах',
-    'Glycine max': 'Соя',
-    'Sorghum vulgare var. tehnicum': 'Сорго',
-    'Zea mays': 'Царевица',
-    'Medicago sativa': 'Люцерна',
-    'Trifolium stellatum': 'Звездан',
-    'Trifolium pratense': 'Червена детелина',
-    'Trifolium repens': 'Бяла детелина',
-    'Lolium perenne': 'Пасищен райграс',
-    'Agropyron cristatum': 'Гребенчат житняк',
-    'Dactylis glomerata': 'Ежова главица',
-    'Avenula pubescens': 'Безосилеста овсига',
-    'Festuca pratensis': 'Ливадна власатка',
-    'Festuca rubra': 'Червена власатка',
+    [SELECTABLE_STRINGS.PISUM_SATIVUM]: 'Грах',
+    [SELECTABLE_STRINGS.GLYCINE_MAX]: 'Соя',
+    [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM]: 'Сорго',
+    [SELECTABLE_STRINGS.ZEA_MAYS]: 'Царевица',
+    [SELECTABLE_STRINGS.MEDICAGO_SATIVA]: 'Люцерна',
+    [SELECTABLE_STRINGS.TRIFOLIUM_STELLATUM]: 'Звездан',
+    [SELECTABLE_STRINGS.TRIFOLIUM_PRATENSE]: 'Червена детелина',
+    [SELECTABLE_STRINGS.TRIFOLIUM_REPENS]: 'Бяла детелина',
+    [SELECTABLE_STRINGS.LOLIUM_PERENNE]: 'Пасищен райграс',
+    [SELECTABLE_STRINGS.AGROPYRON_CRISTATUM]: 'Гребенчат житняк',
+    [SELECTABLE_STRINGS.DACTYLIS_GLOMERATA]: 'Ежова главица',
+    [SELECTABLE_STRINGS.AVENULA_PUBESCENS]: 'Безосилеста овсига',
+    [SELECTABLE_STRINGS.FESTUCA_PRATENSIS]: 'Ливадна власатка',
+    [SELECTABLE_STRINGS.FESTUCA_RUBRA]: 'Червена власатка',
 
     [SELECTABLE_STRINGS.THEME_LIGHT]: 'Светла тема',
     [SELECTABLE_STRINGS.THEME_DARK]: 'Тъмна тема',

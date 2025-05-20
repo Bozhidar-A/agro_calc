@@ -6,12 +6,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { SowingRateDBData } from "../calculators/sowing/page";
 import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/lib/math-util";
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { AuthState } from '@/store/slices/authSlice';
+import { AuthState } from "@/store/slices/authSlice";
 import { CalculatorValueTypes } from "@/lib/utils";
 
 export interface SowingRateSaveData {
