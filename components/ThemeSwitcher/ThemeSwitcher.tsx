@@ -16,11 +16,11 @@ import { LocalSetTheme } from '@/store/slices/localSettingsSlice';
 
 function ThemeIcon(theme: string | undefined) {
   switch (theme) {
-    case 'light':
+    case SELECTABLE_STRINGS.THEME_LIGHT:
       return <Sun />;
-    case 'dark':
+    case SELECTABLE_STRINGS.THEME_DARK:
       return <Moon />;
-    case 'system':
+    case SELECTABLE_STRINGS.THEME_SYSTEM:
       return <SunMoon />;
     default:
       return <span className="sr-only">Toggle theme</span>;

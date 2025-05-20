@@ -1,13 +1,14 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { SUPPORTED_LANGS, THEMES, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { SUPPORTED_LANGS, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 const localSettingsSlice = createSlice({
   name: 'localSettings',
   initialState: {
     lang: SUPPORTED_LANGS.BG.code,
-    theme: THEMES.THEME_SYSTEM,
+    theme: SELECTABLE_STRINGS.THEME_SYSTEM,
     unitOfMeasurementLength: UNIT_OF_MEASUREMENT_LENGTH.ACRES,
   },
   reducers: {
