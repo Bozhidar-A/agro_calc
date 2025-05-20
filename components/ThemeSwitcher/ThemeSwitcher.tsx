@@ -2,7 +2,7 @@
 
 import { Moon, Sun, SunMoon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import {
@@ -32,6 +32,10 @@ export function ThemeSwitcher() {
   const translator = useTranslate();
   const { theme, setTheme } = useTheme();
 
+  //i dont understand why this is not working
+  //useTheme ONLY WORKS WITH STRINGS
+  //not enum members, only string ???
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +46,7 @@ export function ThemeSwitcher() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem
           onClick={() => {
-            setTheme(SELECTABLE_STRINGS.THEME_LIGHT);
+            setTheme('light');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_LIGHT));
           }}
         >
@@ -50,7 +54,7 @@ export function ThemeSwitcher() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setTheme(SELECTABLE_STRINGS.THEME_DARK);
+            setTheme('dark');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_DARK));
           }}
         >
@@ -58,7 +62,7 @@ export function ThemeSwitcher() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setTheme(SELECTABLE_STRINGS.THEME_SYSTEM);
+            setTheme('system');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_SYSTEM));
           }}
         >
