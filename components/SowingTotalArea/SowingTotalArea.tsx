@@ -50,8 +50,26 @@ export default function SowingTotalArea({ form, dataToBeSaved }: { form: any; da
                             <Input
                                 className={`text-center text-xl ${inputValidityClass}`}
                                 type="number"
+                                min="0"
+                                step="0.01"
                                 {...field}
-                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                value={field.value || ''}
+                                onChange={(e) => {
+                                    // Prevent negative values and handle empty input
+                                    const rawValue = e.target.value;
+                                    if (rawValue === '') {
+                                        field.onChange(0);
+                                        return;
+                                    }
+                                    const value = Math.max(0, parseFloat(rawValue));
+                                    field.onChange(isNaN(value) ? 0 : value);
+                                }}
+                                onKeyDown={(e) => {
+                                    // Prevent negative sign and decimal point if already present
+                                    if (e.key === '-' || (e.key === '.' && field.value?.toString().includes('.'))) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         )}
                     />
