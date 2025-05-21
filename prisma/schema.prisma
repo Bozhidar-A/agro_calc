@@ -42,20 +42,19 @@ model Plant {
   id        String @id @default(cuid())
   latinName String @unique
 
-  //combined
   seedingDataCombination                 SeedingDataCombination?
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
   SowingRatePlant                        SowingRatePlant?
   SowingRateHistory                      SowingRateHistory[]
 
-  Chemical Chemical[]
+  plantChemicals PlantChemical[]
 }
 
 //sowing rate
 model SowingRatePlant {
   id String @id @default(cuid())
 
-  // Relationship back to Plant
+  // relationship back to plant
   plantId String @unique
   plant   Plant  @relation(fields: [plantId], references: [id], onDelete: Cascade)
 
@@ -245,28 +244,36 @@ enum ChemicalApplicationStage {
 
 model Chemical {
   id      String @id @default(cuid())
-  plantId String @unique
-  plant   Plant  @relation(fields: [plantId], references: [id])
+  nameKey String @unique
 
-  nameKey           String
-  type              ChemicalType
-  activeIngredients ChemicalActiveIngredient[]
-  applicationStage  ChemicalApplicationStage
+  type             ChemicalType
+  applicationStage ChemicalApplicationStage
 
-  chemicalTargetEnemies ChemicalTargetEnemy[]
-
-  dosage          Float
-  dosageUnit      String
-  maxApplications Float
-
+  dosage                             Float
+  dosageUnit                         String
+  maxApplications                    Float
   minIntervalBetweenApplicationsDays Float
   maxIntervalBetweenApplicationsDays Float
   quarantinePeriodDays               Float
   pricePer1LiterBGN                  Float
   pricePerAcreBGN                    Float
+  additionalInfo                     String
+  additionalInfoNotes                String
 
-  additionalInfo      String
-  additionalInfoNotes String
+  plantUsages           PlantChemical[]            @relation("ChemicalToPlantUsages")
+  activeIngredients     ChemicalActiveIngredient[]
+  chemicalTargetEnemies ChemicalTargetEnemy[]
+}
+
+model PlantChemical {
+  id         String @id @default(cuid())
+  plantId    String
+  chemicalId String
+
+  plant    Plant    @relation(fields: [plantId], references: [id])
+  chemical Chemical @relation("ChemicalToPlantUsages", fields: [chemicalId], references: [id])
+
+  @@unique([plantId, chemicalId])
 }
 
 model ActiveIngredient {
@@ -285,6 +292,8 @@ model ChemicalActiveIngredient {
   activeIngredient ActiveIngredient @relation(fields: [activeIngredientId], references: [id])
 
   quantity Float
+
+  @@unique([chemicalId, activeIngredientId])
 }
 
 model ChemicalTargetEnemy {
@@ -293,4 +302,6 @@ model ChemicalTargetEnemy {
   chemical   Chemical @relation(fields: [chemicalId], references: [id])
 
   latinName String
+
+  @@unique([chemicalId, latinName])
 }

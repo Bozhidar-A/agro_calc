@@ -627,7 +627,11 @@ const dbData = {
     //Medicago sativa (люцерна, alfalfa)
     {
       //ДУАЛ ГОЛД 960 ЕК
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [
+        SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+        SELECTABLE_STRINGS.GLYCINE_MAX,
+        SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM
+      ],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -666,7 +670,7 @@ const dbData = {
     },
     {
       // ЕКЛИПС 70 ВДГ
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -695,7 +699,7 @@ const dbData = {
     },
     {
       // ЛЕОПАРД 5 ЕК
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEOPARD_5_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -724,7 +728,7 @@ const dbData = {
     },
     {
       // ЛЕНТАГРАН ВП
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -753,7 +757,7 @@ const dbData = {
     },
     {
       // ПУЛСАР 40
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -783,7 +787,7 @@ const dbData = {
     },
     {
       // ДЕЦИС 100 ЕК
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA, SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -814,7 +818,7 @@ const dbData = {
     },
     {
       // ЛАМДЕКС ЕКСТРА
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA, SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -845,7 +849,7 @@ const dbData = {
     },
     {
       // МЕТЕОР
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA, SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -876,7 +880,7 @@ const dbData = {
     },
     {
       // СУМИ АЛФА 5 ЕК
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SUMI_ALPHA_5_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -909,7 +913,7 @@ const dbData = {
     },
     {
       // МОСПИЛАН 20 СГ
-      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      plantUsages: [SELECTABLE_STRINGS.MEDICAGO_SATIVA],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_MOSPILAN_20_SG,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -940,7 +944,7 @@ const dbData = {
     //Pisum sativum (Грах, Pea)
     {
       // СТОМП АКВА
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM, SELECTABLE_STRINGS.GLYCINE_MAX, SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -971,7 +975,7 @@ const dbData = {
     },
     {
       // ЧЕЛИНДЖ 600 СК
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CHALLENGE_600_SC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1001,7 +1005,7 @@ const dbData = {
     },
     {
       // СТРАТОС УЛТРА
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STRATOS_ULTRA,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1034,7 +1038,7 @@ const dbData = {
     },
     {
       // АЧИБА МАКС
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ACHIBA_MAX,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1065,7 +1069,7 @@ const dbData = {
     },
     {
       // КОРУМ
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORUM,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1103,7 +1107,7 @@ const dbData = {
     },
     {
       // ЛЕБРОН 0,5 Г
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM, SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1134,7 +1138,7 @@ const dbData = {
     },
     {
       // ОАЗИС 5 ЕК
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_OASIS_5_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1164,7 +1168,7 @@ const dbData = {
     },
     {
       // ЦИТРИН МАКС
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1197,7 +1201,7 @@ const dbData = {
     },
     {
       // ФЛИПЕР ЕВ
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM, SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1230,7 +1234,7 @@ const dbData = {
     },
     {
       // ОРТИВА ТОП СК
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORTIVA_TOP_SC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1248,7 +1252,6 @@ const dbData = {
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
-
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI],
       dosage: 100,
       dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
@@ -1266,7 +1269,7 @@ const dbData = {
     },
     {
       // СУИЧ 62.5 ВГ
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM, SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1302,7 +1305,7 @@ const dbData = {
     },
     {
       // БОРДО МИКС 20 ВП
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1332,7 +1335,7 @@ const dbData = {
     },
     {
       // СЯРА ВГ
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM, SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1362,7 +1365,7 @@ const dbData = {
     },
     {
       // ЗОКСИС 250 СК
-      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      plantUsages: [SELECTABLE_STRINGS.PISUM_SATIVUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1393,6 +1396,7 @@ const dbData = {
     //Glycine max (Соя Soybean)
     {
       // СИРТАКИ
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1421,6 +1425,7 @@ const dbData = {
     },
     {
       // САЛТУС
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1448,6 +1453,7 @@ const dbData = {
     },
     {
       // ПАНТЕРА 40 ЕК
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1459,7 +1465,7 @@ const dbData = {
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
-      chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AVENA_FATUA],
+      chemicalTargetEnemies: [SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AVENA_FATUA],
       dosage: 150,
       dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
@@ -1475,6 +1481,7 @@ const dbData = {
     },
     {
       // ДЕКА ЕК
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1502,6 +1509,7 @@ const dbData = {
     },
     {
       // ТРИКА ЕКСПЕРТ
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1529,6 +1537,7 @@ const dbData = {
     },
     {
       // РЕТЕНГО 20ЕК
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX, SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1556,6 +1565,7 @@ const dbData = {
     },
     {
       // ДИФКОР 250 СК
+      plantUsages: [SELECTABLE_STRINGS.GLYCINE_MAX],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -1584,6 +1594,7 @@ const dbData = {
     //Sorghum vulgare var. tehnicum (Сорго, Sorghum) 
     {
       // АГРАКСОН 500 СЛ
+      plantUsages: [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1612,6 +1623,7 @@ const dbData = {
     },
     {
       // ДЖАНЕРО 480 СЛ
+      plantUsages: [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1640,6 +1652,7 @@ const dbData = {
     },
     {
       // КИДЕКА ПРО
+      plantUsages: [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1668,6 +1681,7 @@ const dbData = {
     },
     {
       // КОЛОМБО ПРО
+      plantUsages: [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM, SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1695,8 +1709,8 @@ const dbData = {
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
     },
     {
-      //TODO: duplicated in given data???
       // СИВАНТО ЕНЕРДЖИ
+      plantUsages: [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1732,6 +1746,7 @@ const dbData = {
     //Zea mays (Царевица, Corn)
     {
       // БИСМАРК КС
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1766,6 +1781,7 @@ const dbData = {
     },
     {
       // АРАТ
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1784,7 +1800,7 @@ const dbData = {
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
-      chemicalTargetEnemies: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
+      chemicalTargetEnemies: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 20,
       dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
@@ -1800,6 +1816,7 @@ const dbData = {
     },
     {
       // АМИНОПИЕЛИК 600 СЛ
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1811,7 +1828,6 @@ const dbData = {
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
-
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS],
       dosage: 120,
       dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
@@ -1828,6 +1844,7 @@ const dbData = {
     },
     {
       // ДЖАНЕРО 480 СЛ
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE,
       activeIngredients: [
@@ -1856,6 +1873,7 @@ const dbData = {
     },
     {
       // КОРАГЕН 20 СК
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1884,6 +1902,7 @@ const dbData = {
     },
     {
       // К-ОБИОЛ 6 УЛВ
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1912,6 +1931,7 @@ const dbData = {
     },
     {
       // ИНАЗУМА
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE,
       activeIngredients: [
@@ -1946,6 +1966,7 @@ const dbData = {
     },
     {
       // РЕДИГО М
+      plantUsages: [SELECTABLE_STRINGS.ZEA_MAYS],
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M,
       type: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE,
       activeIngredients: [
@@ -2052,7 +2073,7 @@ export async function register() {
 
         if (!plant) {
           console.error('Plant not found for SowingRatePlant: ', sowingRateData.plantName);
-          continue;
+          throw new Error('Force exit in instrumentation');
         }
 
         const sowingPlant = await prisma.sowingRatePlant.create({
@@ -2218,17 +2239,9 @@ export async function register() {
       //chem protection
       console.log('Seeding Chem Protection...');
       for (const chemicalData of dbData.ChemicalProtectionData) {
-        const plant = await prisma.plant.findUnique({
-          where: {
-            latinName: chemicalData.plantName,
-          },
-        });
-
-        await prisma.chemical.create({
+        // create chemical
+        const createdChemical = await prisma.chemical.create({
           data: {
-            plant: {
-              connect: { id: plant.id },
-            },
             nameKey: chemicalData.nameKey,
             type: chemicalData.type,
             applicationStage: chemicalData.applicationStage,
@@ -2242,14 +2255,12 @@ export async function register() {
             pricePerAcreBGN: chemicalData.pricePerAcreBGN,
             additionalInfo: chemicalData.additionalInfo,
             additionalInfoNotes: chemicalData.additionalInfoNotes,
-
+            // Fixed: Create target enemies directly since they're unique per chemical
             chemicalTargetEnemies: {
-              connectOrCreate: chemicalData.chemicalTargetEnemies.map((enemy) => ({
-                where: { latinName: enemy },
-                create: { latinName: enemy },
+              create: chemicalData.chemicalTargetEnemies.map((enemy) => ({
+                latinName: enemy,
               })),
             },
-
             activeIngredients: {
               create: chemicalData.activeIngredients.map((ingredient) => ({
                 quantity: ingredient.quantity,
@@ -2266,7 +2277,34 @@ export async function register() {
             },
           },
         });
+
+        // connect to all plants
+        for (const plantLatinName of chemicalData.plantUsages) {
+          const plant = await prisma.plant.findUnique({
+            where: { latinName: plantLatinName },
+          });
+          if (!plant) {
+            console.error(`Plant not found: ${plantLatinName}`);
+            throw new Error('Force exit in instrumentation');
+          }
+
+          // use upsert to avoid duplicate key errors
+          await prisma.plantChemical.upsert({
+            where: {
+              plantId_chemicalId: {
+                plantId: plant.id,
+                chemicalId: createdChemical.id,
+              },
+            },
+            update: {}, // no updates needed if it exists
+            create: {
+              plantId: plant.id,
+              chemicalId: createdChemical.id,
+            },
+          });
+        }
       }
+
       console.log('Chem Protection seeded.');
 
       console.log('Database seeded.');
