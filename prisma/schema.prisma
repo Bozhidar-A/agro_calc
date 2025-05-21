@@ -84,19 +84,7 @@ model SowingRateCoefficientSecurity {
   // Relationship back to Plant
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
-
-  // // One-to-many relation to store coefficient values separately
-  // values SowingRateCoefficientSecurityValue[]
 }
-
-// model SowingRateCoefficientSecurityValue {
-//   id    String @id @default(cuid())
-//   value Float
-
-//   // Relationship back to SowingRateCoefficientSecurity
-//   coefficientSecurityId String
-//   coefficientSecurity   SowingRateCoefficientSecurity @relation(fields: [coefficientSecurityId], references: [id], onDelete: Cascade)
-// }
 
 model SowingRateWantedPlantsPerMeterSquared {
   id   String @id @default(cuid())
@@ -258,12 +246,10 @@ model Chemical {
   plantId String @unique
   plant   Plant  @relation(fields: [plantId], references: [id])
 
-  nameKey               String
-  type                  ChemicalType
-  activeIngredients     ChemicalActiveIngredient[]
-  applicationStage      ChemicalApplicationStage
-  //SPECIAL_VEGETATIVE means there is a bit more information about the application stage
-  applicationStageNotes String
+  nameKey           String
+  type              ChemicalType
+  activeIngredients ChemicalActiveIngredient[]
+  applicationStage  ChemicalApplicationStage
 
   chemicalTargetEnemies ChemicalTargetEnemy[]
 

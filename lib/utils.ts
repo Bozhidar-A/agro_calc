@@ -31,19 +31,6 @@ export enum CalculatorValueTypes {
   ABOVE_ZERO = "aboveZero"
 }
 
-export enum ChemicalType {
-  HERBICIDE = "Herbicide",
-  INSECTICIDE = "Insecticide",
-  FUNGICIDE = "Fungicide"
-}
-
-export enum ChemicalApplicationStage {
-  AFTER_PLANTING_BEFORE_GERMINATION = "After planting before germination",
-  OUT_OF_VEGETATION = "Out of vegetation",
-  VEGETATION = "Vegetation",
-  SPECIAL_VEGETATION = "Special vegetation"
-}
-
 export enum ChemicalActiveIngredientDosageUnit {
   G_L = "g/L",
   G_KG = "g/kg",
