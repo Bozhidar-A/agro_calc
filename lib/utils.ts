@@ -31,17 +31,6 @@ export enum CalculatorValueTypes {
   ABOVE_ZERO = "aboveZero"
 }
 
-export enum ChemicalActiveIngredientDosageUnit {
-  G_L = "g/L",
-  G_KG = "g/kg",
-}
-
-export enum ChemicalDosageUnit {
-  ML_ACRE = "ml/acre",
-  G_ACRE = "g/acre",
-  G_100_KG_SEEDS = "g/100kg seeds",
-}
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

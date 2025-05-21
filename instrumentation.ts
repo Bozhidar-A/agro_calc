@@ -1,5 +1,5 @@
 import { SELECTABLE_STRINGS } from "./lib/LangMap";
-import { CalculatorValueTypes, ChemicalActiveIngredientDosageUnit, ChemicalDosageUnit, CombinationTypes } from "./lib/utils";
+import { CalculatorValueTypes, CombinationTypes } from "./lib/utils";
 
 
 const dbData = {
@@ -635,7 +635,7 @@ const dbData = {
           //960 g/l S-метолахлор
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
           quantity: 960,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE,
@@ -652,7 +652,7 @@ const dbData = {
         SELECTABLE_STRINGS.AMARANTHUS
       ],
       dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -674,14 +674,14 @@ const dbData = {
           // 700 g/kg метрибузин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METRIBUZIN,
           quantity: 700,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_BEFORE_START_OF_GROWING_SEASON,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.LOLIUM, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER, SELECTABLE_STRINGS.VERONICA_OFFICINALIS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.MATRICARIA_RECUTITA, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.GERANIUM_SP, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.LYSIMACHIA_ARVENSIS, SELECTABLE_STRINGS.CENTAUREA_CYANUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -703,14 +703,14 @@ const dbData = {
           // 50 g/l квизалофоп-П-етил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_ETHYL,
           quantity: 50,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.BROMUS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.LOLIUM, SELECTABLE_STRINGS.PHALARIS_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.CYNODON_DACTYLON],
       dosage: 100,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 30,
       maxIntervalBetweenApplicationsDays: 30,
@@ -732,13 +732,13 @@ const dbData = {
           // 450 g/kg пиридат
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRIDATE,
           quantity: 450,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.GALIUM_APARINE, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS],
       dosage: 200,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -761,14 +761,14 @@ const dbData = {
           // 41 g/l имазамокс
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
           quantity: 41,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.APERA_SPICA_VENTI, SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.APERA_SPP, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -791,14 +791,14 @@ const dbData = {
           // 100 g/l делтаметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.CURCULIONIDAE],
       dosage: 6.25,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -822,14 +822,14 @@ const dbData = {
           // 25 g/kg ламбда - цихалотрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
           quantity: 25,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.THYSANOPTERA, SELECTABLE_STRINGS.OULEMA_MELANOPA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.NOCTUIDAE],
       dosage: 42,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -853,14 +853,14 @@ const dbData = {
           // 15,7 g/l делтаметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
           quantity: 15.7,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.CAELIFERA, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.GEOMETRIDAE],
       dosage: 60,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -884,14 +884,14 @@ const dbData = {
           // 50 g/l есфенвалерат
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ESFENVALERATE,
           quantity: 50,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI, SELECTABLE_STRINGS.GEOMETRIDAE, SELECTABLE_STRINGS.GONIOCTENA_FORNICATA, SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS, SELECTABLE_STRINGS.DASYNEURA_IGNORATA, SELECTABLE_STRINGS.CONTARINIA_MEDICAGINIS, SELECTABLE_STRINGS.ENTOMOSCELIS_SULTATOR],
       dosage: 20,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 21,
@@ -917,13 +917,13 @@ const dbData = {
           // 101 g/kg ацетамиприд
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID,
           quantity: 101,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.APHIS_MEDICAGINIS, SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI],
       dosage: 7.5,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 21,
@@ -948,14 +948,14 @@ const dbData = {
           // 455 g/l пендиметалин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
           quantity: 455,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.SENECIO_VULGARIS],
       dosage: 250,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -979,14 +979,14 @@ const dbData = {
           // 600 g/l аклонифен
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACLONIFEN,
           quantity: 600,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.MATRICARIA_RECUTITA, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.VERONICA_OFFICINALIS],
       dosage: 300,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1009,14 +1009,14 @@ const dbData = {
           // 100 g/l циклоксидим
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYCLOXYDIM,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS],
       dosage: 200,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1042,14 +1042,14 @@ const dbData = {
           // 100 g/l хизалофоп - P - етил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_ETHYL,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS],
       dosage: 75,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1073,20 +1073,20 @@ const dbData = {
           // 480 g/l бентазон
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BENTAZONE,
           quantity: 480,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         },
         {
           // 22.4 g/l имазамокс
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
           quantity: 22.4,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.GALIUM_APARINE, SELECTABLE_STRINGS.DATURA_STRAMONIUM, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE],
       dosage: 125,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1111,13 +1111,13 @@ const dbData = {
           // 5 g/kg тефлутрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN,
           quantity: 5,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.CEUTORRHYNCHUS_PLEUROSTIGMA, SELECTABLE_STRINGS.CHILOPODA, SELECTABLE_STRINGS.CHORTOPHILA_BRASSICAE, SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA],
       dosage: 1500,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1142,14 +1142,14 @@ const dbData = {
           // 50 g/l есфенвалерат
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ESFENVALERATE,
           quantity: 50,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.BRUCHUS_PISORUM],
       dosage: 25,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1172,14 +1172,14 @@ const dbData = {
           // 500 g/l циперметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYCLOXYDIM,
           quantity: 500,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.BRUCHUS_PISORUM, SELECTABLE_STRINGS.AUTOGRAPHA_GAMMA, SELECTABLE_STRINGS.LASPEYRESIA_NIGRICANA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.CURCULIONIDAE],
       dosage: 5,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1205,14 +1205,14 @@ const dbData = {
           // 479.8 g/l мастни киселини
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
           quantity: 479.8,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ACARINA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.TRIALEURODES_VAPORARIORUM],
       dosage: 1600,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 5,
       minIntervalBetweenApplicationsDays: 10,
       maxIntervalBetweenApplicationsDays: 10,
@@ -1238,20 +1238,20 @@ const dbData = {
           // 200 g/l азоксистробин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AZOXYSTROBIN,
           quantity: 200,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         },
         {
           // 125 g/l дифеноконазол
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE,
           quantity: 125,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI],
       dosage: 100,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1274,20 +1274,20 @@ const dbData = {
           // 250 g/kg флудиоксонил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUDIOXONIL,
           quantity: 250,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         },
         {
           // 375 g/kg ципродинил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPRODINIL,
           quantity: 375,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ANTHRACNOSE, SELECTABLE_STRINGS.BLUMERIA_GRAMINIS, SELECTABLE_STRINGS.BOTRYTIS_CINEREA],
       dosage: 80,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1310,14 +1310,14 @@ const dbData = {
           // 200 g/l бордолезова смес (меднокалциев сулфат)
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BORDEAUX_MIXTURE,
           quantity: 200,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ANTHRACNOSE, SELECTABLE_STRINGS.PERONOSPORACEAE, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS, SELECTABLE_STRINGS.SEPTORIA, SELECTABLE_STRINGS.XANTHOMONAS],
       dosage: 375,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 3,
       minIntervalBetweenApplicationsDays: 10,
       maxIntervalBetweenApplicationsDays: 10,
@@ -1340,14 +1340,14 @@ const dbData = {
           // 800 g/kg сяра
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_SULFUR,
           quantity: 800,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.BLUMERIA_GRAMINIS],
       dosage: 300,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 8,
       minIntervalBetweenApplicationsDays: 7,
       maxIntervalBetweenApplicationsDays: 8,
@@ -1370,14 +1370,14 @@ const dbData = {
           // 250 g/l азоксистробин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AZOXYSTROBIN,
           quantity: 250,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI, SELECTABLE_STRINGS.BLUMERIA_GRAMINIS, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS, SELECTABLE_STRINGS.BOTRYTIS_CINEREA],
       dosage: 80,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 10,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1400,14 +1400,14 @@ const dbData = {
           // 360 g/l кломазон
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
           quantity: 360,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 40,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1428,13 +1428,13 @@ const dbData = {
           // 80 g/l имазамокс
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
           quantity: 80,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.APERA_SPICA_VENTI, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 65,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1455,13 +1455,13 @@ const dbData = {
           // 40 g/l квизалофоп-П-тефурил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_TEFRIL,
           quantity: 40,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AVENA_FATUA],
       dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 60,
@@ -1482,13 +1482,13 @@ const dbData = {
           // 100 g/l делтаметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI, SELECTABLE_STRINGS.PROTAPION_APRICANS, SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1509,13 +1509,13 @@ const dbData = {
           // 4 g/l ламбда - цихалотрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
           quantity: 4,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_DURING_SOWING,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA, SELECTABLE_STRINGS.AGRIOTIS_LINEATUS],
       dosage: 1300,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1536,13 +1536,13 @@ const dbData = {
           // 200 g/l пираклостробин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRACLOSTROBIN,
           quantity: 200,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS],
       dosage: 80,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1563,13 +1563,13 @@ const dbData = {
           // 250 g/l дифеноконазол
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE,
           quantity: 250,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.PUCCINIA_GRAMINIS],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1591,14 +1591,14 @@ const dbData = {
           // 500 g/l МЦПА
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MCPA,
           quantity: 500,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.RANUNCULUS_ARVENSIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM],
       dosage: 160,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1619,14 +1619,14 @@ const dbData = {
           // 480 g/l дикамба
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
           quantity: 480,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM],
       dosage: 35,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1647,14 +1647,14 @@ const dbData = {
           // 100 g/l месотрион
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MESOTRIONE,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 10,
       maxIntervalBetweenApplicationsDays: 10,
@@ -1675,14 +1675,14 @@ const dbData = {
           // 8 g/kg циперметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPERMETHRIN,
           quantity: 8,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_BEFORE_START_OF_GROWING_SEASON,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.DIABROTICA_VIRGIFERA_ZEAE],
       dosage: 1200,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1704,20 +1704,20 @@ const dbData = {
           // 10 g/l делтаметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
           quantity: 10,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         },
         {
           // 75 g/l флупирадифурон
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUPYRADIFURON,
           quantity: 75,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SITOBION_AVENAE, SELECTABLE_STRINGS.CICADOIDEA],
       dosage: 75,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1739,20 +1739,20 @@ const dbData = {
           // 55 g/l кломазон
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
           quantity: 55,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         },
         {
           // 275 g/l пендиметалин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
           quantity: 275,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.STELLARIA_MEDIA],
       dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1773,20 +1773,20 @@ const dbData = {
           // 500 g/kg дикамба
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
           quantity: 500,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         },
         {
           // 250 g/kg тритосулфурон
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TRITOSULFURON,
           quantity: 250,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 20,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1807,14 +1807,14 @@ const dbData = {
           // 600 g/l 2,4-Д аминна сол
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_2_4D_AMINE_SALT,
           quantity: 600,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS],
       dosage: 120,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1835,14 +1835,14 @@ const dbData = {
           // 480 g/l дикамба
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
           quantity: 480,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM],
       dosage: 50,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1863,14 +1863,14 @@ const dbData = {
           // 200 г/л ринаксипир
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_RYNAXYPYR,
           quantity: 200,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.LOXOSTEGE_STICTICALIS],
       dosage: 15,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 10,
       maxIntervalBetweenApplicationsDays: 10,
@@ -1891,14 +1891,14 @@ const dbData = {
           // 6 g/l делтаметрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
           quantity: 6,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA, SELECTABLE_STRINGS.TENEBRIO_MOLITOR],
       dosage: 4.2,
-      dosageUnit: ChemicalDosageUnit.G_100_KG_SEEDS,
+      dosageUnit: SELECTABLE_STRINGS.G_100_KG_SEEDS,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
@@ -1919,20 +1919,20 @@ const dbData = {
           // 100 г/кг ацетамиприд
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         },
         {
           // 30 г/кг ламбда-цихалотрин
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
           quantity: 30,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
+          unit: SELECTABLE_STRINGS.G_KG
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS, SELECTABLE_STRINGS.TANYMECUS_DILATICOLLIS],
       dosage: 20,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.G_ACRE,
       maxApplications: 2,
       minIntervalBetweenApplicationsDays: 14,
       maxIntervalBetweenApplicationsDays: 14,
@@ -1953,20 +1953,20 @@ const dbData = {
           // 100 g/l Протиоконазол
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PROTHIOCONAZOLE,
           quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         },
         {
           // 20 g/l Металаксил
           nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METALAXYL,
           quantity: 20,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
+          unit: SELECTABLE_STRINGS.G_LITER
         }
       ],
       applicationStage: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_PRE_SOWING_SEEDS_TREATMENT,
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM, SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM, SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE],
       dosage: 3,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
+      dosageUnit: SELECTABLE_STRINGS.ML_ACRE,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
