@@ -60,6 +60,13 @@ export enum SELECTABLE_STRINGS {
   THEME_DARK = 'dark',
   THEME_SYSTEM = 'system',
 
+  //general helpful
+  G_LITER = 'G_LITER',
+  G_KG = 'G_KG',
+  ML_ACRE = 'ML_ACRE',
+  G_ACRE = 'G_ACRE',
+  G_100_KG_SEEDS = 'G_100_KG_SEEDS',
+
   //latin names
   // Seeding crops
   PISUM_SATIVUM = 'Pisum sativum', // Грах (Pea)
