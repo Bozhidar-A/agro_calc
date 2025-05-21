@@ -265,7 +265,7 @@ model Chemical {
   //SPECIAL_VEGETATIVE means there is a bit more information about the application stage
   applicationStageNotes String
 
-  chemicalTargets ChemicalTarget[]
+  chemicalTargetEnemies ChemicalTargetEnemy[]
 
   dosage          Float
   dosageUnit      String
@@ -281,17 +281,25 @@ model Chemical {
   additionalInfoNotes String
 }
 
-model ChemicalActiveIngredient {
-  id         String   @id @default(cuid())
-  chemicalId String
-  chemical   Chemical @relation(fields: [chemicalId], references: [id])
-
-  nameKey  String
-  quantity Float
-  unit     String
+model ActiveIngredient {
+  id        String                     @id @default(cuid())
+  nameKey   String                     @unique
+  unit      String
+  chemicals ChemicalActiveIngredient[]
 }
 
-model ChemicalTarget {
+model ChemicalActiveIngredient {
+  id                 String @id @default(cuid())
+  chemicalId         String
+  activeIngredientId String
+
+  chemical         Chemical         @relation(fields: [chemicalId], references: [id])
+  activeIngredient ActiveIngredient @relation(fields: [activeIngredientId], references: [id])
+
+  quantity Float
+}
+
+model ChemicalTargetEnemy {
   id         String   @id @default(cuid())
   chemicalId String
   chemical   Chemical @relation(fields: [chemicalId], references: [id])
