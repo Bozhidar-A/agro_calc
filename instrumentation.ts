@@ -1695,7 +1695,7 @@ const dbData = {
       pricePerAcreBGN: 25.80,
       // Продукта се прилага като сухи гранули на дълбочина 4 cm в почвата
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO,
-      // Mexaнизъм нa дeйcтвиe: нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
+      // Mexaнизъм нa дeйcтвиe: нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
     },
     {
