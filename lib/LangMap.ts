@@ -82,26 +82,191 @@ export enum SELECTABLE_STRINGS {
   FESTUCA_RUBRA = 'Festuca rubra', // Червена власатка (Red Fescue)
 
   // chemical protection enemy targets
-  // Балур (Johnson Grass)
+  // Балур (johnsongras)
   SORGHUM_HALEPENSE = 'Sorghum halepense',
-  // Кисела трева
-  ACID_GRASS = 'Acid grass',
-  // Кокоше просо
+  // Кисела трева (false nutsedge)
+  CYPERUS_STRIGOSUS = 'Cyperus strigosus',
+  // Кокоше просо (barnyard grass)
   ECHINOCHLOA_CRUS_GALLI = 'Echinochloa crus-galli',
-  // Кръвно просо
-  PANICUM_SANGUINALE = 'Panicum sanguinale',
-  // Кощрява
-  POLYGONUM_AVICULARE = 'Polygonum aviculare',
-  // Метлица
-  SETARIA_VIRIDIS = 'Setaria viridis',
-  // Овчарска торбичка
+  // Кръвно просо (hairy crabgrass)
+  DIGITARIA_SANGUINALIS = 'Digitaria sanguinalis',
+  // Кощрява (setaria)
+  SETARIA_SPP = 'Setaria spp.',
+  // Метлица (apera)
+  APERA_SPР = 'Apera spр.',
+  // Овчарска торбичка (shepherd's purse)
   CAPSELLA_BURSA_PASTORIS = 'Capsella bursa-pastoris',
-  // Тученица
+  // Тученица (pursley)
   PORTULACA_OLERACEA = 'Portulaca oleracea',
-  // Черно куче грозде
+  // Черно куче грозде (black nightshade)
   SOLANUM_NIGRUM = 'Solanum nigrum',
-  // Видове щир
-  AMARANTHUS_SPP = 'Amaranthus spp.',
+  // Щир (amaranths)
+  AMARANTHUS = 'Amaranthus',
+  // Лисича опашка (slender meadow foxtail)
+  ALOPECURUS_MYOSUROIDES = 'Alopecurus myosuroides',
+  // Райграс (ryegrass)
+  LOLIUM = 'Lolium',
+  // Червена мъртва коприва (redroot pigweed)
+  AMARANTHUS_RETROFLEXUS = 'Amaranthus retroflexus',
+  // Лобода (lamb's quarters)
+  CHENOPODIUM_ALBUM = 'Chenopodium album',
+  // Водно пипериче (water pepper)
+  PERSICARIA_HYDROPIPER = 'Persicaria hydropiper',
+  // Великденче (gypsyweed)
+  VERONICA_OFFICINALIS = 'Veronica officinalis',
+  // Врабчови чревца (chickweed)
+  STELLARIA_MEDIA = 'Stellaria media',
+  // Лайка (matricaria)
+  MATRICARIA_RECUTITA = 'Matricaria recutita',
+  // Дива ряпа (wild radish)
+  RAPHANUS_RAPHANISTRUM = 'Raphanus raphanistrum',
+  // Типове здравец (geranium)
+  GERANIUM_SP = 'Geranium sp.',
+  // Спореж (groundsel)
+  SENECIO_VULGARIS = 'Senecio vulgaris',
+  // Червена мъртва коприва (purple archangel)
+  LAMIUM_PURPUREUM = 'Lamium purpureum',
+  // Синап (field mustard)
+  SINAPIS_ARVENSIS = 'Sinapis arvensis',
+  // Полско огнивче (scarlet pimpernel)
+  LYSIMACHIA_ARVENSIS = 'Lysimachia arvensis',
+  // Синя метличина (cornflower)
+  CENTAUREA_CYANUS = 'Centaurea cyanus',
+  // Див овес (wild oat)
+  AVENA_FATUA = 'Avena fatua',
+  // Овсига (Bromus)
+  BROMUS = 'Bromus',
+  // Фаларис (phalaris)
+  PHALARIS_SPP = 'Phalaris spp.',
+  // Пирей (quick grass)
+  ELYMUS_REPENS = 'Elymus repens',
+  // Троскот (bermuda grass)
+  CYNODON_DACTYLON = 'Cynodon dactylon',
+  // Лепка (catchweed)
+  GALIUM_APARINE = 'Galium aparine',
+  // Бутрак (beggartick)
+  BIDENS_TRIPARTITA = 'Bidens tripartita',
+  // Поветица. (field bindweed)
+  CONVOLVULUS_ARVENSIS = 'Convolvulus arvensis',
+  // Ветрушка (windgrass)
+  APERA_SPICA_VENTI = 'Apera spica venti',
+  // Кощрява (setaria)
+  APERA_SPP = 'Apera spp.',
+  // Абутилон (velvetleaf)
+  ABUTILON_THEOPHRASTI = 'Abutilon theophrasti',
+  // Паламида (plume thistles)
+  CIRSIUM_ARVENSE = 'Cirsium arvense',
+  // Подрумче (mayweed)
+  ANTHEMIS_ARVENSIS = 'Anthemis arvensis',
+  // Синап (white mustard)
+  SINAPIS_ALBA = 'Sinapis alba',
+  // Грахова листна въшка (pea aphid)
+  ACYRTHOSIPHON_PISI = 'Acyrthosiphon pisi',
+  // Детелинов хоботник (clover seed weevil)
+  PROTAPION_APRICANS = 'Protapion apricans',
+  // Малък люцернов листов хоботник (alfalfa weevil)
+  HYPERA_POSTICA = 'Hypera postica',
+  // Детелинов зърнояд (Seed beetle)
+  BRUCHIDIUS_VARIUS = 'Bruchidius varius',
+  // Грахова листна въшка (aphid midge)
+  APHIDOLETES_APHIDIMYZA = 'Aphidoletes aphidimyza',
+  // Нощенки (owlet moths)
+  NOCTUIDAE = 'Noctuidae',
+  // Скакалци (grasshoppers)
+  CAELIFERA = 'Caelifera',
+  // Педомерки. (geometer moths)
+  GEOMETRIDAE = 'Geometridae',
+  // Люцернов листояд (lucerne leaf beetle)
+  GONIOCTENA_FORNICATA = 'Gonioctena fornicata',
+  // Люцернов листов хоботник. (alfalfa weevil)
+  PHYTONOMUS_VARIABILIS = 'Phytonomus variabilis',
+  // Пъпкова галица (alfalfa leaf midge)
+  DASYNEURA_IGNORATA = 'Dasyneura ignorata',
+  // Цветова галица (alfalfa flower midge)
+  CONTARINIA_MEDICAGINIS = 'Contarinia medicaginis',
+  // Маков листояд. ()
+  ENTOMOSCELIS_SULTATOR = 'Entomoscelis sultator',
+  // Грахова листна въшка (puceron noir de la luzerne)
+  APHIS_MEDICAGINIS = 'Aphis medicaginis',
+  // Татул (jimsonweeds)
+  DATURA_STRAMONIUM = 'Datura stramonium',
+  // Телени червеи (lined click beetle)
+  AGRIOTIS_LINEATUS = 'Agriotis lineatus',
+  // Галообразуващ зелев хоботник (turnip gall weevil)
+  CEUTORRHYNCHUS_PLEUROSTIGMA = 'Ceutorrhynchus pleurostigma',
+  // Стоножки (centipedes)
+  CHILOPODA = 'Chilopoda',
+  // Зелеви мухи (cabbage root fly)
+  CHORTOPHILA_BRASSICAE = 'Chortophila brassicae',
+  // Майски бръмбар и Телени червеи. (cockchafer)
+  MELOLONTHA_MELOLONTHA = 'Melolontha melolontha',
+  // Грудков хоботник (root weevil)
+  SITONA_SP = 'Sitona sp.',
+  // Черна бобова листна въшка (bean aphid)
+  APHIS_FABAE = 'Aphis fabae',
+  // Тъмна грахова листозавивачка (bean aphid)
+  LASPEYRESIA_NIGRICANA = 'Laspeyresia nigricana',
+  // Грахов зърнояд (pea weevil)
+  BRUCHUS_PISORUM = 'Bruchus pisorum',
+  // Гамозначна нощенка (silver Y)
+  AUTOGRAPHA_GAMMA = 'Autographa gamma',
+  // Листни въшки (greenfly)
+  APHIDOIDEA = 'Aphidoidea',
+  // Хоботници. (true weevils)
+  CURCULIONIDAE = 'Curculionidae',
+  // Акари (mites)
+  ACARINA = 'Acarina',
+  // Оранжерийна белокрилка. (glasshouse whitefly)
+  TRIALEURODES_VAPORARIORUM = 'Trialeurodes vaporariorum',
+  // Аскохитоза (chickpea ascochyta blight fungus)
+  ASCOCHYTA_RABIEI = 'Ascochyta rabiei',
+  // Антракноза (brown leaf spot)
+  ANTHRACNOSE = 'Anthracnose',
+  // Брашнеста мана (powdery mildew)
+  BLUMERIA_GRAMINIS = 'Blumeria graminis',
+  // Бяло гниене (white mold)
+  SCLEROTINIA_SCLEROTIORUM = 'Sclerotinia sclerotiorum',
+  // Бяло гниене (Grey mould)
+  BOTRYTIS_CINEREA = 'Botrytis cinerea',
+  // Мана (Downy mildew)
+  PERONOSPORACEAE = 'Peronosporaceae',
+  // Ръжда. (black rust)
+  PUCCINIA_GRAMINIS = 'Puccinia graminis',
+  // Септориоза (Bacterial leaf spot)
+  SEPTORIA = 'Septoria',
+  // Бактериоза. ()
+  XANTHOMONAS = 'Xanthomonas',
+  // Северен листен пригор (northern corn leaf blight)
+  SETOSPHAERIA_TURCICA = 'Setosphaeria turcica',
+  // Полско лютиче (buttercups)
+  RANUNCULUS_ARVENSIS = 'Ranunculus arvensis',
+  // Трипси (Thrips)
+  THYSANOPTERA = 'Thysanoptera',
+  // Обикновена житна пиявица (cereal leaf beetle)
+  OULEMA_MELANOPA = 'Oulema melanopa',
+  // Овесена листна въшка (grain aphid)
+  SITOBION_AVENAE = 'Sitobion avenae',
+  // Цикади и др. (cicadas)
+  CICADOIDEA = 'Cicadoidea',
+  // Западен коренов царевичен червей. (corn rootworm)
+  DIABROTICA_VIRGIFERA_ZEAE = 'Diabrotica virgifera zeae',
+  // Царевичен стъблен пробивач (European corn worm)
+  OSTRINIA_NUBILALIS = 'Ostrinia nubilalis',
+  // Ливадна пеперуда. (beet webworm)
+  LOXOSTEGE_STICTICALIS = 'Loxostege sticticalis',
+  // Зърнов бръмбар (American wheat weevil)
+  RHYZOPERTHA_DOMINICA = 'Rhyzopertha dominica',
+  // Брашнен бръмбър (yellow mealworm beetle)
+  TENEBRIO_MOLITOR = 'Tenebrio molitor',
+  // Сив царевичен хоботник. (maize leaf weevil)
+  TANYMECUS_DILATICOLLIS = 'Tanymecus dilaticollis',
+  // Питиум (bacterial stalk rot of maize)
+  PYTHIUM_APHANIDERMATUM = 'Pythium aphanidermatum',
+  // Фузариум (fusarium head blight)
+  FUSARIUM_GRAMINEARUM = 'Fusarium graminearum',
+  // Ризоктония (Leaf and sheath blight)
+  RHIZOCTONIA_ZEAE = 'Rhizoctonia zeae',
+
 
   //sowing
   SOWING_RATE_CALC = 'SOWING_RATE_CALC',
@@ -181,9 +346,12 @@ export enum SELECTABLE_STRINGS {
   CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC = 'CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC',
   CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO = 'CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO',
   CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES = 'CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES',
+  CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG = 'CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG',
+  CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO = 'CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO',
+  CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO_NOTES = 'CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO_NOTES',
 
   CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS = 'CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS',
-  CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR = 'CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR',
+  CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR = 'CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR',
 
   CHEMICAL_PROTECTION_ENEMY_TARGETS = 'CHEMICAL_PROTECTION_ENEMY_TARGETS',
   CHEMICAL_PROTECTION_ENEMY_TARGET_JOHNSON_GRASS = 'CHEMICAL_PROTECTION_ENEMY_TARGET_JOHNSON_GRASS',

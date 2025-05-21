@@ -20,51 +20,6 @@ export const enum UNIT_OF_MEASUREMENT_LENGTH {
   HECTARES = 'HECTARES',
 }
 
-export enum LatinNames {
-  // Seeding crops
-  PISUM_SATIVUM = 'Pisum sativum', // Грах (Pea)
-  GLYCINE_MAX = 'Glycine max', // Соя (Soybean)
-  SORGHUM_VULGARE_VAR_TEHNICUM = 'Sorghum vulgare var. tehnicum', // Сорго (Sorghum)
-  ZEA_MAYS = 'Zea mays', // Царевица (Corn)
-
-  // Legumes (бобови)
-  MEDICAGO_SATIVA = 'Medicago sativa', // Люцерна (Alfalfa)
-  TRIFOLIUM_STELLATUM = 'Trifolium stellatum', // Звездан (Star Clover)
-  TRIFOLIUM_PRATENSE = 'Trifolium pratense', // Червена детелина (Red Clover)
-  TRIFOLIUM_REPENS = 'Trifolium repens', // Бяла детелина (White Clover)
-
-  // Cereals / Grasses (зърнени / треви)
-  LOLIUM_PERENNE = 'Lolium perenne', // Пасищен райграс (Perennial Ryegrass)
-  AGROPYRON_CRISTATUM = 'Agropyron cristatum', // Гребенчат житняк (Crested Wheatgrass)
-  DACTYLIS_GLOMERATA = 'Dactylis glomerata', // Ежова главица (Orchard Grass)
-  AVENULA_PUBESCENS = 'Avenula pubescens', // Безосилеста овсига (Downy Oatgrass)
-  FESTUCA_PRATENSIS = 'Festuca pratensis', // Ливадна власатка (Meadow Fescue)
-  FESTUCA_RUBRA = 'Festuca rubra', // Червена власатка (Red Fescue)
-
-  // chemical protection enemy targets
-  // Балур (Johnson Grass)
-  SORGHUM_HALEPENSE = 'Sorghum halepense',
-  // Кисела трева
-  ACID_GRASS = 'Acid grass',
-  // Кокоше просо
-  ECHINOCHLOA_CRUS_GALLI = 'Echinochloa crus-galli',
-  // Кръвно просо
-  PANICUM_SANGUINALE = 'Panicum sanguinale',
-  // Кощрява
-  POLYGONUM_AVICULARE = 'Polygonum aviculare',
-  // Метлица
-  SETARIA_VIRIDIS = 'Setaria viridis',
-  // Овчарска торбичка
-  CAPSELLA_BURSA_PASTORIS = 'Capsella bursa-pastoris',
-  // Тученица
-  PORTULACA_OLERACEA = 'Portulaca oleracea',
-  // Черно куче грозде
-  SOLANUM_NIGRUM = 'Solanum nigrum',
-  // Видове щир
-  AMARANTHUS_SPP = 'Amaranthus spp.',
-}
-
-
 export enum CombinationTypes {
   LEGUME = "legume",
   CEREAL = "cereal"

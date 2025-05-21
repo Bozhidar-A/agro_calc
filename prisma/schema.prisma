@@ -296,5 +296,5 @@ model ChemicalTarget {
   chemicalId String
   chemical   Chemical @relation(fields: [chemicalId], references: [id])
 
-  nameKey String
+  latinName String
 }
