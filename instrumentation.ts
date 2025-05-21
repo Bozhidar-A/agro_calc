@@ -1435,7 +1435,6 @@ const dbData = {
         }
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Внася се във фаза втори – четвърти троен лист на соята.",
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.APERA_SPICA_VENTI, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 65,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
@@ -1463,7 +1462,6 @@ const dbData = {
         }
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Внася се във фаза втори – четвърти троен лист преди начало на цъфтеж на соята.",
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AVENA_FATUA],
       dosage: 150,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
@@ -1491,7 +1489,6 @@ const dbData = {
         }
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.",
       chemicalTargetEnemies: [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI, SELECTABLE_STRINGS.PROTAPION_APRICANS, SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
@@ -1519,7 +1516,6 @@ const dbData = {
         }
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
-      applicationStageNotes: "Прилага се локализирано, по време на сеитба в браздата.",
       chemicalTargetEnemies: [SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA, SELECTABLE_STRINGS.AGRIOTIS_LINEATUS],
       dosage: 1300,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
@@ -1547,7 +1543,6 @@ const dbData = {
         }
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
-      applicationStageNotes: "Третирането на посева може да се извърши от поникване до пълно оформяне на бобовите на соята.",
       chemicalTargetEnemies: [SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS],
       dosage: 80,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
@@ -1907,7 +1902,7 @@ const dbData = {
 
       chemicalTargetEnemies: [SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA, SELECTABLE_STRINGS.TENEBRIO_MOLITOR],
       dosage: 4.2,
-      dosageUnit: ChemicalDosageUnit.G_100KG_SEEDS,
+      dosageUnit: ChemicalDosageUnit.G_100_KG_SEEDS,
       maxApplications: 1,
       minIntervalBetweenApplicationsDays: 0,
       maxIntervalBetweenApplicationsDays: 0,
