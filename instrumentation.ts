@@ -1,5 +1,5 @@
 import { SELECTABLE_STRINGS } from "./lib/LangMap";
-import { CalculatorValueTypes, ChemicalActiveIngredientDosageUnit, ChemicalApplicationStage, ChemicalDosageUnit, ChemicalType, CombinationTypes, LatinNames } from "./lib/utils";
+import { CalculatorValueTypes, ChemicalActiveIngredientDosageUnit, ChemicalApplicationStage, ChemicalDosageUnit, ChemicalType, CombinationTypes } from "./lib/utils";
 
 
 const dbData = {
@@ -7,55 +7,55 @@ const dbData = {
     //there is some cross over but what can be seperated is seperated
     //seeding
     {
-      latinName: LatinNames.PISUM_SATIVUM // Грах (Pea)
+      latinName: SELECTABLE_STRINGS.PISUM_SATIVUM // Грах (Pea)
     },
     {
-      latinName: LatinNames.GLYCINE_MAX // Соя (Soybean)
+      latinName: SELECTABLE_STRINGS.GLYCINE_MAX // Соя (Soybean)
     },
     {
-      latinName: LatinNames.SORGHUM_VULGARE_VAR_TEHNICUM // Сорго (Sorghum)
+      latinName: SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM // Сорго (Sorghum)
     },
     {
-      latinName: LatinNames.ZEA_MAYS // Царевица (Corn)
+      latinName: SELECTABLE_STRINGS.ZEA_MAYS // Царевица (Corn)
     },
 
     //combined
     // Legumes (бобови)
     {
-      latinName: LatinNames.MEDICAGO_SATIVA, // Люцерна (Alfalfa)
+      latinName: SELECTABLE_STRINGS.MEDICAGO_SATIVA, // Люцерна (Alfalfa)
     },
     {
-      latinName: LatinNames.TRIFOLIUM_STELLATUM, // Звездан (Star Clover)
+      latinName: SELECTABLE_STRINGS.TRIFOLIUM_STELLATUM, // Звездан (Star Clover)
     },
     {
-      latinName: LatinNames.TRIFOLIUM_PRATENSE, // Червена детелина (Red Clover)
+      latinName: SELECTABLE_STRINGS.TRIFOLIUM_PRATENSE, // Червена детелина (Red Clover)
     },
     {
-      latinName: LatinNames.TRIFOLIUM_REPENS, // Бяла детелина (White Clover)
+      latinName: SELECTABLE_STRINGS.TRIFOLIUM_REPENS, // Бяла детелина (White Clover)
     },
     // Cereals (зърнени)
     {
-      latinName: LatinNames.LOLIUM_PERENNE, // Пасищен райграс (Perennial Ryegrass)
+      latinName: SELECTABLE_STRINGS.LOLIUM_PERENNE, // Пасищен райграс (Perennial Ryegrass)
     },
     {
-      latinName: LatinNames.AGROPYRON_CRISTATUM, // Гребенчат житняк (Crested Wheatgrass)
+      latinName: SELECTABLE_STRINGS.AGROPYRON_CRISTATUM, // Гребенчат житняк (Crested Wheatgrass)
     },
     {
-      latinName: LatinNames.DACTYLIS_GLOMERATA, // Ежова главица (Orchard Grass)
+      latinName: SELECTABLE_STRINGS.DACTYLIS_GLOMERATA, // Ежова главица (Orchard Grass)
     },
     {
-      latinName: LatinNames.AVENULA_PUBESCENS, // Безосилеста овсига (Downy Oatgrass)
+      latinName: SELECTABLE_STRINGS.AVENULA_PUBESCENS, // Безосилеста овсига (Downy Oatgrass)
     },
     {
-      latinName: LatinNames.FESTUCA_PRATENSIS, // Ливадна власатка (Meadow Fescue)
+      latinName: SELECTABLE_STRINGS.FESTUCA_PRATENSIS, // Ливадна власатка (Meadow Fescue)
     },
     {
-      latinName: LatinNames.FESTUCA_RUBRA, // Червена власатка (Red Fescue)
+      latinName: SELECTABLE_STRINGS.FESTUCA_RUBRA, // Червена власатка (Red Fescue)
     }
   ],
   SowingRateData: [
     {
-      plantName: LatinNames.MEDICAGO_SATIVA, // Alfalfa
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA, // Alfalfa
       coefficientSecurity: {
         type: CalculatorValueTypes.SLIDER,
         step: 0.01,
@@ -100,7 +100,7 @@ const dbData = {
       }
     },
     {
-      plantName: LatinNames.PISUM_SATIVUM, // Pea  
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM, // Pea  
       coefficientSecurity: {
         type: CalculatorValueTypes.SLIDER,
         step: 0.01,
@@ -141,7 +141,7 @@ const dbData = {
       }
     },
     {
-      plantName: LatinNames.GLYCINE_MAX, // Soybean
+      plantName: SELECTABLE_STRINGS.GLYCINE_MAX, // Soybean
       // coefficientSecurity: {
       //   type: "buttons",
       //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
@@ -186,7 +186,7 @@ const dbData = {
       }
     },
     {
-      plantName: LatinNames.SORGHUM_VULGARE_VAR_TEHNICUM, // Industrial sorghum
+      plantName: SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM, // Industrial sorghum
       // coefficientSecurity: {
       //   type: "buttons",
       //   values: [0.9, 0.93, 0.95, 0.97, 0.99]
@@ -233,7 +233,7 @@ const dbData = {
       }
     },
     {
-      plantName: LatinNames.ZEA_MAYS, // Corn
+      plantName: SELECTABLE_STRINGS.ZEA_MAYS, // Corn
       coefficientSecurity: {
         type: CalculatorValueTypes.SLIDER,
         step: 0.01,
@@ -277,28 +277,28 @@ const dbData = {
   SeedingDataCombination: [
     // Legumes (бобови)
     {
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 2.5,
       maxSeedingRate: 3,
       priceFor1kgSeedsBGN: 26,
     },
     {
-      plantName: LatinNames.TRIFOLIUM_STELLATUM,
+      plantName: SELECTABLE_STRINGS.TRIFOLIUM_STELLATUM,
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 1.5,
       maxSeedingRate: 2,
       priceFor1kgSeedsBGN: 34.5,
     },
     {
-      plantName: LatinNames.TRIFOLIUM_PRATENSE,
+      plantName: SELECTABLE_STRINGS.TRIFOLIUM_PRATENSE,
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 2,
       maxSeedingRate: 2.5,
       priceFor1kgSeedsBGN: 29.3,
     },
     {
-      plantName: LatinNames.TRIFOLIUM_REPENS,
+      plantName: SELECTABLE_STRINGS.TRIFOLIUM_REPENS,
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 2,
       maxSeedingRate: 2.5,
@@ -306,116 +306,671 @@ const dbData = {
     },
     // Cereals (зърнени)
     {
-      plantName: LatinNames.LOLIUM_PERENNE,
+      plantName: SELECTABLE_STRINGS.LOLIUM_PERENNE,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 1,
       maxSeedingRate: 2.5,
       priceFor1kgSeedsBGN: 13.8,
     },
     {
-      plantName: LatinNames.AGROPYRON_CRISTATUM,
+      plantName: SELECTABLE_STRINGS.AGROPYRON_CRISTATUM,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 1,
       maxSeedingRate: 1.5,
       priceFor1kgSeedsBGN: 10.5,
     },
     {
-      plantName: LatinNames.DACTYLIS_GLOMERATA,
+      plantName: SELECTABLE_STRINGS.DACTYLIS_GLOMERATA,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 0.7,
       maxSeedingRate: 1,
       priceFor1kgSeedsBGN: 19.9,
     },
     {
-      plantName: LatinNames.AVENULA_PUBESCENS,
+      plantName: SELECTABLE_STRINGS.AVENULA_PUBESCENS,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 2,
       maxSeedingRate: 2.5,
       priceFor1kgSeedsBGN: 47,
     },
     {
-      plantName: LatinNames.FESTUCA_PRATENSIS,
+      plantName: SELECTABLE_STRINGS.FESTUCA_PRATENSIS,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 0.8,
       maxSeedingRate: 1.2,
       priceFor1kgSeedsBGN: 22,
     },
     {
-      plantName: LatinNames.FESTUCA_RUBRA,
+      plantName: SELECTABLE_STRINGS.FESTUCA_RUBRA,
       plantType: CombinationTypes.CEREAL,
       minSeedingRate: 0.7,
       maxSeedingRate: 1,
       priceFor1kgSeedsBGN: 7.8,
     }
   ],
+  ChemicalProtectionEnemies: [
+    {
+      latinName: SELECTABLE_STRINGS.SORGHUM_HALEPENSE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CYPERUS_STRIGOSUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI
+    },
+    {
+      latinName: SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SETARIA_SPP
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PORTULACA_OLERACEA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SOLANUM_NIGRUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.AMARANTHUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES
+    },
+    {
+      latinName: SELECTABLE_STRINGS.LOLIUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CHENOPODIUM_ALBUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER
+    },
+    {
+      latinName: SELECTABLE_STRINGS.VERONICA_OFFICINALIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.STELLARIA_MEDIA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.MATRICARIA_RECUTITA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.GERANIUM_SP
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SENECIO_VULGARIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.LAMIUM_PURPUREUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SINAPIS_ARVENSIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.LYSIMACHIA_ARVENSIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CENTAUREA_CYANUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.AVENA_FATUA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BROMUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PHALARIS_SPP
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ELYMUS_REPENS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CYNODON_DACTYLON
+    },
+    {
+      latinName: SELECTABLE_STRINGS.GALIUM_APARINE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BIDENS_TRIPARTITA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APERA_SPICA_VENTI
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APERA_SPP
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CIRSIUM_ARVENSE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SINAPIS_ALBA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PROTAPION_APRICANS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.HYPERA_POSTICA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BRUCHIDIUS_VARIUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APHIDOLETES_APHIDIMYZA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.NOCTUIDAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CAELIFERA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.GEOMETRIDAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.GONIOCTENA_FORNICATA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.DASYNEURA_IGNORATA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CONTARINIA_MEDICAGINIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ENTOMOSCELIS_SULTATOR
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APHIS_MEDICAGINIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.DATURA_STRAMONIUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.AGRIOTIS_LINEATUS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CEUTORRHYNCHUS_PLEUROSTIGMA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CHILOPODA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CHORTOPHILA_BRASSICAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SITONA_SP
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APHIS_FABAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.LASPEYRESIA_NIGRICANA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BRUCHUS_PISORUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.AUTOGRAPHA_GAMMA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.APHIDOIDEA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CURCULIONIDAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ACARINA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.TRIALEURODES_VAPORARIORUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ASCOCHYTA_RABIEI
+    },
+    {
+      latinName: SELECTABLE_STRINGS.ANTHRACNOSE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BLUMERIA_GRAMINIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SCLEROTINIA_SCLEROTIORUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.BOTRYTIS_CINEREA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PERONOSPORACEAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PUCCINIA_GRAMINIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SEPTORIA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.XANTHOMONAS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.RANUNCULUS_ARVENSIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.THYSANOPTERA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.OULEMA_MELANOPA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.SITOBION_AVENAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.CICADOIDEA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.DIABROTICA_VIRGIFERA_ZEAE
+    },
+    {
+      latinName: SELECTABLE_STRINGS.OSTRINIA_NUBILALIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.LOXOSTEGE_STICTICALIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA
+    },
+    {
+      latinName: SELECTABLE_STRINGS.TENEBRIO_MOLITOR
+    },
+    {
+      latinName: SELECTABLE_STRINGS.TANYMECUS_DILATICOLLIS
+    },
+    {
+      latinName: SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM
+    },
+    {
+      latinName: SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE
+    }
+  ],
+  ChemicalProtectionActiveIngredients: [
+    {
+      // 960 g/l S-метолахлор,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
+      quantity: 960,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 700 g/kg метрибузин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METRIBUZIN,
+      quantity: 700,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 50 g/l квизалофоп-П-етил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_ETHYL,
+      quantity: 50,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 450 g/kg пиридат,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRIDATE,
+      quantity: 450,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 41 g/l имазамокс,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
+      quantity: 41,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 100 g/l делтаметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 25 g/kg ламбда - цихалотрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+      quantity: 25,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 15,7 g/l делтаметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+      quantity: 15.7,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 50 g/l есфенвалерат,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ESFENVALERATE,
+      quantity: 50,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 200 g/kg ацетамиприд,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID,
+      quantity: 200,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 455 g/l пендиметалин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
+      quantity: 455,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 600 g/l аклонифен,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACLONIFEN,
+      quantity: 600,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 100 g/l циклоксидим,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYCLOXIDIM,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 100 g/l хизалофоп - P - етил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_ETHYL,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 480 g/l бентазон,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BENTAZONE,
+      quantity: 480,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 22.4 g/l имазамокс,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
+      quantity: 22.4,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 5 g/kg тефлутрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN,
+      quantity: 5,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 50 g/l есфенвалерат,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ESFENVALERATE,
+      quantity: 50,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 500 g/l циперметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYFLUTHRIN,
+      quantity: 500,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 479.8 g/l мастни киселини,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
+      quantity: 479.8,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 200 g/l азоксистробин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AZOXYSTROBIN,
+      quantity: 200,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 125 g/l дифеноконазол,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE,
+      quantity: 125,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 250 g/kg флудиоксонил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUDIOXONIL,
+      quantity: 250,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 375 g/kg ципродинил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPRODINIL,
+      quantity: 375,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 200 g/l бордолезова смес (меднокалциев сулфат),
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BORDEAUX_MIXTURE,
+      quantity: 200,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 800 g/kg сяра,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_SULFUR,
+      quantity: 800,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 250 g/l азоксистробин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AZOXYSTROBIN,
+      quantity: 250,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 360 g/l кломазон,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
+      quantity: 360,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 80 g/l имазамокс,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX,
+      quantity: 80,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 40 g/l квизалофоп-П-тефурил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_TEFRIL,
+      quantity: 40,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 5 g/kg тефлутрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN,
+      quantity: 5,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 100 g/l делтаметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 4 g/l ламбда - цихалотрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+      quantity: 4,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 200 g/l пираклостробин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRACLOSTROBIN,
+      quantity: 200,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 250 g/l дифеноконазол,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE,
+      quantity: 250,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 500 g/l МЦПА,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MCPA,
+      quantity: 500,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 480 g/l дикамба,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+      quantity: 480,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 100 g/l месотрион,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MESOTRIONE,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 8 g/kg циперметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPERMETHRIN,
+      quantity: 8,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 10 g/l делтаметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+      quantity: 10,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 75 g/l флупирадифурон,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUPYRADIFURONE,
+      quantity: 75,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 55 g/l кломазон,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE,
+      quantity: 55,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 275 g/l пендиметалин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
+      quantity: 275,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 500 g/kg дикамба,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+      quantity: 500,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 250 g/kg тритосулфурон,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TRITOSULFURON,
+      quantity: 250,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 600 g/l 2,4-Д аминна сол,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_2_4D_AMINE_SALT,
+      quantity: 600,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 480 g/l дикамба,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA,
+      quantity: 480,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 200 г/л ринаксипир,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_RYNAXYPYR,
+      quantity: 200,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 6 g/l делтаметрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
+      quantity: 6,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 100 г/кг ацетамиприд,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 30 г/кг ламбда-цихалотрин,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
+      quantity: 30,
+      unit: ChemicalActiveIngredientDosageUnit.G_KG
+    },
+    {
+      // 100 g/l Протиоконазол,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PROTHIOCONAZOLE,
+      quantity: 100,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    },
+    {
+      // 20 g/l Металаксил,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METALAXYL,
+      quantity: 20,
+      unit: ChemicalActiveIngredientDosageUnit.G_L
+    }
+  ],
   ChemicalProtection: [
     //Medicago sativa (люцерна, alfalfa)
     {
       //ДУАЛ ГОЛД 960 ЕК
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
           //960 g/l S-метолахлор
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR,
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
           quantity: 960,
           unit: ChemicalActiveIngredientDosageUnit.G_L
         }
       ],
       applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
       applicationStageNotes: "",
-      chemicalTarget: [
-        // Балур (от семена)
-        LatinNames.SORGHUM_HALEPENSE,
-        // Кисела трева
-        LatinNames.ACID_GRASS,
-        // Кокоше просо
-        LatinNames.ECHINOCHLOA_CRUS_GALLI,
-        // Кръвно просо
-        LatinNames.PANICUM_SANGUINALE,
-        // Кощрява
-        LatinNames.POLYGONUM_AVICULARE,
-        // Метлица
-        LatinNames.SETARIA_VIRIDIS,
-        // Овчарска торбичка
-        LatinNames.CAPSELLA_BURSA_PASTORIS,
-        // Тученица
-        LatinNames.PORTULACA_OLERACEA,
-        // Черно куче грозде
-        LatinNames.SOLANUM_NIGRUM,
-        // Видове щир
-        LatinNames.AMARANTHUS_SPP,
-      ],
-      dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49,
-      pricePerAcreBGN: 7.35,
-      //Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
-      //За увеличаване ефикасността срещу широколистните плевели е препоръчително добавяне на противошироколистен хербицид в работния разтвор при третирането. Внасянето се извършва с работен разтвор от 30 до 60 l/da вода в зависимост от наличното земеделско оборудване. 
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES,
-    },
-    {
-      //ДУАЛ ГОЛД 960 ЕК
-      plantName: LatinNames.MEDICAGO_SATIVA,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          //960 g/l S-метолахлор
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR,
-          quantity: 960,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTarget: [
+      chemicalTargets: [
+        SELECTABLE_STRINGS.SORGHUM_HALEPENSE,
+        SELECTABLE_STRINGS.CYPERUS_STRIGOSUS,
+        SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI,
+        SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS,
+        SELECTABLE_STRINGS.SETARIA_SPP,
+        SELECTABLE_STRINGS.APERA_SPP,
+        SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS,
+        SELECTABLE_STRINGS.PORTULACA_OLERACEA,
+        SELECTABLE_STRINGS.SOLANUM_NIGRUM,
+        SELECTABLE_STRINGS.AMARANTHUS
       ],
       dosage: 150,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
@@ -432,8 +987,8 @@ const dbData = {
     },
     {
       // ЕКЛИПС 70 ВДГ
-      plantName: LatinNames.MEDICAGO_SATIVA,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ECLIPSE_70_WDG,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -445,7 +1000,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.LOLIUM, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER, SELECTABLE_STRINGS.VERONICA_OFFICINALIS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.MATRICARIA_RECUTITA, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.GERANIUM_SP, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.LYSIMACHIA_ARVENSIS, SELECTABLE_STRINGS.CENTAUREA_CYANUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -455,13 +1010,13 @@ const dbData = {
       pricePer1LiterBGN: 101,
       pricePerAcreBGN: 5.05,
       //Третирането се извършва есента, след реколтиране на последният откос, когато люцерната е във вегетационен покой.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ECLIPSE_70_WDG_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO,
       //Да не се внася върху песъчливи почви с по-малко от 0,5% хумус. При смесване с други продукти за растителна защита, да се спазва по-дълг карантинен срок. Внасянето се извършва с работен разтвор от 25 до 50 l/da вода в зависимост от наличното земеделско оборудване. 
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ECLIPSE_70_WDG_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO_NOTES,
     },
     {
       // ЛЕОПАРД 5 ЕК
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEOPARD_5_EC,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -474,7 +1029,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.BROMUS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.LOLIUM, SELECTABLE_STRINGS.PHALARIS_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.CYNODON_DACTYLON],
       dosage: 100,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -490,8 +1045,8 @@ const dbData = {
     },
     {
       // ЛЕНТАГРАН ВП
-      plantName: LatinNames.MEDICAGO_SATIVA,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_WP,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -503,7 +1058,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.GALIUM_APARINE, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS],
       dosage: 200,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -513,15 +1068,15 @@ const dbData = {
       pricePer1LiterBGN: 104.74,
       pricePerAcreBGN: 20.95,
       // Да се прилага в начални фенофази от развитието на плевелите, до трети троен лист на културата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_WP_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP_INFO,
       // Не се препоръчва приложение на Лентагран ВП при активен летеж на медоносните пчели.
       // Внасянето се извършва с работен разтвор от 20 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_WP_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP_INFO_NOTES,
     },
     {
       // ПУЛСАР 40
-      plantName: LatinNames.MEDICAGO_SATIVA,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -533,7 +1088,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.APERA_SPICA_VENTI, SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.APERA_SPP, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -543,14 +1098,14 @@ const dbData = {
       pricePer1LiterBGN: 100.31,
       pricePerAcreBGN: 5.02,
       // Внася се във фаза втори-четвърти лист на културата с добавяне на 50 ml/da прилепител ДЕШ.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL_INFO,
       // При млада люцерна (в годината на създаване на посева) се внася в доза 120 ml/da един месец, след сеитба на културата.
       // Внасянето се извършва с работен разтвор от 15 до 20 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL_INFO_NOTES,
     },
     {
       // ДЕЦИС 100 ЕК
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -563,7 +1118,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.CURCULIONIDAE],
       dosage: 6.25,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -581,7 +1136,7 @@ const dbData = {
     },
     {
       // ЛАМДЕКС ЕКСТРА
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -594,7 +1149,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.THYSANOPTERA, SELECTABLE_STRINGS.OULEMA_MELANOPA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.NOCTUIDAE],
       dosage: 42,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -612,7 +1167,7 @@ const dbData = {
     },
     {
       // МЕТЕОР
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -625,7 +1180,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.CAELIFERA, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.GEOMETRIDAE],
       dosage: 60,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -643,7 +1198,7 @@ const dbData = {
     },
     {
       // СУМИ АЛФА 5 ЕК
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SUMI_ALPHA_5_EC,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -656,7 +1211,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI, SELECTABLE_STRINGS.GEOMETRIDAE, SELECTABLE_STRINGS.GONIOCTENA_FORNICATA, SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS, SELECTABLE_STRINGS.DASYNEURA_IGNORATA, SELECTABLE_STRINGS.CONTARINIA_MEDICAGINIS, SELECTABLE_STRINGS.ENTOMOSCELIS_SULTATOR],
       dosage: 20,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -676,7 +1231,7 @@ const dbData = {
     },
     {
       // МОСПИЛАН 20 СГ
-      plantName: LatinNames.MEDICAGO_SATIVA,
+      plantName: SELECTABLE_STRINGS.MEDICAGO_SATIVA,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_MOSPILAN_20_SG,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -689,7 +1244,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.APHIS_MEDICAGINIS, SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI],
       dosage: 7.5,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 2,
@@ -708,7 +1263,7 @@ const dbData = {
     //Pisum sativum (Грах, Pea)
     {
       // СТОМП АКВА
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -721,7 +1276,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.SENECIO_VULGARIS],
       dosage: 250,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -739,7 +1294,7 @@ const dbData = {
     },
     {
       // ЧЕЛИНДЖ 600 СК
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CHALLENGE_600_SC,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -752,7 +1307,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.MATRICARIA_RECUTITA, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.STELLARIA_MEDIA, SELECTABLE_STRINGS.VERONICA_OFFICINALIS],
       dosage: 300,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -769,7 +1324,7 @@ const dbData = {
     },
     {
       // СТРАТОС УЛТРА
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STRATOS_ULTRA,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -782,7 +1337,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS],
       dosage: 200,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -802,7 +1357,7 @@ const dbData = {
     },
     {
       // АЧИБА МАКС
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ACHIBA_MAX,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -815,7 +1370,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS],
       dosage: 75,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -833,7 +1388,7 @@ const dbData = {
     },
     {
       // КОРУМ
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORUM,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
@@ -852,7 +1407,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.AVENA_FATUA, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.GALIUM_APARINE, SELECTABLE_STRINGS.DATURA_STRAMONIUM, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE],
       dosage: 125,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -871,7 +1426,7 @@ const dbData = {
     },
     {
       // ЛЕБРОН 0,5 Г
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -884,7 +1439,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.CEUTORRHYNCHUS_PLEUROSTIGMA, SELECTABLE_STRINGS.CHILOPODA, SELECTABLE_STRINGS.CHORTOPHILA_BRASSICAE, SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA],
       dosage: 1500,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -902,40 +1457,8 @@ const dbData = {
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G_INFO_NOTES,
     },
     {
-      // ДЕЦИС 100 ЕК (фуражен грах)
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_PEA,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 100 g/l делтаметрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
-          quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 6.25,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 2,
-      minIntervalBetweenApplicationsDays: 14,
-      maxIntervalBetweenApplicationsDays: 14,
-      quarantinePeriodDays: 7,
-      pricePer1LiterBGN: 193.75,
-      pricePerAcreBGN: 1.21,
-      // Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.
-      // При нападение от Черна бобова листна въшка, Тъмна грахова листозавивачка, Подгризваща нощенка може да се прилага в доза до 12,5 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_PEA_INFO,
-      // Притежава много бърз инициален (нокдаун) ефект срещу голям брой смучещи и гризещи неприятели по оранжерийни, зърнени, технически, фуражни, зеленчукови, картофи, овощни видове и лозя.
-      // Внасянето се извършва с работен разтвор от 40 до 140 l/da вода в зависимост от наличното земеделско оборудване.
-      // Инсектицидът е опасен за пчелите (SPe8).
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_PEA_INFO_NOTES,
-    },
-    {
       // ОАЗИС 5 ЕК
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_OASIS_5_EC,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
@@ -948,7 +1471,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.BRUCHUS_PISORUM],
       dosage: 25,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -965,8 +1488,8 @@ const dbData = {
     },
     {
       // ЦИТРИН МАКС
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CYTRIN_MAX,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
         {
@@ -978,7 +1501,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.BRUCHUS_PISORUM, SELECTABLE_STRINGS.AUTOGRAPHA_GAMMA, SELECTABLE_STRINGS.LASPEYRESIA_NIGRICANA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.CURCULIONIDAE],
       dosage: 5,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -988,18 +1511,18 @@ const dbData = {
       pricePer1LiterBGN: 158.45,
       pricePerAcreBGN: 0.79,
       // Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CYTRIN_MAX_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX_INFO,
       // Притежава много бърз инициален (нокдаун) ефект с широк спектър на действие за борба със смучещи и гризещи неприятели.
       // Унищожава всички подвижни стадии – ларви, нимфи и възрастни форми на неприятелите.
       // Да не се смесва с алкални продукти като бордолезов разтвор и др.
       // Внасянето се извършва с работен разтвор от 10 до 100 l/da вода.
       // Инсектицидът е опасен за пчелите (SPe8).
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CYTRIN_MAX_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX_INFO_NOTES,
     },
     {
       // ФЛИПЕР ЕВ
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER,
       type: ChemicalType.INSECTICIDE,
       activeIngredients: [
         {
@@ -1011,7 +1534,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ACARINA, SELECTABLE_STRINGS.APHIDOIDEA, SELECTABLE_STRINGS.TRIALEURODES_VAPORARIORUM],
       dosage: 1600,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 5,
@@ -1022,17 +1545,17 @@ const dbData = {
       pricePerAcreBGN: 77.44,
       // Третирането на посева може да се извършва от поникване до пълна зрялост на граха при поява на неприятелите над икономическия праг на вредност.
       // Може да се прилага в доза до 2000 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_INFO,
       // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми.
       // Разрешен за употреба при полски и оранжерийни условия.
       // Внасянето се извършва с работен разтвор от 30 до 200 l/da вода.
       // Безвреден за пчелите!
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_INFO_NOTES,
     },
     {
       // ОРТИВА ТОП СК
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORtIVA_TOP_SC,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORTIVA_TOP_SC,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
         {
@@ -1050,7 +1573,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI],
       dosage: 100,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -1067,7 +1590,7 @@ const dbData = {
     },
     {
       // СУИЧ 62.5 ВГ
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
@@ -1086,7 +1609,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ANTHRACNOSE, SELECTABLE_STRINGS.BLUMERIA_GRAMINIS, SELECTABLE_STRINGS.BOTRYTIS_CINEREA],
       dosage: 80,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -1103,20 +1626,20 @@ const dbData = {
     },
     {
       // БОРДО МИКС 20 ВП
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDO_MIX_20_WP,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
         {
           // 200 g/l бордолезова смес (меднокалциев сулфат)
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BORDEAUX_MIX,
+          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BORDEAUX_MIXTURE,
           quantity: 200,
           unit: ChemicalActiveIngredientDosageUnit.G_L
         }
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ANTHRACNOSE, SELECTABLE_STRINGS.PERONOSPORACEAE, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS, SELECTABLE_STRINGS.SEPTORIA, SELECTABLE_STRINGS.XANTHOMONAS],
       dosage: 375,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 3,
@@ -1126,15 +1649,15 @@ const dbData = {
       pricePer1LiterBGN: 18.8,
       pricePerAcreBGN: 7.05,
       // Третирането на посева се извършва в междуфазния период – четвърти същински лист до пълно узряване на граха.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDO_MIX_20_WP_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP_INFO,
       // Широкоспектърен контактен неорганичен фунгицид / бактерицид с предпазно действие, при максимална доза на приложение 500 g/da.
       // Внасянето се извършва с работен разтвор от 100 l/da вода. Подходящ за биологично земеделие.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDO_MIX_20_WP_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP_INFO_NOTES,
     },
     {
       // СЯРА ВГ
-      plantName: LatinNames.PISUM_SATIVUM,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
         {
@@ -1146,7 +1669,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.BLUMERIA_GRAMINIS],
       dosage: 300,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 8,
@@ -1156,14 +1679,14 @@ const dbData = {
       pricePer1LiterBGN: 0.9,
       pricePerAcreBGN: 0.27,
       // Третирането се извършва при благоприятни метеорологични условия за масово развитие на болестта.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG_INFO,
       // Несистемен неорганичен фунгицид и акарицид с контактно и фумигиращо действие.
       // Подходящ за употреба в биологичното земеделие. Внасяне с 50–100 l/da работен разтвор.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG_INFO_NOTES,
     },
     {
       // ЗОКСИС 250 СК
-      plantName: LatinNames.PISUM_SATIVUM,
+      plantName: SELECTABLE_STRINGS.PISUM_SATIVUM,
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
@@ -1176,7 +1699,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI, SELECTABLE_STRINGS.BLUMERIA_GRAMINIS, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS, SELECTABLE_STRINGS.BOTRYTIS_CINEREA],
       dosage: 80,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -1193,39 +1716,8 @@ const dbData = {
     },
     //Glycine max (Соя Soybean)
     {
-      //TODO: check if copy of stomp aqua from above???
-      // СТОМП АКВА
-      plantName: LatinNames.GLYCINE_MAX,
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          // 455 g/l пендиметалин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
-          quantity: 455,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 250,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49.5,
-      pricePerAcreBGN: 12.38,
-      // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO,
-      // Може да се използва в доза до 300 ml/da. Да не се третира при температури над 30 °С поради силно изпарение на работния разтвор.
-      // Внасянето се извършва с работен разтвор от 20 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO_NOTES,
-    },
-    {
       // СИРТАКИ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1237,7 +1729,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 40,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1247,37 +1739,9 @@ const dbData = {
       pricePer1LiterBGN: 263.79,
       pricePerAcreBGN: 10.55,
       // Третирането се извършва след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI_INFO,
       // За по-висока ефикасност на хербицида, плевелните видове трябва да са в начални фази от развитието си...
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SYRTAKI_INFO_NOTES,
-    },
-    {
-      // ДУАЛ ГОЛД 960 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          // 960 g/l S-метолахлор
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLAXLOUR,
-          quantity: 960,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49,
-      pricePerAcreBGN: 7.35,
-      // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
-      // За увеличаване ефикасността срещу широколистните плевели е препоръчително добавяне на противошироколистен хербицид в работния разтвор при третирането...
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES,
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI_INFO_NOTES,
     },
     {
       // САЛТУС
@@ -1293,7 +1757,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "Внася се във фаза втори – четвърти троен лист на соята.",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.APERA_SPICA_VENTI, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 65,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1309,7 +1773,7 @@ const dbData = {
     },
     {
       // ПАНТЕРА 40 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1321,7 +1785,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "Внася се във фаза втори – четвърти троен лист преди начало на цъфтеж на соята.",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CYNODON_DACTYLON, SELECTABLE_STRINGS.ELYMUS_REPENS, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.AVENA_FATUA],
       dosage: 150,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1331,65 +1795,9 @@ const dbData = {
       pricePer1LiterBGN: 42.49,
       pricePerAcreBGN: 6.37,
       //Внася се във фаза втори – четвърти троен лист преди начало на цъфтеж на соята.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC_INFO,
       //Не изисква добавяне на прилепител или омокрител. Внасянето се извършва с работен разтвор от 20 до 40 l/da вода в зависимост от наличното земеделско оборудване. 
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTERA_40_EC_INFO_NOTES
-    },
-    {
-      // ЛЕБРОН 0,5 Г
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 5 g/kg тефлутрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN,
-          quantity: 5,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
-      applicationStageNotes: "Внася се едновременно със сеитбата на културата на дълбочина в почвата 4-5 cm.",
-      chemicalTargets: [],
-      dosage: 1500,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 12.8,
-      pricePerAcreBGN: 19.20,
-      //Внася се едновременно със сеитбата на културата на дълбочина в почвата 4-5 cm.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G_INFO,
-      //Инсектицид за почвено приложение срещу почвени неприятели от групата на пиретроидите, действа контактно и чрез газовата си фаза в почвата. Поради високото налягане на парите си, тефлутринът се разпространява бързо в орницата. Достигнал до неприятелите, действа на нервната им система като нарушава функцията на невроните. В резултат храненето им се преустановява и впоследствие те загиват. Инсектицида може да се прилага в доза до 2,0 kg продукт / da.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_05_G_INFO_NOTES
-    },
-    {
-      // МЕТЕОР
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 15,7 g/l делтаметрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
-          quantity: 15.7,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Внасянето се извършва при поява на неприятелите над икономическия праг на вредност. При нападение от скакалци инсектицида се внася 80 ml/da.",
-      chemicalTargets: [],
-      dosage: 60,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 15,
-      pricePer1LiterBGN: 18,
-      pricePerAcreBGN: 1.08,
-      //Внасянето се извършва при поява на неприятелите над икономическия праг на вредност. При нападение от скакалци инсектицида се внася 80 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO,
-      //Шиpoĸooбxвaтeн несистемен пиретроиден инсектицид със стомашно и контактно действие, paзpeшeн зa yпoтpeбa при различни видoвe селскостопански култури. Oбxвaтa нa дeйcтвиe нa инceĸтицидa вĸлючвa шиpoĸa гaмa лиcтни въшĸи, бpъмбapи, гъceници, пeпepyди, чepвeи и дpyги видове нaceĸoми. Внасянето се извършва с работен разтвор от 80 до 100 l/da вода в зависимост от наличното земеделско оборудване. 
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC_INFO_NOTES
     },
     {
       // ДЕКА ЕК
@@ -1405,7 +1813,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI, SELECTABLE_STRINGS.PROTAPION_APRICANS, SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -1418,34 +1826,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO,
       // Притежава много бърз инициален (нокдаун) ефект срещу голям брой смучещи и гризещи неприятели по оранжерийни, зърнени, технически, фуражни, зеленчукови, картофи, овощни видове и лозя.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO_NOTES
-    },
-    {
-      // ФЛИПЕР ЕВ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 479,8 g/l мастни киселини
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
-          quantity: 479.8,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Третирането на посева може да се извършва от поникване до пълна зрялост на граха при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.",
-      chemicalTargets: [],
-      dosage: 1600,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 5,
-      minIntervalBetweenApplicationsDays: 10,
-      maxIntervalBetweenApplicationsDays: 10,
-      quarantinePeriodDays: 7,
-      pricePer1LiterBGN: 48.4,
-      pricePerAcreBGN: 77.44,
-      // Третирането на посева може да се извършва от поникване до пълна зрялост на граха при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
-      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Безвреден за пчелите!
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
     },
     {
       // ТРИКА ЕКСПЕРТ
@@ -1461,7 +1841,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "Прилага се локализирано, по време на сеитба в браздата.",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA, SELECTABLE_STRINGS.AGRIOTIS_LINEATUS],
       dosage: 1300,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -1474,68 +1854,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO,
       // Локализирането на инсектицида до семената по време на сеитба или до корените по време на окопаване/загърляне формира образуването на защитен филм около семето или коренчетата, предпазва от почвени инсекти като гъсеници на нощенки, ларви на бръмбари, телени червеи и други неприятели. В гранулите на Трика Експерт, като коформуланти са включени азот и фосфор в съотношение 7:35. Поради тази причина с прилагането на препарата се постига двоен ефект- предпазване и подхранване.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO_NOTES
-    },
-    {
-      // СУИЧ 62.5 ВГ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG,
-      type: ChemicalType.FUNGICIDE,
-      activeIngredients: [
-        {
-          // 250 g/l флудиоксонил
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUDIOXONIL,
-          quantity: 250,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        },
-        {
-          // 375 g/kg ципродинил
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPRODINIL,
-          quantity: 375,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Внася се в междуфазните периоди – от начало на цъфтеж до напълно оформени бобове (достигнали типичен размер) на грахът.",
-      chemicalTargets: [],
-      dosage: 80,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 21,
-      pricePer1LiterBGN: 445.55,
-      pricePerAcreBGN: 35.64,
-      // Внася се в междуфазните периоди – от начало на цъфтеж до напълно оформени бобове (достигнали типичен размер) на грахът.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO,
-      // Комбиниран широкоспектърен фунгицид с несистемно предпазно, и системно предпазно и лечебно действие. Може да се прилага в доза до 100 g/da.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO_NOTES
-    },
-    {
-      // СЯРА ВГ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG,
-      type: ChemicalType.FUNGICIDE,
-      activeIngredients: [
-        {
-          // 800 g/kg сяра
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_SULFUR,
-          quantity: 800,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Третирането се извършва при благоприятни метеорологични условия за масово развитие на болестта.",
-      chemicalTargets: [],
-      dosage: 500,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 2,
-      minIntervalBetweenApplicationsDays: 14,
-      maxIntervalBetweenApplicationsDays: 14,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 0.9,
-      pricePerAcreBGN: 0.45,
-      // Третирането се извършва при благоприятни метеорологични условия за масово развитие на болестта.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO,
-      // Несистемен неорганичен фунгицид и акарицид с контактно и фумигиращо действие. Внасянето се извършва с работен разтвор от 50 до 100 l/da вода в зависимост от наличното земеделско оборудване. Подходящ за употреба в биологичното земеделие.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULFUR_WG_INFO_NOTES
     },
     {
       // РЕТЕНГО 20ЕК
@@ -1551,7 +1869,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "Третирането на посева може да се извърши от поникване до пълно оформяне на бобовите на соята.",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA, SELECTABLE_STRINGS.PUCCINIA_GRAMINIS],
       dosage: 80,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1566,36 +1884,8 @@ const dbData = {
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO_NOTES
     },
     {
-      // ФЛИПЕР ЕВ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
-      type: ChemicalType.FUNGICIDE,
-      activeIngredients: [
-        {
-          // 479,8 g/l мастни киселини
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
-          quantity: 479.8,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "Третирането на посева може да се извършва от поникване до пълна зрялост на соята при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.",
-      chemicalTargets: [],
-      dosage: 1600,
-      dosageUnit: ChemicalDosageUnit.G_DA,
-      maxApplications: 5,
-      minIntervalBetweenApplicationsDays: 7,
-      maxIntervalBetweenApplicationsDays: 7,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 48.4,
-      pricePerAcreBGN: 77.44,
-      // Третирането на посева може да се извършва от поникване до пълна зрялост на соята при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
-      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Внасянето се извършва с работен разтвор от 30 до 200 l/da вода в зависимост от наличното земеделско оборудване.Безвреден за пчелите!
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
-    },
-    {
       // ДИФКОР 250 СК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC,
       type: ChemicalType.FUNGICIDE,
       activeIngredients: [
         {
@@ -1607,7 +1897,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.PUCCINIA_GRAMINIS],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -1617,39 +1907,11 @@ const dbData = {
       pricePer1LiterBGN: 98.37,
       pricePerAcreBGN: 4.92,
       // Третирането  се извършва в междуфазните периоди от девети троен лист до пълна зрялост на соята. Само в семепроизводни посеви.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC_INFO,
       // Продуктът е устойчив на измиване от валежи, паднали 2 часа след третирането, а също така притежава добро продължително действие. Внасянето се извършва с работен разтвор от 20 до 100 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFCOR_250_EC_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC_INFO_NOTES
     },
     //Sorghum vulgare var. tehnicum (Сорго, Sorghum) 
-    {
-      // СТОМП АКВА
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          // 455 g/l пендиметалин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN,
-          quantity: 455,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 250,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49.5,
-      pricePerAcreBGN: 12.38,
-      // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO,
-      // Да не се третира при температури над 30 °С поради силно изпарение на работния разтвор. Внасянето се извършва с работен разтвор от 20 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO_NOTES
-    },
     {
       // АГРАКСОН 500 СЛ
       nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL,
@@ -1664,7 +1926,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.RANUNCULUS_ARVENSIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM],
       dosage: 160,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1680,7 +1942,7 @@ const dbData = {
     },
     {
       // ДЖАНЕРО 480 СЛ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1692,7 +1954,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM],
       dosage: 35,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1702,37 +1964,9 @@ const dbData = {
       pricePer1LiterBGN: 37.22,
       pricePerAcreBGN: 1.30,
       // Третирането се извършва ранно вегетационно от фенофаза втори лист до шести лист на културата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL_INFO,
       // За разширяване спектъра на действие може да се смесва с НИШИН 4 ОД или ОСОРНО СК. Внасянето се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DZHANERO_480_SL_INFO_NOTES
-    },
-    {
-      // ДУАЛ ГОЛД 960 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          // 960 g/l S-метолахлор
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
-          quantity: 960,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49,
-      pricePerAcreBGN: 7.35,
-      // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
-      // Семената на соргото задължително се третират с антидот Concept C! Внасянето се извършва с работен разтвор от 30 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL_INFO_NOTES
     },
     {
       // КИДЕКА ПРО
@@ -1748,7 +1982,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.LAMIUM_PURPUREUM, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.SENECIO_VULGARIS, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.SINAPIS_ALBA],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -1761,34 +1995,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO,
       // Хербицидът е с изразено системно почвено действие. Периодът на защитно действие продължава от 40 до 60 дни след третиране. Инхибира нарастването на на чувствителните плевели до два дни след приложението му. Внасянето се извършва с работен разтвор от 8 до 40 l/da вода при интервал между приложенията 10 дни в зависимост от наличното земеделско оборудване.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO_NOTES
-    },
-    {
-      // ЛАМДЕКС ЕКСТРА
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 25 g/kg ламбда - цихалотрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN,
-          quantity: 25,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 42,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 57.87,
-      pricePerAcreBGN: 2.43,
-      // Внасянето на инсектицида се извършва в междуфазните периоди от начало на изметляване до край на цъфтеж на соргото.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO,
-      // Механизъм на действие: несистемен пиретроиден инсектицид с контактно и стомашно действие. Внасянето се извършва с работен разтвор от 70 до 100 l/da вода в зависимост от наличното земеделско оборудване. Инсектицидът е опасен за пчелите (SPe8).
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO_NOTES
     },
     {
       // КОЛОМБО ПРО
@@ -1804,7 +2010,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.DIABROTICA_VIRGIFERA_ZEAE],
       dosage: 1200,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -1817,34 +2023,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO,
       // Mexaнизъм нa дeйcтвиe: нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
-    },
-    {
-      // ФЛИПЕР ЕВ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 479,8 g/l мастни киселини
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS,
-          quantity: 479.8,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 1500,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 5,
-      minIntervalBetweenApplicationsDays: 7,
-      maxIntervalBetweenApplicationsDays: 7,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 48.4,
-      pricePerAcreBGN: 72.60,
-      // Третирането на посева може да се извършва от поникване до пълна зрялост на културата при поява на неприятелите над икономическия праг на вредност. Може да се прилага в доза до 2000 ml/da.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO,
-      // Биологичен, контактен инсектицид / акарицид за борба срещу различни неприятели в стадии - яйца, ларви и възрастни насекоми. Разрешен е за употреба при полски и оранжерийни условия. Внасянето се извършва с работен разтвор от 30 до 200 l/da вода в зависимост от наличното земеделско оборудване.  Безвреден за пчелите!
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_EV_INFO_NOTES
     },
     {
       //TODO: duplicated in given data???
@@ -1867,7 +2045,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.SITOBION_AVENAE, SELECTABLE_STRINGS.CICADOIDEA],
       dosage: 75,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1884,7 +2062,7 @@ const dbData = {
     //Zea mays (Царевица, Corn)
     {
       // БИСМАРК КС
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1902,7 +2080,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS, SELECTABLE_STRINGS.SETARIA_SPP, SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES, SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI, SELECTABLE_STRINGS.APERA_SPР, SELECTABLE_STRINGS.SORGHUM_HALEPENSE, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.STELLARIA_MEDIA],
       dosage: 150,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1912,13 +2090,13 @@ const dbData = {
       pricePer1LiterBGN: 63.65,
       pricePerAcreBGN: 9.55,
       // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS_INFO,
       // Абсорбира се от плевелните семена при поникването им. Чувствителните плевели могат да бъдат контролирани в ранните фази от развитието им. Внасянето се извършва с работен разтвор от 40 до 140 l/da вода в зависимост от наличното земеделско оборудване. Хербицидът може да се прилага при царевица в доза до 200 ml/da.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARK_SC_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS_INFO_NOTES
     },
     {
       // АРАТ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1936,7 +2114,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.BIDENS_TRIPARTITA, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.PORTULACA_OLERACEA, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.PORTULACA_OLERACEA],
       dosage: 20,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 1,
@@ -1946,13 +2124,13 @@ const dbData = {
       pricePer1LiterBGN: 150.55,
       pricePerAcreBGN: 3.01,
       // Третирането на царевицата се извършва от фаза втори лист до шести лист на културата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT_INFO,
       // Използването на хербицида не се препоръчва при резки температурни амплитуди (голяма разлика между дневната и нощна температури), наводнени посеви или силно депресирани в резултат на засушаване, както и да не се добавят органофосфорни инсектициди в резервоарна смес. Третирането се извършва с работен разтвор от 20 до 40 l/da вода в зависимост от наличното земеделско оборудване. Да не се използва при сладка царевица!
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARAT_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT_INFO_NOTES
     },
     {
       // АМИНОПИЕЛИК 600 СЛ
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL,
+      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL,
       type: ChemicalType.HERBICIDE,
       activeIngredients: [
         {
@@ -1964,7 +2142,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM, SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.SOLANUM_NIGRUM, SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS, SELECTABLE_STRINGS.CIRSIUM_ARVENSE, SELECTABLE_STRINGS.SINAPIS_ARVENSIS, SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS],
       dosage: 120,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -1974,9 +2152,9 @@ const dbData = {
       pricePer1LiterBGN: 151.55,
       pricePerAcreBGN: 18.19,
       // Внася се във фенофази - от трети до пети лист на културата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL_INFO,
+      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL_INFO,
       // Хербицидът е с бърз инициален ефектът срещу чувствителните плевели. Първите фитосимптоматични повреди (изисквания на дръжките, стъблата и листата на плевелите) се визуализират на следващия ден ден след третирането. Третирането се извършва с работен разтвор от 30 до 40 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPYELIK_600_SL_INFO_NOTES
+      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL_INFO_NOTES
     },
     {
       // ДЖАНЕРО 480 СЛ
@@ -1992,7 +2170,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM, SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS, SELECTABLE_STRINGS.SINAPIS_ALBA, SELECTABLE_STRINGS.SOLANUM_NIGRUM],
       dosage: 50,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
@@ -2005,62 +2183,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO,
       // Да не се използва на варовити почви, поради вероятност да предизвика фитотоксичност при царевицата.За разширяване спектъра на действие може да се смесва с НИШИН 4 ОД или ОСОРНО СК. Третирането на посевите се извършва с работен разтвор от 27,5 до 30 l/da вода в зависимост от наличното земеделско оборудване.
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO_NOTES
-    },
-    {
-      // ДУАЛ ГОЛД 960 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC,
-      type: ChemicalType.HERBICIDE,
-      activeIngredients: [
-        {
-          // 960 g/l S-метолахлор
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR,
-          quantity: 960,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.AFTER_PLANTING_BEFORE_GERMINATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 150,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 49.00,
-      pricePerAcreBGN: 7.35,
-      // Внася се след сеитба, преди поникване на културата и на плевелите.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO,
-      // Семената на соргото задължително се третират предсеитбено с антидот Concept C! Внасянето се извършва с работен разтвор от 30 до 60 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES
-    },
-    {
-      // КОЛОМБО ПРО
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 8 g/kg циперметрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYHALOTHRIN,
-          quantity: 8,
-          unit: ChemicalActiveIngredientDosageUnit.G_KG
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 1200,
-      dosageUnit: ChemicalDosageUnit.G_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 21.5,
-      pricePerAcreBGN: 25.8,
-      // Продукта се прилага като сухи гранули  в повърхностния почвен слой  на дълбочина 4 cm.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO,
-      // Нecиcтeмeн пиpeтpoидeн инceĸтицид c ĸoнтaĸтнo и cтoмaшнo дeйcтвиe.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES
     },
     {
       // КОРАГЕН 20 СК
@@ -2076,7 +2198,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS, SELECTABLE_STRINGS.NOCTUIDAE, SELECTABLE_STRINGS.LOXOSTEGE_STICTICALIS],
       dosage: 15,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 2,
@@ -2104,7 +2226,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA, SELECTABLE_STRINGS.TENEBRIO_MOLITOR],
       dosage: 4.2,
       dosageUnit: ChemicalDosageUnit.G_100KG_SEEDS,
       maxApplications: 1,
@@ -2138,7 +2260,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS, SELECTABLE_STRINGS.TANYMECUS_DILATICOLLIS],
       dosage: 20,
       dosageUnit: ChemicalDosageUnit.G_ACRE,
       maxApplications: 2,
@@ -2151,62 +2273,6 @@ const dbData = {
       additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO,
       // Внасянето на инсектицида се извършва с работен разтвор от 30 до 50 l/da вода в зависимост от наличното земеделско оборудване. Да не се прилага при култури в периода на активен цъфтеж или при наличие на цъфтяща плевелна растителност с цел опазване на пчелите и други насекоми опрашители. Опасен е за пчелите (SPe 8).
       additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO_NOTES
-    },
-    {
-      // ДЕЦИС 100 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC,
-      type: ChemicalType.INSECTICIDE,
-      activeIngredients: [
-        {
-          // 100 g/l делтаметрин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN,
-          quantity: 100,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 7.5,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 2,
-      minIntervalBetweenApplicationsDays: 14,
-      maxIntervalBetweenApplicationsDays: 14,
-      quarantinePeriodDays: 14,
-      pricePer1LiterBGN: 193.75,
-      pricePerAcreBGN: 1.45,
-      // Внасянето се извършва при поява на неприятелите над икономическия праг на вредност.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO,
-      // Притежава много бърз инициален (нокдаун) ефект срещу голям брой смучещи и гризещи неприятели по оранжерийни, зърнени, технически, фуражни, зеленчукови, картофи, овощни видове и лозя. Внасянето се извършва с работен разтвор от 40 до 140 l/da вода в зависимост от наличното земеделско оборудване. Инсектицидът е опасен за пчелите (SPe8).
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO_NOTES
-    },
-    {
-      // РЕТЕНГО 20 ЕК
-      nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC,
-      type: ChemicalType.FUNGICIDE,
-      activeIngredients: [
-        {
-          // 200 g/l пираклостробин
-          nameKey: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRACLOSTROBIN,
-          quantity: 200,
-          unit: ChemicalActiveIngredientDosageUnit.G_L
-        }
-      ],
-      applicationStage: ChemicalApplicationStage.SPECIAL_VEGETATION,
-      applicationStageNotes: "",
-      chemicalTargets: [],
-      dosage: 70,
-      dosageUnit: ChemicalDosageUnit.ML_ACRE,
-      maxApplications: 1,
-      minIntervalBetweenApplicationsDays: 0,
-      maxIntervalBetweenApplicationsDays: 0,
-      quarantinePeriodDays: 0,
-      pricePer1LiterBGN: 102,
-      pricePerAcreBGN: 7.14,
-      // Третирането на посева се извършва при поява на неприятеля над икономическия праг на вредност от фенофаза начало на удължаване на стъблото до масов цъфтеж на царевицата.
-      additionalInfo: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO,
-      // Фунгицидът спомага за преодоляване на абиотичния стрес при царевицата и повишаване на добива. Може да се използва Превантивно преди установяване на заразата. Внасянето на фунгицида се извършва с работен разтвор от 10 до 40 l/da вода в зависимост от наличното земеделско оборудване.
-      additionalInfoNotes: SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO_NOTES
     },
     {
       // РЕДИГО М
@@ -2228,7 +2294,7 @@ const dbData = {
       ],
       applicationStage: ChemicalApplicationStage.OUT_OF_VEGETATION,
       applicationStageNotes: "",
-      chemicalTargets: [],
+      chemicalTargets: [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM, SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM, SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE],
       dosage: 3,
       dosageUnit: ChemicalDosageUnit.ML_ACRE,
       maxApplications: 1,
