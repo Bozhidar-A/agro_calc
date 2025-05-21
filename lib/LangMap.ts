@@ -918,52 +918,23 @@ const LangMap: LangMapInteraface = {
     [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM]: 'Питиум',
     [SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM]: 'Фузариум',
     [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Ризоктония',
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   },
   EN: {
     //plants
-    'Pisum sativum': 'Pea',
-    'Glycine max': 'Soybean',
-    'Sorghum vulgare var. tehnicum': 'Sorghum',
-    'Zea mays': 'Corn',
-    'Medicago sativa': 'Alfalfa',
-    'Trifolium stellatum': 'Star clover',
-    'Trifolium pratense': 'Red clover',
-    'Trifolium repens': 'White clover',
-    'Lolium perenne': 'Perennial ryegrass',
-    'Agropyron cristatum': 'Crested wheatgrass',
-    'Dactylis glomerata': 'Orchard grass',
-    'Avenula pubescens': 'Downy oat',
-    'Festuca pratensis': 'Meadow fescue',
-    'Festuca rubra': 'Red fescue',
+    [SELECTABLE_STRINGS.PISUM_SATIVUM]: 'Pea',
+    [SELECTABLE_STRINGS.GLYCINE_MAX]: 'Soybean',
+    [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM]: 'Sorghum',
+    [SELECTABLE_STRINGS.ZEA_MAYS]: 'Corn',
+    [SELECTABLE_STRINGS.MEDICAGO_SATIVA]: 'Alfalfa',
+    [SELECTABLE_STRINGS.TRIFOLIUM_STELLATUM]: 'Star clover',
+    [SELECTABLE_STRINGS.TRIFOLIUM_PRATENSE]: 'Red clover',
+    [SELECTABLE_STRINGS.TRIFOLIUM_REPENS]: 'White clover',
+    [SELECTABLE_STRINGS.LOLIUM_PERENNE]: 'Perennial ryegrass',
+    [SELECTABLE_STRINGS.AGROPYRON_CRISTATUM]: 'Crested wheatgrass',
+    [SELECTABLE_STRINGS.DACTYLIS_GLOMERATA]: 'Orchard grass',
+    [SELECTABLE_STRINGS.AVENULA_PUBESCENS]: 'Downy oat',
+    [SELECTABLE_STRINGS.FESTUCA_PRATENSIS]: 'Meadow fescue',
+    [SELECTABLE_STRINGS.FESTUCA_RUBRA]: 'Red fescue',
 
     //general
     [SELECTABLE_STRINGS.THEME_LIGHT]: 'Light',
@@ -1089,6 +1060,110 @@ const LangMap: LangMapInteraface = {
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_COMPARISON]: 'Sowing rate comparison',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE_PLANT]: 'Sowing rate - single',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX_PLANT]: 'Sowing rate - in mixture',
+
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_TITLE]: 'Растителна защита',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_DESCRIPTION]: 'Изберете химикал за защита на растенията',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_SELECT_CHEMICAL]: 'Изберете химикал',
+
+    //chemical protection chemicals
+
+
+    //chemical active ingredients
+
+
+    //chemical protection enemies
+    [SELECTABLE_STRINGS.SORGHUM_HALEPENSE]: 'johnsongras',
+    [SELECTABLE_STRINGS.CYPERUS_STRIGOSUS]: 'false nutsedge',
+    [SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI]: 'barnyard grass',
+    [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS]: 'hairy crabgrass',
+    [SELECTABLE_STRINGS.SETARIA_SPP]: 'setaria',
+    [SELECTABLE_STRINGS.APERA_SPР]: 'apera',
+    [SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS]: "shepherd's purse",
+    [SELECTABLE_STRINGS.PORTULACA_OLERACEA]: 'pursley',
+    [SELECTABLE_STRINGS.SOLANUM_NIGRUM]: 'black nightshade',
+    [SELECTABLE_STRINGS.AMARANTHUS]: 'amaranths',
+    [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES]: 'slender meadow foxtail',
+    [SELECTABLE_STRINGS.LOLIUM]: 'ryegrass',
+    [SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS]: 'redroot pigweed',
+    [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM]: "lamb's quarters",
+    [SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER]: 'water pepper',
+    [SELECTABLE_STRINGS.VERONICA_OFFICINALIS]: 'gypsyweed',
+    [SELECTABLE_STRINGS.STELLARIA_MEDIA]: 'chickweed',
+    [SELECTABLE_STRINGS.MATRICARIA_RECUTITA]: 'matricaria',
+    [SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM]: 'wild radish',
+    [SELECTABLE_STRINGS.GERANIUM_SP]: 'geranium',
+    [SELECTABLE_STRINGS.SENECIO_VULGARIS]: 'groundsel',
+    [SELECTABLE_STRINGS.LAMIUM_PURPUREUM]: 'purple archangel',
+    [SELECTABLE_STRINGS.SINAPIS_ARVENSIS]: 'field mustard',
+    [SELECTABLE_STRINGS.LYSIMACHIA_ARVENSIS]: 'scarlet pimpernel',
+    [SELECTABLE_STRINGS.CENTAUREA_CYANUS]: 'cornflower',
+    [SELECTABLE_STRINGS.AVENA_FATUA]: 'wild oat',
+    [SELECTABLE_STRINGS.BROMUS]: 'Bromus',
+    [SELECTABLE_STRINGS.PHALARIS_SPP]: 'phalaris',
+    [SELECTABLE_STRINGS.ELYMUS_REPENS]: 'quick grass',
+    [SELECTABLE_STRINGS.CYNODON_DACTYLON]: 'bermuda grass',
+    [SELECTABLE_STRINGS.GALIUM_APARINE]: 'catchweed',
+    [SELECTABLE_STRINGS.BIDENS_TRIPARTITA]: 'beggartick',
+    [SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS]: 'field bindweed',
+    [SELECTABLE_STRINGS.APERA_SPICA_VENTI]: 'windgrass',
+    [SELECTABLE_STRINGS.APERA_SPP]: 'setaria',
+    [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI]: 'velvetleaf',
+    [SELECTABLE_STRINGS.CIRSIUM_ARVENSE]: 'plume thistles',
+    [SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS]: 'mayweed',
+    [SELECTABLE_STRINGS.SINAPIS_ALBA]: 'white mustard',
+    [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI]: 'pea aphid',
+    [SELECTABLE_STRINGS.PROTAPION_APRICANS]: 'clover seed weevil',
+    [SELECTABLE_STRINGS.HYPERA_POSTICA]: 'alfalfa weevil',
+    [SELECTABLE_STRINGS.BRUCHIDIUS_VARIUS]: 'Seed beetle',
+    [SELECTABLE_STRINGS.APHIDOLETES_APHIDIMYZA]: 'aphid midge',
+    [SELECTABLE_STRINGS.NOCTUIDAE]: 'owlet moths',
+    [SELECTABLE_STRINGS.CAELIFERA]: 'grasshoppers',
+    [SELECTABLE_STRINGS.GEOMETRIDAE]: 'geometer moths',
+    [SELECTABLE_STRINGS.GONIOCTENA_FORNICATA]: 'lucerne leaf beetle',
+    [SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS]: 'alfalfa weevil',
+    [SELECTABLE_STRINGS.DASYNEURA_IGNORATA]: 'alfalfa leaf midge',
+    [SELECTABLE_STRINGS.CONTARINIA_MEDICAGINIS]: 'alfalfa flower midge',
+    [SELECTABLE_STRINGS.ENTOMOSCELIS_SULTATOR]: '',
+    [SELECTABLE_STRINGS.APHIS_MEDICAGINIS]: 'puceron noir de la luzerne',
+    [SELECTABLE_STRINGS.DATURA_STRAMONIUM]: 'jimsonweeds',
+    [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS]: 'lined click beetle',
+    [SELECTABLE_STRINGS.CEUTORRHYNCHUS_PLEUROSTIGMA]: 'turnip gall weevil',
+    [SELECTABLE_STRINGS.CHILOPODA]: 'centipedes',
+    [SELECTABLE_STRINGS.CHORTOPHILA_BRASSICAE]: 'cabbage root fly',
+    [SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA]: 'cockchafer',
+    [SELECTABLE_STRINGS.SITONA_SP]: 'root weevil',
+    [SELECTABLE_STRINGS.APHIS_FABAE]: 'bean aphid',
+    [SELECTABLE_STRINGS.LASPEYRESIA_NIGRICANA]: 'bean aphid',
+    [SELECTABLE_STRINGS.BRUCHUS_PISORUM]: 'pea weevil',
+    [SELECTABLE_STRINGS.AUTOGRAPHA_GAMMA]: 'silver Y',
+    [SELECTABLE_STRINGS.APHIDOIDEA]: 'greenfly',
+    [SELECTABLE_STRINGS.CURCULIONIDAE]: 'true weevils',
+    [SELECTABLE_STRINGS.ACARINA]: 'mites',
+    [SELECTABLE_STRINGS.TRIALEURODES_VAPORARIORUM]: 'glasshouse whitefly',
+    [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI]: 'chickpea ascochyta blight fungus',
+    [SELECTABLE_STRINGS.ANTHRACNOSE]: 'brown leaf spot',
+    [SELECTABLE_STRINGS.BLUMERIA_GRAMINIS]: 'powdery mildew',
+    [SELECTABLE_STRINGS.SCLEROTINIA_SCLEROTIORUM]: 'white mold',
+    [SELECTABLE_STRINGS.BOTRYTIS_CINEREA]: 'Grey mould',
+    [SELECTABLE_STRINGS.PERONOSPORACEAE]: 'Downy mildew',
+    [SELECTABLE_STRINGS.PUCCINIA_GRAMINIS]: 'black rust',
+    [SELECTABLE_STRINGS.SEPTORIA]: 'Bacterial leaf spot',
+    [SELECTABLE_STRINGS.XANTHOMONAS]: '',
+    [SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA]: 'northern corn leaf blight',
+    [SELECTABLE_STRINGS.RANUNCULUS_ARVENSIS]: 'buttercups',
+    [SELECTABLE_STRINGS.THYSANOPTERA]: 'Thrips',
+    [SELECTABLE_STRINGS.OULEMA_MELANOPA]: 'cereal leaf beetle',
+    [SELECTABLE_STRINGS.SITOBION_AVENAE]: 'grain aphid',
+    [SELECTABLE_STRINGS.CICADOIDEA]: 'cicadas',
+    [SELECTABLE_STRINGS.DIABROTICA_VIRGIFERA_ZEAE]: 'corn rootworm',
+    [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS]: 'European corn worm',
+    [SELECTABLE_STRINGS.LOXOSTEGE_STICTICALIS]: 'beet webworm',
+    [SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA]: 'American wheat weevil',
+    [SELECTABLE_STRINGS.TENEBRIO_MOLITOR]: 'yellow mealworm beetle',
+    [SELECTABLE_STRINGS.TANYMECUS_DILATICOLLIS]: 'maize leaf weevil',
+    [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM]: 'bacterial stalk rot of maize',
+    [SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM]: 'fusarium head blight',
+    [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Leaf and sheath blight',
   },
 };
 
