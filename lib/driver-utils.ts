@@ -103,6 +103,122 @@ export function getSowingStepsPickedPlant(translator: (key: string) => string) {
                 description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION_DESCRIPTION),
             },
         },
+        {
+            element: '#analysisSection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_ANALYSIS),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_ANALYSIS_DESCRIPTION),
+            },
+        },
     ];
 }
 
+export function getCombinedSteps(translator: (key: string) => string) {
+    return [
+        {
+            element: '#perennialLegumeSection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_LEGUME),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_LEGUME_DESCRIPTION),
+            },
+        },
+        {
+            element: '#activeCheckbox',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#plantSelect',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#sowingRate',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#participationPercent',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PARTICIPATION_PERCENT),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PARTICIPATION_PERCENT_DESCRIPTION),
+            },
+        },
+        {
+            element: '#perennialLegumeParticipation',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_LEGUME_PARTICIPATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_LEGUME_PARTICIPATION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#sowingRateMixture',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_MIXTURE),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_MIXTURE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#seedPrice',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SEED_PRICE),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SEED_PRICE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#perennialCerealSection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_CEREAL),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_CEREAL_DESCRIPTION),
+            },
+        },
+        {
+            element: '#perennialCerealParticipation',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_CEREAL_PARTICIPATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_CEREAL_PARTICIPATION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#mixtureSummary',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_MIXTURE_SUMMARY),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_MIXTURE_SUMMARY_DESCRIPTION),
+            },
+        },
+        {
+            element: '#totalMixtureParticipation',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_TOTAL_PARTICIPATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_TOTAL_PARTICIPATION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#finalPrice',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_FINAL_PRICE),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_FINAL_PRICE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#saveMixtureCalculation',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SAVE_CALCULATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_SAVE_CALCULATION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#mixtureVisualization',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.COMBINED_TOUR_VISUALIZATION),
+                description: translator(SELECTABLE_STRINGS.COMBINED_TOUR_VISUALIZATION_DESCRIPTION),
+            },
+        },
+    ];
+}

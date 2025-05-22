@@ -25,7 +25,7 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
     const isOverLimit = participation > maxPercentage
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden" id={name === 'legume' ? "perennialLegumeSection" : "perennialCerealSection"}>
             <CardHeader className="bg-muted pb-3 sm:pb-4">
                 <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                     <Plant className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -36,7 +36,7 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                         <Percent className="h-4 w-4 text-muted-foreground" />
                         <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION_LABEL)}: {participation.toFixed(1)}%</span>
                     </div>
-                    <span className={`text-base sm:text-lg font-medium ${isOverLimit ? "text-red-500" : "text-green-500"}`}>
+                    <span className={`text-base sm:text-lg font-medium ${isOverLimit ? "text-red-500" : "text-green-500"}`} id={name === 'legume' ? "perennialLegumeParticipation" : "perennialCerealParticipation"}>
                         {translator(SELECTABLE_STRINGS.COMBINED_MAX_PARTICIPATION)}: {maxPercentage}%
                     </span>
                 </div>
@@ -52,12 +52,12 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
 
                 <div className="grid gap-3 sm:gap-4">
                     <div className="hidden md:grid grid-cols-6 gap-4 font-medium text-sm md:text-base border-b pb-2">
-                        <div className="text-center">{translator(SELECTABLE_STRINGS.COMBINED_ACTIVE)}</div>
-                        <div>{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</div>
-                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE)}</div>
-                        <div>{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</div>
-                        <div>{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX)}</div>
-                        <div>
+                        <div className="text-center" id="activeCheckbox">{translator(SELECTABLE_STRINGS.COMBINED_ACTIVE)}</div>
+                        <div id="plantSelect">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</div>
+                        <div id="sowingRate">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE)}</div>
+                        <div id="participationPercent">{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</div>
+                        <div id="sowingRateMixture">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX)}</div>
+                        <div id="seedPrice">
                             {
                                 unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
                                     translator(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL) :

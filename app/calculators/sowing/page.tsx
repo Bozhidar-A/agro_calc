@@ -1,5 +1,6 @@
 'use client';
 
+import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
 import { Droplet, Leaf, PieChart, Ruler, Scale, Sprout } from 'lucide-react';
 import { useSelector } from 'react-redux';
@@ -24,7 +25,6 @@ import { RootState } from '@/store/store';
 import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
-import "driver.js/dist/driver.css";
 import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
 import { useWatch } from 'react-hook-form';
 

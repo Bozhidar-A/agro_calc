@@ -110,7 +110,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Metrics Overview - Custom display for large numbers */}
-        <Card>
+        <Card id="analysisSection">
           <CardHeader>
             <CardTitle>{translator(SELECTABLE_STRINGS.SOWING_RATE_VIZ_ALL_ELEMENTS)}</CardTitle>
           </CardHeader>
