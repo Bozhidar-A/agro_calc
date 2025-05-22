@@ -16,7 +16,7 @@ import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
 import { Separator } from '@/components/ui/separator';
-import { siGoogle } from 'simple-icons';
+import { siGithub, siGoogle } from 'simple-icons';
 import SimpleIconToSVG from '@/components/SimpleIconToSVG/SimpleIconToSVG';
 
 const schema = z.object({
@@ -100,6 +100,11 @@ export default function Login() {
             <Button asChild className="text-black dark:text-white font-bold">
               <a href="/api/auth/login/google">
                 <SimpleIconToSVG icon={siGoogle} />
+              </a>
+            </Button>
+            <Button asChild className="text-black dark:text-white font-bold">
+              <a href="/api/auth/login/github">
+                <SimpleIconToSVG icon={siGithub} />
               </a>
             </Button>
           </div>
