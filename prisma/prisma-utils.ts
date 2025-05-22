@@ -63,47 +63,30 @@ export async function DeleteResetPasswordByEmail(email: string) {
     return await prisma.resetPassword.deleteMany({ where: { email } });
 }
 
+//oauth googl
+export async function FindUserByGoogleId(googleId: string) {
+    return await prisma.user.findUnique({
+        where: {
+            googleId
+        }
+    });
+}
+
+export async function CreateUserGoogle(googleId: string, email: string) {
+    return await prisma.user.create({
+        data: {
+            googleId,
+            email,
+        }
+    });
+}
+
 //calc stuff
 
 //sowing
 export async function GetSowingInputData() {
     const finalData: SowingRateDBData[] = [];
 
-    // const sowingData = await prisma.plant.findMany({
-    //     where: {
-    //         coefficientSecurity: {
-    //             isNot: null
-    //         },
-    //         wantedPlantsPerMeterSquared: {
-    //             isNot: null
-    //         },
-    //         massPer1000g: {
-    //             isNot: null
-    //         },
-    //         purity: {
-    //             isNot: null
-    //         },
-    //         germination: {
-    //             isNot: null
-    //         },
-    //         rowSpacingCm: {
-    //             isNot: null
-    //         }
-    //     },
-    //     include: {
-    //         coefficientSecurity: {
-    //             //sub fetch
-    //             include: {
-    //                 values: true,
-    //             },
-    //         },
-    //         wantedPlantsPerMeterSquared: true,
-    //         massPer1000g: true,
-    //         purity: true,
-    //         germination: true,
-    //         rowSpacingCm: true
-    //     }
-    // });
     const sowingData = await prisma.sowingRatePlant.findMany({
         include: {
             plant: true,
@@ -247,8 +230,6 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
 }
 
 export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
-    console.log(data);
-
     return await prisma.sowingRateHistory.create({
         data: {
             userId: data.userId,

@@ -20,9 +20,9 @@ const authSlice = createSlice({
     AuthSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.error = null;
-      state.authType = null;
+      state.authType = action.payload.authType;
     },
     AuthFailure: (state, action) => {
       state.loading = false;
