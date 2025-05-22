@@ -1,5 +1,6 @@
 'use client';
 
+import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
 import { Leaf, PieChart } from 'lucide-react';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,7 @@ import {
 } from '@/lib/seedingCombined-utils';
 import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
+import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
 
 interface PlantCombinedDBData {
   id: string;
@@ -91,7 +93,15 @@ export default function Combined() {
         <CardHeader className="text-center bg-primary text-primary-foreground">
           <CardTitle className="text-2xl sm:text-3xl">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
-            {translator(SELECTABLE_STRINGS.COMBINED_CALC_DESCRIPTION)}
+            <Button
+              type="button"
+              onClick={() => {
+                SpawnStartDriver(getCombinedSteps(translator));
+              }}
+              className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+            >
+              {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
+            </Button>
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-4 sm:pt-6">
@@ -115,7 +125,7 @@ export default function Combined() {
                 />
               </div>
 
-              <Card className="overflow-hidden">
+              <Card className="overflow-hidden" id="mixtureSummary">
                 <CardHeader className="pb-3 sm:pb-4 bg-primary text-primary-foreground">
                   <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                     <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -125,7 +135,7 @@ export default function Combined() {
                 <CardContent className="pt-3 sm:pt-4">
                   <div className="space-y-3 sm:space-y-4">
                     <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
-                      <span className="font-semibold text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION)}</span>
+                      <span className="font-semibold text-lg sm:text-xl" id="totalMixtureParticipation">{translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION)}</span>
                       <span
                         className={`text-lg sm:text-xl font-bold ${totalParticipation !== 100 ? 'text-yellow-500' : 'text-green-500'}`}
                       >
@@ -134,7 +144,7 @@ export default function Combined() {
                     </div>
 
                     <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
-                      <span className="font-semibold text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}</span>
+                      <span className="font-semibold text-lg sm:text-xl" id="finalPrice">{translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}</span>
                       <div>
                         <span className="text-lg sm:text-xl font-bold">{totalPrice}</span>
                         <span className="text-lg sm:text-xl"> BGN</span>
@@ -146,14 +156,6 @@ export default function Combined() {
                         {form.formState.errors.root.message}
                       </div>
                     )}
-
-                    {/* {Object.entries(warnings).length > 0 && (
-                                            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-md text-yellow-700">
-                                                {Object.entries(warnings).map(([field, message]) => (
-                                                    <p key={field}>{message}</p>
-                                                ))}
-                                            </div>
-                                        )} */}
 
                     {Object.keys(warnings).length > 0 && (
                       <div className="flex flex-col items-center space-y-3 sm:space-y-4 mt-6 sm:mt-8">
@@ -169,6 +171,7 @@ export default function Combined() {
               {authObj.isAuthenticated && (
                 <div className="flex justify-center w-full">
                   <Button
+                    id="saveMixtureCalculation"
                     type="submit"
                     className="w-full max-w-md"
                     size="lg"
@@ -180,7 +183,7 @@ export default function Combined() {
               )}
 
               {form.formState.isValid && (
-                <div className="mt-6 sm:mt-8">
+                <div className="mt-6 sm:mt-8" id="mixtureVisualization">
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-xl sm:text-2xl">{translator(SELECTABLE_STRINGS.COMBINED_VISUALIZATION_TITLE)}</CardTitle>
