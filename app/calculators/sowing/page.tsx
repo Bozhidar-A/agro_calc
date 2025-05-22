@@ -24,6 +24,10 @@ import { RootState } from '@/store/store';
 import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
+import "driver.js/dist/driver.css";
+import { sowingStepsNoPlant, sowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
+import { driver } from 'driver.js';
+import { useWatch } from 'react-hook-form';
 
 export interface SowingRateDBData {
   id: string;
@@ -106,6 +110,7 @@ interface BuildSowingRateRowProps<T extends Exclude<keyof SowingRateDBData, 'pla
   form: any;
   icon: React.ReactNode;
   translator: (key: string) => string;
+  tourId: string;
 }
 
 function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>({
@@ -115,7 +120,8 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   form,
   icon,
   translator,
-}: BuildSowingRateRowProps<T>) {
+  tourId
+}: BuildSowingRateRowProps<T> & { tourId: string }) {
   const neededData = activePlantDbData[varName];
 
   let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
@@ -127,13 +133,13 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   }
 
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="bg-muted pb-2">
-        <CardTitle className="flex items-center gap-2 text-lg">
+    <Card className="overflow-hidden" id={tourId}>
+      <CardHeader className="bg-primary pb-2">
+        <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
           {icon}
           {displayName}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-black/90 dark:text-white/90">
           {neededData.type === 'slider'
             ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
             : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue || ''} ${FetchUnitIfExist(neededData)}`}
@@ -197,8 +203,8 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
 export function DisplayOutputRow({ data, text, unit }: { data: number; text: string; unit: string }) {
   return (
     <div className="flex flex-row justify-between items-center gap-4">
-      <div className="text-lg font-medium">{text}:</div>
-      <div className="text-lg font-bold">
+      <div className="text-lg  font-bold">{text}:</div>
+      <div className="text-lg font-bold ">
         {data}, {unit}
       </div>
     </div>
@@ -241,6 +247,12 @@ export default function SowingRate() {
     authObj,
     dbData
   );
+
+  //on plant change swap to other drive
+  const culturePicked = useWatch({
+    control: form.control,
+    name: 'cultureLatinName',
+  });
 
   // Calculate sowing rate when form values change
   useEffect(() => {
@@ -287,17 +299,18 @@ export default function SowingRate() {
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
-        <CardHeader className="text-center bg-primary text-primary-foreground">
-          <CardTitle className="text-2xl sm:text-3xl">
+        <CardHeader className="text-center bg-primary ">
+          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
             {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
           </CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
               type="button"
               onClick={() => {
-                alert('IMPLEMENT TUTORIAL WITH REACT-JOYRIDE HERE');
+                const correctDriverSteps = culturePicked ? sowingStepsPickedPlant : sowingStepsNoPlant;
+                SpawnStartDriver(correctDriverSteps);
               }}
-              className="bg-sky-500 text-white hover:bg-sky-600 text-sm sm:text-base"
+              className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
             >
               {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
             </Button>
@@ -315,7 +328,7 @@ export default function SowingRate() {
                   name="cultureLatinName"
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                      <SelectTrigger id="cultureSelect" className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
                         <SelectValue
                           placeholder={translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
                         />
@@ -338,13 +351,13 @@ export default function SowingRate() {
 
               {form.watch('cultureLatinName') && activePlantDbData && (
                 <>
-                  <div className="bg-muted p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
+                  <div className="bg-primary p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
                     <h3 className="text-lg sm:text-xl font-medium mb-2">
                       {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                     </h3>
                     <p className="text-xl sm:text-2xl font-bold text-center">
                       {translator(form.watch('cultureLatinName'))}
-                      <span className="text-muted-foreground ml-2">
+                      <span className="ml-2">
                         <i>({form.watch('cultureLatinName')})</i>
                       </span>
                     </p>
@@ -360,6 +373,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Scale className="h-5 w-5" />}
                       translator={translator}
+                      tourId="safetyCoefficient"
                     />
                     <BuildSowingRateRow
                       varName="wantedPlantsPerMeterSquared"
@@ -370,6 +384,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Sprout className="h-5 w-5" />}
                       translator={translator}
+                      tourId="wantedPlantsPerMeterSquared"
                     />
                     <BuildSowingRateRow
                       varName="massPer1000g"
@@ -380,6 +395,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Scale className="h-5 w-5" />}
                       translator={translator}
+                      tourId="massPer1000g"
                     />
                     <BuildSowingRateRow
                       varName="purity"
@@ -388,6 +404,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Droplet className="h-5 w-5" />}
                       translator={translator}
+                      tourId="purity"
                     />
                     <BuildSowingRateRow
                       varName="germination"
@@ -396,6 +413,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Leaf className="h-5 w-5" />}
                       translator={translator}
+                      tourId="germination"
                     />
                     <BuildSowingRateRow
                       varName="rowSpacing"
@@ -404,6 +422,7 @@ export default function SowingRate() {
                       form={form}
                       icon={<Ruler className="h-5 w-5" />}
                       translator={translator}
+                      tourId="rowSpacing"
                     />
                   </div>
 
@@ -422,7 +441,7 @@ export default function SowingRate() {
                       <SowingTotalArea form={form} dataToBeSaved={dataToBeSaved} />
 
                       <div className="flex justify-center mt-6 sm:mt-8">
-                        <Button type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md">
+                        <Button id="saveCalculationButton" type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white">
                           {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                         </Button>
                       </div>

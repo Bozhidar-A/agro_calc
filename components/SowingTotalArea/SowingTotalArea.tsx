@@ -34,7 +34,7 @@ export default function SowingTotalArea({ form, dataToBeSaved }: { form: any; da
     }
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden" id="totalArea">
             <CardHeader className="bg-primary text-primary-foreground pb-2">
                 <CardTitle className="flex items-center gap-2 text-lg">
                     <CalculatorIcon className="h-5 w-5" />
