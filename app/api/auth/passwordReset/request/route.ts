@@ -21,32 +21,37 @@ export async function POST(req: NextRequest) {
         const emailRes = await SendEmail(
             email,
             "Password Reset Request",
-            `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                <h2 style="color: #333;">Password Reset Request</h2>
-                <p>We received a request to reset your password. To proceed with the password reset, please click the button below:</p>
+            `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1a1a1a;">
+                <h2 style="color: #15803d; font-size: 24px; font-weight: bold; margin-bottom: 16px;">Password Reset Request</h2>
+                <p style="color: #374151; font-size: 16px; line-height: 1.5; margin-bottom: 24px;">We received a request to reset your password. To proceed with the password reset, please click the button below:</p>
                 
-                <div style="text-align: center; margin: 30px 0;">
+                <div style="text-align: center; margin: 32px 0;">
                     <a href="${resetLink}" 
-                       style="background-color: #007bff; 
+                       style="background-color: #15803d; 
                               color: white; 
                               padding: 12px 24px; 
                               text-decoration: none; 
-                              border-radius: 4px; 
-                              display: inline-block;">
+                              border-radius: 0.5rem;
+                              font-weight: 500;
+                              display: inline-block;
+                              box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                              transition: background-color 0.2s;">
                         Reset Password
                     </a>
                 </div>
 
-                <p style="color: #666; font-size: 14px;">If the button above doesn't work, you can copy and paste the following link into your browser:</p>
-                <p style="background-color: #f5f5f5; 
-                          padding: 10px; 
-                          border-radius: 4px; 
+                <p style="color: #6b7280; font-size: 14px; margin-bottom: 12px;">If the button above doesn't work, you can copy and paste the following link into your browser:</p>
+                <p style="background-color: #f3f4f6; 
+                          padding: 12px; 
+                          border-radius: 0.5rem; 
                           word-break: break-all; 
-                          font-size: 14px;">
+                          font-size: 14px;
+                          color: #374151;
+                          border: 1px solid #e5e7eb;">
                     ${resetLink}
                 </p>
 
-                <p style="color: #666; font-size: 14px; margin-top: 30px;">
+                <p style="color: #6b7280; font-size: 14px; margin-top: 32px; border-top: 1px solid #e5e7eb; padding-top: 16px;">
                     If you did not request a password reset, please ignore this email. Your account security is important to us.
                 </p>
             </div>`
