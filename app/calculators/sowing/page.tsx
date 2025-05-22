@@ -289,7 +289,7 @@ export default function SowingRate() {
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-primary text-primary-foreground">
           <CardTitle className="text-2xl sm:text-3xl">
-            {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC)}
+            {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
           </CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
