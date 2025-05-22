@@ -25,8 +25,7 @@ import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
 import "driver.js/dist/driver.css";
-import { sowingStepsNoPlant, sowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
-import { driver } from 'driver.js';
+import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
 import { useWatch } from 'react-hook-form';
 
 export interface SowingRateDBData {
@@ -307,8 +306,8 @@ export default function SowingRate() {
             <Button
               type="button"
               onClick={() => {
-                const correctDriverSteps = culturePicked ? sowingStepsPickedPlant : sowingStepsNoPlant;
-                SpawnStartDriver(correctDriverSteps);
+                const steps = culturePicked ? getSowingStepsPickedPlant(translator) : getSowingStepsNoPlant(translator);
+                SpawnStartDriver(steps);
               }}
               className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
             >
