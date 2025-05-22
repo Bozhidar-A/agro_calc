@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
+import { Separator } from '@/components/ui/separator';
 
 const schema = z.object({
   email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -94,11 +95,20 @@ export default function Login() {
           </Button>
         </form>
 
+        <Separator className="border-[0.5px] border-black dark:border-white" />
+
         <div className="flex items-center justify-center space-x-2">
           <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
           <Button asChild className="text-black dark:text-white font-bold">
             <Link href="/auth/register" className="hover:underline">
               {translator(SELECTABLE_STRINGS.REGISTER)}
+            </Link>
+          </Button>
+        </div>
+        <div className="flex items-center justify-center space-x-2">
+          <Button asChild className="text-black dark:text-white font-bold">
+            <Link href="/auth/password/request" className="hover:underline">
+              {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>
           </Button>
         </div>
