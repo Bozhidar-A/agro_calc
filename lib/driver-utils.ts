@@ -1,5 +1,6 @@
 import { driver } from "driver.js";
 import '@/app/globals.css';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export function SpawnStartDriver(newSteps: {}[]) {
     const settings = {
@@ -18,86 +19,90 @@ export function SpawnStartDriver(newSteps: {}[]) {
     driverTour.drive();
 }
 
-export const sowingStepsNoPlant = [
-    {
-        element: '#cultureSelect',
-        popover: {
-            title: 'Culture',
-            description: 'Pick the culture you want to calculate the sowing rate for first',
+export function getSowingStepsNoPlant(translator: (key: string) => string) {
+    return [
+        {
+            element: '#cultureSelect',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT_DESCRIPTION_SELECT_CULTURE_FIRST),
+            }
         }
-    }
-];
+    ];
+}
 
-export const sowingStepsPickedPlant = [
-    {
-        element: '#cultureSelect',
-        popover: {
-            title: 'Избор на култура',
-            description: 'Изберете културата, за която искате да направите изчисление на сеитбената норма.',
+export function getSowingStepsPickedPlant(translator: (key: string) => string) {
+    return [
+        {
+            element: '#cultureSelect',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#safetyCoefficient',
-        popover: {
-            title: 'Коефициент на сигурност',
-            description: 'Изберете стойност между 0.9 и 0.99 за корекция според условията на полето.',
+        {
+            element: '#safetyCoefficient',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAFETY_COEFFICIENT),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAFETY_COEFFICIENT_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#wantedPlantsPerMeterSquared',
-        popover: {
-            title: 'Желан брой растения на m²',
-            description: 'Изберете целевия брой растения на квадратен метър според препоръките за културата.',
+        {
+            element: '#wantedPlantsPerMeterSquared',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_WANTED_PLANTS_PER_M2),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_WANTED_PLANTS_PER_M2_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#massPer1000g',
-        popover: {
-            title: 'Маса на 1000 семена',
-            description: 'Въведете масата на 1000 семена в грамове, според семепроизводителя.',
+        {
+            element: '#massPer1000g',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_MASS_PER_1000g),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_MASS_PER_1000g_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#purity',
-        popover: {
-            title: 'Чистота на семената',
-            description: 'Процентна стойност, която отразява чистотата на семената в партидата.',
+        {
+            element: '#purity',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_PURITY),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_PURITY_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#germination',
-        popover: {
-            title: 'Лабораторна кълняемост',
-            description: 'Процент на кълняемост според лабораторни анализи.',
+        {
+            element: '#germination',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_GERMINATION),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_GERMINATION_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#rowSpacing',
-        popover: {
-            title: 'Междуредово разстояние',
-            description: 'Изберете междуредовото разстояние в сантиметри според схемата на сеитба.',
+        {
+            element: '#rowSpacing',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_ROW_SPACING),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_ROW_SPACING_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#visualizationSection',
-        popover: {
-            title: 'Визуализация на резултатите',
-            description: 'Графично представяне на резултатите от изчислението – растения на декар, кг/дка, междуредово разстояние и други.',
+        {
+            element: '#visualizationSection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_VISUALIZATION),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_VISUALIZATION_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#totalArea',
-        popover: {
-            title: 'Обща площ',
-            description: 'Въведете общата площ (в декари), за която ще се извърши сеитбата.',
+        {
+            element: '#totalArea',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_TOTAL_AREA),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_TOTAL_AREA_DESCRIPTION),
+            },
         },
-    },
-    {
-        element: '#saveCalculationButton',
-        popover: {
-            title: 'Запазване на калкулацията',
-            description: 'Натиснете тук, за да запазите калкулацията с въведените параметри.',
+        {
+            element: '#saveCalculationButton',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION),
+                description: translator(SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION_DESCRIPTION),
+            },
         },
-    },
-]
+    ];
+}
 
