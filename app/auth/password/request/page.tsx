@@ -32,7 +32,8 @@ export default function RequestResetPassword() {
         mode: 'onChange',
     });
 
-    async function HandleSubmit(data) {
+    async function HandleSubmit(data: any) {
+        toast.info(translator(SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_REQUEST_PROCESSING));
         const backendWork = await APICaller(['auth', 'passwordReset', 'request'], '/api/auth/passwordReset/request', 'POST', data);
 
         if (backendWork.success) {

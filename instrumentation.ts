@@ -2038,8 +2038,8 @@ export async function register() {
     process.exit(1);
   }
 
-  if (!process.env.MAILTRAP_API_KEY) {
-    console.error('MAILTRAP_API_KEY not set');
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY not set');
     process.exit(1);
   }
 
