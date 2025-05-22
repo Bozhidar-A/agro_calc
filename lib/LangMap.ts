@@ -18,6 +18,18 @@ export enum SELECTABLE_STRINGS {
   CALCULATION_VISUALIZATION = 'CALCULATION_VISUALIZATION',
   LOADING = 'LOADING',
 
+  HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS = 'HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS',
+  HOME_PAGE_PRECISION_FARMING = 'HOME_PAGE_PRECISION_FARMING',
+  HOME_PAGE_PRECISION_FARMING_DESCRIPTION = 'HOME_PAGE_PRECISION_FARMING_DESCRIPTION',
+  HOME_PAGE_TIME_SAVING = 'HOME_PAGE_TIME_SAVING',
+  HOME_PAGE_TIME_SAVING_DESCRIPTION = 'HOME_PAGE_TIME_SAVING_DESCRIPTION',
+  HOME_PAGE_EXPERT_RECOMMENDATIONS = 'HOME_PAGE_EXPERT_RECOMMENDATIONS',
+  HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION = 'HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION',
+  HOME_PAGE_WHY_USE_AGRO_CALC = 'HOME_PAGE_WHY_USE_AGRO_CALC',
+  HOME_PAGE_MODERN_FARMING_SOLUTIONS = 'HOME_PAGE_MODERN_FARMING_SOLUTIONS',
+  HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION = 'HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION',
+  HOME_PAGE_OUR_SUITE_OF_CALCULATORS = 'HOME_PAGE_OUR_SUITE_OF_CALCULATORS',
+
   //auth
   EMAIL = 'EMAIL',
   PASSWORD = 'PASSWORD',
@@ -580,6 +592,19 @@ const LangMap: LangMapInteraface = {
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Визуализация на калкулацията',
     [SELECTABLE_STRINGS.LOADING]: 'Зареждане...',
 
+    [SELECTABLE_STRINGS.HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS]: "Вашите верни земеделски калкулатори",
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING]: 'Точна агрономия',
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING_DESCRIPTION]: 'Оптимизирайте вашите ресурси с прецизни изчисления, съобразени с вашите специфични култури и условия.',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING]: 'Спестява време',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING_DESCRIPTION]: 'Спестете часове ръчни изчисления и планиране с нашия интуитивен, лесен за използване пакет калкулатор.',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS]: 'Експертни препоръки',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION]: 'Получавайте препоръки въз основа на най-добри земеделски практики и научни изследвания.',
+    [SELECTABLE_STRINGS.HOME_PAGE_WHY_USE_AGRO_CALC]: 'Защо да използвате нашите калкулатори?',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS]: 'Съвременни агрономични решения',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION]: 'Прецизни инструменти за съвременния фермер, предназначени да увеличат максимално добива и ефективността.',
+    [SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS]: 'Нашият пакет от селскостопански калкулатори помага на фермери, агрономи и селскостопански специалисти да правят решения, базирани на данни, за подобряване на добивите, намаляване на отпадъците и увеличаване на рентабилността.',
+
+
     [SELECTABLE_STRINGS.EMAIL]: 'Имейл',
     [SELECTABLE_STRINGS.PASSWORD]: 'Парола',
     [SELECTABLE_STRINGS.PASSWORD_CONFIRM]: 'Потвърди парола',
@@ -1006,6 +1031,18 @@ const LangMap: LangMapInteraface = {
     [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Save calculation',
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Calculation visualization',
     [SELECTABLE_STRINGS.LOADING]: 'Loading...',
+
+    [SELECTABLE_STRINGS.HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS]: "Your trusted agricultural calculators",
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING]: 'Precision Farming',
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING_DESCRIPTION]: 'Optimize your resources with precise calculations tailored to your specific crops and conditions.',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING]: 'Time Saving',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING_DESCRIPTION]: 'Save hours of manual calculations and planning with our intuitive, easy-to-use calculator suite.',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS]: 'Expert Recommendations',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION]: 'Get recommendations based on agricultural best practices and scientific research.',
+    [SELECTABLE_STRINGS.HOME_PAGE_WHY_USE_AGRO_CALC]: 'Why use our agricultural calculators?',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS]: 'Modern agricultural solutions',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION]: 'Precision tools for the modern farmer, designed to maximize yield and efficiency.',
+    [SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS]: 'Our suite of agricultural calculators helps farmers, agronomists, and agricultural professionals make data-driven decisions to improve crop yields, reduce waste, and maximize profitability.',
 
     [SELECTABLE_STRINGS.EMAIL]: 'Email',
     [SELECTABLE_STRINGS.PASSWORD]: 'Password',
