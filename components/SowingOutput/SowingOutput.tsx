@@ -10,7 +10,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
 
     return (
         <div>
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden" id="visualizationSection">
                 <CardHeader className="pb-3 sm:pb-4 bg-primary text-primary-foreground">
                     <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                         <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -25,7 +25,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
                             </span>
                             <div>
                                 <span className="text-lg sm:text-xl font-bold">{dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}</span>
-                                <span className="text-lg sm:text-xl">
+                                <span className="text-lg sm:text-xl font-bold">
                                     {" "}
                                     {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2)}
                                 </span>
@@ -42,7 +42,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
                             </span>
                             <div>
                                 <span className="text-lg sm:text-xl font-bold">{dataToBeSaved.internalRowHeightCm}</span>
-                                <span className="text-lg sm:text-xl">
+                                <span className="text-lg sm:text-xl font-bold">
                                     {" "}
                                     {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}
                                 </span>
