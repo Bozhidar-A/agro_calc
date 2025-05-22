@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useTranslate } from '@/app/hooks/useTranslate';
@@ -16,6 +16,8 @@ import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
 import { Separator } from '@/components/ui/separator';
+import { siGoogle } from 'simple-icons';
+import SimpleIconToSVG from '@/components/SimpleIconToSVG/SimpleIconToSVG';
 
 const schema = z.object({
   email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -52,7 +54,7 @@ export default function Login() {
   });
 
   async function HandleSubmit(data) {
-    dispatch(AuthStart('login'));
+    dispatch(AuthStart('credentials'));
 
     const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', 'POST', data);
 
@@ -64,7 +66,7 @@ export default function Login() {
       return;
     }
 
-    dispatch(AuthSuccess(backendWork.user));
+    dispatch(AuthSuccess({ user: backendWork.user, authType: 'credentials' }));
     toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
     router.push('/');
   }
@@ -93,6 +95,14 @@ export default function Login() {
           <Button type="submit" className="w-full text-black dark:text-white font-bold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
+
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button asChild className="text-black dark:text-white font-bold">
+              <a href="/api/auth/login/google">
+                <SimpleIconToSVG icon={siGoogle} />
+              </a>
+            </Button>
+          </div>
         </form>
 
         <Separator className="border-[0.5px] border-black dark:border-white" />
