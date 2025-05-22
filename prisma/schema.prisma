@@ -37,6 +37,16 @@ model RefreshToken {
   @@index([userId])
 }
 
+model ResetPassword {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
 //calc stuff
 model Plant {
   id        String @id @default(cuid())

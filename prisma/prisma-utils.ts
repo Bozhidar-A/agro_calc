@@ -1,19 +1,23 @@
 import { SowingRateDBData } from "@/app/calculators/sowing/page";
 import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
 import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm";
+import { HashPassword } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
 
 export async function FindUserByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
+}
+
+export async function FindUserById(id: string) {
+    return await prisma.user.findUnique({ where: { id } });
 }
 
 export async function CreateNewUser(email: string, password: string) {
     return await prisma.user.create({
         data: {
             email,
-            password: await hash(password, parseInt(process.env.SALT_ROUNDS!)),
+            password: await HashPassword(password),
         }
     });
 }
@@ -39,6 +43,24 @@ export async function InsertRefreshTokenByUserId(token: string, userId: string) 
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
         }
     });
+}
+
+export async function CreateResetPassword(email: string, token: string) {
+    return await prisma.resetPassword.create({
+        data: {
+            email,
+            token,
+            expiresAt: new Date(Date.now() + 15 * 60 * 1000) // 15 minutes
+        }
+    });
+}
+
+export async function FindResetPasswordByToken(token: string) {
+    return await prisma.resetPassword.findUnique({ where: { token } });
+}
+
+export async function DeleteResetPasswordByEmail(email: string) {
+    return await prisma.resetPassword.deleteMany({ where: { email } });
 }
 
 //calc stuff

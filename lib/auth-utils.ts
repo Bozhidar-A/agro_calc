@@ -1,16 +1,21 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { compare } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
 import {
   CreateNewUser,
+  CreateResetPassword,
   DeleteAllRefreshTokensByUserId,
+  DeleteResetPasswordByEmail,
   FindRefreshToken,
+  FindResetPasswordByToken,
   FindUserByEmail,
   InsertRefreshTokenByUserId,
 } from '@/prisma/prisma-utils';
 import { Log } from './logger';
+import { User } from '@prisma/client';
+import { prisma } from './prisma';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -274,4 +279,101 @@ export async function BackendRefreshAccessToken() {
     sameSite: 'strict',
     maxAge: 900, // 15 minutes
   });
+}
+
+export async function HashPassword(password: string) {
+  return await hash(password, parseInt(process.env.SALT_ROUNDS!));
+}
+
+export async function BackendUpdateUserPassword(user: User, password: string) {
+  try {
+    const hashedPassword = await HashPassword(password);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  } catch (error) {
+    Log(['auth', 'updateUserPassword'], `BackendUpdateUserPassword failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function BackendPasswordResetRequest(email: string) {
+  try {
+    const user = await FindUserByEmail(email);
+
+    if (!user) {
+      Log(['auth', 'passwordReset', 'request'], `User not found: ${email}`);
+      return { success: false, message: 'User not found' };
+    }
+
+    const resetToken = await new SignJWT({ userEmail: user.email, userId: user.id, type: 'reset' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('15m')
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+
+    Log(['auth', 'passwordReset', 'request'], `Reset token: ${resetToken}`);
+
+    await CreateResetPassword(user.email, resetToken);
+
+    return { success: true, resetToken };
+  } catch (error) {
+    Log(['auth', 'passwordReset', 'request'], `BackendPasswordResetRequest failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function BackendPasswordReset(token: string, password: string, confirmPassword: string) {
+  try {
+    if (password !== confirmPassword) {
+      return { success: false, message: 'Passwords do not match' };
+    }
+
+    const resetPasswordEntry = await FindResetPasswordByToken(token);
+
+    if (!resetPasswordEntry) {
+      return { success: false, message: 'Invalid token, no entry' };
+    }
+
+    const decoded = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+
+    if (!decoded) {
+      return { success: false, message: 'Invalid token, no decoded' };
+    }
+
+    if (resetPasswordEntry.expiresAt < new Date()) {
+      return { success: false, message: 'Token expired' };
+    }
+
+    if (decoded.payload.userEmail !== resetPasswordEntry.email) {
+      return { success: false, message: 'Invalid token, email mismatch' };
+    }
+
+    const user = await FindUserByEmail(decoded.payload.userEmail as string);
+
+    if (!user) {
+      return { success: false, message: 'User not found, no user' };
+    }
+
+    if (user.id !== decoded.payload.userId) {
+      return { success: false, message: 'User not found, id mismatch' };
+    }
+
+    const resetStatus = await BackendUpdateUserPassword(user, password);
+
+    if (!resetStatus.success) {
+      return { success: false, message: 'Failed to reset password, no reset status' };
+    }
+
+    await DeleteResetPasswordByEmail(user.email);
+    await DeleteAllRefreshTokensByUserId(user.id);
+
+    return { success: true };
+  } catch (error) {
+    Log(['auth', 'passwordReset', 'reset'], `BackendPasswordReset failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
 }

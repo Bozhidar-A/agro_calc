@@ -2038,6 +2038,11 @@ export async function register() {
     process.exit(1);
   }
 
+  if (!process.env.MAILTRAP_API_KEY) {
+    console.error('MAILTRAP_API_KEY not set');
+    process.exit(1);
+  }
+
   //set up db
   //npx prisma migrate dev in terminal
 
