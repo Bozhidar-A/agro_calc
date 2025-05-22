@@ -81,6 +81,24 @@ export async function CreateUserGoogle(googleId: string, email: string) {
     });
 }
 
+//oauth github
+export async function FindUserByGitHubId(githubId: string) {
+    return await prisma.user.findUnique({
+        where: {
+            githubId
+        }
+    });
+}
+
+export async function CreateUserGitHub(githubId: string, email: string) {
+    return await prisma.user.create({
+        data: {
+            githubId,
+            email,
+        }
+    });
+}
+
 //calc stuff
 
 //sowing

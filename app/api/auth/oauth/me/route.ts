@@ -28,7 +28,7 @@ export async function GET() {
             return NextResponse.json({ success: false, error: "User not found" }, { status: 401 });
         }
 
-        return NextResponse.json({ success: true, data: { user, authType: user.googleId ? 'google' : 'credentials', } });
+        return NextResponse.json({ success: true, data: { user, authType: user.googleId ? 'google' : user.githubId ? 'github' : 'credentials', } });
 
     } catch (error) {
         console.error("Auth check error:", error);

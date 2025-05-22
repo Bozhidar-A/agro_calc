@@ -60,9 +60,9 @@ export default function Header() {
             </SheetTrigger>
 
             <SheetContent data-testid="sheet-content">
-              {authObj.isAuthenticated ? (
+              {authObj.isAuthenticated && authObj.user ? (
                 <SheetTitle>
-                  {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}, {authObj.user.email}
+                  {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}{authObj.user.email}
                 </SheetTitle>
               ) : (
                 <SheetTitle>{translator(SELECTABLE_STRINGS.MENU)}</SheetTitle>

@@ -20,6 +20,7 @@ model User {
   email                         String                          @unique
   password                      String? //nullable for OAuth
   googleId                      String?                         @unique
+  githubId                      String?                         @unique
   createdAt                     DateTime                        @default(now())
   updatedAt                     DateTime                        @updatedAt
   RefreshToken                  RefreshToken[]
