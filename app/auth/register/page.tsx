@@ -88,7 +88,7 @@ export default function Register() {
             )}
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full text-black dark:text-white font-bold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
@@ -96,7 +96,7 @@ export default function Register() {
 
           <div className="flex items-center justify-center space-x-2">
             <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-            <Button asChild>
+            <Button asChild className="text-black dark:text-white font-bold">
               <Link href="/auth/login" className="hover:underline">
                 {translator(SELECTABLE_STRINGS.LOGIN)}
               </Link>

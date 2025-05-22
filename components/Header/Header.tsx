@@ -71,6 +71,7 @@ export default function Header() {
               <div className="flex flex-col space-y-6 mt-6">
                 {authObj.isAuthenticated ? (
                   <Button
+                    className="w-full text-black dark:text-white font-bold"
                     onClick={() => {
                       HandleLogout();
                       setOpen(false);
@@ -79,8 +80,8 @@ export default function Header() {
                     {translator(SELECTABLE_STRINGS.LOGOUT)}
                   </Button>
                 ) : (
-                  <div className="flex flex-row justify-center space-x-4">
-                    <Button asChild>
+                  <div className="flex flex-row justify-center space-x-4 w-full">
+                    <Button asChild className="w-1/2 text-black dark:text-white font-bold">
                       <Link
                         href="/auth/login"
                         className="hover:underline"
@@ -89,7 +90,7 @@ export default function Header() {
                         {translator(SELECTABLE_STRINGS.LOGIN)}
                       </Link>
                     </Button>
-                    <Button asChild>
+                    <Button asChild className="w-1/2 text-black dark:text-white font-bold">
                       <Link
                         href="/auth/register"
                         className="hover:underline"
@@ -101,10 +102,10 @@ export default function Header() {
                   </div>
                 )}
                 <hr />
-                <div className="flex flex-row justify-center">
+                <div className="flex flex-row justify-center w-full">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button>{translator(SELECTABLE_STRINGS.SETTINGS)}</Button>
+                      <Button className="w-full text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.SETTINGS)}</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[600px]"> {/* Increased width */}
                       <DialogHeader>
