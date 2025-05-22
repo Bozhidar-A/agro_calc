@@ -102,6 +102,13 @@ export default function Register() {
               </Link>
             </Button>
           </div>
+          <div className="flex items-center justify-center space-x-2">
+            <Button asChild className="text-black dark:text-white font-bold">
+              <Link href="/auth/password/request" className="hover:underline">
+                {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
+              </Link>
+            </Button>
+          </div>
         </form>
       </div>
     </div>
