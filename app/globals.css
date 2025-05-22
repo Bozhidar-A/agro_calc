@@ -257,6 +257,16 @@ input.outside-safe-range[type="range"]:focus::-moz-range-thumb {
     transition: background-color 0.2s;
 }
 
+/* Add specific styling for close button */
+.driver-popover-close-btn {
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+.dark .driver-popover-close-btn {
+    color: white;
+}
+
 .driver-popover-footer button:hover {
     background-color: #16a34a;
     /* green-600 */
