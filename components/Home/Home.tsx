@@ -42,18 +42,18 @@ export default function Home() {
 
     const benefits = [
         {
-            title: "Precision Farming",
-            description: "Optimize your resources with precise calculations tailored to your specific crops and conditions.",
+            title: translator(SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING),
+            description: translator(SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING_DESCRIPTION),
             icon: <BarChart3 className="h-10 w-10 text-white" />,
         },
         {
-            title: "Time Saving",
-            description: "Save hours of manual calculations and planning with our intuitive, easy-to-use calculator suite.",
+            title: translator(SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING),
+            description: translator(SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING_DESCRIPTION),
             icon: <Clock className="h-10 w-10 text-white" />,
         },
         {
-            title: "Expert Recommendations",
-            description: "Get recommendations based on agricultural best practices and scientific research.",
+            title: translator(SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS),
+            description: translator(SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION),
             icon: <Award className="h-10 w-10 text-white" />,
         },
     ]
@@ -76,7 +76,7 @@ export default function Home() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                 >
-                    Your trusted agricultural calculator
+                    {translator(SELECTABLE_STRINGS.HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS)}
                 </motion.p>
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -101,7 +101,7 @@ export default function Home() {
                 transition={{ delay: 0.8, duration: 0.5 }}
             >
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-12">Why Use Our Agricultural Calculators?</h2>
+                    <h2 className="text-3xl font-bold text-center mb-12">{translator(SELECTABLE_STRINGS.HOME_PAGE_WHY_USE_AGRO_CALC)}</h2>
 
                     {/* Image Banner */}
                     <div className="relative w-full h-64 md:h-80 mb-16 rounded-xl overflow-hidden shadow-xl">
@@ -114,8 +114,8 @@ export default function Home() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-green-900/70 to-transparent flex items-center">
                             <div className="p-8 max-w-md">
-                                <h3 className="text-white text-2xl font-bold mb-2">Modern Farming Solutions</h3>
-                                <p className="text-white">Precision tools for the modern farmer, designed to maximize yield and efficiency.</p>
+                                <h3 className="text-white text-2xl font-bold mb-2">{translator(SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS)}</h3>
+                                <p className="text-white">{translator(SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION)}</p>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ export default function Home() {
                         {benefits.map((benefit, index) => (
                             <motion.div
                                 key={index}
-                                className="bg-green-700 p-6 rounded-xl shadow-md"
+                                className="bg-green-700 rounded-xl shadow-md p-6"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.9 + index * 0.2, duration: 0.5 }}
@@ -162,8 +162,7 @@ export default function Home() {
 
                     <div className="text-center">
                         <p className="text-lg max-w-3xl mx-auto mb-8">
-                            Our suite of agricultural calculators helps farmers, agronomists, and agricultural professionals make
-                            data-driven decisions to improve crop yields, reduce waste, and maximize profitability.
+                            {translator(SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS)}
                         </p>
                     </div>
                 </div>
