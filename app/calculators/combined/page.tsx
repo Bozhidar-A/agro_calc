@@ -91,7 +91,7 @@ export default function Combined() {
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-primary text-primary-foreground">
-          <CardTitle className="text-2xl sm:text-3xl">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
               type="button"
