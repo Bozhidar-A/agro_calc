@@ -7,6 +7,7 @@ import { RootState } from "@/store/store";
 import Link from "next/link";
 import HistoryDisplay from "@/components/HistoryDisplay/HistoryDisplay";
 import { User, Key, History } from "lucide-react";
+import SettingsGrid from "@/components/SettingsGrid/SettingsGrid";
 
 export default function Profile() {
     const translator = useTranslate();
@@ -32,6 +33,13 @@ export default function Profile() {
                             <Key className="h-4 w-4" />
                             {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
                         </Link>
+                    </div>
+
+                    <div className="mt-4">
+                        <h2 className="text-2xl font-bold text-green-700 mb-4 flex items-center gap-2">
+                            {translator(SELECTABLE_STRINGS.SETTINGS)}
+                        </h2>
+                        <SettingsGrid />
                     </div>
                 </div>
 
