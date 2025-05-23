@@ -5,7 +5,7 @@ export async function APICaller(logPath: string[], route: string, method: string
         "Content-Type": "application/json",
     };
 
-    Log(logPath, `Calling ${route} with ${JSON.stringify(variables)}`);
+    Log(logPath, `Calling ${route} ${method} ${variables ? JSON.stringify(variables) : ""}`);
 
     const fetchOptions: RequestInit = {
         method,
