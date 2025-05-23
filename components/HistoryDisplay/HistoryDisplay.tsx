@@ -1,26 +1,87 @@
 import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { format } from 'date-fns';
+import { format, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 import { SeedingDataCombinationHistory, SowingRateHistory } from '@/lib/interfaces';
 import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { toast } from 'sonner';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { Log } from '@/lib/logger';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
 import { APICaller } from '@/lib/api-util';
 import Errored from '@/components/Errored/Errored';
 import CalculatorsCallToAction from '@/components/CalculatorsCallToAction/CalculatorsCallToAction';
+import { Input } from "@/components/ui/input";
+import { Search, Calendar } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 export default function HistoryDisplay() {
     const [sowingRateHistory, setSowingRateHistory] = useState<SowingRateHistory[]>([]);
     const [seedingDataHistory, setSeedingDataHistory] = useState<SeedingDataCombinationHistory[]>([]);
     const [loading, setLoading] = useState(true);
     const [errored, setErrored] = useState(false);
-    const authObj = useSelector((state: RootState) => state.auth);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const translator = useTranslate();
+
+    // Filter functions
+    const filterSowingRateHistory = (history: SowingRateHistory[]) => {
+        let filtered = history;
+
+        // Filter by search query
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(item => {
+                const translatedName = translator(item.plant.latinName as SELECTABLE_STRINGS);
+                return translatedName.toLowerCase().includes(query);
+            });
+        }
+
+        // Filter by date
+        if (selectedDate) {
+            filtered = filtered.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+        }
+
+        return filtered;
+    };
+
+    const filterSeedingDataHistory = (history: SeedingDataCombinationHistory[]) => {
+        let filtered = history;
+
+        // Filter by search query
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(item =>
+                item.plants.some(plant => {
+                    const translatedName = translator(plant.plant.latinName as SELECTABLE_STRINGS);
+                    const translatedType = translator(plant.plantType as SELECTABLE_STRINGS);
+                    return translatedName.toLowerCase().includes(query) ||
+                        translatedType.toLowerCase().includes(query);
+                })
+            );
+        }
+
+        // Filter by date
+        if (selectedDate) {
+            filtered = filtered.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+        }
+
+        return filtered;
+    };
 
     // Fetch history data
     useEffect(() => {
@@ -60,21 +121,51 @@ export default function HistoryDisplay() {
         </div>
     }
 
+    const filteredSowingRateHistory = filterSowingRateHistory(sowingRateHistory);
+    const filteredSeedingDataHistory = filterSeedingDataHistory(seedingDataHistory);
+
     return (
         <div className="container mx-auto p-4 flex flex-col items-center">
+            <div className="w-full max-w-4xl mb-4 flex gap-4">
+                <div className="relative flex-1">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder={translator(SELECTABLE_STRINGS.SEARCH_PLACEHOLDER)}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-8"
+                    />
+                </div>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                            <Calendar className="mr-2 h-4 w-4" />
+                            {selectedDate ? format(selectedDate, "PPP") : translator(SELECTABLE_STRINGS.SELECT_DATE)}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                        <CalendarComponent
+                            mode="single"
+                            selected={selectedDate}
+                            onSelect={setSelectedDate}
+                            initialFocus
+                        />
+                    </PopoverContent>
+                </Popover>
+            </div>
             <Tabs defaultValue="sowing-rate" className="w-full max-w-4xl">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="sowing-rate">Sowing Rate History</TabsTrigger>
-                    <TabsTrigger value="seeding-data">Seeding Data History</TabsTrigger>
+                    <TabsTrigger value="sowing-rate">{translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}</TabsTrigger>
+                    <TabsTrigger value="seeding-data">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="sowing-rate">
                     <div className="grid gap-4">
-                        {sowingRateHistory.length > 0 ? sowingRateHistory.map((history) => (
+                        {filteredSowingRateHistory.length > 0 ? filteredSowingRateHistory.map((history) => (
                             <Card key={history.id}>
                                 <CardHeader>
                                     <CardTitle className="flex justify-between">
-                                        <span>{history.plant.latinName}</span>
+                                        <span>{translator(history.plant.latinName as SELECTABLE_STRINGS)}</span>
                                         <span className="text-sm text-gray-500">
                                             {format(new Date(history.createdAt), 'PPp')}
                                         </span>
@@ -83,23 +174,23 @@ export default function HistoryDisplay() {
                                 <CardContent>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-sm font-medium">Safe Seeds/m²</p>
+                                            <p className="text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2)}</p>
                                             <p className="text-lg">{history.sowingRateSafeSeedsPerMeterSquared.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium">Plants/Acre</p>
+                                            <p className="text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE)}</p>
                                             <p className="text-lg">{history.sowingRatePlantsPerAcre.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium">Seeds kg/Acre</p>
+                                            <p className="text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}</p>
                                             <p className="text-lg">{history.usedSeedsKgPerAcre.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium">Row Height (cm)</p>
+                                            <p className="text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}</p>
                                             <p className="text-lg">{history.internalRowHeightCm.toFixed(2)}</p>
                                         </div>
                                         <div className="col-span-2">
-                                            <p className="text-sm font-medium">Total Area</p>
+                                            <p className="text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA)}</p>
                                             <p className="text-lg">{history.totalArea.toFixed(2)}</p>
                                         </div>
                                     </div>
@@ -111,11 +202,11 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="seeding-data">
                     <div className="grid gap-4">
-                        {seedingDataHistory.length > 0 ? seedingDataHistory.map((history) => (
+                        {filteredSeedingDataHistory.length > 0 ? filteredSeedingDataHistory.map((history) => (
                             <Card key={history.id}>
                                 <CardHeader>
                                     <CardTitle className="flex justify-between">
-                                        <span>Combined Seeding Data</span>
+                                        <span>{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</span>
                                         <span className="text-sm text-gray-500">
                                             {format(new Date(history.createdAt), 'PPp')}
                                         </span>
@@ -125,22 +216,22 @@ export default function HistoryDisplay() {
                                     <div className="space-y-4">
                                         {history.plants.map((plantData, index) => (
                                             <div key={index} className="border-b pb-2 last:border-0">
-                                                <h4 className="font-medium">{plantData.plant.latinName}</h4>
+                                                <h4 className="font-medium">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
                                                 <div className="grid grid-cols-2 gap-2 mt-2">
                                                     <div>
-                                                        <p className="text-sm text-gray-500">Type</p>
-                                                        <p>{plantData.plantType}</p>
+                                                        <p className="text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</p>
+                                                        <p>{translator(plantData.plantType as SELECTABLE_STRINGS)}</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm text-gray-500">Seeding Rate</p>
+                                                        <p className="text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE)}</p>
                                                         <p>{plantData.seedingRate.toFixed(2)}</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm text-gray-500">Participation</p>
+                                                        <p className="text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</p>
                                                         <p>{plantData.participation.toFixed(2)}%</p>
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm text-gray-500">Price/Acre</p>
+                                                        <p className="text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</p>
                                                         <p>{plantData.pricePerAcreBGN.toFixed(2)} BGN</p>
                                                     </div>
                                                 </div>
@@ -148,7 +239,7 @@ export default function HistoryDisplay() {
                                         ))}
                                         <div className="mt-4 pt-4 border-t">
                                             <p className="text-lg font-medium">
-                                                Total Price: {history.totalPrice.toFixed(2)} BGN
+                                                {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}: {history.totalPrice.toFixed(2)} BGN
                                             </p>
                                         </div>
                                     </div>
