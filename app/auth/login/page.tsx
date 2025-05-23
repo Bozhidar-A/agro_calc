@@ -16,8 +16,6 @@ import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
 import { Separator } from '@/components/ui/separator';
-import { siGithub, siGoogle } from 'simple-icons';
-import SimpleIconToSVG from '@/components/SimpleIconToSVG/SimpleIconToSVG';
 import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z.object({
@@ -78,7 +76,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center">{translator(SELECTABLE_STRINGS.LOGIN)}</h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
+            <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
@@ -86,14 +84,14 @@ export default function Login() {
           </div>
 
           <div>
-            <Label htmlFor="password">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
+            <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
               <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
             )}
           </div>
 
-          <Button type="submit" className="w-full text-black dark:text-white font-bold">
+          <Button type="submit" className="w-full text-black dark:text-white font-semibold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
@@ -104,14 +102,14 @@ export default function Login() {
 
         <div className="flex items-center justify-center space-x-2">
           <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-          <Button asChild className="text-black dark:text-white font-bold">
+          <Button asChild className="text-black dark:text-white font-semibold">
             <Link href="/auth/register" className="hover:underline">
               {translator(SELECTABLE_STRINGS.REGISTER)}
             </Link>
           </Button>
         </div>
         <div className="flex items-center justify-center space-x-2">
-          <Button asChild className="text-black dark:text-white font-bold">
+          <Button asChild className="text-black dark:text-white font-semibold">
             <Link href="/auth/password/request" className="hover:underline">
               {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>
