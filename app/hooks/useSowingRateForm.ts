@@ -6,31 +6,46 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { SowingRateDBData } from "../calculators/sowing/page";
-import { CmToMeters, MetersSquaredToDecare, MetersToCm, ToFixedNumber } from "@/lib/math-util";
+import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/lib/math-util";
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
+import { useTranslate } from '@/app/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { AuthState } from "@/store/slices/authSlice";
+import { CalculatorValueTypes } from "@/lib/utils";
 
 export interface SowingRateSaveData {
     userId: string;
     plantId: string;
     plantLatinName: string;
     sowingRateSafeSeedsPerMeterSquared: number;
-    sowingRatePlantsPerDecare: number;
-    usedSeedsKgPerDecare: number;
+    sowingRatePlantsPerAcre: number;
+    usedSeedsKgPerAcre: number;
     internalRowHeightCm: number;
+    totalArea: number;
     isDataValid: boolean;
 }
 
-export default function useSowingRateForm(authObj, dbData) {
+export interface SowingRateDBData {
+    id: string;
+    latinName: string;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}
+
+export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
+    const translator = useTranslate();
     const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
         userId: '',
         plantId: '',
         plantLatinName: '',
         sowingRateSafeSeedsPerMeterSquared: 0,
-        sowingRatePlantsPerDecare: 0,
-        usedSeedsKgPerDecare: 0,
+        sowingRatePlantsPerAcre: 0,
+        usedSeedsKgPerAcre: 0,
         internalRowHeightCm: 0,
+        totalArea: 1,
         isDataValid: false
     });
 
@@ -45,6 +60,9 @@ export default function useSowingRateForm(authObj, dbData) {
             delete newWarnings[field];
             return newWarnings;
         });
+    }
+    function CountWarnings() {
+        return Object.keys(warnings).length;
     }
 
 
@@ -62,7 +80,10 @@ export default function useSowingRateForm(authObj, dbData) {
         germination: z.number()
             .min(0, 'Germination must be at least 0'),
         rowSpacing: z.number()
-            .min(0, 'Row spacing must be at least 0')
+            .min(0, 'Row spacing must be at least 0'),
+        totalArea: z.number()
+            .min(0, 'Total area must be at least 0')
+            .transform(val => isNaN(val) ? 0 : val),
     });
 
     const form = useForm({
@@ -74,10 +95,19 @@ export default function useSowingRateForm(authObj, dbData) {
             massPer1000g: 0,
             purity: 0,
             germination: 0,
-            rowSpacing: 0
+            rowSpacing: 0,
+            totalArea: 1,
         },
-        mode: 'onBlur'
+        mode: 'onChange',
+        reValidateMode: 'onBlur'
     })
+
+    // Trigger validation on mount
+    //EXTREMELY HACKY SOLUTION, but it works
+    //this is to make the form validate on mount specifically for errors
+    useEffect(() => {
+        form.trigger();
+    }, []);
 
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
@@ -167,6 +197,13 @@ export default function useSowingRateForm(authObj, dbData) {
             } else {
                 removeWarning('rowSpacing');
             }
+
+            if (IsValueOutOfBounds(form.getValues('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
+                addWarning('totalArea', 'Value out of bounds!');
+            } else {
+                removeWarning('totalArea');
+            }
+
         });
 
         return () => subscription.unsubscribe();
@@ -175,7 +212,9 @@ export default function useSowingRateForm(authObj, dbData) {
     useEffect(() => {
         const calculateSavingData = () => {
             // Only calculate if we have a selected plant
-            if (!activePlantDbData) return;
+            if (!activePlantDbData) {
+                return;
+            }
 
             const formValues = form.getValues();
 
@@ -183,12 +222,14 @@ export default function useSowingRateForm(authObj, dbData) {
             const wantedPlantsPerMeterSquared = (formValues.wantedPlantsPerMeterSquared * 100) /
                 (formValues.germination * formValues.coefficientSecurity);
 
-            const sowingRatePlantsPerDecare = MetersSquaredToDecare(wantedPlantsPerMeterSquared);
+            const sowingRatePlantsPerAcre = MetersSquaredToAcre(wantedPlantsPerMeterSquared);
 
-            const usedSeedsKgPerDecare = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
+            const usedSeedsKgPerAcre = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
                 (formValues.purity * formValues.germination);
 
-            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerDecare;
+            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
+
+            console.log("isValid:", form.formState.isValid && CountWarnings() === 0)
 
             // Create the saveable data
             const saveableData: SowingRateSaveData = {
@@ -196,10 +237,11 @@ export default function useSowingRateForm(authObj, dbData) {
                 plantId: activePlantDbData.plant.plantId,
                 plantLatinName: activePlantDbData.plant.plantLatinName,
                 sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
-                sowingRatePlantsPerDecare: ToFixedNumber(sowingRatePlantsPerDecare, 0),
-                usedSeedsKgPerDecare: ToFixedNumber(usedSeedsKgPerDecare, 2),
+                sowingRatePlantsPerAcre: ToFixedNumber(sowingRatePlantsPerAcre, 0),
+                usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
                 internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
-                isDataValid: form.formState.isValid && Object.keys(warnings).length === 0
+                totalArea: formValues.totalArea,
+                isDataValid: form.formState.isValid && CountWarnings() === 0
             };
 
             setDataToBeSaved(saveableData);
@@ -214,32 +256,32 @@ export default function useSowingRateForm(authObj, dbData) {
         });
 
         return () => subscription.unsubscribe();
-    }, [form, activePlantDbData, authObj]);
+    }, [form, activePlantDbData, authObj, warnings]);
 
 
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         if (!authObj.isAuthenticated) {
-            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
 
         if (!activePlantDbData) {
-            toast.error("Не сте избрали растение за изчисление!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NO_PLANT_SELECTED));
             return;
         }
 
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/sowing/history', "POST", dataToBeSaved);
 
         if (!res.success) {
-            toast.error("Имаше грешка при запазване на изчислението", {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
                 description: res.message,
             });
             console.log(res.message);
             return;
         }
 
-        toast.success("Изчислението е запазено успешно!");
+        toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
-    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved };
+    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, CountWarnings };
 }
