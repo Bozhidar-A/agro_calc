@@ -15,7 +15,7 @@ export default function OAuthChecker() {
                 const res = await APICaller(["auth", "oauth", "me"], "/api/auth/oauth/me", "GET");
 
                 if (res.success) {
-                    Log(["auth", "oauth", "me"], `User ${res.data.id} authenticated - ${JSON.stringify(res.data)}`);
+                    Log(["auth", "oauth", "me"], `User ${res.data.user.id} authenticated - ${JSON.stringify(res.data)}`);
                     dispatch(AuthSuccess(res.data));
                     return;
                 }
