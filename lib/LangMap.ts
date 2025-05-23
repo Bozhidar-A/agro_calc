@@ -1,8 +1,4 @@
-interface LangMapInteraface {
-  [key: string]: {
-    [key: string]: string;
-  };
-}
+import { LangMapInterface } from "./interfaces";
 
 export enum SELECTABLE_STRINGS {
   //general
@@ -616,7 +612,7 @@ export enum SELECTABLE_STRINGS {
   RHIZOCTONIA_ZEAE = 'Rhizoctonia zeae',
 }
 
-const LangMap: LangMapInteraface = {
+const LangMap: LangMapInterface = {
   BG: {
     //plants
     [SELECTABLE_STRINGS.PISUM_SATIVUM]: 'Грах',

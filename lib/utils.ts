@@ -1,8 +1,23 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
+import { siGithub, siGoogle } from 'simple-icons';
+import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 
-export const SUPPORTED_LANGS = {
+export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SupportedOAuthProvider> = {
+  GOOGLE: {
+    name: 'Google',
+    icon: siGoogle,
+    authURL: '/api/auth/login/google'
+  },
+  GITHUB: {
+    name: 'GitHub',
+    icon: siGithub,
+    authURL: '/api/auth/login/github'
+  }
+}
+
+export const SUPPORTED_LANGS: Record<string, SupportedLang> = {
   BG: {
     code: 'BG',
     name: 'Български',

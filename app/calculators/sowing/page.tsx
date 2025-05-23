@@ -27,90 +27,13 @@ import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
 import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
 import { useWatch } from 'react-hook-form';
-
-export interface SowingRateDBData {
-  id: string;
-  plant: Plant;
-  coefficientSecurity: CoefficientSecurity;
-  wantedPlantsPerMeterSquared: WantedPlantsPerMeterSquared;
-  massPer1000g: MassPer1000g;
-  purity: Purity;
-  germination: Germination;
-  rowSpacing: RowSpacing;
-}
-
-interface Plant {
-  plantId: string;
-  plantLatinName: string;
-}
-
-interface CoefficientSecurity {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
-
-interface WantedPlantsPerMeterSquared {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
-
-interface MassPer1000g {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
-
-interface Purity {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
-
-interface Germination {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
-
-interface RowSpacing {
-  type: string; // "slider" or "const"
-  unit: string;
-  step?: number;
-  minSliderVal?: number;
-  maxSliderVal?: number;
-  constValue?: number;
-}
+import { CalculatorValueTypes } from "@/lib/utils";
+import { BuildSowingRateRowProps, DisplayOutputRowProps, SowingRateDBData } from "@/lib/interfaces";
 
 function FetchUnitIfExist(data) {
   return data.unit ? `${data.unit}` : '';
 }
 
-interface BuildSowingRateRowProps<T extends Exclude<keyof SowingRateDBData, 'plant'>> {
-  varName: T;
-  displayName: string;
-  activePlantDbData: SowingRateDBData;
-  form: any;
-  icon: React.ReactNode;
-  translator: (key: string) => string;
-  tourId: string;
-}
 
 function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>({
   varName,
@@ -139,14 +62,14 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
           {displayName}
         </CardTitle>
         <CardDescription className="text-black/90 dark:text-white/90">
-          {neededData.type === 'slider'
+          {neededData.type === CalculatorValueTypes.SLIDER
             ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
             : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue || ''} ${FetchUnitIfExist(neededData)}`}
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-4">
         <div className="flex flex-col gap-2">
-          {neededData.type === 'slider' ? (
+          {neededData.type === CalculatorValueTypes.SLIDER ? (
             <>
               <FormField
                 control={form.control}
@@ -199,7 +122,7 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
   );
 }
 
-export function DisplayOutputRow({ data, text, unit }: { data: number; text: string; unit: string }) {
+export function DisplayOutputRow({ data, text, unit }: DisplayOutputRowProps) {
   return (
     <div className="flex flex-row justify-between items-center gap-4">
       <div className="text-lg  font-bold">{text}:</div>

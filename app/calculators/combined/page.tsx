@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Leaf, PieChart } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import useSeedingCombinedForm from '@/app/hooks/useSeedingCombinedForm';
+import useSeedingCombinedForm, { PlantCombinedDBData } from '@/app/hooks/useSeedingCombinedForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import CombinedCharts from '@/components/CombinedCharts/CombinedCharts';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
@@ -22,15 +22,6 @@ import {
 import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
 import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
-
-interface PlantCombinedDBData {
-  id: string;
-  latinName: string;
-  plantType: string;
-  minSeedingRate: number;
-  maxSeedingRate: number;
-  priceFor1kgSeedsBGN: number;
-}
 
 export default function Combined() {
   const authObj = useSelector((state: RootState) => state.auth);

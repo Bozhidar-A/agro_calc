@@ -8,13 +8,9 @@ import { useTranslate } from "@/app/hooks/useTranslate"
 import { cn } from "@/lib/utils"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import CombinedMeasurementSwitcher from "../CombinedMeasurementSwitcher/CombinedMeasurementSwitcher"
+import { SeedCombinedRowProps } from "@/lib/interfaces"
 
-interface SeedCombinedRowProps {
-    form: any
-    name: string
-    index: number
-    dbData: any[]
-}
+
 
 export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowProps) {
     const translator = useTranslate();

@@ -12,31 +12,12 @@ import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthState } from "@/store/slices/authSlice";
 import { CalculatorValueTypes } from "@/lib/utils";
+import { ActivePlantDbData, SowingRateSaveData } from "@/lib/interfaces";
 
-export interface SowingRateSaveData {
-    userId: string;
-    plantId: string;
-    plantLatinName: string;
-    sowingRateSafeSeedsPerMeterSquared: number;
-    sowingRatePlantsPerAcre: number;
-    usedSeedsKgPerAcre: number;
-    internalRowHeightCm: number;
-    totalArea: number;
-    isDataValid: boolean;
-}
 
-export interface SowingRateDBData {
-    id: string;
-    latinName: string;
-    plantType: string;
-    minSeedingRate: number;
-    maxSeedingRate: number;
-    priceFor1kgSeedsBGN: number;
-}
-
-export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
+export default function useSowingRateForm(authObj: AuthState, dbData: ActivePlantDbData[]) {
     const translator = useTranslate();
-    const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
+    const [activePlantDbData, setActivePlantDbData] = useState<ActivePlantDbData | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
         userId: '',
         plantId: '',
@@ -117,12 +98,12 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 console.log(plant);
                 setActivePlantDbData(plant);
 
-                form.setValue('coefficientSecurity', plant.coefficientSecurity.type === 'slider' ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue);
-                form.setValue('wantedPlantsPerMeterSquared', plant.wantedPlantsPerMeterSquared.type === 'slider' ? plant.wantedPlantsPerMeterSquared.minSliderVal : plant.wantedPlantsPerMeterSquared.constValue);
-                form.setValue('massPer1000g', plant.massPer1000g.type === 'slider' ? plant.massPer1000g.minSliderVal : plant.massPer1000g.constValue);
-                form.setValue('purity', plant.purity.type === 'slider' ? plant.purity.minSliderVal : plant.purity.constValue);
-                form.setValue('germination', plant.germination.type === 'slider' ? plant.germination.minSliderVal : plant.germination.constValue);
-                form.setValue('rowSpacing', plant.rowSpacing.type === 'slider' ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue);
+                form.setValue('coefficientSecurity', plant.coefficientSecurity.type === CalculatorValueTypes.SLIDER ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue);
+                form.setValue('wantedPlantsPerMeterSquared', plant.wantedPlantsPerMeterSquared.type === CalculatorValueTypes.SLIDER ? plant.wantedPlantsPerMeterSquared.minSliderVal : plant.wantedPlantsPerMeterSquared.constValue);
+                form.setValue('massPer1000g', plant.massPer1000g.type === CalculatorValueTypes.SLIDER ? plant.massPer1000g.minSliderVal : plant.massPer1000g.constValue);
+                form.setValue('purity', plant.purity.type === CalculatorValueTypes.SLIDER ? plant.purity.minSliderVal : plant.purity.constValue);
+                form.setValue('germination', plant.germination.type === CalculatorValueTypes.SLIDER ? plant.germination.minSliderVal : plant.germination.constValue);
+                form.setValue('rowSpacing', plant.rowSpacing.type === CalculatorValueTypes.SLIDER ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue);
                 return;
             }
 
