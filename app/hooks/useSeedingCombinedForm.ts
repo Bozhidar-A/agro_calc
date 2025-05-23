@@ -8,39 +8,7 @@ import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-
-interface ActivePlantsFormData {
-    plantId: string;
-    plantType: string;
-    seedingRate: number;
-    participation: number;
-    combinedRate: number;
-    pricePerAcreBGN: number;
-}
-
-export interface CombinedCalcDBData {
-    plants: ActivePlantsFormData[];
-    totalPrice: number;
-    userId: string;
-    isDataValid: boolean;
-}
-
-interface AuthState {
-    user: any;
-    isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
-    authType: string | null;
-}
-
-export interface PlantCombinedDBData {
-    id: string;
-    latinName: string;
-    plantType: string;
-    minSeedingRate: number;
-    maxSeedingRate: number;
-    priceFor1kgSeedsBGN: number;
-}
+import { ActivePlantsFormData, AuthState, CombinedCalcDBData, PlantCombinedDBData } from "@/lib/interfaces";
 
 export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
     const translator = useTranslate();

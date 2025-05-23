@@ -9,14 +9,7 @@ import { useTranslate } from "@/app/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import { useSelector } from "react-redux"
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
-
-interface SeedCombinedSectionProps {
-    name: string
-    title: string
-    maxPercentage: number
-    form: any
-    dbData: any[]
-}
+import { SeedCombinedSectionProps } from "@/lib/interfaces"
 
 export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }: SeedCombinedSectionProps) {
     const translator = useTranslate();

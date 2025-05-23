@@ -18,6 +18,7 @@ import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/
 import { Separator } from '@/components/ui/separator';
 import { siGithub, siGoogle } from 'simple-icons';
 import SimpleIconToSVG from '@/components/SimpleIconToSVG/SimpleIconToSVG';
+import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z.object({
   email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -96,18 +97,7 @@ export default function Login() {
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
-          <div className="flex flex-wrap justify-center gap-2">
-            <Button asChild className="text-black dark:text-white font-bold">
-              <a href="/api/auth/login/google">
-                <SimpleIconToSVG icon={siGoogle} />
-              </a>
-            </Button>
-            <Button asChild className="text-black dark:text-white font-bold">
-              <a href="/api/auth/login/github">
-                <SimpleIconToSVG icon={siGithub} />
-              </a>
-            </Button>
-          </div>
+          <OAuthButtonsGrid />
         </form>
 
         <Separator className="border-[0.5px] border-black dark:border-white" />
