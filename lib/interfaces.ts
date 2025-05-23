@@ -134,6 +134,37 @@ export interface SowingRateSaveData {
     isDataValid: boolean;
 }
 
+export interface SowingRateHistory {
+    id: string;
+    plant: {
+        latinName: string;
+    };
+    sowingRateSafeSeedsPerMeterSquared: number;
+    sowingRatePlantsPerAcre: number;
+    usedSeedsKgPerAcre: number;
+    internalRowHeightCm: number;
+    totalArea: number;
+    isDataValid: boolean;
+    createdAt: Date;
+};
+
+export interface SeedingDataCombinationHistory {
+    id: string;
+    plants: {
+        plant: {
+            latinName: string;
+        };
+        plantType: string;
+        seedingRate: number;
+        participation: number;
+        combinedRate: number;
+        pricePerAcreBGN: number;
+    }[];
+    totalPrice: number;
+    isDataValid: boolean;
+    createdAt: Date;
+};
+
 //combined interface
 export interface PlantCombinedDBData {
     id: string;

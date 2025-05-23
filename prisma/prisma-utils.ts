@@ -186,6 +186,10 @@ export async function GetSowingInputData() {
     return finalData;
 }
 
+export async function GetSowingHistory() {
+    return await prisma.sowingRateHistory.findMany();
+}
+
 //combined
 export async function GetCombinedInputData() {
     const finalData = [];

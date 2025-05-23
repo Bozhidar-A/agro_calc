@@ -11,8 +11,9 @@ export async function POST(req: NextRequest) {
         Log(["auth", "login", "route"], `POST returned: ${JSON.stringify(res)}`);
 
         return NextResponse.json(res);
-    } catch (error) {
-        Log(["auth", "login", "route"], `POST failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "login", "route"], `POST failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

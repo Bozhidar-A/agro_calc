@@ -66,8 +66,9 @@ export async function middleware(request: NextRequest) {
 
             try {
                 await BackendRefreshAccessToken();
-            } catch (error) {
-                Log(["middleware", "refresh", "error"], `BackendRefreshAccessToken threw: ${error.message}`);
+            } catch (error: unknown) {
+                const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+                Log(["middleware", "refresh", "error"], `BackendRefreshAccessToken threw: ${errorMessage}`);
 
                 //try to logout user
                 const logoutAction = await BackendLogout(cookieStore.get("userId")?.value ?? "UNKNOWN???");

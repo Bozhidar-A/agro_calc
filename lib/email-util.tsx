@@ -34,11 +34,12 @@ export async function SendEmail(
             success: true,
             message: "Email sent successfully",
         };
-    } catch (error: any) {
-        console.error(error);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["email", "send"], `Email not sent - ${errorMessage}`);
         return {
             success: false,
-            message: `Email not sent - ${error.message}`,
+            message: `Email not sent - ${errorMessage}`,
         };
     }
 }

@@ -96,8 +96,9 @@ export async function GET(request: Request) {
         });
 
         return response;
-    } catch (error) {
-        Log(["auth", "login", "google", "callback"], `GET failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "login", "google", "callback"], `Error: ${errorMessage}`);
         return new Response(null, { status: 500 });
     }
 }

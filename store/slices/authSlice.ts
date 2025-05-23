@@ -1,16 +1,19 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
+import { AuthState } from '@/lib/interfaces';
+
+const initialState: AuthState = {
+  user: null,
+  isAuthenticated: false,
+  loading: false,
+  error: null,
+  authType: null,
+};
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: {
-    user: null,
-    isAuthenticated: false,
-    loading: false,
-    error: null,
-    authType: null,
-  },
+  initialState,
   reducers: {
     AuthStart: (state, action) => {
       state.loading = true;
