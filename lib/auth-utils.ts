@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { compare, hash } from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
 import {
+  AttachCredentialsToUser,
   CreateNewUser,
   CreateResetPassword,
   DeleteAllRefreshTokensByUserId,
@@ -64,8 +65,11 @@ export async function BackendRegister(email: string, password: string) {
   try {
     //check if the user already exists
     const user = await FindUserByEmail(email);
+    const userExists = !!user;
+    const userIsOAuth = !!(user?.googleId || user?.githubId);
 
-    if (user) {
+    //if the user exists and is not a google or github user, return already exists
+    if (userExists && !userIsOAuth) {
       Log(['auth', 'register'], `User already exists: ${email}`);
       return { success: false, message: 'User already exists' };
     }
@@ -106,7 +110,12 @@ export async function BackendRegister(email: string, password: string) {
     }
 
     //create the user
-    const newUser = await CreateNewUser(email, password);
+    let newUser;
+    if (userExists && userIsOAuth) {
+      newUser = await AttachCredentialsToUser(user.id, email, password);
+    } else {
+      newUser = await CreateNewUser(email, password);
+    }
 
     Log(['auth', 'register'], `Created new user: ${newUser.id}`);
 
