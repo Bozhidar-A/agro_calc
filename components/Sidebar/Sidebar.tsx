@@ -104,19 +104,19 @@ export default function Sidebar() {
                             <Button asChild variant="ghost" className="justify-start font-normal">
                                 <Link href="/" onClick={() => setOpen(false)}>
                                     <Home className="mr-2 h-4 w-4" />
-                                    Home
+                                    {translator(SELECTABLE_STRINGS.HOME)}
                                 </Link>
                             </Button>
                             <Button asChild variant="ghost" className="justify-start font-normal">
                                 <Link href="/calculators/sowing" onClick={() => setOpen(false)}>
                                     <Calculator className="mr-2 h-4 w-4" />
-                                    Sowing Rate Calculator
+                                    {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
                                 </Link>
                             </Button>
                             <Button asChild variant="ghost" className="justify-start font-normal">
                                 <Link href="/calculators/combined" onClick={() => setOpen(false)}>
                                     <Calculator className="mr-2 h-4 w-4" />
-                                    Combined Calculator
+                                    {translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}
                                 </Link>
                             </Button>
                         </nav>
