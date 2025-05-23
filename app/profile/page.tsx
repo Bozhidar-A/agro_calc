@@ -1,8 +1,11 @@
+'use client'
+
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Link from "next/link";
+import HistoryDisplay from "@/components/HistoryDisplay/HistoryDisplay";
 
 export default function Profile() {
     const translator = useTranslate();
@@ -17,11 +20,9 @@ export default function Profile() {
                 {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>
 
-            <p>Here is your calculation history</p>
+            <p className="text-lg font-bold mb-4">{translator(SELECTABLE_STRINGS.HISTORY_HERE)}</p>
 
-            <p>Sowing</p>
-
-            <p>Combined</p>
+            <HistoryDisplay />
         </div>
     )
 

@@ -187,7 +187,11 @@ export async function GetSowingInputData() {
 }
 
 export async function GetSowingHistory() {
-    return await prisma.sowingRateHistory.findMany();
+    return await prisma.sowingRateHistory.findMany({
+        include: {
+            plant: true,
+        },
+    });
 }
 
 //combined
@@ -262,6 +266,14 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
             internalRowHeightCm: data.internalRowHeightCm,
             totalArea: data.totalArea,
             isDataValid: data.isDataValid,
+        },
+    });
+}
+
+export async function GetCombinedHistory() {
+    return await prisma.seedingDataCombinationHistory.findMany({
+        include: {
+            plants: true,
         },
     });
 }

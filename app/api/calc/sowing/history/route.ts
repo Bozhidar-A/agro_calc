@@ -22,7 +22,7 @@ export async function GET() {
         Log(["calc", "sowing", "history"], `GET called`);
         const history = await GetSowingHistory();
         Log(["calc", "sowing", "history"], `GET returned: ${JSON.stringify(history)}`);
-        return NextResponse.json(history);
+        return NextResponse.json({ success: true, data: history });
     } catch (error: unknown) {
         const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
         Log(["calc", "sowing", "history", "GET"], `GET failed with: ${errorMessage}`);
