@@ -30,3 +30,6 @@ jobs:
         context: .
         push: true
         tags: ${{ env.IMAGE_NAME }}
+        build-args: |
+          RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+          NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}
