@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z
   .object({
@@ -91,6 +92,8 @@ export default function Register() {
           <Button type="submit" className="w-full text-black dark:text-white font-bold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
+
+          <OAuthButtonsGrid />
 
           <Separator className="border-[0.5px] border-black dark:border-white" />
 
