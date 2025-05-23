@@ -2,9 +2,9 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
 import { siGithub, siGoogle } from 'simple-icons';
-import { SUPPORTED_LANGS_TYPE, SUPPORTED_OAUTH_PROVIDERS_TYPE } from '@/lib/types';
+import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 
-export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SUPPORTED_OAUTH_PROVIDERS_TYPE> = {
+export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SupportedOAuthProvider> = {
   GOOGLE: {
     name: 'Google',
     icon: siGoogle,
@@ -17,7 +17,7 @@ export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SUPPORTED_OAUTH_PROVIDERS
   }
 }
 
-export const SUPPORTED_LANGS: Record<string, SUPPORTED_LANGS_TYPE> = {
+export const SUPPORTED_LANGS: Record<string, SupportedLang> = {
   BG: {
     code: 'BG',
     name: 'Български',
