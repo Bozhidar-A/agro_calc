@@ -1,8 +1,5 @@
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Menu, Home, Calculator, Settings, LogOut, LogIn, UserPlus, User } from 'lucide-react';
-import { LangSwitcher } from '@/components/LangSwitcher/LangSwitcher';
-import MeasurementSwitcher from '@/components/MeasurementSwitcher/MeasurementSwitcher';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetHeader } from '@/components/ui/sheet';
@@ -14,8 +11,8 @@ import { AuthLogout } from '@/store/slices/authSlice';
 import { toast } from 'sonner';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
-import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import SettingsGrid from '../SettingsGrid/SettingsGrid';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
@@ -137,32 +134,7 @@ export default function Sidebar() {
                                 <DialogHeader>
                                     <DialogTitle className="text-xl font-semibold">{translator(SELECTABLE_STRINGS.SETTINGS)}</DialogTitle>
                                 </DialogHeader>
-                                <div className="grid gap-6 py-4">
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="theme" className="text-right col-span-1 font-medium">
-                                            {translator(SELECTABLE_STRINGS.SETTINGS_THEME)}:
-                                        </Label>
-                                        <div className="col-span-3">
-                                            <ThemeSwitcher />
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="language" className="text-right col-span-1 font-medium">
-                                            {translator(SELECTABLE_STRINGS.SETTINGS_LANGUAGE)}:
-                                        </Label>
-                                        <div className="col-span-3">
-                                            <LangSwitcher />
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-4 items-center gap-4">
-                                        <Label htmlFor="unit" className="text-right col-span-1 font-medium">
-                                            {translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT)}:
-                                        </Label>
-                                        <div className="col-span-3">
-                                            <MeasurementSwitcher />
-                                        </div>
-                                    </div>
-                                </div>
+                                <SettingsGrid />
                             </DialogContent>
                         </Dialog>
                     </div>
