@@ -1,6 +1,4 @@
-import { SowingRateDBData } from "@/app/calculators/sowing/page";
-import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
-import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm";
+import { SowingRateDBData, CombinedCalcDBData, SowingRateSaveData } from "@/lib/interfaces";
 import { HashPassword } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
@@ -19,6 +17,13 @@ export async function CreateNewUser(email: string, password: string) {
             email,
             password: await HashPassword(password),
         }
+    });
+}
+
+export async function AttachCredentialsToUser(userId: string, email: string, password: string) {
+    return await prisma.user.update({
+        where: { id: userId },
+        data: { email, password: await HashPassword(password) }
     });
 }
 
