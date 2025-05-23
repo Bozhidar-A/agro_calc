@@ -1,38 +1,45 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { useTranslate } from '@/app/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSLice';
 import { APICaller } from '@/lib/api-util';
-import Link from 'next/link';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
+import { Separator } from '@/components/ui/separator';
+import { siGithub, siGoogle } from 'simple-icons';
+import SimpleIconToSVG from '@/components/SimpleIconToSVG/SimpleIconToSVG';
 
 const schema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
   password: z
     .string()
-    .min(6, 'Password is too short')
-    .regex(/[a-z]/, 'Password must contain a lowercase letter')
-    .regex(/[A-Z]/, 'Password must contain an uppercase letter')
-    .regex(/[0-9]/, 'Password must contain a number'),
+    .min(6, SELECTABLE_STRINGS.PASSWORD_MIN)
+    .regex(/[a-z]/, SELECTABLE_STRINGS.PASSWORD_HAS_LOWER)
+    .regex(/[A-Z]/, SELECTABLE_STRINGS.PASSWORD_HAS_UPPER)
+    .regex(/[0-9]/, SELECTABLE_STRINGS.PASSWORD_HAS_NUMBER)
+    .regex(/[$-/:-?{-~!"^_`\[\]]/, SELECTABLE_STRINGS.PASSWORD_HAS_SYMBOL),
 });
 
 export default function Login() {
   const dispatch = useDispatch();
+  const translator = useTranslate();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
     const updateAuthState = searchParams.get('updateAuthState');
     if (updateAuthState === 'refreshTokenExpired') {
-      toast.error('Your session has expired. Please login again.');
+      toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED));
       dispatch(AuthLogout());
     }
   }, [searchParams]);
@@ -43,53 +50,80 @@ export default function Login() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
+    mode: 'onChange',
   });
 
   async function HandleSubmit(data) {
-    dispatch(AuthStart('login'));
+    dispatch(AuthStart('credentials'));
 
-    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', "POST", data);
+    const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', 'POST', data);
 
     if (!backendWork.success) {
       dispatch(AuthFailure(backendWork.message));
-      toast.error('There was an error', {
+      toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
         description: backendWork.message,
       });
       return;
     }
 
-    dispatch(AuthSuccess(backendWork.user));
-    toast.success('Successful login!');
+    dispatch(AuthSuccess({ user: backendWork.user, authType: 'credentials' }));
+    toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
     router.push('/');
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh)] text-center">
       <div className="w-full max-w-md space-y-6 p-8">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4">
+        <h2 className="text-2xl font-bold text-center">{translator(SELECTABLE_STRINGS.LOGIN)}</h2>
+        <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
             <Input id="email" type="email" {...register('email')} />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
+            )}
           </div>
 
           <div>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
             <Input id="password" type="password" {...register('password')} />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
+            )}
           </div>
 
-          <Button type="submit" className="w-full">
-            Submit
+          <Button type="submit" className="w-full text-black dark:text-white font-bold">
+            {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
+
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button asChild className="text-black dark:text-white font-bold">
+              <a href="/api/auth/login/google">
+                <SimpleIconToSVG icon={siGoogle} />
+              </a>
+            </Button>
+            <Button asChild className="text-black dark:text-white font-bold">
+              <a href="/api/auth/login/github">
+                <SimpleIconToSVG icon={siGithub} />
+              </a>
+            </Button>
+          </div>
         </form>
 
+        <Separator className="border-[0.5px] border-black dark:border-white" />
+
         <div className="flex items-center justify-center space-x-2">
-          <h2>Don't have an account?</h2>
-          <Button asChild>
-            <Link href="/auth/login" className="hover:underline">
-              Register
+          <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
+          <Button asChild className="text-black dark:text-white font-bold">
+            <Link href="/auth/register" className="hover:underline">
+              {translator(SELECTABLE_STRINGS.REGISTER)}
+            </Link>
+          </Button>
+        </div>
+        <div className="flex items-center justify-center space-x-2">
+          <Button asChild className="text-black dark:text-white font-bold">
+            <Link href="/auth/password/request" className="hover:underline">
+              {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>
           </Button>
         </div>

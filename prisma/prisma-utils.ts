@@ -1,19 +1,23 @@
 import { SowingRateDBData } from "@/app/calculators/sowing/page";
 import { CombinedCalcDBData } from "@/app/hooks/useSeedingCombinedForm";
 import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm";
+import { HashPassword } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
 
 export async function FindUserByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
+}
+
+export async function FindUserById(id: string) {
+    return await prisma.user.findUnique({ where: { id } });
 }
 
 export async function CreateNewUser(email: string, password: string) {
     return await prisma.user.create({
         data: {
             email,
-            password: await hash(password, parseInt(process.env.SALT_ROUNDS!)),
+            password: await HashPassword(password),
         }
     });
 }
@@ -41,47 +45,66 @@ export async function InsertRefreshTokenByUserId(token: string, userId: string) 
     });
 }
 
+export async function CreateResetPassword(email: string, token: string) {
+    return await prisma.resetPassword.create({
+        data: {
+            email,
+            token,
+            expiresAt: new Date(Date.now() + 15 * 60 * 1000) // 15 minutes
+        }
+    });
+}
+
+export async function FindResetPasswordByToken(token: string) {
+    return await prisma.resetPassword.findUnique({ where: { token } });
+}
+
+export async function DeleteResetPasswordByEmail(email: string) {
+    return await prisma.resetPassword.deleteMany({ where: { email } });
+}
+
+//oauth googl
+export async function FindUserByGoogleId(googleId: string) {
+    return await prisma.user.findUnique({
+        where: {
+            googleId
+        }
+    });
+}
+
+export async function CreateUserGoogle(googleId: string, email: string) {
+    return await prisma.user.create({
+        data: {
+            googleId,
+            email,
+        }
+    });
+}
+
+//oauth github
+export async function FindUserByGitHubId(githubId: string) {
+    return await prisma.user.findUnique({
+        where: {
+            githubId
+        }
+    });
+}
+
+export async function CreateUserGitHub(githubId: string, email: string) {
+    return await prisma.user.create({
+        data: {
+            githubId,
+            email,
+        }
+    });
+}
+
 //calc stuff
 
 //sowing
 export async function GetSowingInputData() {
     const finalData: SowingRateDBData[] = [];
 
-    // const sowingData = await prisma.plant.findMany({
-    //     where: {
-    //         coefficientSecurity: {
-    //             isNot: null
-    //         },
-    //         wantedPlantsPerMeterSquared: {
-    //             isNot: null
-    //         },
-    //         massPer1000g: {
-    //             isNot: null
-    //         },
-    //         purity: {
-    //             isNot: null
-    //         },
-    //         germination: {
-    //             isNot: null
-    //         },
-    //         rowSpacingCm: {
-    //             isNot: null
-    //         }
-    //     },
-    //     include: {
-    //         coefficientSecurity: {
-    //             //sub fetch
-    //             include: {
-    //                 values: true,
-    //             },
-    //         },
-    //         wantedPlantsPerMeterSquared: true,
-    //         massPer1000g: true,
-    //         purity: true,
-    //         germination: true,
-    //         rowSpacingCm: true
-    //     }
-    // });
     const sowingData = await prisma.sowingRatePlant.findMany({
         include: {
             plant: true,
@@ -212,7 +235,7 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.combinedRate,
-                    pricePerDa: plant.pricePerDABGN, // Ensure this matches the DB schema
+                    pricePerAcreBGN: plant.pricePerAcreBGN, // Ensure this matches the DB schema
                 })),
             },
         },
@@ -225,16 +248,15 @@ export async function InsertCombinedHistoryEntry(combinedData: CombinedCalcDBDat
 }
 
 export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
-    console.log(data);
-
     return await prisma.sowingRateHistory.create({
         data: {
             userId: data.userId,
             plantId: data.plantId,
             sowingRateSafeSeedsPerMeterSquared: data.sowingRateSafeSeedsPerMeterSquared,
-            sowingRatePlantsPerDecare: data.sowingRatePlantsPerDecare,
-            usedSeedsKgPerDecare: data.usedSeedsKgPerDecare,
+            sowingRatePlantsPerAcre: data.sowingRatePlantsPerAcre,
+            usedSeedsKgPerAcre: data.usedSeedsKgPerAcre,
             internalRowHeightCm: data.internalRowHeightCm,
+            totalArea: data.totalArea,
             isDataValid: data.isDataValid,
         },
     });

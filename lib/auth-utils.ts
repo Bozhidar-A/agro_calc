@@ -1,10 +1,21 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { compare, hash } from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
+import {
+  CreateNewUser,
+  CreateResetPassword,
+  DeleteAllRefreshTokensByUserId,
+  DeleteResetPasswordByEmail,
+  FindRefreshToken,
+  FindResetPasswordByToken,
+  FindUserByEmail,
+  InsertRefreshTokenByUserId,
+} from '@/prisma/prisma-utils';
 import { Log } from './logger';
-import { CreateNewUser, DeleteAllRefreshTokensByUserId, FindRefreshToken, FindUserByEmail, InsertRefreshTokenByUserId } from '@/prisma/prisma-utils';
-import { compare } from 'bcryptjs';
+import { User } from '@prisma/client';
+import { prisma } from './prisma';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -58,6 +69,41 @@ export async function BackendRegister(email: string, password: string) {
       return { success: false, message: 'User already exists' };
     }
 
+    //force checks the format text@text.text
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      Log(['auth', 'register'], `Invalid email: ${email}`);
+      return { success: false, message: 'Invalid email' };
+    }
+
+    //force checks the password according to the frontend zod schema
+    // password: z
+    //       .string()
+    //       .min(6, 'Password is too short')
+    //       .regex(/[a-z]/, 'Password must contain a lowercase letter')
+    //       .regex(/[A-Z]/, 'Password must contain an uppercase letter')
+    //       .regex(/[0-9]/, 'Password must contain a number'),
+    //        .regex(/[$-/:-?{-~!"^_`\[\]]/, 'Password must contain at least one special character'),
+    if (password.length < 6) {
+      Log(['auth', 'register'], `Password too short: ${email}`);
+      return { success: false, message: 'Password too short' };
+    }
+    if (!/[a-z]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a lowercase letter: ${email}`);
+      return { success: false, message: 'Password must contain a lowercase letter' };
+    }
+    if (!/[A-Z]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain an uppercase letter: ${email}`);
+      return { success: false, message: 'Password must contain an uppercase letter' };
+    }
+    if (!/[0-9]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a number: ${email}`);
+      return { success: false, message: 'Password must contain a number' };
+    }
+    if (!/[$-/:-?{-~!"^_`\[\]]/.test(password)) {
+      Log(['auth', 'register'], `Password must contain a special character: ${email}`);
+      return { success: false, message: 'Password must contain a special character' };
+    }
+
     //create the user
     const newUser = await CreateNewUser(email, password);
 
@@ -84,14 +130,17 @@ export async function BackendLogin(email: string, password: string) {
     }
 
     //compare passwords
-    if (!await compare(password, user.password)) {
+    if (!(await compare(password, user.password))) {
       Log(['auth', 'login'], `Invalid password for user ${user.id}`);
     }
 
     //delete all old refresh tokens
     //just in case
     const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
-    Log(['auth', 'login'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`);
+    Log(
+      ['auth', 'login'],
+      `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`
+    );
 
     // Generate refresh token (long-lived)
     const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
@@ -167,13 +216,15 @@ export async function BackendLogout(userId: string) {
     const refreshTokenVal = cookieStore.get('refreshToken')?.value;
 
     if (refreshTokenVal) {
-
       //ugly hack 2
       if (process.env.NEXT_RUNTIME === 'nodejs') {
         //delete all refresh tokens
         const deletedTokensCount = await DeleteAllRefreshTokensByUserId(userId);
 
-        Log(['auth', 'logout'], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`);
+        Log(
+          ['auth', 'logout'],
+          `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`
+        );
       }
     } else {
       // No refresh token found
@@ -228,4 +279,101 @@ export async function BackendRefreshAccessToken() {
     sameSite: 'strict',
     maxAge: 900, // 15 minutes
   });
+}
+
+export async function HashPassword(password: string) {
+  return await hash(password, parseInt(process.env.SALT_ROUNDS!));
+}
+
+export async function BackendUpdateUserPassword(user: User, password: string) {
+  try {
+    const hashedPassword = await HashPassword(password);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  } catch (error) {
+    Log(['auth', 'updateUserPassword'], `BackendUpdateUserPassword failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function BackendPasswordResetRequest(email: string) {
+  try {
+    const user = await FindUserByEmail(email);
+
+    if (!user) {
+      Log(['auth', 'passwordReset', 'request'], `User not found: ${email}`);
+      return { success: false, message: 'User not found' };
+    }
+
+    const resetToken = await new SignJWT({ userEmail: user.email, userId: user.id, type: 'reset' })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('15m')
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+
+    Log(['auth', 'passwordReset', 'request'], `Reset token: ${resetToken}`);
+
+    await CreateResetPassword(user.email, resetToken);
+
+    return { success: true, resetToken };
+  } catch (error) {
+    Log(['auth', 'passwordReset', 'request'], `BackendPasswordResetRequest failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
+}
+
+export async function BackendPasswordReset(token: string, password: string, confirmPassword: string) {
+  try {
+    if (password !== confirmPassword) {
+      return { success: false, message: 'Passwords do not match' };
+    }
+
+    const resetPasswordEntry = await FindResetPasswordByToken(token);
+
+    if (!resetPasswordEntry) {
+      return { success: false, message: 'Invalid token, no entry' };
+    }
+
+    const decoded = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+
+    if (!decoded) {
+      return { success: false, message: 'Invalid token, no decoded' };
+    }
+
+    if (resetPasswordEntry.expiresAt < new Date()) {
+      return { success: false, message: 'Token expired' };
+    }
+
+    if (decoded.payload.userEmail !== resetPasswordEntry.email) {
+      return { success: false, message: 'Invalid token, email mismatch' };
+    }
+
+    const user = await FindUserByEmail(decoded.payload.userEmail as string);
+
+    if (!user) {
+      return { success: false, message: 'User not found, no user' };
+    }
+
+    if (user.id !== decoded.payload.userId) {
+      return { success: false, message: 'User not found, id mismatch' };
+    }
+
+    const resetStatus = await BackendUpdateUserPassword(user, password);
+
+    if (!resetStatus.success) {
+      return { success: false, message: 'Failed to reset password, no reset status' };
+    }
+
+    await DeleteResetPasswordByEmail(user.email);
+    await DeleteAllRefreshTokensByUserId(user.id);
+
+    return { success: true };
+  } catch (error) {
+    Log(['auth', 'passwordReset', 'reset'], `BackendPasswordReset failed with: ${error.message}`);
+    return { success: false, message: error.message };
+  }
 }

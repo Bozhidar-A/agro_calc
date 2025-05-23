@@ -4,13 +4,30 @@ export function RoundToSecondStr(num: number) {
 
 //https://stackoverflow.com/a/29494612
 export function ToFixedNumber(num: number, digits: number, base = 10) {
-    const pow = Math.pow(base, digits);
-    return (Math.round(num * pow) / pow);
+    if (num === 0) {
+        return 0;
+    }
+    const pow = base ** digits;
+    return Math.round(num * pow) / pow;
 }
 
-
-export function MetersSquaredToDecare(metersSquared: number): number {
+export function MetersSquaredToAcre(metersSquared: number): number {
     return metersSquared * 1000;
+}
+
+export function MetersSquaredToHectare(metersSquared: number): number {
+    //acre * 10 = hectare
+    return metersSquared * 10000;
+}
+
+export function SowingRatePlantsPerAcreToHectare(sowingRatePlantsPerAcre: number): number {
+    //acre * 10 = hectare
+    return sowingRatePlantsPerAcre * 10;
+}
+
+export function KgPerAcreToKgPerHectare(kgPerAcre: number): number {
+    //acre * 10 = hectare
+    return kgPerAcre * 10;
 }
 
 export function CmToMeters(cm: number): number {

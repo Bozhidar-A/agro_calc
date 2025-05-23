@@ -5,16 +5,24 @@ import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { useTranslate } from '@/app/hooks/useTranslate';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher/ThemeSwitcher';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Log } from '@/lib/logger';
-import { AuthLogout } from '@/store/slices/authSLice';
 import { APICaller } from '@/lib/api-util';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { Log } from '@/lib/logger';
+import { AuthLogout } from '@/store/slices/authSlice';
+import { LangSwitcher } from '../LangSwitcher/LangSwitcher';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Label } from '../ui/label';
+import MeasurementSwitcher from '../MeasurementSwitcher/MeasurementSwitcher';
+import { RootState } from '@/store/store';
 
 export default function Header() {
-  const authObj = useSelector((state) => state.auth);
+  const authObj = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  const translator = useTranslate();
 
   const [open, setOpen] = useState(false);
 
@@ -25,7 +33,7 @@ export default function Header() {
 
     if (backendWork.success) {
       dispatch(AuthLogout());
-      toast.success('Logged out successfully');
+      toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGOUT_SUCCESS));
       return;
     }
 
@@ -36,11 +44,12 @@ export default function Header() {
     <header className="w-full py-4 shadow-md shadow-green-500/50 h-max-20vh">
       <div className="container mx-auto flex justify-between items-center px-6">
         <Link href="/">
-          <h1 className="text-2xl font-bold text-green-500">Agro-Calc</h1>
+          <h1 className="text-2xl font-bold text-green-700">Agro-Calc</h1>
         </Link>
 
         <div className="flex items-center space-x-4">
-          <ThemeSwitcher />
+          {/* <ThemeSwitcher />
+          <LangSwitcher /> */}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild data-testid="open-sheet-button">
@@ -51,45 +60,83 @@ export default function Header() {
             </SheetTrigger>
 
             <SheetContent data-testid="sheet-content">
-              {authObj.isAuthenticated ? (
-                <SheetTitle>Welcome, {authObj.user.email}</SheetTitle>
+              {authObj.isAuthenticated && authObj.user ? (
+                <SheetTitle>
+                  {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}{authObj.user.email}
+                </SheetTitle>
               ) : (
-                <SheetTitle>Menu</SheetTitle>
+                <SheetTitle>{translator(SELECTABLE_STRINGS.MENU)}</SheetTitle>
               )}
 
               <div className="flex flex-col space-y-6 mt-6">
                 {authObj.isAuthenticated ? (
                   <Button
+                    className="w-full text-black dark:text-white font-bold"
                     onClick={() => {
                       HandleLogout();
                       setOpen(false);
                     }}
                   >
-                    Logout
+                    {translator(SELECTABLE_STRINGS.LOGOUT)}
                   </Button>
                 ) : (
-                  <div className="flex flex-row justify-center space-x-4">
-                    <Button asChild>
+                  <div className="flex flex-row justify-center space-x-4 w-full">
+                    <Button asChild className="w-1/2 text-black dark:text-white font-bold">
                       <Link
                         href="/auth/login"
                         className="hover:underline"
                         onClick={() => setOpen(false)}
                       >
-                        Login
+                        {translator(SELECTABLE_STRINGS.LOGIN)}
                       </Link>
                     </Button>
-                    <Button asChild>
+                    <Button asChild className="w-1/2 text-black dark:text-white font-bold">
                       <Link
                         href="/auth/register"
                         className="hover:underline"
                         onClick={() => setOpen(false)}
                       >
-                        Register
+                        {translator(SELECTABLE_STRINGS.REGISTER)}
                       </Link>
                     </Button>
-
                   </div>
                 )}
+                <hr />
+                <div className="flex flex-row justify-center w-full">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.SETTINGS)}</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px]"> {/* Increased width */}
+                      <DialogHeader>
+                        <DialogTitle>{translator(SELECTABLE_STRINGS.SETTINGS)}</DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="theme" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_THEME)}:
+                          </Label>
+                          <ThemeSwitcher />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="language" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_LANGUAGE)}:
+                          </Label>
+                          <LangSwitcher />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="unit" className="text-right col-span-1">
+                            {translator(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT)}:
+                          </Label>
+                          <div className="col-span-3">
+                            <MeasurementSwitcher />
+                          </div>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+
                 <Link href="/" className="hover:underline" onClick={() => setOpen(false)}>
                   Home
                 </Link>
@@ -99,10 +146,18 @@ export default function Header() {
                 <Link href="/prot" className="hover:underline" onClick={() => setOpen(false)}>
                   prot
                 </Link>
-                <Link href="/calculators/combined" className="hover:underline" onClick={() => setOpen(false)}>
+                <Link
+                  href="/calculators/combined"
+                  className="hover:underline"
+                  onClick={() => setOpen(false)}
+                >
                   Combined
                 </Link>
-                <Link href="/calculators/sowing" className="hover:underline" onClick={() => setOpen(false)}>
+                <Link
+                  href="/calculators/sowing"
+                  className="hover:underline"
+                  onClick={() => setOpen(false)}
+                >
                   Sowing Rate
                 </Link>
               </div>

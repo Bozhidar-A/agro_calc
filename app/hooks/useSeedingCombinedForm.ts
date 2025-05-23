@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { CreateDefaultValues, CreateZodSchemaForPlantRow, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombined-utils";
 import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
+import { useTranslate } from '@/app/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 interface ActivePlantsFormData {
     plantId: string;
@@ -13,7 +15,7 @@ interface ActivePlantsFormData {
     seedingRate: number;
     participation: number;
     combinedRate: number;
-    pricePerDABGN: number;
+    pricePerAcreBGN: number;
 }
 
 export interface CombinedCalcDBData {
@@ -23,7 +25,25 @@ export interface CombinedCalcDBData {
     isDataValid: boolean;
 }
 
-export default function useSeedingCombinedForm(authObj, dbData) {
+interface AuthState {
+    user: any;
+    isAuthenticated: boolean;
+    loading: boolean;
+    error: string | null;
+    authType: string | null;
+}
+
+export interface PlantCombinedDBData {
+    id: string;
+    latinName: string;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}
+
+export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
+    const translator = useTranslate();
     //final data to save to db
     const [finalData, setFinalData] = useState<CombinedCalcDBData | null>(null);
 
@@ -37,7 +57,7 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.seedingRateInCombination,
-                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                    pricePerAcreBGN: plant.priceSeedsPerAcreBGN,
                 });
             }
         }
@@ -50,17 +70,17 @@ export default function useSeedingCombinedForm(authObj, dbData) {
                     seedingRate: plant.seedingRate,
                     participation: plant.participation,
                     combinedRate: plant.seedingRateInCombination,
-                    pricePerDABGN: plant.priceSeedsPerDaBGN,
+                    pricePerAcreBGN: plant.priceSeedsPerAcreBGN,
                 });
             }
         }
 
         const combinedData: CombinedCalcDBData = {
             plants,
-            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0) +
-                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerDaBGN, 0))),
+            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
+                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
             userId: authObj?.user?.id || "",
-            isDataValid: (form.formState.isValid && Object.keys(warnings).length === 0),
+            isDataValid: (form.formState.isValid && CountWarnings() === 0),
         };
 
         return combinedData;
@@ -77,6 +97,9 @@ export default function useSeedingCombinedForm(authObj, dbData) {
             delete newWarnings[field];
             return newWarnings;
         });
+    }
+    function CountWarnings() {
+        return Object.keys(warnings).length;
     }
 
     //object making react-hook-form and zod work together
@@ -105,6 +128,27 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         defaultValues: CreateDefaultValues(),
         mode: 'onBlur'
     });
+
+    // Update finalData when validation state changes
+    useEffect(() => {
+        if (finalData) {
+            setFinalData(prev => ({
+                ...prev!,
+                isDataValid: (form.formState.isValid && CountWarnings() === 0)
+            }));
+        }
+    }, [form.formState.isValid, warnings]);
+
+    // Debug form state changes
+    useEffect(() => {
+        console.log('Form state changed:', {
+            isValid: form.formState.isValid,
+            isDirty: form.formState.isDirty,
+            isSubmitting: form.formState.isSubmitting,
+            errors: form.formState.errors,
+            warnings
+        });
+    }, [form.formState.isValid, form.formState.isDirty, form.formState.isSubmitting, form.formState.errors, warnings]);
 
     //watcher to handle form value change
     //calculated vals
@@ -184,25 +228,26 @@ export default function useSeedingCombinedForm(authObj, dbData) {
         return () => subscription.unsubscribe();
     }, [form, dbData]);
 
-    async function onSubmit(data) {
+    async function onSubmit(data: any) {
         let isAuthed = authObj?.isAuthenticated || false;
 
         if (!isAuthed) {
-            toast.error("Трябва да сте влезли в профила си, за да запазите изчислението!");
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
+
         const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/combined/history', "POST", finalData);
 
         if (!res.success) {
-            toast.error("Възникна грешка", {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
                 description: res.message,
             });
             console.log(res.message);
             return;
         }
 
-        toast.success("Изчислението е запазено успешно!");
+        toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
-    return { form, finalData, onSubmit, warnings };
+    return { form, finalData, onSubmit, warnings, CountWarnings };
 };
