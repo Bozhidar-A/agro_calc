@@ -16,5 +16,9 @@ export default withBundleAnalyzer({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  env: {
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    NEXT_PUBLIC_HOST_URL: process.env.NEXT_PUBLIC_HOST_URL,
+  },
   output: "standalone",
 });
