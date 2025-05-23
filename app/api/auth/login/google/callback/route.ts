@@ -73,6 +73,8 @@ export async function GET(request: Request) {
         Log(["auth", "login", "google", "callback"], `Inserted refresh token for user ${user.id}`);
 
         const response = NextResponse.redirect(new URL("/", request.url));
+
+        // Set cookies
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -94,6 +96,29 @@ export async function GET(request: Request) {
             maxAge: 7 * 24 * 60 * 60,
             path: "/"
         });
+
+        const authState = {
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            authType: 'github',
+            timestamp: Date.now()
+        };
+
+        response.cookies.set("oAuthClientState", JSON.stringify(authState), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60,
+            path: "/",
+        });
+
+        //add a small delay to ensure cookies are set
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         return response;
     } catch (error: unknown) {

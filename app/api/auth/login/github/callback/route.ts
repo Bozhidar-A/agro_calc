@@ -71,26 +71,25 @@ export async function GET(request: Request): Promise<Response> {
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 15 * 60,
             path: "/",
         });
         response.cookies.set("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
         });
         response.cookies.set("userId", user.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
         });
 
-        // Add auth state to URL
         const authState = {
             user: {
                 id: user.id,
@@ -99,16 +98,20 @@ export async function GET(request: Request): Promise<Response> {
             isAuthenticated: true,
             loading: false,
             error: null,
-            authType: 'github'
+            authType: 'github',
+            timestamp: Date.now()
         };
 
-        response.cookies.set("oAuthState", JSON.stringify(authState), {
+        response.cookies.set("oAuthClientState", JSON.stringify(authState), {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60, // super quick
+            sameSite: "lax",
+            maxAge: 60,
             path: "/",
         });
+
+        //add a small delay to ensure cookies are set
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         return response;
     } catch (error: unknown) {

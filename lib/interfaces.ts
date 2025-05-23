@@ -20,6 +20,23 @@ export interface AuthState {
     authType: string | null;
 }
 
+export interface OAuthClientStateCookie {
+    user: {
+        id: string;
+        email: string;
+    };
+    isAuthenticated: boolean;
+    loading: boolean;
+    error: null;
+    authType: string;
+    timestamp: Date;
+}
+
+export interface ProvidersProps {
+    children: React.ReactNode;
+    initialAuthState?: OAuthClientStateCookie;
+}
+
 export interface LangMapInterface {
     [key: string]: {
         [key: string]: string;
