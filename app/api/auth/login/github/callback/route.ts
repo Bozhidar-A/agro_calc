@@ -29,14 +29,25 @@ export async function GET(request: Request): Promise<Response> {
                 Authorization: `Bearer ${tokens.accessToken()}`,
             },
         });
-
         const githubUser = await githubUserResponse.json();
+
+        //try to fetch the user's emails
+        const githubUserEmailsResponse = await fetch("https://api.github.com/user/emails", {
+            headers: {
+                Authorization: `Bearer ${tokens.accessToken()}`,
+            },
+        });
+        const githubUserEmails = await githubUserEmailsResponse.json();
+
+        //get the first verified email or fallback to GitHub username
+        const verifiedEmail = githubUserEmails.find((email: any) => email.primary)?.email;
+        const githubName = verifiedEmail || githubUser.login;
+
         const githubId = githubUser.id.toString();
-        const githubUsername = githubUser.login;
 
         let user = await FindUserByGitHubId(githubId);
         if (!user) {
-            user = await CreateUserGitHub(githubId, githubUsername);
+            user = await CreateUserGitHub(githubId, githubName);
         }
 
         await DeleteAllRefreshTokensByUserId(user.id);
@@ -55,6 +66,8 @@ export async function GET(request: Request): Promise<Response> {
         await InsertRefreshTokenByUserId(refreshToken, user.id);
 
         const response = NextResponse.redirect(new URL("/", request.url));
+
+        // Set cookies
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -77,9 +90,30 @@ export async function GET(request: Request): Promise<Response> {
             path: "/",
         });
 
+        // Add auth state to URL
+        const authState = {
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            authType: 'github'
+        };
+
+        response.cookies.set("oAuthState", JSON.stringify(authState), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60, // super quick
+            path: "/",
+        });
+
         return response;
-    } catch (err) {
-        Log(["auth", "login", "github", "callback"], `Failed with: ${err.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "login", "github", "callback"], `Failed with: ${errorMessage}`);
         return new Response(null, { status: 500 });
     }
 }
