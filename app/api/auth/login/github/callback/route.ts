@@ -7,6 +7,8 @@ import {
     FindUserByGitHubId,
     DeleteAllRefreshTokensByUserId,
     InsertRefreshTokenByUserId,
+    AttachGitHubIdToUser,
+    FindUserByEmail,
 } from "@/prisma/prisma-utils";
 import { SignJWT } from "jose";
 
@@ -45,10 +47,27 @@ export async function GET(request: Request): Promise<Response> {
 
         const githubId = githubUser.id.toString();
 
+        Log(["auth", "login", "github", "callback"], `GitHub ID: ${githubId}`);
+        Log(["auth", "login", "github", "callback"], `GitHub Name: ${githubName}`);
+
+        Log(["auth", "login", "github", "callback"], `Finding user by GitHub ID: ${githubId}`);
         let user = await FindUserByGitHubId(githubId);
         if (!user) {
-            user = await CreateUserGitHub(githubId, githubName);
+            Log(["auth", "login", "github", "callback"], `User not found, finding user by email: ${githubName}`);
+            const existingUser = await FindUserByEmail(githubName);
+            if (existingUser) {
+                Log(["auth", "login", "github", "callback"], `User already exists, attaching GitHub ID to user: ${existingUser.id}`);
+                await AttachGitHubIdToUser(existingUser.id, githubId);
+                Log(["auth", "login", "github", "callback"], `Attached GitHub ID to user: ${existingUser.id}`);
+                user = existingUser;
+            } else {
+                Log(["auth", "login", "github", "callback"], `Creating new user: ${githubName}`);
+                user = await CreateUserGitHub(githubId, githubName);
+                Log(["auth", "login", "github", "callback"], `Created new user: ${user.id}`);
+            }
         }
+
+        Log(["auth", "login", "github", "callback"], `User: ${JSON.stringify(user?.id)}`);
 
         await DeleteAllRefreshTokensByUserId(user.id);
 
@@ -120,3 +139,4 @@ export async function GET(request: Request): Promise<Response> {
         return new Response(null, { status: 500 });
     }
 }
+

@@ -81,6 +81,13 @@ export async function CreateUserGoogle(googleId: string, email: string) {
     });
 }
 
+export async function AttachGoogleIdToUser(userId: string, googleId: string) {
+    return await prisma.user.update({
+        where: { id: userId },
+        data: { googleId }
+    });
+}
+
 //oauth github
 export async function FindUserByGitHubId(githubId: string) {
     return await prisma.user.findUnique({
@@ -96,6 +103,13 @@ export async function CreateUserGitHub(githubId: string, email: string) {
             githubId,
             email,
         }
+    });
+}
+
+export async function AttachGitHubIdToUser(userId: string, githubId: string) {
+    return await prisma.user.update({
+        where: { id: userId },
+        data: { githubId }
     });
 }
 
