@@ -2,7 +2,7 @@
 
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
-import { Leaf, PieChart } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import useSeedingCombinedForm, { PlantCombinedDBData } from '@/app/hooks/useSeedingCombinedForm';
@@ -22,6 +22,8 @@ import {
 import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
 import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
+import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
+import { Log } from "@/lib/logger";
 
 export default function Combined() {
   const authObj = useSelector((state: RootState) => state.auth);
@@ -45,7 +47,9 @@ export default function Combined() {
         }
 
         setDbData(initData.data);
-      } catch (error) {
+      } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["calc", "combined", "page", "init"], `GET failed with: ${errorMessage}`);
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
@@ -57,18 +61,7 @@ export default function Combined() {
   const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
 
   if (!dbData || dbData.length === 0) {
-    return (
-      <div className="container mx-auto py-4 sm:py-8 flex items-center justify-center min-h-[50vh]">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
-            <div className="animate-spin mb-3 sm:mb-4">
-              <PieChart className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
-            </div>
-            <p className="text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <LoadingDisplay />
   }
 
   const totalParticipation =

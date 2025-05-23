@@ -62,8 +62,9 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json(res);
-    } catch (error) {
-        Log(["auth", "passwordReset", "request", "route"], `POST failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "passwordReset", "request", "route"], `POST failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

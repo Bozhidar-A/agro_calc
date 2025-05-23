@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { FindUserById } from "@/prisma/prisma-utils";
 import { NextResponse } from "next/server";
+import { Log } from "@/lib/logger";
 
 export async function GET() {
     try {
@@ -30,8 +31,9 @@ export async function GET() {
 
         return NextResponse.json({ success: true, data: { user, authType: user.googleId ? 'google' : user.githubId ? 'github' : 'credentials', } });
 
-    } catch (error) {
-        console.error("Auth check error:", error);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "oauth", "me"], `GET failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
     }
 }

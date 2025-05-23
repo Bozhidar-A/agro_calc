@@ -22,9 +22,10 @@ export default function OAuthChecker() {
 
                 Log(["auth", "oauth", "me"], `User not authenticated - ${JSON.stringify(res.error)}`);
                 dispatch(AuthFailure(res.error));
-            } catch (error) {
-                Log(["auth", "oauth", "me"], `Auth check failed: ${error}`);
-                dispatch(AuthFailure(error.message));
+            } catch (error: unknown) {
+                const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+                Log(["auth", "oauth", "me"], `Auth check failed: ${errorMessage}`);
+                dispatch(AuthFailure(errorMessage));
             }
         };
 

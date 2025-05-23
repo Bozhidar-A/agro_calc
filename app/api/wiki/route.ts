@@ -21,8 +21,9 @@ export async function POST(req: NextRequest) {
             success: true,
             data: res
         });
-    } catch (error) {
-        Log(["api", "wiki", "plants", "id", "route"], `POST failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["api", "wiki", "plants", "id", "route"], `POST failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

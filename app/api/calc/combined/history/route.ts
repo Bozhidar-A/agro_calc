@@ -10,8 +10,9 @@ export async function POST(req: NextRequest) {
         const combinedCalcHistoryEntry = await InsertCombinedHistoryEntry(entry);
         Log(["calc", "combined", "history"], `POST returned: ${JSON.stringify(combinedCalcHistoryEntry)}`);
         return NextResponse.json({ success: true });
-    } catch (error) {
-        Log(["calc", "combined", "input", "fetch"], `GET failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["calc", "combined", "input", "fetch"], `GET failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

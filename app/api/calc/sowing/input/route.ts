@@ -12,8 +12,9 @@ export async function GET(req: NextRequest) {
             success: true,
             data: res
         });
-    } catch (error) {
-        Log(["calc", "sowing", "input", "fetch"], `GET failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["calc", "sowing", "input", "fetch"], `GET failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

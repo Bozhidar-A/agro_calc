@@ -53,8 +53,9 @@ export async function BackendVerifyToken(secret: string, token: string, type: st
 
     Log(['auth', 'verifyToken'], `Token verified: ${token}`);
     return [true, decoded];
-  } catch (error) {
-    Log(['auth', 'verifyToken'], `BackendVerifyToken failed with: ${error.message}`);
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'verifyToken'], `BackendVerifyToken failed with: ${errorMessage}`);
     return [false, null];
   }
 }
@@ -112,9 +113,10 @@ export async function BackendRegister(email: string, password: string) {
     return {
       success: true,
     };
-  } catch (error) {
-    Log(['auth', 'register'], `BackendRegister failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'register'], `BackendRegister failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -203,9 +205,10 @@ export async function BackendLogin(email: string, password: string) {
         email: user.email,
       },
     };
-  } catch (error) {
-    Log(['auth', 'login'], `BackendLogin failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'login'], `BackendLogin failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -242,9 +245,10 @@ export async function BackendLogout(userId: string) {
     cookieStore.delete('userId');
 
     return { success: true };
-  } catch (error) {
-    Log(['auth', 'logout'], `BackendLogout failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'logout'], `BackendLogout failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -295,9 +299,10 @@ export async function BackendUpdateUserPassword(user: User, password: string) {
     });
 
     return { success: true };
-  } catch (error) {
-    Log(['auth', 'updateUserPassword'], `BackendUpdateUserPassword failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'updateUserPassword'], `BackendUpdateUserPassword failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -320,9 +325,10 @@ export async function BackendPasswordResetRequest(email: string) {
     await CreateResetPassword(user.email, resetToken);
 
     return { success: true, resetToken };
-  } catch (error) {
-    Log(['auth', 'passwordReset', 'request'], `BackendPasswordResetRequest failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'passwordReset', 'request'], `BackendPasswordResetRequest failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
 
@@ -372,8 +378,9 @@ export async function BackendPasswordReset(token: string, password: string, conf
     await DeleteAllRefreshTokensByUserId(user.id);
 
     return { success: true };
-  } catch (error) {
-    Log(['auth', 'passwordReset', 'reset'], `BackendPasswordReset failed with: ${error.message}`);
-    return { success: false, message: error.message };
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'passwordReset', 'reset'], `BackendPasswordReset failed with: ${errorMessage}`);
+    return { success: false, message: errorMessage };
   }
 }
