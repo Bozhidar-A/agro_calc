@@ -232,3 +232,20 @@ export interface PlantCombinedDBData {
     maxSeedingRate: number;
     priceFor1kgSeedsBGN: number;
 }
+
+//wiki interface
+export interface WikiPlant {
+    id: string;
+    latinName: string;
+    plantType: string;
+}
+
+export interface WikiPlantSowingRate {
+    plant: WikiPlant;
+    coefficientSecurity: CoefficientSecurity;
+    wantedPlantsPerMeterSquared: WantedPlantsPerMeterSquared;
+    massPer1000g: MassPer1000g;
+    purity: Purity;
+    germination: Germination;
+    rowSpacing: RowSpacing;
+}

@@ -156,6 +156,7 @@ export default function SowingRate() {
           toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
             description: res.message,
           });
+          setErrored(true);
           return;
         }
 
@@ -166,6 +167,7 @@ export default function SowingRate() {
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
+        setErrored(true);
       }
     };
     fetchData();
