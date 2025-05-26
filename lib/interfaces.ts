@@ -249,3 +249,11 @@ export interface WikiPlantSowingRate {
     germination: Germination;
     rowSpacing: RowSpacing;
 }
+
+export interface WikiPlantCombined {
+    plant: WikiPlant;
+    plantType: string;
+    minSeedingRate: number;
+    maxSeedingRate: number;
+    priceFor1kgSeedsBGN: number;
+}

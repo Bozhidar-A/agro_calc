@@ -619,6 +619,11 @@ export enum SELECTABLE_STRINGS {
   FUSARIUM_GRAMINEARUM = 'Fusarium graminearum',
   // Ризоктония (Leaf and sheath blight)
   RHIZOCTONIA_ZEAE = 'Rhizoctonia zeae',
+
+  COMBINED_PLANT_TYPE = 'COMBINED_PLANT_TYPE',
+  COMBINED_MIN_SEEDING_RATE = 'COMBINED_MIN_SEEDING_RATE',
+  COMBINED_MAX_SEEDING_RATE = 'COMBINED_MAX_SEEDING_RATE',
+  COMBINED_PRICE_FOR_1KG_SEEDS = 'COMBINED_PRICE_FOR_1KG_SEEDS',
 }
 
 const LangMap: LangMapInterface = {
@@ -1133,6 +1138,11 @@ const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM]: 'Питиум',
     [SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM]: 'Фузариум',
     [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Ризоктония',
+
+    [SELECTABLE_STRINGS.COMBINED_PLANT_TYPE]: 'Вид култура',
+    [SELECTABLE_STRINGS.COMBINED_MIN_SEEDING_RATE]: 'Минимална норма за сеитба',
+    [SELECTABLE_STRINGS.COMBINED_MAX_SEEDING_RATE]: 'Максимална норма за сеитба',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_FOR_1KG_SEEDS]: 'Цена за 1 кг семена',
   },
   EN: {
     //plants
@@ -1649,6 +1659,11 @@ const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM]: 'bacterial stalk rot of maize',
     [SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM]: 'fusarium head blight',
     [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Leaf and sheath blight',
+
+    [SELECTABLE_STRINGS.COMBINED_PLANT_TYPE]: 'Plant Type',
+    [SELECTABLE_STRINGS.COMBINED_MIN_SEEDING_RATE]: 'Minimum Seeding Rate',
+    [SELECTABLE_STRINGS.COMBINED_MAX_SEEDING_RATE]: 'Maximum Seeding Rate',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_FOR_1KG_SEEDS]: 'Price for 1kg Seeds',
   },
 };
 

@@ -6,6 +6,7 @@ export default function WikiPage() {
             <h1>Wiki</h1>
             <p>Find all the information about everything we offer here.</p>
             <Link href="/wiki/sowing">Sowing</Link>
+            <Link href="/wiki/combined">Combined</Link>
         </div>
     )
 }
