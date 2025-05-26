@@ -90,3 +90,33 @@ export function Base64URLSafeDecode(str: string) {
   // Decode from base64
   return decodeURIComponent(escape(atob(base64)));
 }
+
+export function GetParameterData(param: any) {
+  const type = param?.type ?? CalculatorValueTypes.SLIDER;
+
+  switch (type) {
+    case CalculatorValueTypes.CONST:
+      return {
+        type,
+        unit: param?.unit ?? "",
+        constValue: param?.constValue ?? 0,
+      };
+    case CalculatorValueTypes.ABOVE_ZERO:
+      return {
+        type,
+        unit: param?.unit ?? "",
+        minSliderVal: 0,
+        maxSliderVal: param?.maxSliderVal ?? 0,
+        step: param?.step ?? 1,
+      };
+    case CalculatorValueTypes.SLIDER:
+    default:
+      return {
+        type,
+        unit: param?.unit ?? "",
+        step: param?.step ?? 1,
+        minSliderVal: param?.minSliderVal ?? 0,
+        maxSliderVal: param?.maxSliderVal ?? 0,
+      };
+  }
+};

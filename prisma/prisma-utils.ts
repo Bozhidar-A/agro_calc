@@ -2,6 +2,7 @@ import { SowingRateDBData, CombinedCalcDBData, SowingRateSaveData } from "@/lib/
 import { HashPassword } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
+import { CalculatorValueTypes, GetParameterData } from "@/lib/utils";
 
 export async function FindUserByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
@@ -298,6 +299,93 @@ export async function GetCombinedHistory() {
 }
 
 //wiki stuff
-export function GetPlantDataByID(id: string) {
-    return prisma.plant.findUnique({ where: { id } });
+export function GetAllPlants() {
+    return prisma.sowingRatePlant.findMany({
+        include: {
+            plant: true,
+        },
+    });
+}
+
+export async function GetSowingPlantData(id: string) {
+    const sowingData = await prisma.sowingRatePlant.findUnique({
+        where: {
+            plantId: id
+        },
+        include: {
+            plant: true,
+            coefficientSecurity: true,
+            wantedPlantsPerMeterSquared: true,
+            massPer1000g: true,
+            purity: true,
+            germination: true,
+            rowSpacingCm: true,
+        },
+    });
+
+    if (!sowingData) {
+        Log(['prisma', 'GetSowingInputData'], `No seeding data found`);
+        throw new Error(`No seeding data found`);
+    }
+
+    const finalData = {
+        id: sowingData.plant.id,
+
+        plant: {
+            id: sowingData.plant.id,
+            latinName: sowingData.plant.latinName,
+        },
+
+        coefficientSecurity: {
+            type: sowingData.coefficientSecurity?.type ?? "slider",
+            step: sowingData.coefficientSecurity?.step ?? 1,
+            unit: sowingData.coefficientSecurity?.unit ?? "",
+            minSliderVal: sowingData.coefficientSecurity?.minSliderVal ?? 0,
+            maxSliderVal: sowingData.coefficientSecurity?.maxSliderVal ?? 0,
+        },
+
+        wantedPlantsPerMeterSquared: {
+            type: sowingData.wantedPlantsPerMeterSquared?.type ?? "slider",
+            step: sowingData.wantedPlantsPerMeterSquared?.step ?? 1,
+            unit: sowingData.wantedPlantsPerMeterSquared?.unit ?? "plants/m²",
+            minSliderVal: sowingData.wantedPlantsPerMeterSquared?.minSliderVal ?? 0,
+            maxSliderVal: sowingData.wantedPlantsPerMeterSquared?.maxSliderVal ?? 0,
+        },
+
+        massPer1000g: {
+            type: sowingData.massPer1000g?.type ?? "slider",
+            step: sowingData.massPer1000g?.step ?? 1,
+            unit: sowingData.massPer1000g?.unit ?? "g",
+            minSliderVal: sowingData.massPer1000g?.minSliderVal ?? 0,
+            maxSliderVal: sowingData.massPer1000g?.maxSliderVal ?? 0,
+        },
+
+        purity: {
+            type: sowingData.purity?.type ?? "slider",
+            unit: sowingData.purity?.unit ?? "%",
+            step: sowingData.purity?.step ?? undefined,
+            minSliderVal: sowingData.purity?.minSliderVal ?? undefined,
+            maxSliderVal: sowingData.purity?.maxSliderVal ?? undefined,
+            constValue: sowingData.purity?.constValue ?? undefined,
+        },
+
+        germination: {
+            type: sowingData.germination?.type ?? "slider",
+            step: sowingData.germination?.step ?? 1,
+            unit: sowingData.germination?.unit ?? "%",
+            minSliderVal: sowingData.germination?.minSliderVal ?? 0,
+            maxSliderVal: sowingData.germination?.maxSliderVal ?? 0,
+        },
+
+        rowSpacing: {
+            type: sowingData.rowSpacingCm?.type ?? "slider",
+            unit: sowingData.rowSpacingCm?.unit ?? "cm",
+            step: sowingData.rowSpacingCm?.step ?? undefined,
+            minSliderVal: sowingData.rowSpacingCm?.minSliderVal ?? undefined,
+            maxSliderVal: sowingData.rowSpacingCm?.maxSliderVal ?? undefined,
+            constValue: sowingData.rowSpacingCm?.constValue ?? undefined,
+        },
+    }
+
+    return finalData;
 }

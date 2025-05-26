@@ -1,5 +1,5 @@
 import { Log } from "@/lib/logger";
-import { GetPlantDataByID } from "@/prisma/prisma-utils";
+import { GetSowingPlantData } from "@/prisma/prisma-utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
         const { id } = await req.json()
 
         Log(["api", "wiki", "plants", "id", "route"], `POST called with id: ${id}`);
-        const res = await GetPlantDataByID(id);
+        const res = await GetSowingPlantData(id);
         Log(["api", "wiki", "plants", "id", "route"], `POST returned: ${JSON.stringify(res)}`);
 
         if (!res) {
