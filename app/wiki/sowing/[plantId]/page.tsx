@@ -19,7 +19,7 @@ export default function WikiSowingPlantPage() {
     const [errored, setErrored] = useState(false);
 
     useEffect(() => {
-        APICaller(["wiki", "plant", "get"], `/api/wiki/plant`, "POST", { id: params.plantId }).then((res) => {
+        APICaller(["wiki", "plant", "get"], `/api/wiki/sowing/plant`, "POST", { id: params.plantId }).then((res) => {
             if (res.success) {
                 setPlantData(res.data);
             } else {

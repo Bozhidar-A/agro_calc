@@ -15,7 +15,7 @@ export default function WikiSowingPage() {
     const translate = useTranslate();
 
     useEffect(() => {
-        APICaller(["wiki", "all-plants", "get"], "/api/wiki/all-plants", "GET").then((res) => {
+        APICaller(["wiki", "all-plants", "get"], "/api/wiki/sowing/all-plants", "GET").then((res) => {
             if (res.success) {
                 //sowing data input backend func gets plantData instead of plant
                 //get that data from the include and return it
