@@ -2,7 +2,6 @@ import { SowingRateDBData, CombinedCalcDBData, SowingRateSaveData } from "@/lib/
 import { HashPassword } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
-import { CalculatorValueTypes, GetParameterData } from "@/lib/utils";
 
 export async function FindUserByEmail(email: string) {
     return await prisma.user.findUnique({ where: { email } });
@@ -299,7 +298,7 @@ export async function GetCombinedHistory() {
 }
 
 //wiki stuff
-export function GetAllPlants() {
+export function GetAllSowingPlants() {
     return prisma.sowingRatePlant.findMany({
         include: {
             plant: true,
@@ -388,4 +387,30 @@ export async function GetSowingPlantData(id: string) {
     }
 
     return finalData;
+}
+
+export function GetAllCombinedPlants() {
+    return prisma.seedingDataCombination.findMany({
+        include: {
+            plant: true,
+        },
+    });
+}
+
+export async function GetCombinedPlantData(id: string) {
+    const combinedData = await prisma.seedingDataCombination.findUnique({
+        where: {
+            plantId: id
+        },
+        include: {
+            plant: true,
+        },
+    });
+
+    if (!combinedData) {
+        Log(['prisma', 'GetCombinedPlantData'], `No combined data found`);
+        throw new Error(`No combined data found`);
+    }
+
+    return combinedData;
 }
