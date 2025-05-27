@@ -75,19 +75,19 @@ export default function WikiCombinedPlantPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.COMBINED_PLANT_TYPE)}:</span>{" "}
+                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE)}:</span>{" "}
                                     {plantData?.plantType}
                                 </div>
                                 <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.COMBINED_MIN_SEEDING_RATE)}:</span>{" "}
+                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE)}:</span>{" "}
                                     {convertSeedingRate(plantData?.minSeedingRate || 0)} kg/{getUnitSymbol()}
                                 </div>
                                 <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.COMBINED_MAX_SEEDING_RATE)}:</span>{" "}
+                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE)}:</span>{" "}
                                     {convertSeedingRate(plantData?.maxSeedingRate || 0)} kg/{getUnitSymbol()}
                                 </div>
                                 <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.COMBINED_PRICE_FOR_1KG_SEEDS)}:</span>{" "}
+                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS)}:</span>{" "}
                                     {plantData?.priceFor1kgSeedsBGN} BGN
                                 </div>
                             </div>
