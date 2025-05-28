@@ -117,7 +117,7 @@ export default function Sidebar() {
                                 </Link>
                             </Button>
                             <Button asChild variant="ghost" className="justify-start font-normal">
-                                <Link href="/wiki/chemical-protection" onClick={() => setOpen(false)}>
+                                <Link href="/wiki" onClick={() => setOpen(false)}>
                                     <Book className="mr-2 h-4 w-4" />
                                     {translator(SELECTABLE_STRINGS.WIKI)}
                                 </Link>
