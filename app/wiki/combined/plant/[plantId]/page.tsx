@@ -73,11 +73,11 @@ export default function WikiCombinedPlantPage() {
                 <CardContent className="pt-4 sm:pt-6">
                     <div className="flex flex-col items-center">
                         <div className="w-full max-w-2xl space-y-6">
-                            <div className="bg-green-700/10 p-4 rounded-lg text-center">
-                                <h3 className="text-lg font-medium mb-2">
+                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                <h3 className="text-lg font-medium text-black dark:text-white mb-2">
                                     {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                                 </h3>
-                                <p className="text-xl font-bold">
+                                <p className="text-xl font-bold text-black dark:text-white">
                                     {translator(plantData?.plant.latinName || '')}
                                     <span className="ml-2 text-base font-normal">
                                         <i>({plantData?.plant.latinName})</i>
@@ -85,22 +85,22 @@ export default function WikiCombinedPlantPage() {
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE)}:</span>{" "}
-                                    {plantData?.plantType}
+                            <div className="space-y-4">
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.plantType}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE)}:</span>{" "}
-                                    {convertSeedingRate(plantData?.minSeedingRate || 0)} kg/{getUnitSymbol()}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.minSeedingRate || 0)} kg/{getUnitSymbol()}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE)}:</span>{" "}
-                                    {convertSeedingRate(plantData?.maxSeedingRate || 0)} kg/{getUnitSymbol()}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.maxSeedingRate || 0)} kg/{getUnitSymbol()}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS)}:</span>{" "}
-                                    {plantData?.priceFor1kgSeedsBGN} BGN
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.priceFor1kgSeedsBGN} BGN</span>
                                 </div>
                             </div>
                         </div>

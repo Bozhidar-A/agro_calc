@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Log } from "@/lib/logger";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import Link from "next/link";
-
+import { ExternalLink } from "lucide-react";
 
 export default function WikiChemicalProtectionPlantListPage() {
     const [plants, setPlants] = useState<WikiPlantChemical[]>([]);
@@ -53,18 +53,36 @@ export default function WikiChemicalProtectionPlantListPage() {
     }
 
     return (
-        <div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Chemical Protection - Plants</CardTitle>
+        <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
+            <Card className="w-full max-w-7xl mx-auto">
+                <CardHeader className="text-center bg-green-700">
+                    <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+                        {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION)}
+                    </CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col gap-4">
-                        {plants.map((entry) => (
-                            <Link href={`/wiki/chemical-protection/plant/${entry.plant.id}`} key={entry.plant.id}>
-                                {translator(entry.plant.latinName)} ({entry.plant.latinName})
-                            </Link>
-                        ))}
+                <CardContent className="pt-4 sm:pt-6">
+                    <div className="flex flex-col items-center">
+                        <div className="w-full max-w-2xl space-y-4">
+                            {plants.map((entry) => (
+                                <Link
+                                    href={`/wiki/chemical-protection/plant/${entry.plant.id}`}
+                                    key={entry.plant.id}
+                                    className="group block p-4 bg-green-50 dark:bg-black rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <div className="text-lg text-black dark:text-white">
+                                                {translator(entry.plant.latinName)}
+                                            </div>
+                                            <div className="text-sm text-black dark:text-white">
+                                                {entry.plant.latinName}
+                                            </div>
+                                        </div>
+                                        <ExternalLink className="w-5 h-5 text-black dark:text-white" />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </CardContent>
             </Card>
