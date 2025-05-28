@@ -39,6 +39,14 @@ export default function WikiPage() {
                                         </h3>
                                     </div>
                                 </Link>
+
+                                <Link href="/wiki/chemical-protection/plant" className="block h-full">
+                                    <div className="bg-green-50 dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-center border border-green-100 dark:border-gray-700">
+                                        <h3 className="text-lg font-semibold text-center text-green-900 dark:text-white">
+                                            {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION)}
+                                        </h3>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>

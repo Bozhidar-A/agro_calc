@@ -257,3 +257,48 @@ export interface WikiPlantCombined {
     maxSeedingRate: number;
     priceFor1kgSeedsBGN: number;
 }
+
+
+export interface WikiPlantChemical {
+    plant: WikiPlant;
+    chemicalId: string;
+}
+
+export interface ChemicalData {
+    id: string;
+    plantId: string;
+    chemicalId: string;
+    plant: {
+        id: string;
+        latinName: string;
+    };
+    chemical: {
+        id: string;
+        nameKey: string;
+        type: string;
+        applicationStage: string;
+        dosage: number;
+        dosageUnit: string;
+        maxApplications: number;
+        minIntervalBetweenApplicationsDays: number;
+        maxIntervalBetweenApplicationsDays: number;
+        quarantinePeriodDays: number;
+        pricePer1LiterBGN: number;
+        pricePerAcreBGN: number;
+        additionalInfo: string;
+        additionalInfoNotes: string;
+        activeIngredients: Array<{
+            id: string;
+            quantity: number;
+            activeIngredient: {
+                id: string;
+                nameKey: string;
+                unit: string;
+            };
+        }>;
+        chemicalTargetEnemies: Array<{
+            id: string;
+            latinName: string;
+        }>;
+    };
+}

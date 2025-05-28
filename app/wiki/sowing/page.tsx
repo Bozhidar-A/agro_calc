@@ -9,6 +9,8 @@ import Errored from "@/components/Errored/Errored";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
+import { toast } from "sonner";
+import { Log } from "@/lib/logger";
 
 export default function WikiSowingPage() {
     const [plants, setPlants] = useState<WikiPlant[]>([]);
@@ -27,9 +29,19 @@ export default function WikiSowingPage() {
                     }
                 }));
             } else {
+                Log(["wiki", "all-plants", "get"], `GET failed with: ${res.message}`);
                 setErrored(true);
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                    description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+                });
             }
             setLoading(false);
+        }).catch((error) => {
+            Log(["wiki", "all-plants", "get"], `GET failed with: ${error}`);
+            setErrored(true);
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+            });
         });
     }, []);
 
@@ -60,7 +72,7 @@ export default function WikiSowingPage() {
                                 {plants.map((plant) => (
                                     <Link
                                         key={plant.id}
-                                        href={`/wiki/sowing/${plant.id}`}
+                                        href={`/wiki/sowing/plant/${plant.id}`}
                                         className="block h-full"
                                     >
                                         <div className="bg-green-50 dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-center border border-green-100 dark:border-gray-700">

@@ -11,6 +11,8 @@ import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelector } from "react-redux";
 import { KgPerAcreToKgPerHectare } from "@/lib/math-util";
+import { toast } from "sonner";
+import { Log } from "@/lib/logger";
 
 export default function WikiCombinedPlantPage() {
     const params = useParams();
@@ -21,13 +23,23 @@ export default function WikiCombinedPlantPage() {
     const [errored, setErrored] = useState(false);
 
     useEffect(() => {
-        APICaller(["wiki", "plant", "get"], `/api/wiki/combined/plant`, "POST", { id: params.plantId }).then((res) => {
+        APICaller(["wiki", "combined", "plant", "POST"], `/api/wiki/combined/plant`, "POST", { id: params.plantId }).then((res) => {
             if (res.success) {
                 setPlantData(res.data);
             } else {
+                Log(["wiki", "combined", "plant", "POST"], `POST failed with: ${res.message}`);
                 setErrored(true);
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                    description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+                });
             }
             setLoading(false);
+        }).catch((error) => {
+            Log(["wiki", "combined", "plant", "POST"], `POST failed with: ${error}`);
+            setErrored(true);
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+            });
         })
     }, []);
 

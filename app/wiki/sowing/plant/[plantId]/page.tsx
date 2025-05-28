@@ -10,6 +10,8 @@ import { useTranslate } from "@/app/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { CalculatorValueTypes } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+import { Log } from "@/lib/logger";
 
 export default function WikiSowingPlantPage() {
     const params = useParams();
@@ -19,14 +21,24 @@ export default function WikiSowingPlantPage() {
     const [errored, setErrored] = useState(false);
 
     useEffect(() => {
-        APICaller(["wiki", "plant", "get"], `/api/wiki/sowing/plant`, "POST", { id: params.plantId }).then((res) => {
+        APICaller(["wiki", "sowing", "plant", "POST"], `/api/wiki/sowing/plant`, "POST", { id: params.plantId }).then((res) => {
             if (res.success) {
                 setPlantData(res.data);
             } else {
+                Log(["wiki", "sowing", "plant", "POST"], `POST failed with: ${res.message}`);
                 setErrored(true);
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                    description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+                });
             }
             setLoading(false);
-        })
+        }).catch((error) => {
+            Log(["wiki", "sowing", "plant", "POST"], `POST failed with: ${error}`);
+            setErrored(true);
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+            });
+        });
     }, []);
 
     if (loading) {
