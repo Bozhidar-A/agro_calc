@@ -76,11 +76,11 @@ export default function WikiSowingPlantPage() {
                 <CardContent className="pt-4 sm:pt-6">
                     <div className="flex flex-col items-center">
                         <div className="w-full max-w-2xl space-y-6">
-                            <div className="bg-green-700/10 p-4 rounded-lg text-center">
-                                <h3 className="text-lg font-medium mb-2">
+                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                <h3 className="text-lg font-medium text-black dark:text-white mb-2">
                                     {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                                 </h3>
-                                <p className="text-xl font-bold">
+                                <p className="text-xl font-bold text-black dark:text-white">
                                     {translator(plantData?.plant.latinName || '')}
                                     <span className="ml-2 text-base font-normal">
                                         <i>({plantData?.plant.latinName})</i>
@@ -88,30 +88,30 @@ export default function WikiSowingPlantPage() {
                                 </p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_COEFFICIENT_SECURITY)}:</span>{" "}
-                                    {plantData?.coefficientSecurity && renderParameterValue(plantData.coefficientSecurity)}
+                            <div className="space-y-4">
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_COEFFICIENT_SECURITY)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.coefficientSecurity && renderParameterValue(plantData.coefficientSecurity)}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_WANTED_PLANTS_PER_M2)}:</span>{" "}
-                                    {plantData?.wantedPlantsPerMeterSquared && renderParameterValue(plantData.wantedPlantsPerMeterSquared)}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_WANTED_PLANTS_PER_M2)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.wantedPlantsPerMeterSquared && renderParameterValue(plantData.wantedPlantsPerMeterSquared)}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_MASS_PER_1000g_SEEDS)}:</span>{" "}
-                                    {plantData?.massPer1000g && renderParameterValue(plantData.massPer1000g)}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_MASS_PER_1000g_SEEDS)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.massPer1000g && renderParameterValue(plantData.massPer1000g)}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_PURITY)}:</span>{" "}
-                                    {plantData?.purity && renderParameterValue(plantData.purity)}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_PURITY)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.purity && renderParameterValue(plantData.purity)}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_GERMINATION)}:</span>{" "}
-                                    {plantData?.germination && renderParameterValue(plantData.germination)}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_GERMINATION)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.germination && renderParameterValue(plantData.germination)}</span>
                                 </div>
-                                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
-                                    <span className="font-semibold">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_ROW_SPACING)}:</span>{" "}
-                                    {plantData?.rowSpacing && renderParameterValue(plantData.rowSpacing)}
+                                <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
+                                    <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_ROW_SPACING)}:</span>{" "}
+                                    <span className="text-black dark:text-white">{plantData?.rowSpacing && renderParameterValue(plantData.rowSpacing)}</span>
                                 </div>
                             </div>
                         </div>

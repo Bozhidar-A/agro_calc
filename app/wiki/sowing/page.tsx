@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { toast } from "sonner";
 import { Log } from "@/lib/logger";
+import { ExternalLink } from "lucide-react";
 
 export default function WikiSowingPage() {
     const [plants, setPlants] = useState<WikiPlant[]>([]);
@@ -64,24 +65,29 @@ export default function WikiSowingPage() {
                 <CardContent className="pt-4 sm:pt-6">
                     <div className="flex flex-col items-center">
                         <div className="w-full max-w-2xl space-y-6">
-                            <p className="text-center text-lg">
+                            <p className="text-center text-lg text-black dark:text-white mb-6">
                                 {translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
                             </p>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="space-y-4">
                                 {plants.map((plant) => (
                                     <Link
                                         key={plant.id}
                                         href={`/wiki/sowing/plant/${plant.id}`}
-                                        className="block h-full"
+                                        className="block"
                                     >
-                                        <div className="bg-green-50 dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 h-full flex flex-col justify-center border border-green-100 dark:border-gray-700">
-                                            <h3 className="text-lg font-semibold text-center text-green-900 dark:text-white">
-                                                {translator(plant.latinName)}
-                                            </h3>
-                                            <p className="text-sm text-center text-green-700 dark:text-gray-400 mt-1">
-                                                <i>({plant.latinName})</i>
-                                            </p>
+                                        <div className="group bg-green-50 dark:bg-black p-4 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors">
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-black dark:text-white">
+                                                        {translator(plant.latinName)}
+                                                    </h3>
+                                                    <p className="text-sm text-black dark:text-white mt-1">
+                                                        <i>({plant.latinName})</i>
+                                                    </p>
+                                                </div>
+                                                <ExternalLink className="w-5 h-5 text-black dark:text-white" />
+                                            </div>
                                         </div>
                                     </Link>
                                 ))}
