@@ -414,3 +414,32 @@ export async function GetCombinedPlantData(id: string) {
 
     return combinedData;
 }
+
+export function GetAllChemProtectionPlants() {
+    return prisma.plantChemical.findMany({
+        include: {
+            plant: true,
+        },
+    });
+}
+
+export function GetChemProtectionPlantData(id: string) {
+    return prisma.plantChemical.findMany({
+        where: {
+            plantId: id
+        },
+        include: {
+            plant: true,
+            chemical: {
+                include: {
+                    activeIngredients: {
+                        include: {
+                            activeIngredient: true
+                        }
+                    },
+                    chemicalTargetEnemies: true
+                }
+            }
+        },
+    });
+}

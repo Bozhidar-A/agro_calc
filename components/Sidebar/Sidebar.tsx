@@ -1,5 +1,5 @@
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { Menu, Home, Calculator, Settings, LogOut, LogIn, UserPlus, User } from 'lucide-react';
+import { Menu, Home, Calculator, Settings, LogOut, LogIn, UserPlus, User, Book } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetHeader } from '@/components/ui/sheet';
@@ -114,6 +114,12 @@ export default function Sidebar() {
                                 <Link href="/calculators/combined" onClick={() => setOpen(false)}>
                                     <Calculator className="mr-2 h-4 w-4" />
                                     {translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}
+                                </Link>
+                            </Button>
+                            <Button asChild variant="ghost" className="justify-start font-normal">
+                                <Link href="/wiki/chemical-protection" onClick={() => setOpen(false)}>
+                                    <Book className="mr-2 h-4 w-4" />
+                                    {translator(SELECTABLE_STRINGS.WIKI)}
                                 </Link>
                             </Button>
                         </nav>

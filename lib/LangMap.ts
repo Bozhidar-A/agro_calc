@@ -437,6 +437,7 @@ export enum SELECTABLE_STRINGS {
   WIKI_DESCRIPTION = 'WIKI_DESCRIPTION',
   WIKI_SOWING = 'WIKI_SOWING',
   WIKI_COMBINED = 'WIKI_COMBINED',
+  WIKI_CHEMICAL_PROTECTION = 'WIKI_CHEMICAL_PROTECTION_PLANT',
 
   WIKI_COMBINED_PLANT_TYPE = 'COMBINED_PLANT_TYPE',
   WIKI_COMBINED_MIN_SEEDING_RATE = 'COMBINED_MIN_SEEDING_RATE',
@@ -1150,6 +1151,7 @@ const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.WIKI_DESCRIPTION]: 'Това е wiki страница. Тук ще намерите информация за всичко което може да ви бъде нужно.',
     [SELECTABLE_STRINGS.WIKI_SOWING]: 'Сеитбена норма',
     [SELECTABLE_STRINGS.WIKI_COMBINED]: 'Комбинирано',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION]: 'Растителна химическа защита',
 
     [SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE]: 'Вид култура',
     [SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE]: 'Минимална норма за сеитба',
@@ -1678,6 +1680,7 @@ const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.WIKI_DESCRIPTION]: 'This is a wiki page. Here you will find information about everything that may be needed.',
     [SELECTABLE_STRINGS.WIKI_SOWING]: 'Sowing',
     [SELECTABLE_STRINGS.WIKI_COMBINED]: 'Combined',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION]: 'Chemical Protection',
 
     [SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE]: 'Plant Type',
     [SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE]: 'Minimum Seeding Rate',
