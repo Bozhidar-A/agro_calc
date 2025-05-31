@@ -10,12 +10,12 @@ import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { APICaller } from '@/lib/api-util';
-import { WikiChemical, WikiPlantChemical } from '@/lib/interfaces';
+import { WikiChemical } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 
 export default function WikiChemicalProtectionChemListPage() {
-  const [chems, setChems] = useState<WikiPlantChemical[]>([]);
+  const [chems, setChems] = useState<WikiChemical[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
@@ -31,8 +31,8 @@ export default function WikiChemicalProtectionChemListPage() {
         if (res.success) {
           //filter on unique chemId
           const uniqueChems = res.data.filter(
-            (chem: WikiPlantChemical, index: number, self: WikiPlantChemical[]) =>
-              index === self.findIndex((t) => t.chemicalId === chem.chemicalId)
+            (chem: WikiChemical, index: number, self: WikiChemical[]) =>
+              index === self.findIndex((t) => t.id === chem.id)
           );
           setChems(uniqueChems);
         } else {
@@ -54,7 +54,7 @@ export default function WikiChemicalProtectionChemListPage() {
   }, []);
 
   const filteredChems = chems.filter((entry) =>
-    translator(entry.chemical.nameKey).toLowerCase().includes(searchQuery.toLowerCase())
+    translator(entry.nameKey).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) {
@@ -85,14 +85,14 @@ export default function WikiChemicalProtectionChemListPage() {
               />
               {filteredChems.map((entry) => (
                 <Link
-                  href={`/wiki/chemical-protection/chemical/${entry.chemicalId}`}
-                  key={entry.chemicalId}
+                  href={`/wiki/chemical-protection/chemical/${entry.id}`}
+                  key={entry.id}
                   className="group block p-4 bg-green-50 dark:bg-black rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-lg text-black dark:text-white">
-                        {translator(entry.chemical.nameKey)}
+                        {translator(entry.nameKey)}
                       </div>
                     </div>
                     <ExternalLink className="w-5 h-5 text-black dark:text-white" />

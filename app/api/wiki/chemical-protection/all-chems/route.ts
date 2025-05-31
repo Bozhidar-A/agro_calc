@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { Log } from '@/lib/logger';
-import { GetAllChemProtectionEnemies } from '@/prisma/prisma-utils';
+import { GetAllChemProtectionChemicals } from '@/prisma/prisma-utils';
 
 export async function GET() {
   try {
     Log(['api', 'wiki', 'chem protection', 'all-chems', 'route'], `GET called`);
-    const res = await GetAllChemProtectionEnemies();
+    const res = await GetAllChemProtectionChemicals();
     Log(
       ['api', 'wiki', 'chem protection', 'all-chems', 'route'],
       `GET returned: ${JSON.stringify(res)}`
