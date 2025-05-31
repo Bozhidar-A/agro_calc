@@ -1,20 +1,20 @@
 import { NextResponse } from 'next/server';
 import { Log } from '@/lib/logger';
-import { GetAllChemProtectionPlants } from '@/prisma/prisma-utils';
+import { GetAllChemProtectionEnemies } from '@/prisma/prisma-utils';
 
 export async function GET() {
   try {
-    Log(['api', 'wiki', 'chem protection', 'all-plants', 'route'], `GET called`);
-    const res = await GetAllChemProtectionPlants();
+    Log(['api', 'wiki', 'chem protection', 'all-chems', 'route'], `GET called`);
+    const res = await GetAllChemProtectionEnemies();
     Log(
-      ['api', 'wiki', 'chem protection', 'all-plants', 'route'],
+      ['api', 'wiki', 'chem protection', 'all-chems', 'route'],
       `GET returned: ${JSON.stringify(res)}`
     );
 
     if (!res) {
       return NextResponse.json({
         success: false,
-        message: `No plants found`,
+        message: `No enemies found`,
       });
     }
 
@@ -25,7 +25,7 @@ export async function GET() {
   } catch (error: unknown) {
     const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
     Log(
-      ['api', 'wiki', 'chem protection', 'all-plants', 'route'],
+      ['api', 'wiki', 'chem protection', 'all-chems', 'route'],
       `GET failed with: ${errorMessage}`
     );
     return NextResponse.json({ success: false, message: `Internal Server Error` });
