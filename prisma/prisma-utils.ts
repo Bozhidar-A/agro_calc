@@ -531,3 +531,46 @@ export function GetChemProtectionChemData(id: string) {
     },
   });
 }
+
+export function GetAllChemProtectionActiveIngredients() {
+  return prisma.activeIngredient.findMany({
+    include: {
+      chemicals: {
+        include: {
+          chemical: {
+            include: {
+              plantUsages: {
+                include: {
+                  plant: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+export function GetChemProtectionActiveIngredientData(id: string) {
+  return prisma.activeIngredient.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      chemicals: {
+        include: {
+          chemical: {
+            include: {
+              plantUsages: {
+                include: {
+                  plant: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
