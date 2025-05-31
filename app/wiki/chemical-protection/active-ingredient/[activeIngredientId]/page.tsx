@@ -89,7 +89,7 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
               <div className="w-full max-w-2xl space-y-6">
                 <div className="bg-green-700/10 p-4 rounded-lg text-center">
                   <p className="text-lg text-black dark:text-white">
-                    No Chemical Protection Data Available
+                    {translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA)}
                   </p>
                 </div>
               </div>
@@ -113,7 +113,9 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
             <div className="w-full space-y-6">
               {/* Unit Information */}
               <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
-                <h4 className="font-semibold mb-2 text-black dark:text-white">Unit</h4>
+                <h4 className="font-semibold mb-2 text-black dark:text-white">
+                  {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT)}
+                </h4>
                 <div className="space-y-2 text-black dark:text-white">
                   <p>{translator(activeIngredient.unit)}</p>
                 </div>
@@ -124,7 +126,9 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
               {/* Chemicals using this active ingredient */}
               <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                 <h4 className="font-semibold mb-2 text-black dark:text-white">
-                  Chemicals Using This Ingredient
+                  {translator(
+                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING
+                  )}
                 </h4>
                 <div className="space-y-4">
                   {activeIngredient.chemicals.map((chemRelation) => {
@@ -157,23 +161,38 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
                             {/* Dosage Information */}
                             <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                               <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                Dosage Information
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO
+                                )}
                               </h4>
                               <div className="space-y-2 text-black dark:text-white">
                                 <p>
-                                  Dosage: {chemical.dosage} {translator(chemical.dosageUnit)}
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE
+                                  )}
+                                  : {chemical.dosage} {translator(chemical.dosageUnit)}
                                 </p>
-                                <p>Max Applications: {chemical.maxApplications}</p>
                                 <p>
-                                  Interval Between Applications:{' '}
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MAX_APPLICATIONS
+                                  )}
+                                  : {chemical.maxApplications}
+                                </p>
+                                <p>
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL
+                                  )}
+                                  :{' '}
                                   {formatInterval(
                                     chemical.minIntervalBetweenApplicationsDays,
                                     chemical.maxIntervalBetweenApplicationsDays
                                   )}
                                 </p>
                                 <p>
-                                  Quarantine Period:{' '}
-                                  {formatQuarantine(chemical.quarantinePeriodDays)}
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE
+                                  )}
+                                  : {formatQuarantine(chemical.quarantinePeriodDays)}
                                 </p>
                               </div>
                             </div>
@@ -183,11 +202,23 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
                             {/* Pricing Information */}
                             <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                               <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                Pricing
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICING
+                                )}
                               </h4>
                               <div className="space-y-2 text-black dark:text-white">
-                                <p>Price per 1L: {chemical.pricePer1LiterBGN} BGN</p>
-                                <p>Price per Acre: {chemical.pricePerAcreBGN} BGN</p>
+                                <p>
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
+                                  )}
+                                  : {chemical.pricePer1LiterBGN} BGN
+                                </p>
+                                <p>
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
+                                  )}
+                                  : {chemical.pricePerAcreBGN} BGN
+                                </p>
                               </div>
                             </div>
 
@@ -196,20 +227,21 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
                             {/* Affected Plants */}
                             <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                               <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                Affected Plants
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS
+                                )}
                               </h4>
-                              <div className="flex flex-wrap gap-2">
+                              <div className="space-y-2 text-black dark:text-white">
                                 {chemical.plantUsages.map((usage) => (
-                                  <Link
-                                    key={usage.plant.id}
-                                    href={`/wiki/chemical-protection/plant/${usage.plant.id}`}
-                                    className="group inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-black/50 text-black dark:text-white rounded-md text-sm hover:bg-green-200 dark:hover:bg-black transition-colors"
-                                  >
-                                    {translator(
-                                      usage.plant.latinName as keyof typeof SELECTABLE_STRINGS
-                                    )}
-                                    <ExternalLink className="w-3 h-3 text-black dark:text-white" />
-                                  </Link>
+                                  <div key={usage.plant.id} className="flex items-center gap-2">
+                                    <Link
+                                      href={`/wiki/chemical-protection/plant/${usage.plant.id}`}
+                                      className="group flex items-center gap-2"
+                                    >
+                                      <span>{translator(usage.plant.latinName)}</span>
+                                      <ExternalLink className="w-4 h-4" />
+                                    </Link>
+                                  </div>
                                 ))}
                               </div>
                             </div>
@@ -217,23 +249,21 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
                             <Separator className="border-[0.5px] border-black dark:border-white" />
 
                             {/* Additional Information */}
-                            {(chemical.additionalInfo || chemical.additionalInfoNotes) && (
-                              <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
-                                <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                  Additional Information
-                                </h4>
-                                <div className="space-y-2 text-black dark:text-white">
-                                  {chemical.additionalInfo && (
-                                    <p>{translator(chemical.additionalInfo)}</p>
-                                  )}
-                                  {chemical.additionalInfoNotes && (
-                                    <p className="text-sm text-black dark:text-white">
-                                      {translator(chemical.additionalInfoNotes)}
-                                    </p>
-                                  )}
-                                </div>
+                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
+                              <h4 className="font-semibold mb-2 text-black dark:text-white">
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
+                                )}
+                              </h4>
+                              <div className="space-y-2 text-black dark:text-white">
+                                {chemical.additionalInfo && (
+                                  <p>{translator(chemical.additionalInfo)}</p>
+                                )}
+                                {chemical.additionalInfoNotes && (
+                                  <p>{translator(chemical.additionalInfoNotes)}</p>
+                                )}
                               </div>
-                            )}
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
