@@ -444,6 +444,59 @@ export function GetChemProtectionPlantData(id: string) {
   });
 }
 
+export function GetAllChemProtectionEnemies() {
+  return prisma.enemy.findMany({
+    include: {
+      chemicals: {
+        include: {
+          chemical: {
+            include: {
+              activeIngredients: {
+                include: {
+                  activeIngredient: true,
+                },
+              },
+              plantUsages: {
+                include: {
+                  plant: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+export function GetChemProtectionEnemyData(id: string) {
+  return prisma.enemy.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      chemicals: {
+        include: {
+          chemical: {
+            include: {
+              activeIngredients: {
+                include: {
+                  activeIngredient: true,
+                },
+              },
+              plantUsages: {
+                include: {
+                  plant: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 export function GetAllChemProtectionChemicals() {
   return prisma.chemical.findMany({
     include: {

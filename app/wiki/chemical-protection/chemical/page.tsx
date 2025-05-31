@@ -29,12 +29,7 @@ export default function WikiChemicalProtectionChemListPage() {
     )
       .then((res) => {
         if (res.success) {
-          //filter on unique chemId
-          const uniqueChems = res.data.filter(
-            (chem: WikiChemical, index: number, self: WikiChemical[]) =>
-              index === self.findIndex((t) => t.id === chem.id)
-          );
-          setChems(uniqueChems);
+          setChems(res.data);
         } else {
           Log(['wiki', 'chem protection', 'chemical', 'GET'], `GET failed with: ${res.message}`);
           setErrored(true);
