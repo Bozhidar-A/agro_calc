@@ -274,7 +274,7 @@ model Chemical {
 
   plantUsages           PlantChemical[]            @relation("ChemicalToPlantUsages")
   activeIngredients     ChemicalActiveIngredient[]
-  chemicalTargetEnemies ChemicalTargetEnemy[]
+  chemicalTargetEnemies ChemicalToEnemy[]
 }
 
 model PlantChemical {
@@ -308,12 +308,18 @@ model ChemicalActiveIngredient {
   @@unique([chemicalId, activeIngredientId])
 }
 
-model ChemicalTargetEnemy {
+model Enemy {
+  id        String   @id @default(cuid())
+  latinName String   @unique
+  chemicals ChemicalToEnemy[]
+}
+
+model ChemicalToEnemy {
   id         String   @id @default(cuid())
   chemicalId String
+  enemyId    String
   chemical   Chemical @relation(fields: [chemicalId], references: [id])
+  enemy      Enemy    @relation(fields: [enemyId], references: [id])
 
-  latinName String
-
-  @@unique([chemicalId, latinName])
+  @@unique([chemicalId, enemyId])
 }

@@ -233,10 +233,63 @@ export interface PlantCombinedDBData {
 }
 
 //wiki interface
-export interface WikiPlant {
+export interface WikiBaseEntity {
   id: string;
+}
+
+export interface WikiPlant extends WikiBaseEntity {
   latinName: string;
-  plantType: string;
+}
+
+export interface WikiChemical extends WikiBaseEntity {
+  nameKey: string;
+  type: string;
+  applicationStage: string;
+  dosage: number;
+  dosageUnit: string;
+  maxApplications: number;
+  minIntervalBetweenApplicationsDays: number;
+  maxIntervalBetweenApplicationsDays: number;
+  quarantinePeriodDays: number;
+  pricePer1LiterBGN: number;
+  pricePerAcreBGN: number;
+  additionalInfo?: string;
+  additionalInfoNotes?: string;
+  activeIngredients: WikiChemicalActiveIngredient[];
+  plantUsages: {
+    id: string;
+    plant: WikiPlant;
+  }[];
+}
+
+export interface WikiEnemy extends WikiBaseEntity {
+  latinName: string;
+  chemicals: WikiChemicalToEnemy[];
+}
+
+export interface WikiChemicalActiveIngredient extends WikiBaseEntity {
+  chemicalId: string;
+  activeIngredientId: string;
+  quantity: number;
+  activeIngredient: {
+    id: string;
+    nameKey: string;
+    unit: string;
+  };
+}
+
+export interface WikiChemicalToEnemy extends WikiBaseEntity {
+  chemicalId: string;
+  enemyId: string;
+  enemy: WikiEnemy;
+  chemical: WikiChemical;
+}
+
+export interface WikiPlantChemical extends WikiBaseEntity {
+  plantId: string;
+  chemicalId: string;
+  plant: WikiPlant;
+  chemical: WikiChemical;
 }
 
 export interface WikiPlantSowingRate {
@@ -255,48 +308,4 @@ export interface WikiPlantCombined {
   minSeedingRate: number;
   maxSeedingRate: number;
   priceFor1kgSeedsBGN: number;
-}
-
-export interface WikiChemicalActiveIngredient {
-  id: string;
-  chemicalId: string;
-  activeIngredientId: string;
-  quantity: number;
-  activeIngredient: {
-    id: string;
-    nameKey: string;
-    unit: string;
-  };
-}
-
-export interface WikiChemicalTargetEnemy {
-  id: string;
-  latinName: string;
-}
-
-export interface WikiChemical {
-  id: string;
-  nameKey: string;
-  type: string;
-  applicationStage: string;
-  dosage: number;
-  dosageUnit: string;
-  maxApplications: number;
-  minIntervalBetweenApplicationsDays: number;
-  maxIntervalBetweenApplicationsDays: number;
-  quarantinePeriodDays: number;
-  pricePer1LiterBGN: number;
-  pricePerAcreBGN: number;
-  additionalInfo: string;
-  additionalInfoNotes: string;
-  activeIngredients: Array<WikiChemicalActiveIngredient>;
-  chemicalTargetEnemies: Array<WikiChemicalTargetEnemy>;
-}
-
-export interface WikiPlantChemical {
-  id: string;
-  plantId: string;
-  chemicalId: string;
-  plant: WikiPlant;
-  chemical: WikiChemical;
 }
