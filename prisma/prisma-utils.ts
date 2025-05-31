@@ -444,29 +444,35 @@ export function GetChemProtectionPlantData(id: string) {
   });
 }
 
-export function GetAllChemProtectionEnemies() {
-  return prisma.plantChemical.findMany({
+export function GetAllChemProtectionChemicals() {
+  return prisma.chemical.findMany({
     include: {
-      chemical: true,
+      activeIngredients: true,
+      chemicalTargetEnemies: true,
+      plantUsages: {
+        include: {
+          plant: true,
+        },
+      },
     },
   });
 }
 
 export function GetChemProtectionChemData(id: string) {
-  return prisma.plantChemical.findMany({
+  return prisma.chemical.findUnique({
     where: {
-      chemicalId: id,
+      id,
     },
     include: {
-      plant: true,
-      chemical: {
+      activeIngredients: {
         include: {
-          activeIngredients: {
-            include: {
-              activeIngredient: true,
-            },
-          },
-          chemicalTargetEnemies: true,
+          activeIngredient: true,
+        },
+      },
+      chemicalTargetEnemies: true,
+      plantUsages: {
+        include: {
+          plant: true,
         },
       },
     },

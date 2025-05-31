@@ -11,14 +11,14 @@ import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { APICaller } from '@/lib/api-util';
-import { WikiPlantChemical } from '@/lib/interfaces';
+import { WikiChemical } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 
 export default function WikiChemicalProtectionChemicalPage() {
   const params = useParams();
   const translator = useTranslate();
-  const [chemicals, setChemicals] = useState<WikiPlantChemical[]>([]);
+  const [chemical, setChemical] = useState<WikiChemical>();
   const [loading, setLoading] = useState(true);
   const [errored, setErrored] = useState(false);
 
@@ -31,7 +31,7 @@ export default function WikiChemicalProtectionChemicalPage() {
     )
       .then((res) => {
         if (res.success) {
-          setChemicals(res.data);
+          setChemical(res.data);
         } else {
           Log(['wiki', 'chem protection', 'chemical', 'POST'], `POST failed with: ${res.message}`);
           setErrored(true);
@@ -72,7 +72,7 @@ export default function WikiChemicalProtectionChemicalPage() {
     return <Errored />;
   }
 
-  if (!chemicals || chemicals.length === 0) {
+  if (!chemical) {
     return (
       <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
         <Card className="w-full max-w-7xl mx-auto">
@@ -96,8 +96,6 @@ export default function WikiChemicalProtectionChemicalPage() {
       </div>
     );
   }
-
-  const chemical = chemicals[0].chemical;
 
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
