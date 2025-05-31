@@ -309,3 +309,31 @@ export interface WikiPlantCombined {
   maxSeedingRate: number;
   priceFor1kgSeedsBGN: number;
 }
+
+export interface WikiActiveIngredient extends WikiBaseEntity {
+  nameKey: string;
+  unit: string;
+  chemicals: {
+    id: string;
+    chemical: {
+      id: string;
+      nameKey: string;
+      type: string;
+      applicationStage: string;
+      dosage: number;
+      dosageUnit: string;
+      maxApplications: number;
+      minIntervalBetweenApplicationsDays: number;
+      maxIntervalBetweenApplicationsDays: number;
+      quarantinePeriodDays: number;
+      pricePer1LiterBGN: number;
+      pricePerAcreBGN: number;
+      additionalInfo?: string;
+      additionalInfoNotes?: string;
+      plantUsages: {
+        id: string;
+        plant: WikiPlant;
+      }[];
+    };
+  }[];
+}
