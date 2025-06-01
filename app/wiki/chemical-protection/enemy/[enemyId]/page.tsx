@@ -111,7 +111,7 @@ export default function WikiChemicalProtectionEnemyPage() {
               {/* Chemicals that work on this enemy */}
               <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                 <h4 className="font-semibold mb-2 text-black dark:text-white">
-                  Effective Chemicals
+                  {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS)}
                 </h4>
                 <div className="space-y-4">
                   {enemy.chemicals.map((chemRelation) => (
@@ -145,24 +145,38 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Dosage Information */}
                           <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                             <h4 className="font-semibold mb-2 text-black dark:text-white">
-                              Dosage Information
+                              {translator(
+                                SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO
+                              )}
                             </h4>
                             <div className="space-y-2 text-black dark:text-white">
                               <p>
-                                Dosage: {chemRelation.chemical.dosage}{' '}
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE
+                                )}
+                                : {chemRelation.chemical.dosage}{' '}
                                 {translator(chemRelation.chemical.dosageUnit)}
                               </p>
-                              <p>Max Applications: {chemRelation.chemical.maxApplications}</p>
                               <p>
-                                Interval Between Applications:{' '}
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MAX_APPLICATIONS
+                                )}
+                                : {chemRelation.chemical.maxApplications}
+                              </p>
+                              <p>
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL
+                                )}
                                 {formatInterval(
                                   chemRelation.chemical.minIntervalBetweenApplicationsDays,
                                   chemRelation.chemical.maxIntervalBetweenApplicationsDays
                                 )}
                               </p>
                               <p>
-                                Quarantine Period:{' '}
-                                {formatQuarantine(chemRelation.chemical.quarantinePeriodDays)}
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE
+                                )}
+                                : {formatQuarantine(chemRelation.chemical.quarantinePeriodDays)}
                               </p>
                             </div>
                           </div>
@@ -172,11 +186,23 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Pricing Information */}
                           <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                             <h4 className="font-semibold mb-2 text-black dark:text-white">
-                              Pricing
+                              {translator(
+                                SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICING
+                              )}
                             </h4>
                             <div className="space-y-2 text-black dark:text-white">
-                              <p>Price per 1L: {chemRelation.chemical.pricePer1LiterBGN} BGN</p>
-                              <p>Price per Acre: {chemRelation.chemical.pricePerAcreBGN} BGN</p>
+                              <p>
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
+                                )}
+                                : {chemRelation.chemical.pricePer1LiterBGN} BGN
+                              </p>
+                              <p>
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
+                                )}
+                                : {chemRelation.chemical.pricePerAcreBGN} BGN
+                              </p>
                             </div>
                           </div>
 
@@ -185,7 +211,9 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Active Ingredients */}
                           <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                             <h4 className="font-semibold mb-2 text-black dark:text-white">
-                              Active Ingredients
+                              {translator(
+                                SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING
+                              )}
                             </h4>
                             <div className="space-y-2">
                               {chemRelation.chemical.activeIngredients.map((ingredient) => (
@@ -214,7 +242,9 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Affected Plants */}
                           <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                             <h4 className="font-semibold mb-2 text-black dark:text-white">
-                              Affected Plants
+                              {translator(
+                                SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS
+                              )}
                             </h4>
                             <div className="flex flex-wrap gap-2">
                               {chemRelation.chemical.plantUsages.map((usage) => (
@@ -239,7 +269,9 @@ export default function WikiChemicalProtectionEnemyPage() {
                             chemRelation.chemical.additionalInfoNotes) && (
                             <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
                               <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                Additional Information
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
+                                )}
                               </h4>
                               <div className="space-y-2 text-black dark:text-white">
                                 {chemRelation.chemical.additionalInfo && (
