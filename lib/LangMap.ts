@@ -631,6 +631,7 @@ export enum SELECTABLE_STRINGS {
   WIKI_CHEMICAL_PROTECTION_CHEMICALS = 'WIKI_CHEMICAL_PROTECTION_CHEMICALS',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS',
 
+  WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS = 'WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO',
@@ -643,6 +644,7 @@ export enum SELECTABLE_STRINGS {
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS',
   WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO',
+  WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES = 'WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES',
 
   WIKI_COMBINED_PLANT_TYPE = 'COMBINED_PLANT_TYPE',
   WIKI_COMBINED_MIN_SEEDING_RATE = 'COMBINED_MIN_SEEDING_RATE',
@@ -1307,45 +1309,747 @@ const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Ризоктония',
 
     //wiki
-    [SELECTABLE_STRINGS.WIKI]: 'Wiki',
+    [SELECTABLE_STRINGS.WIKI]: 'Уики',
     [SELECTABLE_STRINGS.WIKI_DESCRIPTION]:
-      'Welcome to our comprehensive agricultural knowledge base. Here you can find detailed information about various aspects of farming and crop management.',
-    [SELECTABLE_STRINGS.WIKI_SOWING]: 'Sowing Rate',
-    [SELECTABLE_STRINGS.WIKI_COMBINED]: 'Combined Seeding',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION]: 'Chemical Protection',
+      'Добре дошли в нашата изчерпателна база от знания за земеделие. Тук можете да намерите подробна информация за различни аспекти на земеделието и управлението на културите.',
+    [SELECTABLE_STRINGS.WIKI_SOWING]: 'Сеитба',
+    [SELECTABLE_STRINGS.WIKI_COMBINED]: 'Комбинирани',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION]: 'Химическа защита',
 
     //wiki chemical protection
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_START_HERE]:
-      'Start from here and go to the page of what you want to look up.',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_PLANTS]: 'Plants',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ENEMIES]: 'Enemies',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_CHEMICALS]: 'Chemicals',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS]: 'Active Ingredients',
+      'Започнете оттук и отидете на страницата, която искате да разгледате.',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_PLANTS]: 'Култури',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ENEMIES]: 'Неприятели',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_CHEMICALS]: 'Химикали',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS]: 'Активни вещества',
 
     //wiki chemical protection active ingredient
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT]: 'Unit',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT]: 'Мерна единица',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING]:
-      'Chemicals Using This Ingredient',
+      'Химикали използващи тази съставка',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO]:
-      'Dosage Information',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE]: 'Dosage',
+      'Информация за дозировка',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE]: 'Дозировка',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MAX_APPLICATIONS]:
-      'Max Applications',
+      'Максимален брой третирания',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL]:
-      'Interval Between Applications',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE]: 'Quarantine Period',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICING]: 'Pricing',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER]: 'Price per 1L',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE]:
-      'Price per Acre',
+      'Интервал между третиранията',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE]: 'Карантинен срок',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICING]: 'Ценообразуване',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER]: 'Цена за 1L',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE]: 'Цена за декар',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS]:
-      'Affected Plants',
+      'Засегнати култури',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO]:
-      'Additional Information',
+      'Допълнителна информация',
 
     [SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE]: 'Вид култура',
     [SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE]: 'Минимална сеитбена норма',
     [SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE]: 'Максимална сеитбена норма',
+    [SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS]: 'Цена за 1 kg семена',
+
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]: 'Химикали срещу',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES]:
+      'Допълнителни бележки',
+  },
+  EN: {
+    //plants
+    [SELECTABLE_STRINGS.PISUM_SATIVUM]: 'Pea',
+    [SELECTABLE_STRINGS.GLYCINE_MAX]: 'Soybean',
+    [SELECTABLE_STRINGS.SORGHUM_VULGARE_VAR_TEHNICUM]: 'Sorghum',
+    [SELECTABLE_STRINGS.ZEA_MAYS]: 'Corn',
+    [SELECTABLE_STRINGS.MEDICAGO_SATIVA]: 'Alfalfa',
+    [SELECTABLE_STRINGS.TRIFOLIUM_STELLATUM]: 'Star clover',
+    [SELECTABLE_STRINGS.TRIFOLIUM_PRATENSE]: 'Red clover',
+    [SELECTABLE_STRINGS.TRIFOLIUM_REPENS]: 'White clover',
+    [SELECTABLE_STRINGS.LOLIUM_PERENNE]: 'Perennial ryegrass',
+    [SELECTABLE_STRINGS.AGROPYRON_CRISTATUM]: 'Crested wheatgrass',
+    [SELECTABLE_STRINGS.DACTYLIS_GLOMERATA]: 'Orchard grass',
+    [SELECTABLE_STRINGS.AVENULA_PUBESCENS]: 'Downy oat',
+    [SELECTABLE_STRINGS.FESTUCA_PRATENSIS]: 'Meadow fescue',
+    [SELECTABLE_STRINGS.FESTUCA_RUBRA]: 'Red fescue',
+
+    //general
+    [SELECTABLE_STRINGS.THEME_LIGHT]: 'Light',
+    [SELECTABLE_STRINGS.THEME_DARK]: 'Dark',
+    [SELECTABLE_STRINGS.THEME_SYSTEM]: 'System',
+
+    [SELECTABLE_STRINGS.G_LITER]: 'g/l',
+    [SELECTABLE_STRINGS.G_KG]: 'g/kg',
+    [SELECTABLE_STRINGS.ML_ACRE]: 'ml/acre',
+    [SELECTABLE_STRINGS.G_ACRE]: 'g/acre',
+    [SELECTABLE_STRINGS.G_100_KG_SEEDS]: 'g/100 kg seeds',
+
+    [SELECTABLE_STRINGS.GET_STARTED]: "Let's start!",
+    [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Welcome, ',
+    [SELECTABLE_STRINGS.MENU]: 'Menu',
+    [SELECTABLE_STRINGS.HOME]: 'Home',
+    [SELECTABLE_STRINGS.REGISTER]: 'Register',
+    [SELECTABLE_STRINGS.LOGIN]: 'Login',
+    [SELECTABLE_STRINGS.LOGOUT]: 'Logout',
+    [SELECTABLE_STRINGS.OR]: 'OR',
+    [SELECTABLE_STRINGS.PROFILE]: 'Profile',
+    [SELECTABLE_STRINGS.NEED_HELP_Q]: 'Need help?',
+    [SELECTABLE_STRINGS.HAS_VALUE_OUTSIDE_SUGGESTED_RANGE]: 'Has value outside suggested range!',
+    [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Save calculation',
+    [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Calculation visualization',
+    [SELECTABLE_STRINGS.LOADING]: 'Loading...',
+    [SELECTABLE_STRINGS.HISTORY_HERE]: 'Here is your calculation history',
+    [SELECTABLE_STRINGS.NO_HISTORY]: 'No history? Calculate something to appear here!',
+    [SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE]: 'No sowing rate history found',
+    [SELECTABLE_STRINGS.NO_HISTORY_SEEDING_DATA]: 'No seeding data history found',
+    [SELECTABLE_STRINGS.SEARCH_PLACEHOLDER]: 'Search...',
+    [SELECTABLE_STRINGS.SELECT_DATE]: 'Select Date',
+
+    [SELECTABLE_STRINGS.HOME_PAGE_YOUR_TRUSTED_AGRO_CALCS]: 'Your trusted agricultural calculators',
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING]: 'Precision Farming',
+    [SELECTABLE_STRINGS.HOME_PAGE_PRECISION_FARMING_DESCRIPTION]:
+      'Optimize your resources with precise calculations tailored to your specific crops and conditions.',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING]: 'Time Saving',
+    [SELECTABLE_STRINGS.HOME_PAGE_TIME_SAVING_DESCRIPTION]:
+      'Save hours of manual calculations and planning with our intuitive, easy-to-use calculator suite.',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS]: 'Expert Recommendations',
+    [SELECTABLE_STRINGS.HOME_PAGE_EXPERT_RECOMMENDATIONS_DESCRIPTION]:
+      'Get recommendations based on agricultural best practices and scientific research.',
+    [SELECTABLE_STRINGS.HOME_PAGE_WHY_USE_AGRO_CALC]: 'Why use our agricultural calculators?',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS]: 'Modern agricultural solutions',
+    [SELECTABLE_STRINGS.HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION]:
+      'Precision tools for the modern farmer, designed to maximize yield and efficiency.',
+    [SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS]:
+      'Our suite of agricultural calculators helps farmers, agronomists, and agricultural professionals make data-driven decisions to improve crop yields, reduce waste, and maximize profitability.',
+
+    [SELECTABLE_STRINGS.EMAIL]: 'Email',
+    [SELECTABLE_STRINGS.PASSWORD]: 'Password',
+    [SELECTABLE_STRINGS.PASSWORD_CONFIRM]: 'Confirm password',
+
+    [SELECTABLE_STRINGS.SUBMIT]: 'Submit',
+    [SELECTABLE_STRINGS.NO_ACC_Q]: "Don't have an account?",
+    [SELECTABLE_STRINGS.HAVE_ACC_Q]: 'Already have an account?',
+
+    [SELECTABLE_STRINGS.INVALID_EMAIL]: 'Invalid email',
+    [SELECTABLE_STRINGS.PASSWORD_MIN]: 'Password must be at least 6 characters',
+    [SELECTABLE_STRINGS.PASSWORD_HAS_LOWER]: 'Password must contain at least one lowercase letter',
+    [SELECTABLE_STRINGS.PASSWORD_HAS_UPPER]: 'Password must contain at least one uppercase letter',
+    [SELECTABLE_STRINGS.PASSWORD_HAS_NUMBER]: 'Password must contain at least one number',
+    [SELECTABLE_STRINGS.PASSWORD_HAS_SYMBOL]:
+      'Password must contain at least one special character',
+    [SELECTABLE_STRINGS.PASSWORDS_DONT_MATCH]: 'Passwords do not match',
+    [SELECTABLE_STRINGS.FORGOT_PASSWORD]: 'Forgot password?',
+    [SELECTABLE_STRINGS.REQUEST_PASSWORD_RESET]: 'Request password reset',
+    [SELECTABLE_STRINGS.RESET_PASSWORD]: 'Reset Password',
+
+    [SELECTABLE_STRINGS.TOAST_ERROR]: 'There was an error',
+    [SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED]:
+      'Your session has expired. Please login again.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA]: 'There was an error loading the data',
+    [SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN]:
+      'You must be logged in to save the calculation!',
+    [SELECTABLE_STRINGS.TOAST_ERROR_NO_PLANT_SELECTED]:
+      'You have not selected a plant for calculation!',
+    [SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS]: 'Calculation saved successfully!',
+    [SELECTABLE_STRINGS.TOAST_REGISTER_SUCCESS]: 'Registration successful! Please log in.',
+    [SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS]: 'Login successful!',
+    [SELECTABLE_STRINGS.TOAST_LOGOUT_SUCCESS]: 'Logout successful!',
+    [SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER]: 'Please try again later',
+    [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_REQUEST_PROCESSING]:
+      'Sending password reset request...',
+    [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_REQUEST_SENT]:
+      'Request to reset password has been sent to your email',
+    [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_REQUEST_FAILED]:
+      'Failed to send password request',
+    [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Succesfully reset password!',
+    [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]: 'Failed to reset password!',
+
+    [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
+    [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',
+    [SELECTABLE_STRINGS.OPEN_CALCULATOR]: 'Open calculator',
+
+    [SELECTABLE_STRINGS.SETTINGS]: 'Settings',
+    [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT]: 'Preferred unit of measurement',
+    [SELECTABLE_STRINGS.SETTINGS_THEME]: 'Theme',
+    [SELECTABLE_STRINGS.SETTINGS_LANGUAGE]: 'Language',
+    [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_ACRES]: 'Acres',
+    [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_ACRES_SYMBOL]: 'acre',
+    [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES]: 'Hectares',
+    [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL]: 'ha',
+
+    [SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE]: 'Sowing rate calculator',
+    [SELECTABLE_STRINGS.SOWING_RATE_CALC_DESCRIPTION]:
+      'Calculate the exact seeding rate for your crop',
+    [SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE]: 'Pick a culture',
+    [SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE]: 'Selected culture',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE]: 'Suggested range',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE]: 'Suggested value',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_COEFFICIENT_SECURITY]: 'Security coefficient',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_WANTED_PLANTS_PER_M2]: 'Wanted plants per m²',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_MASS_PER_1000g_SEEDS]: 'Mass per 1000g seeds',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_PURITY]: 'Purity',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_GERMINATION]: 'Laboratory germination',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_ROW_SPACING]: 'Row spacing',
+    [SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA]: 'Total area',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE]: 'Sowing rate',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2]: 'seeds/m²',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE]: 'plants/acre',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_HECTARE]: 'plants/hectare',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS]: 'Used seeds',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE]: 'kg/acre',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_HECTARE]: 'kg/hectare',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING]: 'Row spacing',
+    [SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM]: 'cm',
+    [SELECTABLE_STRINGS.SOWING_RATE_THIS_IS_SUGGESTED]:
+      'This is the suggested sowing rate based on the parameters you have entered. It may vary depending on the specific field conditions.',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ]: 'Calculation visualization',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_GENERAL]: 'Graphical representation of the results for',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_ALL_ELEMENTS]: 'General visualization of the parameters',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_ELEMENTS_RELATIONSHIP]:
+      'Proportions between the parameters',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_COMPARE_CALCED_PARAMS]:
+      'Comparison of the calculated values',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_COMPARE_CALCED_PARAMS_VECED]:
+      'Values are scaled for better visualization',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY]: 'Planting efficiency',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_SEEDS_TO_PLANTS]: 'Seeds→Plants',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_COVERAGE]: 'Coverage',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_DENSITY]: 'Density',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_EFFICIENCY]: 'Efficiency',
+    [SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_SUGGESTED]:
+      'Relative quality indicators for sowing',
+
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT]: 'Culture Selection',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT_DESCRIPTION_SELECT_CULTURE_FIRST]:
+      'First, select the crop for which you want to calculate the sowing rate.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_CULTURE_SELECT_DESCRIPTION]:
+      'Select the crop for which you want to calculate the sowing rate.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAFETY_COEFFICIENT]: 'Safety Coefficient',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAFETY_COEFFICIENT_DESCRIPTION]:
+      'This coefficient (usually between 0.9 and 0.99) serves as a buffer against adverse conditions – losses due to weather, mechanical damage, etc. A higher value means more seeds will be sown to compensate for potential losses.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_WANTED_PLANTS_PER_M2]: 'Desired Plants per m²',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_WANTED_PLANTS_PER_M2_DESCRIPTION]:
+      'This parameter defines how many plants are expected to grow per square meter. The value typically depends on agronomic recommendations or the crop variety and is critical for achieving the desired yield.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_MASS_PER_1000g]: 'Mass per 1000 Seeds',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_MASS_PER_1000g_DESCRIPTION]:
+      'This parameter, expressed in grams, is provided by the seed supplier and directly affects the calculation of the required amount of seed.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_PURITY]: 'Seed Purity',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_PURITY_DESCRIPTION]:
+      'Expressed as a percentage, this value indicates the purity of the seed lot — how many of the seeds are of the desired crop. Lower purity means the system will increase the recommended sowing rate.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_GERMINATION]: 'Laboratory Germination Rate',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_GERMINATION_DESCRIPTION]:
+      'A percentage that indicates how many seeds are expected to germinate under laboratory conditions. This is a critical factor in determining the actual number of plants per decare.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_ROW_SPACING]: 'Row Spacing',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_ROW_SPACING_DESCRIPTION]:
+      'Here, the user sets the spacing between rows in centimeters, according to the seeding scheme. This is used to calculate plant density and ensure even distribution of the seeds.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_VISUALIZATION]: 'Results Visualization',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_VISUALIZATION_DESCRIPTION]:
+      'Once all parameters are entered, the calculator provides a visual summary of the results — plants per decare, seed consumption, row spacing, and more. This helps with quick analysis and agronomic decision-making.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_TOTAL_AREA]: 'Total Area',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_TOTAL_AREA_DESCRIPTION]:
+      'Here the user enters the total area (in decares) that will be sown. This is necessary for calculating the total amount of seeds required.',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION]: 'Save Calculation',
+    [SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION_DESCRIPTION]:
+      'After all parameters are set and results are generated, the user can save the configuration. This is useful for future reference or for comparing different scenarios.',
+
+    [SELECTABLE_STRINGS.COMBINED_CALC_TITLE]: 'Mixed Seeding Rate',
+    [SELECTABLE_STRINGS.COMBINED_CALC_DESCRIPTION]:
+      'Calculate the exact seeding rate for your crop mixtures',
+    [SELECTABLE_STRINGS.COMBINED_LEGUME_TITLE]: 'Perennial Legume Forage Crops',
+    [SELECTABLE_STRINGS.COMBINED_CEREAL_TITLE]: 'Perennial Cereal Forage Crops',
+    [SELECTABLE_STRINGS.COMBINED_SUMMARY_TITLE]: 'Mixture Summary',
+    [SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION]: 'Total mixture participation:',
+    [SELECTABLE_STRINGS.COMBINED_FINAL_PRICE]: 'Final price:',
+    [SELECTABLE_STRINGS.COMBINED_VALUES_OUTSIDE_LIMIT]:
+      'You have values outside the recommended limit!',
+    [SELECTABLE_STRINGS.COMBINED_SAVE_CALCULATION]: 'Save this calculation',
+    [SELECTABLE_STRINGS.COMBINED_VISUALIZATION_TITLE]: 'Mixture Visualization',
+    [SELECTABLE_STRINGS.COMBINED_VISUALIZATION_DESCRIPTION]:
+      'Graphical representation of crop participation in the mixture',
+    [SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION_LABEL]: 'Total participation',
+    [SELECTABLE_STRINGS.COMBINED_MAX_PARTICIPATION]: 'Maximum',
+    [SELECTABLE_STRINGS.COMBINED_ACTIVE]: 'Active?',
+    [SELECTABLE_STRINGS.COMBINED_PLANT]: 'Plant',
+    [SELECTABLE_STRINGS.COMBINED_PLEASE_SELECT_PLANT]: 'Please select',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE]: 'Sowing rate',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE]: 'Sowing rate - single',
+    [SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT]: 'Participation (%)',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX]: 'Sowing rate - in mixture',
+    [SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE]: 'Seed price per acre/BGN',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_BY_PLANT_TYPE]: 'Sowing rate by plant type',
+    [SELECTABLE_STRINGS.COMBINED_PARTICIPATION_DISTRIBUTION]: 'Participation distribution',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON]: 'Price per acre comparison',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL]: 'Seed price per acre/BGN',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON]: 'Price per hectare comparison',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL]: 'Seed price per hectare/BGN',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_COMPARISON]: 'Sowing rate comparison',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE_PLANT]: 'Sowing rate - single',
+    [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX_PLANT]: 'Sowing rate - in mixture',
+
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_LEGUME]: 'Perennial Legume Crops',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_LEGUME_DESCRIPTION]:
+      'This section handles leguminous crops like red clover, alfalfa, or other nitrogen-fixing plants. Legumes are valuable for soil improvement and provide protein-rich forage.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION]: 'Crop Activation',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION_DESCRIPTION]:
+      'Check this box to activate a specific crop in your mixture. Only activated crops will be included in the final seeding rate calculation.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION]: 'Plant Selection',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION_DESCRIPTION]:
+      'Choose the specific crop variety from the dropdown menu. Each plant has different seeding characteristics and requirements.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE]: 'Single-Crop Sowing Rate',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE_DESCRIPTION]:
+      'This shows the recommended sowing rate if this crop were planted alone, based on agronomic standards and crop characteristics.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_LEGUME_PARTICIPATION]: 'Legume Participation Rate',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_LEGUME_PARTICIPATION_DESCRIPTION]:
+      'The maximum participation percentage for legume crops in your mixture. The max is 60%!',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PARTICIPATION_PERCENT]: 'Participation Percentage',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PARTICIPATION_PERCENT_DESCRIPTION]:
+      'The actual percentage this crop will represent in the final mixture. This value is calculated based on your participation settings and crop priorities.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_MIXTURE]: 'Mixture Sowing Rate',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_MIXTURE_DESCRIPTION]:
+      'The adjusted sowing rate for this crop when used in the mixture, calculated by applying the participation percentage to the single-crop rate.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SEED_PRICE]: 'Seed Price per Acre',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SEED_PRICE_DESCRIPTION]:
+      'Enter the cost of seeds per area for this crop. This helps calculate the total economic cost of your seeding mixture.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_CEREAL]: 'Perennial Cereal Crops',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PERENNIAL_CEREAL_DESCRIPTION]:
+      'This section handles cereal and grass crops like orchard grass, timothy, or other gramineous plants that provide structure and complementary growth characteristics to legumes.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_CEREAL_PARTICIPATION]: 'Cereal Participation Rate',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_CEREAL_PARTICIPATION_DESCRIPTION]:
+      'The maximum participation percentage for cereal/grass crops in your mixture. The max is 40%!',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_MIXTURE_SUMMARY]: 'Mixture Summary',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_MIXTURE_SUMMARY_DESCRIPTION]:
+      'This panel provides a comprehensive overview of your complete mixture, including total participation rates, final costs, and key metrics for the combined seeding plan.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_TOTAL_PARTICIPATION]: 'Total Mixture Participation',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_TOTAL_PARTICIPATION_DESCRIPTION]:
+      'Shows the combined participation percentage of all active crops.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_FINAL_PRICE]: 'Final Mixture Price',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_FINAL_PRICE_DESCRIPTION]:
+      'The total cost per acre/decare for your complete seed mixture, calculated by combining the costs of all active crops based on their participation rates and individual prices.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SAVE_CALCULATION]: 'Save Mixture Calculation',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_SAVE_CALCULATION_DESCRIPTION]:
+      'Save your complete mixture configuration for future reference, comparison with other mixtures, or for generating detailed reports and recommendations.',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_VISUALIZATION]: 'Mixture Visualization',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_VISUALIZATION_DESCRIPTION]:
+      'Visual charts, if everything is correct, and graphs that help you understand the composition, costs, and characteristics of your seed mixture through various analytical perspectives.',
+
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CALC_TITLE]: 'Chemical protection',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CALC_DESCRIPTION]:
+      'Select a chemical for protection of the plants',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_SELECT_CHEMICAL]: 'Select a chemical',
+
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE]: 'Herbicide',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE]: 'Insecticide',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_FUNGICIDE]: 'Fungicide',
+
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT]: 'Pre-emergent',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE]:
+      'Pre-emergent (After sowing, before emergence)',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_BEFORE_START_OF_GROWING_SEASON]:
+      'Pre-emergent (Befor start of the growing season)',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_PRE_SOWING_SEEDS_TREATMENT]:
+      'Pre-emergent (Pre-sowing seeds treatment)',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_PRE_EMERGENT_DURING_SOWING]:
+      'Pre-emergent - during sowing',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_APPLICATION_STAGE_POST_EMERGENT]: 'Post-emergent',
+
+    //chemical protection chemicals
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC]: 'DUAL GOLD 960 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO]:
+      'The treatment is carried out after sowing, before the crop and weeds have emerged.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DUAL_GOLD_960_EC_INFO_NOTES]:
+      'To increase the effectiveness against broadleaf weeds, it is recommended to add an anti-broadleaf herbicide to the working solution during treatment. The application is carried out with a working solution of 30 to 60 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG]: 'EKLIPS 70 VDG',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO]:
+      'The treatment is carried out in the fall, after harvesting the last cut, when the alfalfa is in vegetative dormancy.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_EKLIPS_70_VDG_INFO_NOTES]:
+      'Do not apply to sandy soils with less than 0.5% humus. Application is carried out with a working solution of 25 to 50 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEOPARD_5_EC]: 'LEOPARD 5 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEOPARD_5_EC_INFO]:
+      'It is applied from the first to the fourth leaf of the alfalfa, when the height of the Jonson grass  10-20 cm.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEOPARD_5_EC_INFO_NOTES]:
+      'The herbicide should be applied with a working solution of 30 to 40 l/d of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP]: 'LENTAGRAN 45 WP',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP_INFO]:
+      'Treatment should be done in the initial growth stages of weed development, up to the third triple leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LENTAGRAN_45_WP_INFO_NOTES]:
+      'Application of Lentagran VP is not recommended during active honey bee flight. Application is carried out with a working solution of 20 to 60 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL]: 'PULSAR 40 SL',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL_INFO]:
+      'It is applied in the second-fourth leaf of the crop with the addition of 50 ml/acre of DESH adhesive.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PULSAR_40_SL_INFO_NOTES]:
+      ' For young alfalfa (in the year of planting), it is applied at a dose of 120 ml/acre one month after sowing the crop. The application is carried out with a working solution of 15 to 20 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC]: 'DECIS 100 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO]:
+      'Treatment should be carried out when pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECIS_100_EC_INFO_NOTES]:
+      'It has a very fast initial (knockdown) effect against a large number of Insects еnemies. The application is carried out with a working solution of 40 to 140 l/acre of water depending on the available agricultural equipment. Toxic to honey bees (SPe8)!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA]: 'LAMDEX EXTRA',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO]:
+      "Do not apply more than two insecticide treatments during the crop's growing season. Up to 120 ml/acre can be applied.",
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LAMDEX_EXTRA_INFO_NOTES]:
+      'It is effective against a wide range of pests. Application should be done with a working solution of 50 to 100 l/acre of water depending on the available agricultural equipment. Toxic to honey bees (SPe8)!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR]: 'METEOR',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO]:
+      'Treatment should be carried out when pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_METEOR_INFO_NOTES]:
+      'Broad-spectrum non-systemic pyrethroid insecticide with stomach and contact action. Treatment should be carried out with a working solution of 60 to 80 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SUMI_ALPHA_5_EC]: 'SUMI ALPHA 5 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SUMI_ALPHA_5_EC_INFO]:
+      'Treatment should be carried out when pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SUMI_ALPHA_5_EC_INFO_NOTES]:
+      'Non-systemic broad-spectrum pyrethroid insecticide of the fifth generation with contact (paralyzing) and stomach action with a very fast initial (knockdown) effect. The insecticide has a strong repellent effect - it repels honey bees from the treated area. The application should be carried out with a working solution of 20 to 50 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_MOSPILAN_20_SG]: 'MOSPILAN 20 SG',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_MOSPILAN_20_SG_INFO]:
+      'Treatment should be carried out when pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_MOSPILAN_20_SG_INFO_NOTES]:
+      'An effective systemic neonicotinoid insecticide with contact and stomach action. Can be applied at a dose of up to 10 g/acre. Application is carried out with a working solution of 50 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA]: 'STOMP AQUA',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO]:
+      'It is applied after sowing, before the crop and weeds emerge.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STOMP_AQUA_INFO_NOTES]:
+      'Can be used in a dose of up to 300 ml/acre. Do not treat at temperatures above 30 °C due to strong evaporation of the working solution. Application is carried out with a working solution of 20 to 60 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CHALLENGE_600_SC]: 'CHALLENGE 600 SC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CHALLENGE_600_SC_INFO]:
+      'It is applied after sowing, before the crop and weeds emerge.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CHALLENGE_600_SC_INFO_NOTES]:
+      'The application is carried out with a working solution of 10 to 30 l/d of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STRATOS_ULTRA]: 'STRATOS ULTRA',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STRATOS_ULTRA_INFO]:
+      'Do not apply the herbicide during sharp temperature fluctuations (large difference between day and night temperatures), as well as in flooded or severely dried crops.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_STRATOS_ULTRA_INFO_NOTES]:
+      'The application is carried out with a working solution of 15 to 20 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ACHIBA_MAX]: 'ACHIBA MAX',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ACHIBA_MAX_INFO]:
+      'The herbicide can be applied at the first true leaf stage and/or at full maturity of the peas (for seed production).',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ACHIBA_MAX_INFO_NOTES]:
+      'The application is carried out with a working solution of 20 to 40 l/d of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORUM]: 'CORUM',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORUM_INFO]:
+      'It is applied to the second true leaf of the pea, with the addition of the adjuvant (adhesive) DESH HC at a concentration of 0.25 - 0.3% in the working solution.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORUM_INFO_NOTES]:
+      'The application is carried out with a working solution of 20 to 30 l/acre of water, depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G]: 'LEBRON 0.5 G',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G_INFO]:
+      'It is introduced simultaneously with the sowing of the crop to a depth of 4-5 cm in the soil.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_LEBRON_0_5_G_INFO_NOTES]:
+      'Insecticide for soil application against soil pests from the pyrethroid group, acts by contact and through its gas phase in the soil, spreading in the arable land. The insecticide can be applied at a dose of up to 2.0 kg product / da.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_OASIS_5_EC]: 'OASIS 5 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_OASIS_5_EC_INFO]:
+      'The application is carried out when the pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_OASIS_5_EC_INFO_NOTES]:
+      'It has a very fast initial (knockdown) effect against a wide range of pests. Application is carried out with a working solution of 20 to 50 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX]: 'CITRINE MAX',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX_INFO]:
+      'The application is carried out when the pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CITRINE_MAX_INFO_NOTES]:
+      'It has a very fast initial (knockdown) effect against a wide range of pests. The application is carried out with a working solution of 10 to 100 l/acre of water depending on the available agricultural equipment. Toxic to honey bees (SPe8)!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER]: 'FLIPPER',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_INFO]:
+      'The treatment of the crop is carried out when the pests appear above the economic threshold of harmfulness. It can be applied in a dose of up to 2000 ml/acre.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_FLIPPER_INFO_NOTES]:
+      'Biological, contact insecticide / acaricide for the control of a wide range of pests. It is approved for use in field and greenhouse conditions. The application is carried out with a working solution of 30 to 200 l/acre of water depending on the available agricultural equipment. Harmless to honey bees!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORTIVA_TOP_SC]: 'ORTIVA TOP SC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORTIVA_TOP_SC_INFO]:
+      'The treatment of the crop with the fungicide is carried out preventively or at the first symptoms of the disease.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ORTIVA_TOP_SC_INFO_NOTES]:
+      'Combined broad-spectrum fungicide with contact and systemic action. Application is carried out with a working solution of 50 to 100 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG]: 'SWITCH 62.5 WG',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO]:
+      'The introduction is carried out when the diseases appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SWITCH_625_WG_INFO_NOTES]:
+      'Combined broad-spectrum fungicide with non-systemic preventive and systemic preventive and curative action. Can be applied at a dose of up to 100 g/acre.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP]: 'BORDEAUX MIX 20 VP',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP_INFO]:
+      'The introduction is carried out when the diseases appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BORDEAUX_MIX_20_VP_INFO_NOTES]:
+      'Broad-spectrum contact inorganic fungicide / bactericide with protective action, at a maximum application dose of 500 g/acre. The application is carried out with a working solution of 100 l/acre of water depending on the available agricultural equipment. It is suitable for use in organic farming in organic production.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG]: 'SULPHUR WG',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG_INFO]:
+      'The treatment is carried out under favorable weather conditions for the development of the disease.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SULPHUR_WG_INFO_NOTES]:
+      'Non-systemic inorganic fungicide and acaricide with contact and fumigating action. Application is carried out with a working solution of 50 to 100 l/acre of water depending on the available agricultural equipment. Suitable for use in organic farming.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC]: 'Zoxis 250 SC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC_INFO]:
+      'The treatment is carried out under favorable weather conditions for the development of diseases.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ZOXIS_250_SC_INFO_NOTES]:
+      'Systemic fungicide with preventive and curative action. Allows application in a maximum dose of up to 100 ml/acre. Application is carried out with a working solution of 80 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI]: 'SIRTAKI',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI_INFO]:
+      'The treatment is carried out after sowing, before the emergence of the crop and weeds. The herbicide can be applied up to the fourth triple leaf of the soybean at a dose of 30 ml/acre.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIRTAKI_INFO_NOTES]:
+      'For higher herbicide efficacy, weed species should be in the initial stages of their development. Application is carried out with a working solution of 20 to 50 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS]: 'SALTUS',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS_INFO]:
+      'It is introduced into the second - fourth triple leaf of the soybean.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SALTUS_INFO_NOTES]:
+      'Selective systemic herbicide. Application is carried out with a working solution of 10 to 40 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC]: 'PANTHER 40 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC_INFO]:
+      'It is applied in the second - fourth triple leaf stage, before the soybean begins to bloom.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_PANTHER_40_EC_INFO_NOTES]:
+      'It does not require the addition of an adhesive or wetting agent to the working solution. The application is carried out with a working solution of 20 to 40 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC]: 'DECA EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO]:
+      'The application is carried out when the pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DECA_EC_INFO_NOTES]:
+      'It has a rapid initial (knockdown) effect against a wide range of enemies. The application is carried out with a working solution of up to 100 l/acre of water depending on the available agricultural equipment. Toxic to honey bees (SPe8)!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT]: 'TRIKA EXPERT',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO]:
+      'It is applied locally, during sowing in the furrow.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO_NOTES]:
+      'Placing the insecticide next to the seeds during sowing or next to the roots during hoeing/herding forms the formation of a protective film around the seed or roots, protecting against soil insects such as moth caterpillars, beetle larvae, wireworms and other enemies. Trika Expert granules, as co-formulants, include nitrogen and phosphorus in a ratio of 7:35. For this reason, the application of the preparation achieves a double effect - protection and nutrition.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC]: 'DIFKOR 250 SC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC_INFO]:
+      'Treatment is only carried out in seed-producing soybean crops.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_DIFKOR_250_SC_INFO_NOTES]:
+      'The product is resistant to washing off by precipitation that fell 2 hours after treatment, and also has a good long-term effect. The application is carried out with a working solution of 20 to 100 l/da of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC]: 'RETENGO 20 EC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO]:
+      'Crop treatment can be carried out from germination to full pod formation of soybeans.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO_NOTES]:
+      'Systemic inorganic fungicide and acaricide with contact and fumigating action. Suitable for use in organic farming. The fungicide is applied with a working solution of 10 to 40 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL]: 'AGROXONE 500 SL',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL_INFO]:
+      'Treatment can be carried out up to the fourth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AGROXONE_500_SL_INFO_NOTES]:
+      'Selective, systemic, hormone-like herbicide, designed to combat annual and perennial broadleaf weeds. Application is carried out with a working solution of 40 to 60 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL]: 'GENERO 480 SL',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL_INFO]:
+      'The treatment is carried out early in the vegetative period from the second leaf to the sixth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_GENERO_480_SL_INFO_NOTES]:
+      'The application is carried out with a working solution of 10 to 40 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO]: 'KIDEKA PRO',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO]:
+      'Sorghum treatment can be done from the second to the ninth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_KIDEKA_PRO_INFO_NOTES]:
+      'Systemic herbicide with soil action. Inhibits the growth of sensitive weed species up to two days after application. Application is carried out with a working solution of 8 to 40 l/acre of water at an interval between applications of 10 days depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO]: 'COLOMBO PRO',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO]:
+      'It is applied to a depth of up to 4 cm in the soil.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_COLOMBO_PRO_INFO_NOTES]:
+      'Non-systemic pyrethroid insecticide with contact and stomach action.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY]: 'SIVANTO ENERGY',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY_INFO]:
+      'The treatment is carried out under favorable weather conditions for the appearance of pests.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_SIVANTO_ENERGY_INFO_NOTES]:
+      'Systemic, vegetative two-component insecticide with combined (systemic and contact) action against a wide range of pests. Application is carried out with a working solution of 40 to 80 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS]: 'BISMARCK KS',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS_INFO]:
+      'It is applied after sowing, before the crop and weeds emerge.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_BISMARCK_KS_INFO_NOTES]:
+      'Sensitive weed species can be controlled in the early stages of their development. Application is carried out with a working solution of 40 to 140 l/acre of water depending on the available agricultural equipment. The herbicide can be applied at a dose of up to 200 ml/acre in corn.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT]: 'ARRAT',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT_INFO]:
+      'The treatment of corn is carried out from the second leaf to the sixth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_ARRAT_INFO_NOTES]:
+      'The use of the herbicide is not recommended for overmoistened or dried crops. The treatment is carried out with a working solution of 20 to 40 l/acrey of water depending on the available agricultural equipment. Do not use in sweet corn!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL]: 'AMINOPIELIK 600 SL',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL_INFO]:
+      'It is applied from the third to the fifth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_AMINOPIELIK_600_SL_INFO_NOTES]:
+      'The herbicide has a rapid initial effect against sensitive weed species. The first phytosymptomatic damage is visualized the next day after treatment. The treatment is carried out with a working solution of 30 to 40 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL]: 'JANERO 480 SL',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO]:
+      'It is applied from the second to the sixth leaf of the crop.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_JANERO_480_SL_INFO_NOTES]:
+      'Do not use on calcareous soils, due to the possibility of causing phytotoxicity in corn. The treatment of crops is carried out with a working solution of 27.5 to 30 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC]: 'CORAGEN 20 SC',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC_INFO]:
+      'The treatment of the crop is carried out when the pests appear above the economic threshold of harmfulness.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_CORAGEN_20_SC_INFO_NOTES]:
+      'The insecticide has a stomach, contact and residual effect, retaining its high activity for 14-21 days after treatment. The application is carried out with a working solution of 30 to 80 l/acre of water depending on the available agricultural equipment.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV]: 'K-OBIOL 6 ULV',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV_INFO]:
+      'Control of storage pests - Grain borers (Weevils), Mealybugs, Grain borers, Pea and Bean Weevils, Moths.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_K_OBIOL_6_ULV_INFO_NOTES]:
+      'The insecticide successfully controls pests in all stages of their development – ​​egg, larva, pupa and adult insect (imago). Completely safe and compliant with all European and world regulations.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA]: 'INAZUMA',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO]:
+      'The insecticide successfully controls pests in all stages of their development – ​​egg, larva, pupa and adult insect (imago). Completely safe and compliant with all European and world regulations.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_INAZUMA_INFO_NOTES]:
+      'The insecticide is applied with a working solution of 30 to 50 l/acre of water depending on the available agricultural equipment. Do not apply to crops during the period of active flowering or in the presence of flowering weeds. Toxic to honey bees (SPe8)!',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M]: 'REDIGO M',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M_INFO]:
+      'It is used for pre-sowing seed disinfection.',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_REDIGO_M_INFO_NOTES]:
+      'Corn seed disinfection is carried out with a working solution of 0.1 to 1.9 l of water per 100 kg of seeds. The recommended dose for application of the fungicide is 15 ml of product per 50,000 pcs. seeds, at a sowing rate of 10,000 seeds per da. Specialized seed disinfection machines should be used.',
+
+    //chemical active ingredients
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS]: 'Active ingredients',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_S_METOLACHLOR]: 'S-metolachlor',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METRIBUZIN]: 'metribuzin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_ETHYL]:
+      'quizalofop-P-ethyl',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PYRIDATE]: 'pyridate',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_IMAZAMOX]: 'imazamox',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DELTAMETHRIN]: 'deltamethrin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_LAMBDA_CYHALOTHRIN]:
+      'lambda-cyhalothrin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ESFENVALERATE]: 'esfenvalerate',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACETAMIPRID]: 'acetamiprid',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PENDIMETHALIN]: 'pendimethalin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ACLONIFEN]: 'aclonifen',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYCLOXYDIM]: 'cycloxydim',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BENTAZONE]: 'bentazone',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TEFLUTHRIN]: 'tefluthrin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FATTY_ACIDS]: 'fatty acids',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AZOXYSTROBIN]: 'азоксистробин',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DIFENOCONAZOLE]: 'difenoconazole',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUDIOXONIL]: 'fludioxonil',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPRODINIL]: 'cyprodinil',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_BORDEAUX_MIXTURE]:
+      'bordeaux mixture (copper-calcium sulfate)',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_SULFUR]: 'sulfur',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CLOMAZONE]: 'clomazone',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUIZALOFOP_P_TEFRIL]:
+      'quizalofop-P-tefuryl',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MCPA]: 'MCPA (sal dimetilamina) 50%',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DICAMBA]: 'dicamba',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MESOTRIONE]: 'mesotrione',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CYPERMETHRIN]: 'cypermethrin',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_FLUPYRADIFURON]: 'flupyradifuron',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_TRITOSULFURON]: 'tritosulfuron',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_2_4D_AMINE_SALT]: '2,4-D amine salt',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_RYNAXYPYR]: 'rynaxypyr',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PROTHIOCONAZOLE]: 'prothioconazole',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_METALAXYL]: 'metalaxyl',
+
+    //chemical protection enemies
+    [SELECTABLE_STRINGS.SORGHUM_HALEPENSE]: 'johnsongras',
+    [SELECTABLE_STRINGS.CYPERUS_STRIGOSUS]: 'false nutsedge',
+    [SELECTABLE_STRINGS.ECHINOCHLOA_CRUS_GALLI]: 'barnyard grass',
+    [SELECTABLE_STRINGS.DIGITARIA_SANGUINALIS]: 'hairy crabgrass',
+    [SELECTABLE_STRINGS.SETARIA_SPP]: 'setaria',
+    [SELECTABLE_STRINGS.APERA_SPР]: 'apera',
+    [SELECTABLE_STRINGS.CAPSELLA_BURSA_PASTORIS]: "shepherd's purse",
+    [SELECTABLE_STRINGS.PORTULACA_OLERACEA]: 'pursley',
+    [SELECTABLE_STRINGS.SOLANUM_NIGRUM]: 'black nightshade',
+    [SELECTABLE_STRINGS.AMARANTHUS]: 'amaranths',
+    [SELECTABLE_STRINGS.ALOPECURUS_MYOSUROIDES]: 'slender meadow foxtail',
+    [SELECTABLE_STRINGS.LOLIUM]: 'ryegrass',
+    [SELECTABLE_STRINGS.AMARANTHUS_RETROFLEXUS]: 'redroot pigweed',
+    [SELECTABLE_STRINGS.CHENOPODIUM_ALBUM]: "lamb's quarters",
+    [SELECTABLE_STRINGS.PERSICARIA_HYDROPIPER]: 'water pepper',
+    [SELECTABLE_STRINGS.VERONICA_OFFICINALIS]: 'gypsyweed',
+    [SELECTABLE_STRINGS.STELLARIA_MEDIA]: 'chickweed',
+    [SELECTABLE_STRINGS.MATRICARIA_RECUTITA]: 'matricaria',
+    [SELECTABLE_STRINGS.RAPHANUS_RAPHANISTRUM]: 'wild radish',
+    [SELECTABLE_STRINGS.GERANIUM_SP]: 'geranium',
+    [SELECTABLE_STRINGS.SENECIO_VULGARIS]: 'groundsel',
+    [SELECTABLE_STRINGS.LAMIUM_PURPUREUM]: 'purple archangel',
+    [SELECTABLE_STRINGS.SINAPIS_ARVENSIS]: 'field mustard',
+    [SELECTABLE_STRINGS.LYSIMACHIA_ARVENSIS]: 'scarlet pimpernel',
+    [SELECTABLE_STRINGS.CENTAUREA_CYANUS]: 'cornflower',
+    [SELECTABLE_STRINGS.AVENA_FATUA]: 'wild oat',
+    [SELECTABLE_STRINGS.BROMUS]: 'Bromus',
+    [SELECTABLE_STRINGS.PHALARIS_SPP]: 'phalaris',
+    [SELECTABLE_STRINGS.ELYMUS_REPENS]: 'quick grass',
+    [SELECTABLE_STRINGS.CYNODON_DACTYLON]: 'bermuda grass',
+    [SELECTABLE_STRINGS.GALIUM_APARINE]: 'catchweed',
+    [SELECTABLE_STRINGS.BIDENS_TRIPARTITA]: 'beggartick',
+    [SELECTABLE_STRINGS.CONVOLVULUS_ARVENSIS]: 'field bindweed',
+    [SELECTABLE_STRINGS.APERA_SPICA_VENTI]: 'windgrass',
+    [SELECTABLE_STRINGS.APERA_SPP]: 'setaria',
+    [SELECTABLE_STRINGS.ABUTILON_THEOPHRASTI]: 'velvetleaf',
+    [SELECTABLE_STRINGS.CIRSIUM_ARVENSE]: 'plume thistles',
+    [SELECTABLE_STRINGS.ANTHEMIS_ARVENSIS]: 'mayweed',
+    [SELECTABLE_STRINGS.SINAPIS_ALBA]: 'white mustard',
+    [SELECTABLE_STRINGS.ACYRTHOSIPHON_PISI]: 'pea aphid',
+    [SELECTABLE_STRINGS.PROTAPION_APRICANS]: 'clover seed weevil',
+    [SELECTABLE_STRINGS.HYPERA_POSTICA]: 'alfalfa weevil',
+    [SELECTABLE_STRINGS.BRUCHIDIUS_VARIUS]: 'Seed beetle',
+    [SELECTABLE_STRINGS.APHIDOLETES_APHIDIMYZA]: 'aphid midge',
+    [SELECTABLE_STRINGS.NOCTUIDAE]: 'owlet moths',
+    [SELECTABLE_STRINGS.CAELIFERA]: 'grasshoppers',
+    [SELECTABLE_STRINGS.GEOMETRIDAE]: 'geometer moths',
+    [SELECTABLE_STRINGS.GONIOCTENA_FORNICATA]: 'lucerne leaf beetle',
+    [SELECTABLE_STRINGS.PHYTONOMUS_VARIABILIS]: 'alfalfa weevil',
+    [SELECTABLE_STRINGS.DASYNEURA_IGNORATA]: 'alfalfa leaf midge',
+    [SELECTABLE_STRINGS.CONTARINIA_MEDICAGINIS]: 'alfalfa flower midge',
+    [SELECTABLE_STRINGS.ENTOMOSCELIS_SULTATOR]: '',
+    [SELECTABLE_STRINGS.APHIS_MEDICAGINIS]: 'puceron noir de la luzerne',
+    [SELECTABLE_STRINGS.DATURA_STRAMONIUM]: 'jimsonweeds',
+    [SELECTABLE_STRINGS.AGRIOTIS_LINEATUS]: 'lined click beetle',
+    [SELECTABLE_STRINGS.CEUTORRHYNCHUS_PLEUROSTIGMA]: 'turnip gall weevil',
+    [SELECTABLE_STRINGS.CHILOPODA]: 'centipedes',
+    [SELECTABLE_STRINGS.CHORTOPHILA_BRASSICAE]: 'cabbage root fly',
+    [SELECTABLE_STRINGS.MELOLONTHA_MELOLONTHA]: 'cockchafer',
+    [SELECTABLE_STRINGS.SITONA_SP]: 'root weevil',
+    [SELECTABLE_STRINGS.APHIS_FABAE]: 'bean aphid',
+    [SELECTABLE_STRINGS.LASPEYRESIA_NIGRICANA]: 'bean aphid',
+    [SELECTABLE_STRINGS.BRUCHUS_PISORUM]: 'pea weevil',
+    [SELECTABLE_STRINGS.AUTOGRAPHA_GAMMA]: 'silver Y',
+    [SELECTABLE_STRINGS.APHIDOIDEA]: 'greenfly',
+    [SELECTABLE_STRINGS.CURCULIONIDAE]: 'true weevils',
+    [SELECTABLE_STRINGS.ACARINA]: 'mites',
+    [SELECTABLE_STRINGS.TRIALEURODES_VAPORARIORUM]: 'glasshouse whitefly',
+    [SELECTABLE_STRINGS.ASCOCHYTA_RABIEI]: 'chickpea ascochyta blight fungus',
+    [SELECTABLE_STRINGS.ANTHRACNOSE]: 'brown leaf spot',
+    [SELECTABLE_STRINGS.BLUMERIA_GRAMINIS]: 'powdery mildew',
+    [SELECTABLE_STRINGS.SCLEROTINIA_SCLEROTIORUM]: 'white mold',
+    [SELECTABLE_STRINGS.BOTRYTIS_CINEREA]: 'Grey mould',
+    [SELECTABLE_STRINGS.PERONOSPORACEAE]: 'Downy mildew',
+    [SELECTABLE_STRINGS.PUCCINIA_GRAMINIS]: 'black rust',
+    [SELECTABLE_STRINGS.SEPTORIA]: 'Bacterial leaf spot',
+    [SELECTABLE_STRINGS.XANTHOMONAS]: 'Bacterial leaf spot',
+    [SELECTABLE_STRINGS.SETOSPHAERIA_TURCICA]: 'northern corn leaf blight',
+    [SELECTABLE_STRINGS.RANUNCULUS_ARVENSIS]: 'buttercups',
+    [SELECTABLE_STRINGS.THYSANOPTERA]: 'Thrips',
+    [SELECTABLE_STRINGS.OULEMA_MELANOPA]: 'cereal leaf beetle',
+    [SELECTABLE_STRINGS.SITOBION_AVENAE]: 'grain aphid',
+    [SELECTABLE_STRINGS.CICADOIDEA]: 'cicadas',
+    [SELECTABLE_STRINGS.DIABROTICA_VIRGIFERA_ZEAE]: 'corn rootworm',
+    [SELECTABLE_STRINGS.OSTRINIA_NUBILALIS]: 'European corn worm',
+    [SELECTABLE_STRINGS.LOXOSTEGE_STICTICALIS]: 'beet webworm',
+    [SELECTABLE_STRINGS.RHYZOPERTHA_DOMINICA]: 'American wheat weevil',
+    [SELECTABLE_STRINGS.TENEBRIO_MOLITOR]: 'yellow mealworm beetle',
+    [SELECTABLE_STRINGS.TANYMECUS_DILATICOLLIS]: 'maize leaf weevil',
+    [SELECTABLE_STRINGS.PYTHIUM_APHANIDERMATUM]: 'bacterial stalk rot of maize',
+    [SELECTABLE_STRINGS.FUSARIUM_GRAMINEARUM]: 'fusarium head blight',
+    [SELECTABLE_STRINGS.RHIZOCTONIA_ZEAE]: 'Leaf and sheath blight',
+
+    //wiki
+    [SELECTABLE_STRINGS.WIKI]: 'Wiki',
+    [SELECTABLE_STRINGS.WIKI_DESCRIPTION]:
+      'Welcome to our comprehensive agricultural knowledge base. Here you can find detailed information about various aspects of farming and crop management.',
+    [SELECTABLE_STRINGS.WIKI_SOWING]: 'Sowing',
+    [SELECTABLE_STRINGS.WIKI_COMBINED]: 'Combined',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION]: 'Chemical Protection',
+
+    //wiki chemical protection
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_START_HERE]:
+      'Start here and go to the page you want to explore.',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_PLANTS]: 'Plants',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ENEMIES]: 'Pests',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_CHEMICALS]: 'Chemicals',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS]: 'Active Ingredients',
+
+    //wiki chemical protection active ingredient
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT]: 'Unit of Measure',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING]:
+      'Chemicals using this ingredient',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO]:
+      'Dosage Information',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE]: 'Dosage',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_MAX_APPLICATIONS]:
+      'Maximum number of applications',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL]:
+      'Interval between applications',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE]: 'Quarantine period',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICING]: 'Pricing',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER]: 'Price per 1L',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE]:
+      'Price per acre',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_AFFECTED_PLANTS]:
+      'Affected plants',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO]:
+      'Additional information',
+
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]:
+      'Effective chemicals against',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES]:
+      'Additional notes',
+
+    [SELECTABLE_STRINGS.WIKI_COMBINED_PLANT_TYPE]: 'Plant Type',
+    [SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE]: 'Minimum Seeding Rate',
+    [SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE]: 'Maximum Seeding Rate',
     [SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS]: 'Price for 1kg Seeds',
   },
 };

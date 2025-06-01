@@ -437,7 +437,11 @@ export function GetChemProtectionPlantData(id: string) {
               activeIngredient: true,
             },
           },
-          chemicalTargetEnemies: true,
+          chemicalTargetEnemies: {
+            include: {
+              enemy: true,
+            },
+          },
         },
       },
     },
@@ -501,7 +505,11 @@ export function GetAllChemProtectionChemicals() {
   return prisma.chemical.findMany({
     include: {
       activeIngredients: true,
-      chemicalTargetEnemies: true,
+      chemicalTargetEnemies: {
+        include: {
+          enemy: true,
+        },
+      },
       plantUsages: {
         include: {
           plant: true,
@@ -522,7 +530,11 @@ export function GetChemProtectionChemData(id: string) {
           activeIngredient: true,
         },
       },
-      chemicalTargetEnemies: true,
+      chemicalTargetEnemies: {
+        include: {
+          enemy: true,
+        },
+      },
       plantUsages: {
         include: {
           plant: true,

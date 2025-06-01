@@ -260,6 +260,10 @@ export interface WikiChemical extends WikiBaseEntity {
     id: string;
     plant: WikiPlant;
   }[];
+  chemicalTargetEnemies: {
+    id: string;
+    enemy: WikiEnemy;
+  }[];
 }
 
 export interface WikiEnemy extends WikiBaseEntity {
