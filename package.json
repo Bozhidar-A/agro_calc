@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "init-db": "npx prisma migrate reset --force",
+    "reset-db": "npx prisma migrate reset --force && npx prisma db push",
     "dev": "next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
