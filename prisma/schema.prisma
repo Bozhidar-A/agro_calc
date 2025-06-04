@@ -26,6 +26,8 @@ model User {
   RefreshToken                  RefreshToken[]
   SeedingDataCombinationHistory SeedingDataCombinationHistory[]
   SowingRateHistory             SowingRateHistory[]
+
+  ChemProtPercentHistory ChemProtPercentHistory[]
 }
 
 model RefreshToken {
@@ -309,8 +311,8 @@ model ChemicalActiveIngredient {
 }
 
 model Enemy {
-  id        String   @id @default(cuid())
-  latinName String   @unique
+  id        String            @id @default(cuid())
+  latinName String            @unique
   chemicals ChemicalToEnemy[]
 }
 
@@ -322,4 +324,16 @@ model ChemicalToEnemy {
   enemy      Enemy    @relation(fields: [enemyId], references: [id])
 
   @@unique([chemicalId, enemyId])
+}
+
+//chem protection percent solution
+model ChemProtPercentHistory {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  desiredPercentage Float
+  sprayerVolume     Float
+  calculatedAmount  Float
+  createdAt         DateTime @default(now())
 }

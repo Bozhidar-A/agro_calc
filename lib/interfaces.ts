@@ -232,6 +232,22 @@ export interface PlantCombinedDBData {
   priceFor1kgSeedsBGN: number;
 }
 
+//chem protection
+export interface ChemProtPercentFormValues {
+  desiredPercentage: number;
+  sprayerVolume: number;
+  calculatedAmount: number;
+}
+
+export interface ChemProtPercentHistory {
+  id: string;
+  userId: string;
+  desiredPercentage: number;
+  sprayerVolume: number;
+  calculatedAmount: number;
+  createdAt: string;
+}
+
 //wiki interface
 export interface WikiBaseEntity {
   id: string;

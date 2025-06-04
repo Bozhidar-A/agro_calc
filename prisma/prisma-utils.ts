@@ -2,6 +2,7 @@ import { HashPassword } from '@/lib/auth-utils';
 import { CombinedCalcDBData, SowingRateDBData, SowingRateSaveData } from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
 import { prisma } from '@/lib/prisma';
+import { ChemProtPercentHistory } from '@prisma/client';
 
 export async function FindUserByEmail(email: string) {
   return await prisma.user.findUnique({ where: { email } });
@@ -294,6 +295,18 @@ export async function GetCombinedHistory() {
     include: {
       plants: true,
     },
+  });
+}
+
+//chem protection percent solution
+export async function GetChemProtPercentHistory() {
+  return await prisma.chemProtPercentHistory.findMany();
+}
+
+export async function InsertChemProtPercentHistoryEntry(data: ChemProtPercentHistory) {
+  console.log(data);
+  return await prisma.chemProtPercentHistory.create({
+    data,
   });
 }
 
