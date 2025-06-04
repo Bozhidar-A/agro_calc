@@ -10,9 +10,8 @@ import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/li
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { AuthState } from "@/store/slices/authSlice";
 import { CalculatorValueTypes } from "@/lib/utils";
-import { ActivePlantDbData, SowingRateSaveData } from "@/lib/interfaces";
+import { ActivePlantDbData, SowingRateSaveData, AuthState } from "@/lib/interfaces";
 
 
 export default function useSowingRateForm(authObj: AuthState, dbData: ActivePlantDbData[]) {
