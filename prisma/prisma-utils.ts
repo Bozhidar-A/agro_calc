@@ -293,7 +293,11 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
 export async function GetCombinedHistory() {
   return await prisma.seedingDataCombinationHistory.findMany({
     include: {
-      plants: true,
+      plants: {
+        include: {
+          plant: true,
+        },
+      },
     },
   });
 }
