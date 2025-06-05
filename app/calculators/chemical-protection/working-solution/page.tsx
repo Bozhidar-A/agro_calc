@@ -11,6 +11,7 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import ChemWorkingSolutionCharts from '@/components/ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
 
 function BuildInputRow({
     varName,
@@ -101,7 +102,6 @@ export default function ChemicalProtectionWorkingSolution() {
                     </CardTitle>
                     <CardDescription className="text-black dark:text-white sm:text-lg">
                         {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_DESCRIPTION)}
-                        <span className="ml-2 font-bold">[{areaUnit}]</span>
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4 sm:pt-6">
@@ -180,15 +180,19 @@ export default function ChemicalProtectionWorkingSolution() {
 
                                     {
                                         dataToBeSaved.isDataValid && authObject?.user?.id && (
-                                            <div className="flex justify-center mt-6 sm:mt-8">
-                                                <Button
-                                                    type="submit"
-                                                    size="lg"
-                                                    className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
-                                                >
-                                                    {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
-                                                </Button>
+                                            <div>
+                                                <div className="flex justify-center mt-6 sm:mt-8">
+                                                    <Button
+                                                        type="submit"
+                                                        size="lg"
+                                                        className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
+                                                    >
+                                                        {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
+                                                    </Button>
+                                                </div>
+                                                <ChemWorkingSolutionCharts data={dataToBeSaved} />
                                             </div>
+
                                         )
                                     }
 
