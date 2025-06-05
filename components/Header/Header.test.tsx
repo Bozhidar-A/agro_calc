@@ -130,7 +130,7 @@ describe('Header Component', () => {
   it('handles logout failure', async () => {
     const user = userEvent.setup();
     const consoleSpy = jest.spyOn(console, 'log');
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => { });
 
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
@@ -154,7 +154,7 @@ describe('Header Component', () => {
 
   it('handles unauthorized logout', async () => {
     const user = userEvent.setup();
-    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => { });
 
     global.fetch.mockResolvedValueOnce({
       status: 401,

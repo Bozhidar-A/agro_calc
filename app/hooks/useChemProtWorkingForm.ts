@@ -1,0 +1,122 @@
+import { useEffect, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { z } from "zod";
+import { APICaller } from "@/lib/api-util";
+import { toast } from "sonner";
+import { Log } from "@/lib/logger";
+import { SELECTABLE_STRINGS } from "@/lib/LangMap";
+import { ChemProtWorkingToSave, AuthState, ChemProtWorkingFormValues } from "@/lib/interfaces";
+import { useTranslate } from "@/app/hooks/useTranslate";
+import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters } from "@/lib/math-util";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+
+export default function useChemProtWorkingForm() {
+    const translator = useTranslate();
+    const authObject = useSelector((state: RootState) => state.auth);
+    const unitOfMeasurementLength = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
+    const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
+        userId: '',
+        totalChemicalForAreaLiters: 0,
+        totalWorkingSolutionForAreaLiters: 0,
+        roughSprayerCount: 0,
+        chemicalPerSprayerLiters: 0,
+        isDataValid: false,
+    });
+
+    const formSchema = z.object({
+        chemicalPerAcreML: z.number().min(0),
+        workingSolutionPerAcreLiters: z.number().min(0),
+        sprayerVolumePerAcreLiters: z.number().min(0),
+        areaToBeSprayedAcres: z.number().min(0),
+    });
+
+    const form = useForm<ChemProtWorkingFormValues>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            chemicalPerAcreML: 0,
+            workingSolutionPerAcreLiters: 0,
+            sprayerVolumePerAcreLiters: 0,
+            areaToBeSprayedAcres: 0,
+        },
+        mode: 'onChange',
+        reValidateMode: 'onBlur'
+    });
+
+    // Trigger validation on mount
+    //EXTREMELY HACKY SOLUTION, but it works
+    //this is to make the form validate on mount specifically for errors
+    useEffect(() => {
+        form.trigger();
+    }, []);
+
+    //on change, recalc the data
+    useEffect(() => {
+        const subscription = form.watch((_, { name }) => {
+            let { chemicalPerAcreML, workingSolutionPerAcreLiters, sprayerVolumePerAcreLiters, areaToBeSprayedAcres } = form.getValues();
+            let isMathWorking = true;
+
+            if (isNaN(chemicalPerAcreML) || chemicalPerAcreML < 0) {
+                chemicalPerAcreML = 0;
+            }
+
+            if (isNaN(workingSolutionPerAcreLiters) || workingSolutionPerAcreLiters < 0) {
+                workingSolutionPerAcreLiters = 0;
+            }
+
+            if (isNaN(sprayerVolumePerAcreLiters) || sprayerVolumePerAcreLiters < 0) {
+                sprayerVolumePerAcreLiters = 0;
+            }
+
+            if (isNaN(areaToBeSprayedAcres) || areaToBeSprayedAcres < 0) {
+                areaToBeSprayedAcres = 0;
+            }
+
+            const totalChemicalLiters = CalculateChemProtTotalChemicalLiters(chemicalPerAcreML, areaToBeSprayedAcres);
+            const totalWorkingSolutionLiters = CalculateChemProtTotalWorkingSolutionLiters(workingSolutionPerAcreLiters, areaToBeSprayedAcres);
+            const roughSprayerCount = CalculateChemProtRoughSprayerCount(totalWorkingSolutionLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
+            const workingSolutionPerSprayerLiters = CalculateChemProtWorkingSolutionPerSprayerLiters(chemicalPerAcreML, workingSolutionPerAcreLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
+
+            if (isNaN(totalChemicalLiters) || totalChemicalLiters < 0 || !isFinite(totalChemicalLiters)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(totalWorkingSolutionLiters) || totalWorkingSolutionLiters < 0 || !isFinite(totalWorkingSolutionLiters)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(roughSprayerCount) || roughSprayerCount < 0 || !isFinite(roughSprayerCount)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(workingSolutionPerSprayerLiters) || workingSolutionPerSprayerLiters < 0 || !isFinite(workingSolutionPerSprayerLiters)) {
+                isMathWorking = false;
+            }
+
+            setDataToBeSaved({
+                userId: authObject?.user?.id,
+                totalChemicalForAreaLiters: totalChemicalLiters,
+                totalWorkingSolutionForAreaLiters: totalWorkingSolutionLiters,
+                roughSprayerCount,
+                chemicalPerSprayerLiters: workingSolutionPerSprayerLiters,
+                isDataValid: form.formState.isValid && isMathWorking
+            });
+        });
+
+        return () => subscription.unsubscribe();
+
+    }, [form.watch()]);
+
+    function onSubmit(data: ChemProtWorkingToSave) {
+        console.log(data);
+    }
+
+    return {
+        form,
+        onSubmit,
+        dataToBeSaved
+    }
+}

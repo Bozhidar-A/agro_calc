@@ -248,6 +248,22 @@ export interface ChemProtPercentHistory {
   createdAt: string;
 }
 
+export interface ChemProtWorkingFormValues {
+  chemicalPerAcreML: number;
+  workingSolutionPerAcreLiters: number;
+  sprayerVolumePerAcreLiters: number;
+  areaToBeSprayedAcres: number;
+}
+
+export interface ChemProtWorkingToSave {
+  userId: string;
+  isDataValid: boolean;
+  totalChemicalForAreaLiters: number;
+  totalWorkingSolutionForAreaLiters: number;
+  roughSprayerCount: number;
+  chemicalPerSprayerLiters: number;
+}
+
 //wiki interface
 export interface WikiBaseEntity {
   id: string;
