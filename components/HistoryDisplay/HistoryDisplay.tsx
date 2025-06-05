@@ -12,7 +12,7 @@ import { APICaller } from '@/lib/api-util';
 import Errored from '@/components/Errored/Errored';
 import CalculatorsCallToAction from '@/components/CalculatorsCallToAction/CalculatorsCallToAction';
 import { Input } from "@/components/ui/input";
-import { Search, Calendar } from "lucide-react";
+import { Search, Calendar, AlertTriangle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -126,6 +126,13 @@ export default function HistoryDisplay() {
         fetchHistory();
     }, []);
 
+    const WarningBanner = () => (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
+            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
+        </div>
+    );
+
     if (errored) {
         return <Errored />
     }
@@ -209,6 +216,7 @@ export default function HistoryDisplay() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-6">
+                                    {!history.isDataValid && <WarningBanner />}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                         <div>
                                             <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2)}</p>
@@ -250,6 +258,7 @@ export default function HistoryDisplay() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-6">
+                                    {!history.isDataValid && <WarningBanner />}
                                     <div className="space-y-3 sm:space-y-4">
                                         {history.plants.map((plantData, index) => (
                                             <div key={index} className="border-b pb-2 last:border-0">
