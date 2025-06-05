@@ -4,20 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
-import { APICaller } from "@/lib/api-util";
-import { toast } from "sonner";
-import { Log } from "@/lib/logger";
-import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { ChemProtWorkingToSave, AuthState, ChemProtWorkingFormValues } from "@/lib/interfaces";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { ChemProtWorkingToSave, ChemProtWorkingFormValues } from "@/lib/interfaces";
 import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 export default function useChemProtWorkingForm() {
-    const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
-    const unitOfMeasurementLength = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
         userId: '',
         totalChemicalForAreaLiters: 0,
@@ -55,7 +48,7 @@ export default function useChemProtWorkingForm() {
 
     //on change, recalc the data
     useEffect(() => {
-        const subscription = form.watch((_, { name }) => {
+        const subscription = form.watch((_) => {
             let { chemicalPerAcreML, workingSolutionPerAcreLiters, sprayerVolumePerAcreLiters, areaToBeSprayedAcres } = form.getValues();
             let isMathWorking = true;
 
