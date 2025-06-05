@@ -119,7 +119,7 @@ export default function Sidebar() {
                             <Button asChild variant="ghost" className="justify-start font-normal">
                                 <Link href="/calculators/chemical-protection/working-solution" onClick={() => setOpen(false)}>
                                     <Calculator className="mr-2 h-4 w-4" />
-                                    tmp working
+                                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}
                                 </Link>
                             </Button>
                             <Button asChild variant="ghost" className="justify-start font-normal">

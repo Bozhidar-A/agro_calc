@@ -29,15 +29,15 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
   // For the pie chart - relationship between components
   const pieData = [
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_CHEMICAL),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL),
       value: data.totalChemicalForAreaLiters,
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_SOLUTION),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION),
       value: data.totalWorkingSolutionForAreaLiters,
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER),
       value: data.chemicalPerSprayerLiters * data.roughSprayerCount,
     },
   ];
@@ -45,19 +45,19 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
   // For bar chart - key metrics
   const barData = [
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_CHEMICAL),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL),
       value: data.totalChemicalForAreaLiters,
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_SOLUTION),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION),
       value: data.totalWorkingSolutionForAreaLiters,
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SPRAYER_COUNT),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT),
       value: data.roughSprayerCount,
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER),
       value: data.chemicalPerSprayerLiters * 1000, // Scale up for better visualization
     },
   ];
@@ -65,17 +65,17 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
   // For efficiency metrics
   const efficiencyData = [
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_CONCENTRATION),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION),
       efficiency: (data.totalChemicalForAreaLiters / data.totalWorkingSolutionForAreaLiters) * 100,
       fill: '#0088FE',
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SPRAYER_EFFICIENCY),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY),
       efficiency: (data.chemicalPerSprayerLiters / data.totalChemicalForAreaLiters) * 100,
       fill: '#00C49F',
     },
     {
-      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_DISTRIBUTION),
+      name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION),
       efficiency: (data.totalWorkingSolutionForAreaLiters / (data.roughSprayerCount * data.chemicalPerSprayerLiters)) * 100,
       fill: '#FFBB28',
     },
@@ -86,10 +86,10 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="text-2xl">
-            {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ)}
+            {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ)}
           </CardTitle>
           <CardDescription>
-            {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_GENERAL)}
+            {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_GENERAL)}
           </CardDescription>
         </CardHeader>
       </Card>
@@ -98,7 +98,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         {/* Metrics Overview */}
         <Card>
           <CardHeader>
-            <CardTitle>{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_ALL_ELEMENTS)}</CardTitle>
+            <CardTitle>{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS)}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
@@ -136,7 +136,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         <Card>
           <CardHeader>
             <CardTitle>
-              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_ELEMENTS_RELATIONSHIP)}
+              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ELEMENTS_RELATIONSHIP)}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -167,7 +167,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         <Card>
           <CardHeader>
             <CardTitle>
-              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_COMPARE_CALCED_PARAMS)}
+              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_COMPARE_CALCED_PARAMS)}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -177,7 +177,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                 <YAxis />
                 <Tooltip
                   formatter={(value: number, name: string) => {
-                    if (name === translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER)) {
+                    if (name === translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)) {
                       return `${(value / 1000).toFixed(4)}L`;
                     }
                     return `${value.toFixed(2)}L`;
@@ -197,7 +197,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         <Card>
           <CardHeader>
             <CardTitle>
-              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_EFFICIENCY)}
+              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY)}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -214,7 +214,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                 <Bar
                   dataKey="efficiency"
                   fill="#8884d8"
-                  name={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_EFFICIENCY_PERCENTAGE)}
+                  name={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY_PERCENTAGE)}
                   radius={[0, 10, 10, 0]}
                 >
                   {efficiencyData.map((_entry, index) => (
@@ -224,7 +224,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
               </BarChart>
             </ResponsiveContainer>
             <div className="text-xs text-center mt-2 text-muted-foreground">
-              *{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_VIZ_EFFICIENCY_SUGGESTED)}
+              *{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY_SUGGESTED)}
             </div>
           </CardContent>
         </Card>
