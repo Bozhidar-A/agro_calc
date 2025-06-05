@@ -10,6 +10,7 @@ import { Log } from "@/lib/logger";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { ChemProtPercentFormValues, AuthState } from "@/lib/interfaces";
 import { useTranslate } from "@/app/hooks/useTranslate";
+import { CalculateChemProtPercentSolution } from "@/lib/math-util";
 
 export default function useChemProtPercentForm(authObject: AuthState) {
     const translator = useTranslate();
@@ -36,7 +37,7 @@ export default function useChemProtPercentForm(authObject: AuthState) {
 
         if (desiredPercentage && sprayerVolume) {
             // Formula: desiredPercentage * 10 * sprayerVolume
-            const amount = desiredPercentage * 10 * sprayerVolume;
+            const amount = CalculateChemProtPercentSolution(desiredPercentage, sprayerVolume);
             setCalculatedAmount(Number.parseFloat(amount.toFixed(2)));
         }
     }, [form.watch()]);
