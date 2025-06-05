@@ -8,11 +8,17 @@ import { ChemProtWorkingToSave, ChemProtWorkingFormValues } from "@/lib/interfac
 import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { APICaller } from "@/lib/api-util";
+import { toast } from "sonner";
+import { SELECTABLE_STRINGS } from "@/lib/LangMap";
+import { useTranslate } from "@/app/hooks/useTranslate";
+import { Log } from "@/lib/logger";
 
 export default function useChemProtWorkingForm() {
+    const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
-        userId: '',
+        userId: authObject?.user?.id ?? '',
         totalChemicalForAreaLiters: 0,
         totalWorkingSolutionForAreaLiters: 0,
         roughSprayerCount: 0,
@@ -103,8 +109,30 @@ export default function useChemProtWorkingForm() {
 
     }, [form.watch()]);
 
-    function onSubmit(data: ChemProtWorkingToSave) {
-        console.log(data);
+    async function onSubmit() {
+        try {
+            const response = await APICaller(
+                ['calc', 'chem-protection', 'working-solution', 'history'],
+                '/api/calc/chem-protection/working-solution/history',
+                'POST',
+                dataToBeSaved
+            );
+
+            if (!response.success) {
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
+                    description: response.message,
+                });
+                return;
+            }
+
+            toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
+        } catch (error: unknown) {
+            const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+            Log(["calc", "chem-protection", "working-solution", "history"], `POST failed with: ${errorMessage}`);
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
+                description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
+            });
+        }
     }
 
     return {

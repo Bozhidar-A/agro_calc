@@ -16,11 +16,13 @@ import { Search, Calendar, AlertTriangle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { ChemProtWorkingSolutionHistory } from '@prisma/client';
 
 export default function HistoryDisplay() {
     const [sowingRateHistory, setSowingRateHistory] = useState<SowingRateHistory[]>([]);
     const [seedingDataHistory, setSeedingDataHistory] = useState<SeedingDataCombinationHistory[]>([]);
     const [chemProtPercentHistory, setChemProtPercentHistory] = useState<ChemProtPercentHistory[]>([]);
+    const [chemProtWorkingSolutionHistory, setChemProtWorkingSolutionHistory] = useState<ChemProtWorkingSolutionHistory[]>([]);
     const [loading, setLoading] = useState(true);
     const [errored, setErrored] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -101,6 +103,22 @@ export default function HistoryDisplay() {
         return filtered;
     };
 
+    const filterChemProtWorkingSolutionHistory = (history: ChemProtWorkingSolutionHistory[]) => {
+        let filtered = history;
+
+        // Filter by date
+        if (selectedDate) {
+            filtered = filtered.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+        }
+
+        return filtered;
+    };
     // Fetch history data
     useEffect(() => {
         Log(["history", "display"], "Fetching history data");
@@ -108,8 +126,13 @@ export default function HistoryDisplay() {
             const sowingRateHistoryFetch = await APICaller(["history", "display", "sowing"], "/api/calc/sowing/history", "GET");
             const seedingDataHistoryFetch = await APICaller(["history", "display", "seeding"], "/api/calc/combined/history", "GET");
             const chemProtPercentHistoryFetch = await APICaller(["history", "display", "chem-protection"], "/api/calc/chem-protection/percent-solution/history", "GET");
+            const chemProtWorkingSolutionHistoryFetch = await APICaller(["history", "display", "chem-protection"], "/api/calc/chem-protection/working-solution/history", "GET");
 
-            if (!sowingRateHistoryFetch.success || !seedingDataHistoryFetch.success || !chemProtPercentHistoryFetch.success) {
+
+            if (!sowingRateHistoryFetch.success ||
+                !seedingDataHistoryFetch.success ||
+                !chemProtPercentHistoryFetch.success ||
+                !chemProtWorkingSolutionHistoryFetch.success) {
                 setErrored(true);
                 toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
                     description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
@@ -120,6 +143,7 @@ export default function HistoryDisplay() {
             setSowingRateHistory(sowingRateHistoryFetch.data);
             setSeedingDataHistory(seedingDataHistoryFetch.data);
             setChemProtPercentHistory(chemProtPercentHistoryFetch.data);
+            setChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistoryFetch.data);
 
             setLoading(false);
         };
@@ -141,7 +165,7 @@ export default function HistoryDisplay() {
         return <LoadingDisplay />
     }
 
-    if (sowingRateHistory.length === 0 && seedingDataHistory.length === 0 && chemProtPercentHistory.length === 0) {
+    if (sowingRateHistory.length === 0 && seedingDataHistory.length === 0 && chemProtPercentHistory.length === 0 && chemProtWorkingSolutionHistory.length === 0) {
         return <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center justify-center text-center">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8">{translator(SELECTABLE_STRINGS.NO_HISTORY)}</h2>
             <CalculatorsCallToAction />
@@ -151,6 +175,7 @@ export default function HistoryDisplay() {
     const filteredSowingRateHistory = filterSowingRateHistory(sowingRateHistory);
     const filteredSeedingDataHistory = filterSeedingDataHistory(seedingDataHistory);
     const filteredChemProtPercentHistory = filterChemProtPercentHistory(chemProtPercentHistory);
+    const filteredChemProtWorkingSolutionHistory = filterChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistory);
 
     return (
         <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center">
@@ -181,25 +206,31 @@ export default function HistoryDisplay() {
                     </PopoverContent>
                 </Popover>
             </div>
-            <Tabs defaultValue="sowing-rate" className="w-full max-w-6xl">
-                <TabsList className="grid w-full grid-cols-3 bg-muted rounded-lg min-h-[56px] mb-6">
+            <Tabs defaultValue="sowing-rate" className="w-full">
+                <TabsList className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full h-auto p-1">
                     <TabsTrigger
                         value="sowing-rate"
-                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center"
+                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
                     >
                         {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
                     </TabsTrigger>
                     <TabsTrigger
                         value="seeding-data"
-                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center"
+                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
                     >
                         {translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}
                     </TabsTrigger>
                     <TabsTrigger
                         value="chem-protection"
-                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center"
+                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
                     >
                         {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_CALC_TITLE)}
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value="chem-protection-working-solution"
+                        className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
+                    >
+                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_TITLE)}
                     </TabsTrigger>
                 </TabsList>
 
@@ -320,6 +351,43 @@ export default function HistoryDisplay() {
                                         <div className="col-span-1 sm:col-span-2">
                                             <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT)}</p>
                                             <p className="text-base sm:text-lg">{history.calculatedAmount.toFixed(2)} ml/g</p>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_CHEM_PROTECTION)}</div>}
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="chem-protection-working-solution">
+                    <div className="grid gap-3 sm:gap-4">
+                        {filteredChemProtWorkingSolutionHistory.length > 0 ? filteredChemProtWorkingSolutionHistory.map((history) => (
+                            <Card key={history.id}>
+                                <CardHeader className="p-3 sm:p-6">
+                                    <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                                        <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_TITLE)}</span>
+                                        <span className="text-xs sm:text-sm text-gray-500">
+                                            {format(new Date(history.createdAt), 'PPp')}
+                                        </span>
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-3 sm:p-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_CHEMICAL)}</p>
+                                            <p className="text-base sm:text-lg">{history.totalChemicalForAreaLiters.toFixed(2)} L</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_SOLUTION)}</p>
+                                            <p className="text-base sm:text-lg">{history.totalWorkingSolutionForAreaLiters.toFixed(2)} L</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SPRAYER_COUNT)}</p>
+                                            <p className="text-base sm:text-lg">{history.roughSprayerCount.toFixed(2)}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER)}</p>
+                                            <p className="text-base sm:text-lg">{history.chemicalPerSprayerLiters.toFixed(2)} L</p>
                                         </div>
                                     </div>
                                 </CardContent>

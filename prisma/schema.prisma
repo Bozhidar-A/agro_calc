@@ -28,6 +28,8 @@ model User {
   SowingRateHistory             SowingRateHistory[]
 
   ChemProtPercentHistory ChemProtPercentHistory[]
+
+  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
 }
 
 model RefreshToken {
@@ -324,6 +326,21 @@ model ChemicalToEnemy {
   enemy      Enemy    @relation(fields: [enemyId], references: [id])
 
   @@unique([chemicalId, enemyId])
+}
+
+//chem protection working solution
+model ChemProtWorkingSolutionHistory {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  totalChemicalForAreaLiters        Float
+  totalWorkingSolutionForAreaLiters Float
+  roughSprayerCount                 Float
+  chemicalPerSprayerLiters          Float
+  isDataValid                       Boolean
+
+  createdAt DateTime @default(now())
 }
 
 //chem protection percent solution
