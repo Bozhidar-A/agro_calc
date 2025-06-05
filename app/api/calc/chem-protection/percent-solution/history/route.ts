@@ -6,8 +6,6 @@ export async function POST(req: NextRequest) {
     try {
         const entry = await req.json();
 
-        console.log(entry);
-
         Log(["calc", "chem-protection", "percent-solution", "history"], `POST called with: ${JSON.stringify(entry)}`);
         const chemProtPercentHistoryEntry = await InsertChemProtPercentHistoryEntry(entry);
         Log(["calc", "chem-protection", "percent-solution", "history"], `POST returned: ${JSON.stringify(chemProtPercentHistoryEntry)}`);
