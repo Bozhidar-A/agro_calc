@@ -233,7 +233,7 @@ export default function HistoryDisplay() {
                         value="chem-protection-working-solution"
                         className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
                     >
-                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_TITLE)}
+                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}
                     </TabsTrigger>
                 </TabsList>
 
@@ -371,7 +371,7 @@ export default function HistoryDisplay() {
                             <Card key={history.id}>
                                 <CardHeader className="p-3 sm:p-6">
                                     <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
-                                        <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_TITLE)}</span>
+                                        <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}</span>
                                         <span className="text-xs sm:text-sm text-gray-500">
                                             {format(new Date(history.createdAt), 'PPp')}
                                         </span>
@@ -380,19 +380,19 @@ export default function HistoryDisplay() {
                                 <CardContent className="p-3 sm:p-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_CHEMICAL)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL)}</p>
                                             <p className="text-base sm:text-lg">{history.totalChemicalForAreaLiters.toFixed(2)} L</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_SOLUTION)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION)}</p>
                                             <p className="text-base sm:text-lg">{history.totalWorkingSolutionForAreaLiters.toFixed(2)} L</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SPRAYER_COUNT)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT)}</p>
                                             <p className="text-base sm:text-lg">{history.roughSprayerCount.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}</p>
                                             <p className="text-base sm:text-lg">{history.chemicalPerSprayerLiters.toFixed(2)} L</p>
                                         </div>
                                     </div>

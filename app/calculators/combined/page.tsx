@@ -165,7 +165,7 @@ export default function Combined() {
                   <Button
                     id="saveMixtureCalculation"
                     type="submit"
-                    className="w-full max-w-md"
+                    className="w-full max-w-md text-black dark:text-white"
                     size="lg"
                     disabled={!form.formState.isValid}
                   >

@@ -36,7 +36,7 @@ function BuildInputRow({
                     {displayName}
                 </CardTitle>
                 <CardDescription className="text-black/90 dark:text-white/90">
-                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_INPUT_DESCRIPTION)}
+                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_DESCRIPTION)}
                 </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
@@ -98,10 +98,10 @@ export default function ChemicalProtectionWorkingSolution() {
             <Card className="w-full max-w-7xl mx-auto">
                 <CardHeader className="text-center bg-green-700">
                     <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
-                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_TITLE)}
+                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}
                     </CardTitle>
                     <CardDescription className="text-black dark:text-white sm:text-lg">
-                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CALC_DESCRIPTION)}
+                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4 sm:pt-6">
@@ -110,7 +110,7 @@ export default function ChemicalProtectionWorkingSolution() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
                                 <BuildInputRow
                                     varName="chemicalPerAcreML"
-                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_INPUT_CHEMICAL_PER_ACRE)}
+                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE)}
                                     form={form}
                                     icon={<Droplet className="h-5 w-5" />}
                                     translator={translator}
@@ -118,7 +118,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                 />
                                 <BuildInputRow
                                     varName="workingSolutionPerAcreLiters"
-                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_INPUT_WORKING_SOLUTION)}
+                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_WORKING_SOLUTION)}
                                     form={form}
                                     icon={<Scale className="h-5 w-5" />}
                                     translator={translator}
@@ -126,7 +126,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                 />
                                 <BuildInputRow
                                     varName="sprayerVolumePerAcreLiters"
-                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_INPUT_SPRAYER_VOLUME)}
+                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_SPRAYER_VOLUME)}
                                     form={form}
                                     icon={<Beaker className="h-5 w-5" />}
                                     translator={translator}
@@ -134,7 +134,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                 />
                                 <BuildInputRow
                                     varName="areaToBeSprayedAcres"
-                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_INPUT_AREA)}
+                                    displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA)}
                                     form={form}
                                     icon={<Ruler className="h-5 w-5" />}
                                     translator={translator}
@@ -148,29 +148,29 @@ export default function ChemicalProtectionWorkingSolution() {
                                         <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
                                             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
                                                 <Beaker className="h-4 w-4 sm:h-5 sm:w-5" />
-                                                {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_RESULTS_TITLE)}
+                                                {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_RESULTS_TITLE)}
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="pt-3 sm:pt-4">
                                             <div className="space-y-3 sm:space-y-4">
                                                 <DisplayOutputRow
                                                     data={dataToBeSaved.totalChemicalForAreaLiters}
-                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_CHEMICAL)}
+                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL)}
                                                     unit="L"
                                                 />
                                                 <DisplayOutputRow
                                                     data={dataToBeSaved.totalWorkingSolutionForAreaLiters}
-                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_TOTAL_SOLUTION)}
+                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION)}
                                                     unit="L"
                                                 />
                                                 <DisplayOutputRow
                                                     data={dataToBeSaved.roughSprayerCount}
-                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SPRAYER_COUNT)}
+                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT)}
                                                     unit=""
                                                 />
                                                 <DisplayOutputRow
                                                     data={dataToBeSaved.chemicalPerSprayerLiters}
-                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_CHEMICAL_PER_SPRAYER)}
+                                                    text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}
                                                     unit="L"
                                                     decimals={4}
                                                 />
@@ -185,6 +185,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                                     <Button
                                                         type="submit"
                                                         size="lg"
+                                                        disabled={!form.formState.isValid}
                                                         className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
                                                     >
                                                         {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
