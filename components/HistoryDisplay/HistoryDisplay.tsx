@@ -17,6 +17,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { ChemProtWorkingSolutionHistory } from '@prisma/client';
+import SowingCharts from '../SowingCharts/SowingCharts';
+import CombinedCharts from '../CombinedCharts/CombinedCharts';
+import ChemWorkingSolutionCharts from '../ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
 
 export default function HistoryDisplay() {
     const [sowingRateHistory, setSowingRateHistory] = useState<SowingRateHistory[]>([]);
@@ -270,6 +273,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.totalArea.toFixed(2)}</p>
                                         </div>
                                     </div>
+                                    <SowingCharts data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE)}</div>}
@@ -292,6 +296,7 @@ export default function HistoryDisplay() {
                                     {!history.isDataValid && <WarningBanner />}
                                     <div className="space-y-3 sm:space-y-4">
                                         {history.plants.map((plantData, index) => (
+                                            // <p>{JSON.stringify(plantData)}</p>
                                             <div key={index} className="border-b pb-2 last:border-0">
                                                 <h4 className="font-medium text-sm sm:text-base">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
@@ -320,6 +325,7 @@ export default function HistoryDisplay() {
                                             </p>
                                         </div>
                                     </div>
+                                    <CombinedCharts data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SEEDING_DATA)}</div>}
@@ -390,6 +396,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.chemicalPerSprayerLiters.toFixed(2)} L</p>
                                         </div>
                                     </div>
+                                    <ChemWorkingSolutionCharts data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_CHEM_PROTECTION)}</div>}
