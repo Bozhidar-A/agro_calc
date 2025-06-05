@@ -195,7 +195,6 @@ export default function ChemicalProtectionWorkingSolution() {
 
                                         )
                                     }
-
                                 </div>
                             )}
                         </form>
