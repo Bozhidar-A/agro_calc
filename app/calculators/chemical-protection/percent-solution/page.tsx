@@ -100,21 +100,27 @@ export default function PercentSolution() {
 
                             {calculatedAmount !== null && (
                                 <div className="flex flex-col gap-4 sm:gap-6">
-                                    <Card className="bg-green-50 dark:bg-green-900">
-                                        <CardContent className="pt-6">
-                                            <div className="text-center">
-                                                <h3 className="text-xl font-semibold mb-2">
-                                                    {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT)}
-                                                </h3>
-                                                <p className="text-2xl font-bold">
-                                                    {calculatedAmount} ml/g
-                                                </p>
+                                    <Card className="overflow-hidden">
+                                        <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
+                                            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
+                                                <Droplet className="h-4 w-4 sm:h-5 sm:w-5" />
+                                                {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT)}
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="pt-3 sm:pt-4">
+                                            <div className="space-y-3 sm:space-y-4">
+                                                <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
+                                                    <span className="font-semibold text-lg sm:text-xl">
+                                                        {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT)}
+                                                    </span>
+                                                    <div>
+                                                        <span className="text-lg sm:text-xl font-bold">{calculatedAmount}</span>
+                                                        <span className="text-lg sm:text-xl font-bold"> ml/g</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </CardContent>
                                     </Card>
-
-                                    <p>{JSON.stringify(form.formState.isValid)}</p>
-                                    <p>{JSON.stringify(authObject.isAuthenticated)}</p>
 
                                     {form.formState.isValid && authObject.isAuthenticated && (
                                         <div className="flex justify-center mt-6 sm:mt-8">
