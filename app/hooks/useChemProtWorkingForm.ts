@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { ChemProtWorkingToSave, ChemProtWorkingFormValues } from "@/lib/interfaces";
-import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters } from "@/lib/math-util";
+import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters, AcresToHectares } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { APICaller } from "@/lib/api-util";
@@ -17,6 +17,7 @@ import { Log } from "@/lib/logger";
 export default function useChemProtWorkingForm() {
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
+    const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
         userId: authObject?.user?.id ?? '',
         totalChemicalForAreaLiters: 0,
@@ -46,8 +47,6 @@ export default function useChemProtWorkingForm() {
     });
 
     // Trigger validation on mount
-    //EXTREMELY HACKY SOLUTION, but it works
-    //this is to make the form validate on mount specifically for errors
     useEffect(() => {
         form.trigger();
     }, []);
@@ -106,7 +105,6 @@ export default function useChemProtWorkingForm() {
         });
 
         return () => subscription.unsubscribe();
-
     }, [form.watch()]);
 
     async function onSubmit() {
@@ -138,6 +136,7 @@ export default function useChemProtWorkingForm() {
     return {
         form,
         onSubmit,
-        dataToBeSaved
+        dataToBeSaved,
+        unitOfMeasurement
     }
 }
