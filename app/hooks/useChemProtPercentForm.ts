@@ -30,6 +30,19 @@ export default function useChemProtPercentForm(authObject: AuthState) {
         mode: 'onChange'
     });
 
+    // Trigger initial validation and calculation
+    useEffect(() => {
+        form.trigger().then(() => {
+            const desiredPercentage = form.getValues('desiredPercentage') || 0;
+            const sprayerVolume = form.getValues('sprayerVolume') || 0;
+
+            if (desiredPercentage && sprayerVolume) {
+                const amount = CalculateChemProtPercentSolution(desiredPercentage, sprayerVolume);
+                setCalculatedAmount(Number.parseFloat(amount.toFixed(2)));
+            }
+        });
+    }, []);
+
     // Calculate amount when form values change
     useEffect(() => {
         const desiredPercentage = form.watch('desiredPercentage') || 0;
