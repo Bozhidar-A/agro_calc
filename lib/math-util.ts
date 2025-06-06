@@ -20,6 +20,14 @@ export function MetersSquaredToHectare(metersSquared: number): number {
     return metersSquared * 10000;
 }
 
+export function AcresToHectares(acres: number): number {
+    return acres * 10;
+}
+
+export function HectaresToAcres(hectares: number): number {
+    return hectares / 10;
+}
+
 export function SowingRatePlantsPerAcreToHectare(sowingRatePlantsPerAcre: number): number {
     //acre * 10 = hectare
     return sowingRatePlantsPerAcre * 10;
