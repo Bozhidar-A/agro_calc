@@ -38,7 +38,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
     },
     {
       name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER),
-      value: data.chemicalPerSprayerLiters * data.roughSprayerCount,
+      value: data.chemicalPerSprayerML * data.roughSprayerCount,
     },
   ];
 
@@ -58,7 +58,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
     },
     {
       name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER),
-      value: data.chemicalPerSprayerLiters * 1000, // Scale up for better visualization
+      value: data.chemicalPerSprayerML * 1000, // Scale up for better visualization
     },
   ];
 
@@ -71,12 +71,12 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
     },
     {
       name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY),
-      efficiency: (data.chemicalPerSprayerLiters / data.totalChemicalForAreaLiters) * 100,
+      efficiency: (data.chemicalPerSprayerML / data.totalChemicalForAreaLiters) * 100,
       fill: '#00C49F',
     },
     {
       name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION),
-      efficiency: (data.totalWorkingSolutionForAreaLiters / (data.roughSprayerCount * data.chemicalPerSprayerLiters)) * 100,
+      efficiency: (data.totalWorkingSolutionForAreaLiters / (data.roughSprayerCount * data.chemicalPerSprayerML)) * 100,
       fill: '#FFBB28',
     },
   ];

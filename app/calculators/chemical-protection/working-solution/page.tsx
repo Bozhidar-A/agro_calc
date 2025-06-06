@@ -4,7 +4,6 @@ import { Droplet, Ruler, Beaker } from 'lucide-react';
 import useChemProtWorkingForm from '@/app/hooks/useChemProtWorkingForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { GetDisplayValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,10 +12,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
 import { ChemProtWorkingSolutionDisplayOutputRow } from '@/components/ChemProtWorkingSolutionDisplayOutputRow/ChemProtWorkingSolutionDisplayOutputRow';
 import { ChemProtWorkingSolutionBuildInputRow } from '@/components/ChemProtWorkingSolutionBuildInputRow/ChemProtWorkingSolutionBuildInputRow';
-import { AcresToHectares } from '@/lib/math-util';
+import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 
 export default function ChemicalProtectionWorkingSolution() {
-    const { form, onSubmit, dataToBeSaved, unitOfMeasurement } = useChemProtWorkingForm();
+    const { form, onSubmit, dataToBeSaved } = useChemProtWorkingForm();
+    const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
 
@@ -89,16 +89,12 @@ export default function ChemicalProtectionWorkingSolution() {
                                         <CardContent className="pt-3 sm:pt-4">
                                             <div className="space-y-3 sm:space-y-4">
                                                 <ChemProtWorkingSolutionDisplayOutputRow
-                                                    data={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ?
-                                                        AcresToHectares(dataToBeSaved.totalChemicalForAreaLiters) :
-                                                        dataToBeSaved.totalChemicalForAreaLiters}
+                                                    data={dataToBeSaved.totalChemicalForAreaLiters}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL)}
                                                     unit={translator(SELECTABLE_STRINGS.LITER)}
                                                 />
                                                 <ChemProtWorkingSolutionDisplayOutputRow
-                                                    data={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ?
-                                                        AcresToHectares(dataToBeSaved.totalWorkingSolutionForAreaLiters) :
-                                                        dataToBeSaved.totalWorkingSolutionForAreaLiters}
+                                                    data={dataToBeSaved.totalWorkingSolutionForAreaLiters}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION)}
                                                     unit={translator(SELECTABLE_STRINGS.LITER)}
                                                 />
@@ -106,15 +102,13 @@ export default function ChemicalProtectionWorkingSolution() {
                                                     data={dataToBeSaved.roughSprayerCount}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT)}
                                                     unit=""
-                                                    decimals={0}
+                                                    decimals={2}
                                                 />
                                                 <ChemProtWorkingSolutionDisplayOutputRow
-                                                    data={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ?
-                                                        AcresToHectares(dataToBeSaved.chemicalPerSprayerLiters) :
-                                                        dataToBeSaved.chemicalPerSprayerLiters}
+                                                    data={dataToBeSaved.chemicalPerSprayerML}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}
-                                                    unit={translator(SELECTABLE_STRINGS.LITER)}
-                                                    decimals={4}
+                                                    unit={translator(SELECTABLE_STRINGS.ML)}
+                                                    decimals={0}
                                                 />
                                             </div>
                                         </CardContent>
