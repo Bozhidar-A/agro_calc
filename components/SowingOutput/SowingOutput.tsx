@@ -11,8 +11,8 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
     return (
         <div>
             <Card className="overflow-hidden" id="visualizationSection">
-                <CardHeader className="pb-3 sm:pb-4 bg-primary text-primary-foreground">
-                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
                         <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                         {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                     </CardTitle>

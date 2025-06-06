@@ -26,6 +26,10 @@ model User {
   RefreshToken                  RefreshToken[]
   SeedingDataCombinationHistory SeedingDataCombinationHistory[]
   SowingRateHistory             SowingRateHistory[]
+
+  ChemProtPercentHistory ChemProtPercentHistory[]
+
+  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
 }
 
 model RefreshToken {
@@ -274,7 +278,7 @@ model Chemical {
 
   plantUsages           PlantChemical[]            @relation("ChemicalToPlantUsages")
   activeIngredients     ChemicalActiveIngredient[]
-  chemicalTargetEnemies ChemicalTargetEnemy[]
+  chemicalTargetEnemies ChemicalToEnemy[]
 }
 
 model PlantChemical {
@@ -308,12 +312,45 @@ model ChemicalActiveIngredient {
   @@unique([chemicalId, activeIngredientId])
 }
 
-model ChemicalTargetEnemy {
+model Enemy {
+  id        String            @id @default(cuid())
+  latinName String            @unique
+  chemicals ChemicalToEnemy[]
+}
+
+model ChemicalToEnemy {
   id         String   @id @default(cuid())
   chemicalId String
+  enemyId    String
   chemical   Chemical @relation(fields: [chemicalId], references: [id])
+  enemy      Enemy    @relation(fields: [enemyId], references: [id])
 
-  latinName String
+  @@unique([chemicalId, enemyId])
+}
 
-  @@unique([chemicalId, latinName])
+//chem protection working solution
+model ChemProtWorkingSolutionHistory {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  totalChemicalForAreaLiters        Float
+  totalWorkingSolutionForAreaLiters Float
+  roughSprayerCount                 Float
+  chemicalPerSprayerML              Float
+  isDataValid                       Boolean
+
+  createdAt DateTime @default(now())
+}
+
+//chem protection percent solution
+model ChemProtPercentHistory {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  desiredPercentage Float
+  sprayerVolume     Float
+  calculatedAmount  Float
+  createdAt         DateTime @default(now())
 }

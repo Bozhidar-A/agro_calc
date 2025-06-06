@@ -2,10 +2,10 @@
 
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
-import { Leaf, PieChart } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import useSeedingCombinedForm, { PlantCombinedDBData } from '@/app/hooks/useSeedingCombinedForm';
+import useSeedingCombinedForm from '@/app/hooks/useSeedingCombinedForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import CombinedCharts from '@/components/CombinedCharts/CombinedCharts';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
@@ -22,10 +22,15 @@ import {
 import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
 import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
+import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
+import { Log } from "@/lib/logger";
+import Errored from "@/components/Errored/Errored";
+import { PlantCombinedDBData } from "@/lib/interfaces";
 
 export default function Combined() {
   const authObj = useSelector((state: RootState) => state.auth);
   const [dbData, setDbData] = useState<PlantCombinedDBData[]>([]);
+  const [errored, setErrored] = useState(false);
   const translator = useTranslate();
 
   useEffect(() => {
@@ -40,12 +45,15 @@ export default function Combined() {
           toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
             description: initData.message,
           });
-          console.log(initData.message);
+          Log(["calc", "combined", "page", "init"], `GET failed with: ${initData.message}`);
+          setErrored(true);
           return;
         }
 
         setDbData(initData.data);
-      } catch (error) {
+      } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["calc", "combined", "page", "init"], `GET failed with: ${errorMessage}`);
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
@@ -56,19 +64,12 @@ export default function Combined() {
 
   const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
 
+  if (errored) {
+    return <Errored />
+  }
+
   if (!dbData || dbData.length === 0) {
-    return (
-      <div className="container mx-auto py-4 sm:py-8 flex items-center justify-center min-h-[50vh]">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
-            <div className="animate-spin mb-3 sm:mb-4">
-              <PieChart className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
-            </div>
-            <p className="text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <LoadingDisplay />
   }
 
   const totalParticipation =
@@ -81,7 +82,7 @@ export default function Combined() {
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
-        <CardHeader className="text-center bg-primary text-primary-foreground">
+        <CardHeader className="text-center bg-green-700 text-primary-foreground">
           <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
@@ -117,7 +118,7 @@ export default function Combined() {
               </div>
 
               <Card className="overflow-hidden" id="mixtureSummary">
-                <CardHeader className="pb-3 sm:pb-4 bg-primary text-primary-foreground">
+                <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
                   <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                     <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                     {translator(SELECTABLE_STRINGS.COMBINED_SUMMARY_TITLE)}
@@ -164,7 +165,7 @@ export default function Combined() {
                   <Button
                     id="saveMixtureCalculation"
                     type="submit"
-                    className="w-full max-w-md"
+                    className="w-full max-w-md text-black dark:text-white"
                     size="lg"
                     disabled={!form.formState.isValid}
                   >

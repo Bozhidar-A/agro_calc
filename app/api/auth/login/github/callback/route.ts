@@ -7,6 +7,8 @@ import {
     FindUserByGitHubId,
     DeleteAllRefreshTokensByUserId,
     InsertRefreshTokenByUserId,
+    AttachGitHubIdToUser,
+    FindUserByEmail,
 } from "@/prisma/prisma-utils";
 import { SignJWT } from "jose";
 
@@ -29,15 +31,43 @@ export async function GET(request: Request): Promise<Response> {
                 Authorization: `Bearer ${tokens.accessToken()}`,
             },
         });
-
         const githubUser = await githubUserResponse.json();
-        const githubId = githubUser.id.toString();
-        const githubUsername = githubUser.login;
 
+        //try to fetch the user's emails
+        const githubUserEmailsResponse = await fetch("https://api.github.com/user/emails", {
+            headers: {
+                Authorization: `Bearer ${tokens.accessToken()}`,
+            },
+        });
+        const githubUserEmails = await githubUserEmailsResponse.json();
+
+        //get the first verified email or fallback to GitHub username
+        const verifiedEmail = githubUserEmails.find((email: any) => email.primary)?.email;
+        const githubName = verifiedEmail || githubUser.login;
+
+        const githubId = githubUser.id.toString();
+
+        Log(["auth", "login", "github", "callback"], `GitHub ID: ${githubId}`);
+        Log(["auth", "login", "github", "callback"], `GitHub Name: ${githubName}`);
+
+        Log(["auth", "login", "github", "callback"], `Finding user by GitHub ID: ${githubId}`);
         let user = await FindUserByGitHubId(githubId);
         if (!user) {
-            user = await CreateUserGitHub(githubId, githubUsername);
+            Log(["auth", "login", "github", "callback"], `User not found, finding user by email: ${githubName}`);
+            const existingUser = await FindUserByEmail(githubName);
+            if (existingUser) {
+                Log(["auth", "login", "github", "callback"], `User already exists, attaching GitHub ID to user: ${existingUser.id}`);
+                await AttachGitHubIdToUser(existingUser.id, githubId);
+                Log(["auth", "login", "github", "callback"], `Attached GitHub ID to user: ${existingUser.id}`);
+                user = existingUser;
+            } else {
+                Log(["auth", "login", "github", "callback"], `Creating new user: ${githubName}`);
+                user = await CreateUserGitHub(githubId, githubName);
+                Log(["auth", "login", "github", "callback"], `Created new user: ${user.id}`);
+            }
         }
+
+        Log(["auth", "login", "github", "callback"], `User: ${JSON.stringify(user?.id)}`);
 
         await DeleteAllRefreshTokensByUserId(user.id);
 
@@ -55,31 +85,58 @@ export async function GET(request: Request): Promise<Response> {
         await InsertRefreshTokenByUserId(refreshToken, user.id);
 
         const response = NextResponse.redirect(new URL("/", request.url));
+
+        // Set cookies
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 15 * 60,
             path: "/",
         });
         response.cookies.set("refreshToken", refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
         });
         response.cookies.set("userId", user.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
         });
 
+        const authState = {
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            authType: 'github',
+            timestamp: Date.now()
+        };
+
+        response.cookies.set("oAuthClientState", JSON.stringify(authState), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60,
+            path: "/",
+        });
+
+        //add a small delay to ensure cookies are set
+        await new Promise(resolve => setTimeout(resolve, 100));
+
         return response;
-    } catch (err) {
-        Log(["auth", "login", "github", "callback"], `Failed with: ${err.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "login", "github", "callback"], `Failed with: ${errorMessage}`);
         return new Response(null, { status: 500 });
     }
 }
+

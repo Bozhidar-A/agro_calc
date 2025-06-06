@@ -1,7 +1,7 @@
 import { google } from "@/lib/oauth-utils";
 import { cookies } from "next/headers";
 import { decodeIdToken } from "arctic";
-import { CreateUserGoogle, DeleteAllRefreshTokensByUserId, FindUserByGoogleId, InsertRefreshTokenByUserId } from "@/prisma/prisma-utils";
+import { AttachGoogleIdToUser, CreateUserGoogle, DeleteAllRefreshTokensByUserId, FindUserByEmail, FindUserByGoogleId, InsertRefreshTokenByUserId } from "@/prisma/prisma-utils";
 import { NextResponse } from "next/server";
 import { SignJWT } from "jose";
 import { Log } from "@/lib/logger";
@@ -42,15 +42,28 @@ export async function GET(request: Request) {
         const userId = claims.sub;
         const email = claims.email;
 
-        Log(["auth", "login", "google", "callback"], `Claims: ${JSON.stringify(claims)}`);
-        Log(["auth", "login", "google", "callback"], `User ID: ${userId}`);
-        Log(["auth", "login", "google", "callback"], `Email: ${email}`);
+        Log(["auth", "login", "google", "callback"], `Google ID: ${userId}`);
+        Log(["auth", "login", "google", "callback"], `Google Email: ${email}`);
 
+        Log(["auth", "login", "google", "callback"], `Finding user by Google ID: ${userId}`);
         let user = await FindUserByGoogleId(userId);
         if (!user) {
-            user = await CreateUserGoogle(userId, email);
-            Log(["auth", "login", "google", "callback"], `Created new user: ${user.id}`);
+
+            Log(["auth", "login", "google", "callback"], `User not found, finding user by email: ${email}`);
+            const existingUser = await FindUserByEmail(email);
+
+            if (existingUser) {
+                Log(["auth", "login", "google", "callback"], `User already exists, attaching Google ID to user: ${existingUser.id}`);
+                await AttachGoogleIdToUser(existingUser.id, userId);
+                user = existingUser;
+            } else {
+                Log(["auth", "login", "google", "callback"], `Creating new user: ${email}`);
+                user = await CreateUserGoogle(userId, email);
+                Log(["auth", "login", "google", "callback"], `Created new user: ${user.id}`);
+            }
         }
+
+        Log(["auth", "login", "google", "callback"], `User: ${JSON.stringify(user?.id)}`);
 
         //nuke all old refresh tokens
         const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
@@ -73,6 +86,8 @@ export async function GET(request: Request) {
         Log(["auth", "login", "google", "callback"], `Inserted refresh token for user ${user.id}`);
 
         const response = NextResponse.redirect(new URL("/", request.url));
+
+        // Set cookies
         response.cookies.set("accessToken", accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -95,9 +110,33 @@ export async function GET(request: Request) {
             path: "/"
         });
 
+        const authState = {
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            authType: 'github',
+            timestamp: Date.now()
+        };
+
+        response.cookies.set("oAuthClientState", JSON.stringify(authState), {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60,
+            path: "/",
+        });
+
+        //add a small delay to ensure cookies are set
+        await new Promise(resolve => setTimeout(resolve, 100));
+
         return response;
-    } catch (error) {
-        Log(["auth", "login", "google", "callback"], `GET failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["auth", "login", "google", "callback"], `Error: ${errorMessage}`);
         return new Response(null, { status: 500 });
     }
 }

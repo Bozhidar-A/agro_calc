@@ -66,7 +66,7 @@ export default function Register() {
         </h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
+            <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
@@ -74,7 +74,7 @@ export default function Register() {
           </div>
 
           <div>
-            <Label htmlFor="password">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
+            <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
               <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
@@ -82,14 +82,14 @@ export default function Register() {
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD_CONFIRM)}</Label>
             <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message)}</p>
             )}
           </div>
 
-          <Button type="submit" className="w-full text-black dark:text-white font-bold">
+          <Button type="submit" className="w-full text-black dark:text-white font-semibold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
@@ -99,14 +99,14 @@ export default function Register() {
 
           <div className="flex items-center justify-center space-x-2">
             <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-            <Button asChild className="text-black dark:text-white font-bold">
+            <Button asChild className="text-black dark:text-white font-semibold">
               <Link href="/auth/login" className="hover:underline">
                 {translator(SELECTABLE_STRINGS.LOGIN)}
               </Link>
             </Button>
           </div>
           <div className="flex items-center justify-center space-x-2">
-            <Button asChild className="text-black dark:text-white font-bold">
+            <Button asChild className="text-black dark:text-white font-semibold">
               <Link href="/auth/password/request" className="hover:underline">
                 {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
               </Link>

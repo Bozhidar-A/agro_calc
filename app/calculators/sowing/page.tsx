@@ -2,7 +2,7 @@
 
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
-import { Droplet, Leaf, PieChart, Ruler, Scale, Sprout } from 'lucide-react';
+import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import useSowingRateForm from '@/app/hooks/useSowingRateForm';
@@ -29,6 +29,9 @@ import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } fr
 import { useWatch } from 'react-hook-form';
 import { CalculatorValueTypes } from "@/lib/utils";
 import { BuildSowingRateRowProps, DisplayOutputRowProps, SowingRateDBData } from "@/lib/interfaces";
+import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
+import { Log } from "@/lib/logger";
+import Errored from "@/components/Errored/Errored";
 
 function FetchUnitIfExist(data) {
   return data.unit ? `${data.unit}` : '';
@@ -46,7 +49,7 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
 }: BuildSowingRateRowProps<T> & { tourId: string }) {
   const neededData = activePlantDbData[varName];
 
-  let inputValidityClass = 'border-green-500 focus-visible:ring-green-500';
+  let inputValidityClass = 'border-green-700 focus-visible:ring-green-700';
   let inputValidityClassSlider = 'within-safe-range';
 
   if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData?.minSliderVal, neededData?.maxSliderVal, neededData?.constValue)) {
@@ -56,7 +59,7 @@ function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>(
 
   return (
     <Card className="overflow-hidden" id={tourId}>
-      <CardHeader className="bg-primary pb-2">
+      <CardHeader className="bg-green-700 pb-2">
         <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
           {icon}
           {displayName}
@@ -138,6 +141,7 @@ export default function SowingRate() {
   const translator = useTranslate();
   const [dbData, setDbData] = useState<SowingRateDBData[]>([]);
   const [calculatedRate, setCalculatedRate] = useState<number | null>(null);
+  const [errored, setErrored] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -152,14 +156,18 @@ export default function SowingRate() {
           toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
             description: res.message,
           });
+          setErrored(true);
           return;
         }
 
         setDbData(res.data);
-      } catch (error) {
+      } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["calc", "sowing", "page", "init"], `GET failed with: ${errorMessage}`);
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
+        setErrored(true);
       }
     };
     fetchData();
@@ -203,25 +211,18 @@ export default function SowingRate() {
     }
   }, [form.watch(), activePlantDbData]);
 
+  if (errored) {
+    return <Errored />
+  }
+
   if (!dbData || dbData.length === 0) {
-    return (
-      <div className="container mx-auto py-4 sm:py-8 flex items-center justify-center min-h-[50vh]">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-4 sm:pt-6 flex flex-col items-center">
-            <div className="animate-spin mb-3 sm:mb-4">
-              <PieChart className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
-            </div>
-            <p className="text-lg sm:text-xl">{translator(SELECTABLE_STRINGS.LOADING)}</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <LoadingDisplay />
   }
 
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
-        <CardHeader className="text-center bg-primary ">
+        <CardHeader className="text-center bg-green-700">
           <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
             {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
           </CardTitle>
@@ -273,7 +274,7 @@ export default function SowingRate() {
 
               {form.watch('cultureLatinName') && activePlantDbData && (
                 <>
-                  <div className="bg-primary p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
+                  <div className="bg-green-700 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
                     <h3 className="text-lg sm:text-xl font-medium mb-2">
                       {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                     </h3>

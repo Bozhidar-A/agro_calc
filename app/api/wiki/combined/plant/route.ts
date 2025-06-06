@@ -1,14 +1,14 @@
 import { Log } from "@/lib/logger";
-import { GetPlantDataByID } from "@/prisma/prisma-utils";
+import { GetCombinedPlantData } from "@/prisma/prisma-utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
         const { id } = await req.json()
 
-        Log(["api", "wiki", "plants", "id", "route"], `POST called with id: ${id}`);
-        const res = await GetPlantDataByID(id);
-        Log(["api", "wiki", "plants", "id", "route"], `POST returned: ${JSON.stringify(res)}`);
+        Log(["api", "wiki", "combined", "plant", "id", "route"], `POST called with id: ${id}`);
+        const res = await GetCombinedPlantData(id);
+        Log(["api", "wiki", "combined", "plant", "id", "route"], `POST returned: ${JSON.stringify(res)}`);
 
         if (!res) {
             return NextResponse.json({
@@ -21,8 +21,9 @@ export async function POST(req: NextRequest) {
             success: true,
             data: res
         });
-    } catch (error) {
-        Log(["api", "wiki", "plants", "id", "route"], `POST failed with: ${error.message}`);
+    } catch (error: unknown) {
+        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+        Log(["api", "wiki", "combined", "plant", "id", "route"], `POST failed with: ${errorMessage}`);
         return NextResponse.json({ success: false, message: `Internal Server Error` });
     }
 }

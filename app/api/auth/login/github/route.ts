@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     const state = generateState();
-    const url = github.createAuthorizationURL(state, []);
+    const url = github.createAuthorizationURL(state, [
+        "user:email",
+    ]);
 
     const res = NextResponse.redirect(url.toString());
 
