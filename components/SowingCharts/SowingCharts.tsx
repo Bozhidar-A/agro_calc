@@ -15,6 +15,9 @@ import { SowingRateSaveData } from '@/app/hooks/useSowingRateForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 
 export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   if (!data) {
@@ -22,6 +25,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   }
 
   const translator = useTranslate();
+  const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
 
   // Create data for comparison chart (comparing this calculation with optimal ranges)
   const plantName = translator(data.plantLatinName) || data.plantLatinName;
@@ -29,11 +33,15 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   // For the pie chart - relationship between components
   const pieData = [
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
+      name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE) :
+        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_HECTARE),
       value: data.usedSeedsKgPerAcre,
     },
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
+      name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE) :
+        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_HECTARE),
       value: data.sowingRateSafeSeedsPerMeterSquared / 100,
     }, // Scale down for better visualization
     {
@@ -271,7 +279,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                 <Bar
                   dataKey="efficiency"
                   fill="#8884d8"
-                  name={`${translator(SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_EFFICIENCY)} (%)`}
+                  name={`${translator(SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_PARTICIPATION)} (%)`}
                   radius={[0, 10, 10, 0]}
                 >
                   {[0, 1, 2].map((index) => (

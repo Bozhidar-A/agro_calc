@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
 import { siGithub, siGoogle } from 'simple-icons';
 import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { AcresToHectares, ToFixedNumber } from './math-util';
 
 export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SupportedOAuthProvider> = {
   GOOGLE: {
@@ -119,4 +120,11 @@ export function GetParameterData(param: any) {
         maxSliderVal: param?.maxSliderVal ?? 0,
       };
   }
+};
+
+export function GetDisplayValue(value: number, unitOfMeasurement: UNIT_OF_MEASUREMENT_LENGTH = UNIT_OF_MEASUREMENT_LENGTH.ACRES) {
+  if (unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES) {
+    return ToFixedNumber(AcresToHectares(value), 2);
+  }
+  return ToFixedNumber(value, 2);
 };

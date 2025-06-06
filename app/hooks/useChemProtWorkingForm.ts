@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 import { ChemProtWorkingToSave, ChemProtWorkingFormValues } from "@/lib/interfaces";
-import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerLiters } from "@/lib/math-util";
+import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { APICaller } from "@/lib/api-util";
@@ -17,12 +17,13 @@ import { Log } from "@/lib/logger";
 export default function useChemProtWorkingForm() {
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
+    const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
         userId: authObject?.user?.id ?? '',
         totalChemicalForAreaLiters: 0,
         totalWorkingSolutionForAreaLiters: 0,
         roughSprayerCount: 0,
-        chemicalPerSprayerLiters: 0,
+        chemicalPerSprayerML: 0,
         isDataValid: false,
     });
 
@@ -46,8 +47,6 @@ export default function useChemProtWorkingForm() {
     });
 
     // Trigger validation on mount
-    //EXTREMELY HACKY SOLUTION, but it works
-    //this is to make the form validate on mount specifically for errors
     useEffect(() => {
         form.trigger();
     }, []);
@@ -77,7 +76,7 @@ export default function useChemProtWorkingForm() {
             const totalChemicalLiters = CalculateChemProtTotalChemicalLiters(chemicalPerAcreML, areaToBeSprayedAcres);
             const totalWorkingSolutionLiters = CalculateChemProtTotalWorkingSolutionLiters(workingSolutionPerAcreLiters, areaToBeSprayedAcres);
             const roughSprayerCount = CalculateChemProtRoughSprayerCount(totalWorkingSolutionLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
-            const workingSolutionPerSprayerLiters = CalculateChemProtWorkingSolutionPerSprayerLiters(chemicalPerAcreML, workingSolutionPerAcreLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
+            const workingSolutionPerSprayerLiters = CalculateChemProtWorkingSolutionPerSprayerML(chemicalPerAcreML, workingSolutionPerAcreLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
 
             if (isNaN(totalChemicalLiters) || totalChemicalLiters < 0 || !isFinite(totalChemicalLiters)) {
                 isMathWorking = false;
@@ -100,14 +99,18 @@ export default function useChemProtWorkingForm() {
                 totalChemicalForAreaLiters: totalChemicalLiters,
                 totalWorkingSolutionForAreaLiters: totalWorkingSolutionLiters,
                 roughSprayerCount,
-                chemicalPerSprayerLiters: workingSolutionPerSprayerLiters,
+                chemicalPerSprayerML: workingSolutionPerSprayerLiters,
                 isDataValid: form.formState.isValid && isMathWorking
             });
         });
 
         return () => subscription.unsubscribe();
-
     }, [form.watch()]);
+
+    //changes for unit of measurement
+    useEffect(() => {
+        form.setValue("chemicalPerAcreML", form.getValues("chemicalPerAcreML") * 10);
+    }, [unitOfMeasurement])
 
     async function onSubmit() {
         try {
@@ -138,6 +141,7 @@ export default function useChemProtWorkingForm() {
     return {
         form,
         onSubmit,
-        dataToBeSaved
+        dataToBeSaved,
+        unitOfMeasurement
     }
 }
