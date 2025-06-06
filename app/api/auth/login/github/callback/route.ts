@@ -84,7 +84,7 @@ export async function GET(request: Request): Promise<Response> {
 
         await InsertRefreshTokenByUserId(refreshToken, user.id);
 
-        const response = NextResponse.redirect(new URL("/", request.url));
+        const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOST_URL}/`);
 
         // Set cookies
         response.cookies.set("accessToken", accessToken, {
