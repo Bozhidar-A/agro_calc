@@ -76,12 +76,12 @@ export function CalculateChemProtRoughSprayerCount(totalWorkingSolutionLiters: n
     return (totalWorkingSolutionLiters * areaToBeSprayedAcres) / sprayerVolumePerAcreLiters;
 }
 
-export function CalculateChemProtWorkingSolutionPerSprayerLiters(
+export function CalculateChemProtWorkingSolutionPerSprayerML(
     chemicalPerAcreML: number,
     workingSolutionPerAcreLiters: number,
     areaToBeSprayedAcres: number,
     sprayerVolumePerAcreLiters: number)
     : number {
     // return chemicalPerAcreML / (workingSolutionPerAcreLiters * areaToBeSprayedAcres) / sprayerVolumePerAcreLiters / 1000;
-    return (chemicalPerAcreML * areaToBeSprayedAcres) / (workingSolutionPerAcreLiters * sprayerVolumePerAcreLiters);
+    return (chemicalPerAcreML * areaToBeSprayedAcres) / (workingSolutionPerAcreLiters * sprayerVolumePerAcreLiters) * 100;
 }

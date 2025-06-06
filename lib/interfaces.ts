@@ -261,7 +261,7 @@ export interface ChemProtWorkingToSave {
   totalChemicalForAreaLiters: number;
   totalWorkingSolutionForAreaLiters: number;
   roughSprayerCount: number;
-  chemicalPerSprayerLiters: number;
+  chemicalPerSprayerML: number;
 }
 
 //wiki interface
