@@ -48,7 +48,41 @@ export default function useChemProtWorkingForm() {
 
     // Trigger validation on mount
     useEffect(() => {
-        form.trigger();
+        form.trigger().then(() => {
+            // Trigger initial data calculation
+            const { chemicalPerAcreML, workingSolutionPerAcreLiters, sprayerVolumePerAcreLiters, areaToBeSprayedAcres } = form.getValues();
+            let isMathWorking = true;
+
+            const totalChemicalLiters = CalculateChemProtTotalChemicalLiters(chemicalPerAcreML, areaToBeSprayedAcres);
+            const totalWorkingSolutionLiters = CalculateChemProtTotalWorkingSolutionLiters(workingSolutionPerAcreLiters, areaToBeSprayedAcres);
+            const roughSprayerCount = CalculateChemProtRoughSprayerCount(totalWorkingSolutionLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
+            const workingSolutionPerSprayerLiters = CalculateChemProtWorkingSolutionPerSprayerML(chemicalPerAcreML, workingSolutionPerAcreLiters, areaToBeSprayedAcres, sprayerVolumePerAcreLiters);
+
+            if (isNaN(totalChemicalLiters) || totalChemicalLiters < 0 || !isFinite(totalChemicalLiters)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(totalWorkingSolutionLiters) || totalWorkingSolutionLiters < 0 || !isFinite(totalWorkingSolutionLiters)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(roughSprayerCount) || roughSprayerCount < 0 || !isFinite(roughSprayerCount)) {
+                isMathWorking = false;
+            }
+
+            if (isNaN(workingSolutionPerSprayerLiters) || workingSolutionPerSprayerLiters < 0 || !isFinite(workingSolutionPerSprayerLiters)) {
+                isMathWorking = false;
+            }
+
+            setDataToBeSaved({
+                userId: authObject?.user?.id,
+                totalChemicalForAreaLiters: totalChemicalLiters,
+                totalWorkingSolutionForAreaLiters: totalWorkingSolutionLiters,
+                roughSprayerCount,
+                chemicalPerSprayerML: workingSolutionPerSprayerLiters,
+                isDataValid: form.formState.isValid && isMathWorking
+            });
+        });
     }, []);
 
     //on change, recalc the data

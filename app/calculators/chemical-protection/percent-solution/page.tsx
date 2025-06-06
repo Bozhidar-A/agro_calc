@@ -122,7 +122,7 @@ export default function PercentSolution() {
                                         </CardContent>
                                     </Card>
 
-                                    {form.formState.isValid && authObject.isAuthenticated && (
+                                    {form.formState.isValid && authObject?.user?.id && (
                                         <div className="flex justify-center mt-6 sm:mt-8">
                                             <Button type="submit" size="lg" disabled={!form.formState.isValid} className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white">
                                                 {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
