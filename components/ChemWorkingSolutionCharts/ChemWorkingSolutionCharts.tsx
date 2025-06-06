@@ -197,7 +197,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         <Card>
           <CardHeader>
             <CardTitle>
-              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY)}
+              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION)}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -214,7 +214,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                 <Bar
                   dataKey="efficiency"
                   fill="#8884d8"
-                  name={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY_PERCENTAGE)}
+                  name={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE)}
                   radius={[0, 10, 10, 0]}
                 >
                   {efficiencyData.map((_entry, index) => (
@@ -224,7 +224,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
               </BarChart>
             </ResponsiveContainer>
             <div className="text-xs text-center mt-2 text-muted-foreground">
-              *{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_EFFICIENCY_SUGGESTED)}
+              *{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED)}
             </div>
           </CardContent>
         </Card>
