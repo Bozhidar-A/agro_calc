@@ -11,12 +11,12 @@ import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from "@/lib/utils";
-import { ActivePlantDbData, SowingRateSaveData, AuthState } from "@/lib/interfaces";
+import { SowingRateSaveData, AuthState, SowingRateDBData } from "@/lib/interfaces";
 
 
-export default function useSowingRateForm(authObj: AuthState, dbData: ActivePlantDbData[]) {
+export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
     const translator = useTranslate();
-    const [activePlantDbData, setActivePlantDbData] = useState<ActivePlantDbData | null>(null);
+    const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
         userId: '',
         plantId: '',
@@ -94,15 +94,25 @@ export default function useSowingRateForm(authObj: AuthState, dbData: ActivePlan
             const plant = dbData.find(entry => entry.plant.plantLatinName === form.getValues('cultureLatinName'));
 
             if (name === 'cultureLatinName' && plant) {
-                console.log(plant);
                 setActivePlantDbData(plant);
 
-                form.setValue('coefficientSecurity', plant.coefficientSecurity.type === CalculatorValueTypes.SLIDER ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue);
-                form.setValue('wantedPlantsPerMeterSquared', plant.wantedPlantsPerMeterSquared.type === CalculatorValueTypes.SLIDER ? plant.wantedPlantsPerMeterSquared.minSliderVal : plant.wantedPlantsPerMeterSquared.constValue);
-                form.setValue('massPer1000g', plant.massPer1000g.type === CalculatorValueTypes.SLIDER ? plant.massPer1000g.minSliderVal : plant.massPer1000g.constValue);
-                form.setValue('purity', plant.purity.type === CalculatorValueTypes.SLIDER ? plant.purity.minSliderVal : plant.purity.constValue);
-                form.setValue('germination', plant.germination.type === CalculatorValueTypes.SLIDER ? plant.germination.minSliderVal : plant.germination.constValue);
-                form.setValue('rowSpacing', plant.rowSpacing.type === CalculatorValueTypes.SLIDER ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue);
+                // Only set values if they are different from current values to prevent loops
+                const currentValues = form.getValues();
+                const newValues = {
+                    coefficientSecurity: plant.coefficientSecurity.type === CalculatorValueTypes.SLIDER ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue,
+                    wantedPlantsPerMeterSquared: plant.wantedPlantsPerMeterSquared.type === CalculatorValueTypes.SLIDER ? plant.wantedPlantsPerMeterSquared.minSliderVal : plant.wantedPlantsPerMeterSquared.constValue,
+                    massPer1000g: plant.massPer1000g.type === CalculatorValueTypes.SLIDER ? plant.massPer1000g.minSliderVal : plant.massPer1000g.constValue,
+                    purity: plant.purity.type === CalculatorValueTypes.SLIDER ? plant.purity.minSliderVal : plant.purity.constValue,
+                    germination: plant.germination.type === CalculatorValueTypes.SLIDER ? plant.germination.minSliderVal : plant.germination.constValue,
+                    rowSpacing: plant.rowSpacing.type === CalculatorValueTypes.SLIDER ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue
+                };
+
+                // Only update values that have changed
+                Object.entries(newValues).forEach(([key, value]) => {
+                    if (currentValues[key as keyof typeof currentValues] !== value) {
+                        form.setValue(key as any, value);
+                    }
+                });
                 return;
             }
 
@@ -239,7 +249,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: ActivePlan
     }, [form, activePlantDbData, authObj, warnings]);
 
 
-    async function onSubmit(data: any) {
+    async function onSubmit(_data: any) {
         if (!authObj.isAuthenticated) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
