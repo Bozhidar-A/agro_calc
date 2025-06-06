@@ -1,97 +1,24 @@
 'use client';
 
-import { Droplet, Ruler, Scale, Beaker } from 'lucide-react';
+import { Droplet, Ruler, Beaker } from 'lucide-react';
 import useChemProtWorkingForm from '@/app/hooks/useChemProtWorkingForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormField } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import ChemWorkingSolutionCharts from '@/components/ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
+import { ChemProtWorkingSolutionDisplayOutputRow } from '@/components/ChemProtWorkingSolutionDisplayOutputRow/ChemProtWorkingSolutionDisplayOutputRow';
+import { ChemProtWorkingSolutionBuildInputRow } from '@/components/ChemProtWorkingSolutionBuildInputRow/ChemProtWorkingSolutionBuildInputRow';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
-import ChemWorkingSolutionCharts from '@/components/ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
-
-function BuildInputRow({
-    varName,
-    displayName,
-    form,
-    icon,
-    translator,
-    unit
-}: {
-    varName: string;
-    displayName: string;
-    form: any;
-    icon: React.ReactNode;
-    translator: (key: string) => string;
-    unit: string;
-}) {
-    return (
-        <Card className="overflow-hidden">
-            <CardHeader className="bg-green-700 pb-2">
-                <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
-                    {icon}
-                    {displayName}
-                </CardTitle>
-                <CardDescription className="text-black/90 dark:text-white/90">
-                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_DESCRIPTION)}
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4">
-                <div className="flex flex-col gap-2">
-                    <FormField
-                        control={form.control}
-                        name={varName}
-                        render={({ field }) => (
-                            <Input
-                                min={0}
-                                className="text-center text-xl"
-                                type="number"
-                                {...field}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    field.onChange(val === '' ? '' : Number(val));
-                                }}
-                            />
-                        )}
-                    />
-                    <div className="text-center font-medium mt-1">
-                        {`${isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0} ${unit}`}
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    );
-}
-
-function DisplayOutputRow({ data, text, unit, decimals = 2 }: { data: number; text: string; unit: string; decimals?: number }) {
-    const safeValue = isNaN(data) ? 0 : data;
-    return (
-        <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
-            <span className="font-semibold text-lg sm:text-xl">{text}</span>
-            <div>
-                <span className="text-lg sm:text-xl font-bold">{safeValue.toFixed(decimals)}</span>
-                <span className="text-lg sm:text-xl font-bold"> {unit}</span>
-            </div>
-        </div>
-    );
-}
 
 export default function ChemicalProtectionWorkingSolution() {
+    const { form, onSubmit, dataToBeSaved } = useChemProtWorkingForm();
+    const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
-    const unitOfMeasurementLength = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
-    const { form, onSubmit, dataToBeSaved } = useChemProtWorkingForm();
-
-    // Helper to get the correct unit label
-    let areaUnit = 'acres';
-    let perAreaUnit = '/acre';
-    if (unitOfMeasurementLength === UNIT_OF_MEASUREMENT_LENGTH.HECTARES) {
-        areaUnit = 'hectares';
-        perAreaUnit = '/hectare';
-    }
 
     return (
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
@@ -106,39 +33,47 @@ export default function ChemicalProtectionWorkingSolution() {
                 </CardHeader>
                 <CardContent className="pt-4 sm:pt-6">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(() => onSubmit(dataToBeSaved))} className="space-y-6 sm:space-y-8">
+                        <form onSubmit={form.handleSubmit(() => onSubmit())} className="space-y-6 sm:space-y-8">
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
-                                <BuildInputRow
+                                <ChemProtWorkingSolutionBuildInputRow
                                     varName="chemicalPerAcreML"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE)}
                                     form={form}
                                     icon={<Droplet className="h-5 w-5" />}
                                     translator={translator}
-                                    unit={`ml${perAreaUnit}`}
+                                    unit={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+                                        translator(SELECTABLE_STRINGS.ML_ACRE) :
+                                        translator(SELECTABLE_STRINGS.ML_HECTARE)}
+                                    displayValue={form.watch('chemicalPerAcreML').toString()}
                                 />
-                                <BuildInputRow
+                                <ChemProtWorkingSolutionBuildInputRow
                                     varName="workingSolutionPerAcreLiters"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_WORKING_SOLUTION)}
                                     form={form}
-                                    icon={<Scale className="h-5 w-5" />}
+                                    icon={<Beaker className="h-5 w-5" />}
                                     translator={translator}
-                                    unit={`L${perAreaUnit}`}
+                                    unit={translator(SELECTABLE_STRINGS.LITER)}
+                                    displayValue={form.watch('workingSolutionPerAcreLiters').toString()}
                                 />
-                                <BuildInputRow
+                                <ChemProtWorkingSolutionBuildInputRow
                                     varName="sprayerVolumePerAcreLiters"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_SPRAYER_VOLUME)}
                                     form={form}
                                     icon={<Beaker className="h-5 w-5" />}
                                     translator={translator}
-                                    unit={`L${perAreaUnit}`}
+                                    unit={translator(SELECTABLE_STRINGS.LITER)}
+                                    displayValue={form.watch('sprayerVolumePerAcreLiters').toString()}
                                 />
-                                <BuildInputRow
+                                <ChemProtWorkingSolutionBuildInputRow
                                     varName="areaToBeSprayedAcres"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA)}
                                     form={form}
                                     icon={<Ruler className="h-5 w-5" />}
                                     translator={translator}
-                                    unit={areaUnit}
+                                    unit={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+                                        translator(SELECTABLE_STRINGS.ACRE) :
+                                        translator(SELECTABLE_STRINGS.HECTARE)}
+                                    displayValue={form.watch('areaToBeSprayedAcres').toString()}
                                 />
                             </div>
 
@@ -153,49 +88,47 @@ export default function ChemicalProtectionWorkingSolution() {
                                         </CardHeader>
                                         <CardContent className="pt-3 sm:pt-4">
                                             <div className="space-y-3 sm:space-y-4">
-                                                <DisplayOutputRow
+                                                <ChemProtWorkingSolutionDisplayOutputRow
                                                     data={dataToBeSaved.totalChemicalForAreaLiters}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL)}
-                                                    unit="L"
+                                                    unit={translator(SELECTABLE_STRINGS.LITER)}
                                                 />
-                                                <DisplayOutputRow
+                                                <ChemProtWorkingSolutionDisplayOutputRow
                                                     data={dataToBeSaved.totalWorkingSolutionForAreaLiters}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION)}
-                                                    unit="L"
+                                                    unit={translator(SELECTABLE_STRINGS.LITER)}
                                                 />
-                                                <DisplayOutputRow
+                                                <ChemProtWorkingSolutionDisplayOutputRow
                                                     data={dataToBeSaved.roughSprayerCount}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT)}
                                                     unit=""
+                                                    decimals={2}
                                                 />
-                                                <DisplayOutputRow
-                                                    data={dataToBeSaved.chemicalPerSprayerLiters}
+                                                <ChemProtWorkingSolutionDisplayOutputRow
+                                                    data={dataToBeSaved.chemicalPerSprayerML}
                                                     text={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}
-                                                    unit="L"
-                                                    decimals={4}
+                                                    unit={translator(SELECTABLE_STRINGS.ML)}
+                                                    decimals={0}
                                                 />
                                             </div>
                                         </CardContent>
                                     </Card>
 
-                                    {
-                                        dataToBeSaved.isDataValid && authObject?.user?.id && (
-                                            <div>
-                                                <div className="flex justify-center mt-6 sm:mt-8">
-                                                    <Button
-                                                        type="submit"
-                                                        size="lg"
-                                                        disabled={!form.formState.isValid}
-                                                        className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
-                                                    >
-                                                        {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
-                                                    </Button>
-                                                </div>
-                                                <ChemWorkingSolutionCharts data={dataToBeSaved} />
+                                    {dataToBeSaved.isDataValid && authObject?.user?.id && (
+                                        <div>
+                                            <div className="flex justify-center mt-6 sm:mt-8">
+                                                <Button
+                                                    type="submit"
+                                                    size="lg"
+                                                    disabled={!form.formState.isValid}
+                                                    className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
+                                                >
+                                                    {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
+                                                </Button>
                                             </div>
-
-                                        )
-                                    }
+                                            <ChemWorkingSolutionCharts data={dataToBeSaved} />
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </form>

@@ -337,7 +337,7 @@ model ChemProtWorkingSolutionHistory {
   totalChemicalForAreaLiters        Float
   totalWorkingSolutionForAreaLiters Float
   roughSprayerCount                 Float
-  chemicalPerSprayerLiters          Float
+  chemicalPerSprayerML              Float
   isDataValid                       Boolean
 
   createdAt DateTime @default(now())

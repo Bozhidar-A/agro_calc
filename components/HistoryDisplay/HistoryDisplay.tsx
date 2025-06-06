@@ -393,7 +393,7 @@ export default function HistoryDisplay() {
                                         </div>
                                         <div>
                                             <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}</p>
-                                            <p className="text-base sm:text-lg">{history.chemicalPerSprayerLiters.toFixed(2)} L</p>
+                                            <p className="text-base sm:text-lg">{history.chemicalPerSprayerML.toFixed(2)} L</p>
                                         </div>
                                     </div>
                                     <ChemWorkingSolutionCharts data={history} />

@@ -20,6 +20,14 @@ export function MetersSquaredToHectare(metersSquared: number): number {
     return metersSquared * 10000;
 }
 
+export function AcresToHectares(acres: number): number {
+    return acres * 10;
+}
+
+export function HectaresToAcres(hectares: number): number {
+    return hectares / 10;
+}
+
 export function SowingRatePlantsPerAcreToHectare(sowingRatePlantsPerAcre: number): number {
     //acre * 10 = hectare
     return sowingRatePlantsPerAcre * 10;
@@ -68,12 +76,12 @@ export function CalculateChemProtRoughSprayerCount(totalWorkingSolutionLiters: n
     return (totalWorkingSolutionLiters * areaToBeSprayedAcres) / sprayerVolumePerAcreLiters;
 }
 
-export function CalculateChemProtWorkingSolutionPerSprayerLiters(
+export function CalculateChemProtWorkingSolutionPerSprayerML(
     chemicalPerAcreML: number,
     workingSolutionPerAcreLiters: number,
     areaToBeSprayedAcres: number,
     sprayerVolumePerAcreLiters: number)
     : number {
     // return chemicalPerAcreML / (workingSolutionPerAcreLiters * areaToBeSprayedAcres) / sprayerVolumePerAcreLiters / 1000;
-    return (chemicalPerAcreML * areaToBeSprayedAcres) / (workingSolutionPerAcreLiters * sprayerVolumePerAcreLiters);
+    return (chemicalPerAcreML * areaToBeSprayedAcres) / (workingSolutionPerAcreLiters * sprayerVolumePerAcreLiters) * 100;
 }
