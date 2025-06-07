@@ -233,6 +233,12 @@ export interface PlantCombinedDBData {
 }
 
 //chem protection
+export interface ChemicalOption {
+  id: string;
+  nameKey: string;
+  dosage: number;
+  dosageUnit: string;
+};
 export interface ChemProtPercentFormValues {
   desiredPercentage: number;
   sprayerVolume: number;
@@ -248,6 +254,11 @@ export interface ChemProtPercentHistory {
   createdAt: string;
 }
 
+export interface ChemProtWorkingInputPlantChem {
+  plant: WikiPlant;
+  chemical: WikiChemical;
+}
+
 export interface ChemProtWorkingFormValues {
   chemicalPerAcreML: number;
   workingSolutionPerAcreLiters: number;
@@ -257,6 +268,8 @@ export interface ChemProtWorkingFormValues {
 
 export interface ChemProtWorkingToSave {
   userId: string;
+  plantId: string;
+  chemicalId: string;
   isDataValid: boolean;
   totalChemicalForAreaLiters: number;
   totalWorkingSolutionForAreaLiters: number;
@@ -270,6 +283,7 @@ export interface WikiBaseEntity {
 }
 
 export interface WikiPlant extends WikiBaseEntity {
+  plantId: string;
   latinName: string;
 }
 

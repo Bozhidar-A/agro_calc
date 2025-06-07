@@ -64,6 +64,8 @@ model Plant {
   SowingRateHistory                      SowingRateHistory[]
 
   plantChemicals PlantChemical[]
+
+  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
 }
 
 //sowing rate
@@ -276,9 +278,10 @@ model Chemical {
   additionalInfo                     String
   additionalInfoNotes                String
 
-  plantUsages           PlantChemical[]            @relation("ChemicalToPlantUsages")
-  activeIngredients     ChemicalActiveIngredient[]
-  chemicalTargetEnemies ChemicalToEnemy[]
+  plantUsages                    PlantChemical[]                  @relation("ChemicalToPlantUsages")
+  activeIngredients              ChemicalActiveIngredient[]
+  chemicalTargetEnemies          ChemicalToEnemy[]
+  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
 }
 
 model PlantChemical {
@@ -334,6 +337,10 @@ model ChemProtWorkingSolutionHistory {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
+  plantId                           String?
+  plant                             Plant?    @relation(fields: [plantId], references: [id])
+  chemicalId                        String?
+  chemical                          Chemical? @relation(fields: [chemicalId], references: [id])
   totalChemicalForAreaLiters        Float
   totalWorkingSolutionForAreaLiters Float
   roughSprayerCount                 Float
