@@ -14,9 +14,20 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { useTranslate } from '@/app/hooks/useTranslate';
-import { ChemProtWorkingToSave } from '@/lib/interfaces';
+import { ChemProtWorkingSolutionHistory } from '@prisma/client';
 
-export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWorkingToSave }) {
+type ChemProtWorkingSolutionHistoryWithRelations = ChemProtWorkingSolutionHistory & {
+  plant?: {
+    id: string;
+    latinName: string;
+  } | null;
+  chemical?: {
+    id: string;
+    nameKey: string;
+  } | null;
+};
+
+export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWorkingSolutionHistoryWithRelations }) {
   if (!data) {
     return null;
   }

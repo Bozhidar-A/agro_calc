@@ -303,8 +303,23 @@ export async function GetCombinedHistory() {
 }
 
 //chem protection percent solution
+export async function GetChemProtWorkingSolutionInputPlantChems() {
+  return await prisma.plantChemical.findMany({
+    include: {
+      plant: true,
+      chemical: true,
+    },
+
+  });
+}
+
 export async function GetChemProtWorkingSolutionHistory() {
-  return await prisma.chemProtWorkingSolutionHistory.findMany();
+  return await prisma.chemProtWorkingSolutionHistory.findMany({
+    include: {
+      plant: true,
+      chemical: true,
+    },
+  });
 }
 
 export async function InsertChemProtWorkingSolutionHistoryEntry(data: ChemProtWorkingToSave) {
