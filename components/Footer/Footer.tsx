@@ -25,26 +25,34 @@ export function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/calculators"
+                                    href="/calculators/sowing"
                                     className="text-green-100 hover:text-white dark:text-green-200 dark:hover:text-white transition"
                                 >
-                                    Calculators
+                                    Sowing Rate Calculator
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/about"
+                                    href="/calculators/combined"
                                     className="text-green-100 hover:text-white dark:text-green-200 dark:hover:text-white transition"
                                 >
-                                    About Us
+                                    Combined Calculator
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/contact"
+                                    href="/calculators/chemical-protection/working-solution"
                                     className="text-green-100 hover:text-white dark:text-green-200 dark:hover:text-white transition"
                                 >
-                                    Contact
+                                    Working Solution Calculator
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/calculators/chemical-protection/percent-solution"
+                                    className="text-green-100 hover:text-white dark:text-green-200 dark:hover:text-white transition"
+                                >
+                                    Percent Solution Calculator
                                 </Link>
                             </li>
                         </ul>
