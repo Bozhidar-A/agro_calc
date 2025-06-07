@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
-import { ChemProtWorkingInputPlantChem, ChemProtWorkingToSave } from "@/lib/interfaces";
+import { ChemProtWorkingInputPlantChem, ChemProtWorkingToSave, SowingRateHistory } from "@/lib/interfaces";
 import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -24,14 +24,13 @@ const formSchema = z.object({
     areaToBeSprayedAcres: z.number().min(0.01),
 });
 
-
-
 export default function useChemProtWorkingForm() {
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const [loading, setLoading] = useState(true);
     const [plantsChems, setPlantsChems] = useState<ChemProtWorkingInputPlantChem[]>([]);
+    const [lastUsedPlantId, setLastUsedPlantId] = useState<string | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
         userId: authObject?.user?.id ?? '',
         plantId: "",
@@ -98,6 +97,40 @@ export default function useChemProtWorkingForm() {
 
         fetchChemicals();
     }, []);
+
+    // Fetch sowing history in the background
+    useEffect(() => {
+        const fetchSowingHistory = async () => {
+            try {
+                const res = await APICaller(
+                    ['calc', 'sowing', 'history', 'BACKGROUND'],
+                    '/api/calc/sowing/history',
+                    'GET'
+                );
+
+                if (!res.success) {
+                    Log(['calc', 'sowing', 'history', 'BACKGROUND'], `Error fetching sowing history: ${res.message}`);
+                    return;
+                }
+
+                const history = res.data as SowingRateHistory[];
+                if (history.length > 0) {
+                    // Sort by date descending and get the most recent entry
+                    const sortedHistory = history.sort((a, b) =>
+                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    // Get the plant ID from the most recent entry
+                    setLastUsedPlantId(sortedHistory[0].plantId);
+                }
+            } catch (error) {
+                Log(['calc', 'sowing', 'history', 'BACKGROUND'], `Error fetching sowing history: ${error}`);
+            }
+        };
+
+        if (authObject?.user?.id) {
+            fetchSowingHistory();
+        }
+    }, [authObject?.user?.id]);
 
     //watch for plant selection changes
     useEffect(() => {
@@ -311,6 +344,7 @@ export default function useChemProtWorkingForm() {
         unitOfMeasurement,
         CountWarnings,
         warnings,
-        loading
+        loading,
+        lastUsedPlantId
     }
 }
