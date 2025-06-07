@@ -166,6 +166,7 @@ export interface SowingRateHistory {
 
 export interface SeedingDataCombinationHistory {
   id: string;
+  userId: string;
   plants: {
     plant: {
       latinName: string;

@@ -67,6 +67,9 @@ export default function HistoryDisplay() {
             });
         }
 
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         return filtered;
     };
 
@@ -97,6 +100,9 @@ export default function HistoryDisplay() {
             });
         }
 
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         return filtered;
     };
 
@@ -114,6 +120,9 @@ export default function HistoryDisplay() {
             });
         }
 
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         return filtered;
     };
 
@@ -130,6 +139,9 @@ export default function HistoryDisplay() {
                 });
             });
         }
+
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
         return filtered;
     };
