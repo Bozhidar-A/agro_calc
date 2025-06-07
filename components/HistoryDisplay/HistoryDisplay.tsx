@@ -21,11 +21,22 @@ import SowingCharts from '../SowingCharts/SowingCharts';
 import CombinedCharts from '../CombinedCharts/CombinedCharts';
 import ChemWorkingSolutionCharts from '../ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
 
+type ChemProtWorkingSolutionHistoryWithRelations = ChemProtWorkingSolutionHistory & {
+    plant?: {
+        id: string;
+        latinName: string;
+    } | null;
+    chemical?: {
+        id: string;
+        nameKey: string;
+    } | null;
+};
+
 export default function HistoryDisplay() {
     const [sowingRateHistory, setSowingRateHistory] = useState<SowingRateHistory[]>([]);
     const [seedingDataHistory, setSeedingDataHistory] = useState<SeedingDataCombinationHistory[]>([]);
     const [chemProtPercentHistory, setChemProtPercentHistory] = useState<ChemProtPercentHistory[]>([]);
-    const [chemProtWorkingSolutionHistory, setChemProtWorkingSolutionHistory] = useState<ChemProtWorkingSolutionHistory[]>([]);
+    const [chemProtWorkingSolutionHistory, setChemProtWorkingSolutionHistory] = useState<ChemProtWorkingSolutionHistoryWithRelations[]>([]);
     const [loading, setLoading] = useState(true);
     const [errored, setErrored] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -55,6 +66,9 @@ export default function HistoryDisplay() {
                 });
             });
         }
+
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
         return filtered;
     };
@@ -86,6 +100,9 @@ export default function HistoryDisplay() {
             });
         }
 
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         return filtered;
     };
 
@@ -103,10 +120,13 @@ export default function HistoryDisplay() {
             });
         }
 
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
         return filtered;
     };
 
-    const filterChemProtWorkingSolutionHistory = (history: ChemProtWorkingSolutionHistory[]) => {
+    const filterChemProtWorkingSolutionHistory = (history: ChemProtWorkingSolutionHistoryWithRelations[]) => {
         let filtered = history;
 
         // Filter by date
@@ -119,6 +139,9 @@ export default function HistoryDisplay() {
                 });
             });
         }
+
+        // Sort by date (newest first)
+        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
         return filtered;
     };
@@ -224,7 +247,7 @@ export default function HistoryDisplay() {
                         {translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}
                     </TabsTrigger>
                     <TabsTrigger
-                        value="chem-protection"
+                        value="chem-protection-percent-solution"
                         className="flex items-center justify-center text-xs sm:text-base px-2 sm:px-4 py-3 h-full whitespace-normal break-words text-center rounded-md bg-muted data-[state=active]:bg-background"
                     >
                         {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_CALC_TITLE)}
@@ -296,7 +319,6 @@ export default function HistoryDisplay() {
                                     {!history.isDataValid && <WarningBanner />}
                                     <div className="space-y-3 sm:space-y-4">
                                         {history.plants.map((plantData, index) => (
-                                            // <p>{JSON.stringify(plantData)}</p>
                                             <div key={index} className="border-b pb-2 last:border-0">
                                                 <h4 className="font-medium text-sm sm:text-base">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
@@ -332,7 +354,7 @@ export default function HistoryDisplay() {
                     </div>
                 </TabsContent>
 
-                <TabsContent value="chem-protection">
+                <TabsContent value="chem-protection-percent-solution">
                     <div className="grid gap-3 sm:gap-4">
                         {filteredChemProtPercentHistory.length > 0 ? filteredChemProtPercentHistory.map((history) => (
                             <Card key={history.id}>
@@ -379,6 +401,18 @@ export default function HistoryDisplay() {
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-6">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT)}</p>
+                                            <p className="text-base sm:text-lg">
+                                                {history.plant?.latinName ? translator(history.plant.latinName as SELECTABLE_STRINGS) : "N/A"}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL)}</p>
+                                            <p className="text-base sm:text-lg">
+                                                {history.chemical?.nameKey ? translator(history.chemical.nameKey as SELECTABLE_STRINGS) : "N/A"}
+                                            </p>
+                                        </div>
                                         <div>
                                             <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL)}</p>
                                             <p className="text-base sm:text-lg">{history.totalChemicalForAreaLiters.toFixed(2)} L</p>

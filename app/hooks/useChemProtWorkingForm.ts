@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { z } from "zod";
-import { ChemProtWorkingToSave, ChemProtWorkingFormValues } from "@/lib/interfaces";
+import * as z from "zod";
+import { ChemProtWorkingInputPlantChem, ChemProtWorkingToSave, SowingRateHistory } from "@/lib/interfaces";
 import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -13,13 +13,28 @@ import { toast } from "sonner";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { Log } from "@/lib/logger";
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
+
+const formSchema = z.object({
+    selectedPlantId: z.string().optional(),
+    selectedChemicalId: z.string().optional(),
+    chemicalPerAcreML: z.number().min(0.01),
+    workingSolutionPerAcreLiters: z.number().min(0.01),
+    sprayerVolumePerAcreLiters: z.number().min(0.01),
+    areaToBeSprayedAcres: z.number().min(0.01),
+});
 
 export default function useChemProtWorkingForm() {
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
+    const [loading, setLoading] = useState(true);
+    const [plantsChems, setPlantsChems] = useState<ChemProtWorkingInputPlantChem[]>([]);
+    const [lastUsedPlantId, setLastUsedPlantId] = useState<string | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
         userId: authObject?.user?.id ?? '',
+        plantId: "",
+        chemicalId: "",
         totalChemicalForAreaLiters: 0,
         totalWorkingSolutionForAreaLiters: 0,
         roughSprayerCount: 0,
@@ -27,16 +42,11 @@ export default function useChemProtWorkingForm() {
         isDataValid: false,
     });
 
-    const formSchema = z.object({
-        chemicalPerAcreML: z.number().min(0),
-        workingSolutionPerAcreLiters: z.number().min(0),
-        sprayerVolumePerAcreLiters: z.number().min(0),
-        areaToBeSprayedAcres: z.number().min(0),
-    });
-
-    const form = useForm<ChemProtWorkingFormValues>({
+    const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            selectedPlantId: "",
+            selectedChemicalId: "",
             chemicalPerAcreML: 0,
             workingSolutionPerAcreLiters: 0,
             sprayerVolumePerAcreLiters: 0,
@@ -45,6 +55,124 @@ export default function useChemProtWorkingForm() {
         mode: 'onChange',
         reValidateMode: 'onBlur'
     });
+
+    //react-hook-form doesnt support warnings, so i have to hack my way around it
+    const [warnings, setWarnings] = useState<Record<string, string>>({});
+    function addWarning(field: string, message: string) {
+        setWarnings((prev) => ({ ...prev, [field]: message }));
+    }
+    function removeWarning(field: string) {
+        setWarnings((prev) => {
+            const newWarnings = { ...prev };
+            delete newWarnings[field];
+            return newWarnings;
+        });
+    }
+    function CountWarnings() {
+        return Object.keys(warnings).length;
+    }
+
+    // Fetch chemicals on mount
+    useEffect(() => {
+        const fetchChemicals = async () => {
+            try {
+                const res = await APICaller(
+                    ['calc', 'chem-protection', 'working-solution', 'chemicals', "BACKGROUND"],
+                    '/api/calc/chem-protection/working-solution/input',
+                    'GET'
+                );
+
+                if (!res.success) {
+                    Log(['calc', 'chem-protection', 'working-solution', 'chemicals', "BACKGROUND"], `Error fetching chemicals: ${res.message}`);
+                    return;
+                }
+
+                setPlantsChems(res.data);
+                setLoading(false);
+            } catch (error) {
+                Log(['calc', 'chem-protection', 'working-solution', 'chemicals', "BACKGROUND"], `Error fetching chemicals: ${error}`);
+                setLoading(false);
+            }
+        };
+
+        fetchChemicals();
+    }, []);
+
+    // Fetch sowing history in the background
+    useEffect(() => {
+        const fetchSowingHistory = async () => {
+            try {
+                const res = await APICaller(
+                    ['calc', 'sowing', 'history', 'BACKGROUND'],
+                    '/api/calc/sowing/history',
+                    'GET'
+                );
+
+                if (!res.success) {
+                    Log(['calc', 'sowing', 'history', 'BACKGROUND'], `Error fetching sowing history: ${res.message}`);
+                    return;
+                }
+
+                const history = res.data as SowingRateHistory[];
+                if (history.length > 0) {
+                    // Sort by date descending and get the most recent entry
+                    const sortedHistory = history.sort((a, b) =>
+                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    // Get the plant ID from the most recent entry
+                    setLastUsedPlantId(sortedHistory[0].plantId);
+                }
+            } catch (error) {
+                Log(['calc', 'sowing', 'history', 'BACKGROUND'], `Error fetching sowing history: ${error}`);
+            }
+        };
+
+        if (authObject?.user?.id) {
+            fetchSowingHistory();
+        }
+    }, [authObject?.user?.id]);
+
+    //watch for plant selection changes
+    useEffect(() => {
+        const selectedPlantId = form.watch('selectedPlantId');
+        if (selectedPlantId) {
+            const selectedPlant = plantsChems.find((c) => c.plant.id === selectedPlantId);
+            if (selectedPlant) {
+                // Reset chemical selection and related values
+                form.setValue('selectedChemicalId', "", {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true
+                });
+                form.setValue('chemicalPerAcreML', 0, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true
+                });
+            }
+        }
+    }, [form.watch('selectedPlantId'), form, plantsChems]);
+
+    // Watch for chemical selection changes
+    useEffect(() => {
+        const selectedChemicalId = form.watch('selectedChemicalId');
+        if (selectedChemicalId) {
+            const selectedChemical = plantsChems.find((c) => c.chemical.id === selectedChemicalId);
+            if (selectedChemical) {
+                const convertedDosage = unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+                    selectedChemical.chemical.dosage :
+                    AcresToHectares(selectedChemical.chemical.dosage);
+
+                // Auto-fill the chemical per acre based on the selected chemical's dosage
+                form.setValue('chemicalPerAcreML', convertedDosage, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true
+                });
+                removeWarning('chemicalPerAcreML');
+            }
+        }
+    }, [form.watch('selectedChemicalId'), form, unitOfMeasurement, plantsChems]);
 
     // Trigger validation on mount
     useEffect(() => {
@@ -76,6 +204,8 @@ export default function useChemProtWorkingForm() {
 
             setDataToBeSaved({
                 userId: authObject?.user?.id,
+                plantId: form.getValues('selectedPlantId') || "",
+                chemicalId: form.getValues('selectedChemicalId') || "",
                 totalChemicalForAreaLiters: totalChemicalLiters,
                 totalWorkingSolutionForAreaLiters: totalWorkingSolutionLiters,
                 roughSprayerCount,
@@ -128,8 +258,27 @@ export default function useChemProtWorkingForm() {
                 isMathWorking = false;
             }
 
+            // Only show warning if the value was manually changed
+            const currentChemicalId = form.getValues('selectedChemicalId');
+            if (currentChemicalId) {
+                const selectedChemicalData = plantsChems.find((c) => c.chemical.id === currentChemicalId)?.chemical;
+                if (selectedChemicalData) {
+                    const convertedDosage = unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
+                        selectedChemicalData.dosage :
+                        AcresToHectares(selectedChemicalData.dosage);
+
+                    if (convertedDosage !== chemicalPerAcreML && form.getFieldState('chemicalPerAcreML').isDirty) {
+                        addWarning('chemicalPerAcreML', "Value out of bounds!");
+                    } else {
+                        removeWarning('chemicalPerAcreML');
+                    }
+                }
+            }
+
             setDataToBeSaved({
                 userId: authObject?.user?.id,
+                plantId: form.getValues('selectedPlantId') || "",
+                chemicalId: form.getValues('selectedChemicalId') || "",
                 totalChemicalForAreaLiters: totalChemicalLiters,
                 totalWorkingSolutionForAreaLiters: totalWorkingSolutionLiters,
                 roughSprayerCount,
@@ -139,43 +288,63 @@ export default function useChemProtWorkingForm() {
         });
 
         return () => subscription.unsubscribe();
-    }, [form.watch()]);
+    }, [form.watch(), plantsChems]);
 
     //changes for unit of measurement
     useEffect(() => {
         form.setValue("chemicalPerAcreML", form.getValues("chemicalPerAcreML") * 10);
     }, [unitOfMeasurement])
 
-    async function onSubmit() {
+    const onSubmit = async () => {
+        if (!form.formState.isValid) {
+            return;
+        }
+
+        const values = form.getValues();
+        const dataToBeSaved = {
+            userId: authObject?.user?.id,
+            plantId: values.selectedPlantId || null,
+            chemicalId: values.selectedChemicalId || null,
+            totalChemicalForAreaLiters: (values.chemicalPerAcreML * values.areaToBeSprayedAcres) / 1000,
+            totalWorkingSolutionForAreaLiters:
+                values.workingSolutionPerAcreLiters * values.areaToBeSprayedAcres,
+            roughSprayerCount:
+                (values.workingSolutionPerAcreLiters * values.areaToBeSprayedAcres) /
+                values.sprayerVolumePerAcreLiters,
+            chemicalPerSprayerML:
+                (values.chemicalPerAcreML * values.sprayerVolumePerAcreLiters) /
+                values.workingSolutionPerAcreLiters,
+            isDataValid: true,
+        };
+
         try {
-            const response = await APICaller(
+            const res = await APICaller(
                 ['calc', 'chem-protection', 'working-solution', 'history'],
                 '/api/calc/chem-protection/working-solution/history',
                 'POST',
                 dataToBeSaved
             );
 
-            if (!response.success) {
-                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
-                    description: response.message,
-                });
+            if (!res.success) {
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR));
                 return;
             }
 
             toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
-        } catch (error: unknown) {
-            const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-            Log(["calc", "chem-protection", "working-solution", "history"], `POST failed with: ${errorMessage}`);
-            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
-                description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
-            });
+        } catch (error) {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR));
         }
-    }
+    };
 
     return {
         form,
         onSubmit,
         dataToBeSaved,
-        unitOfMeasurement
+        plantsChems,
+        unitOfMeasurement,
+        CountWarnings,
+        warnings,
+        loading,
+        lastUsedPlantId
     }
 }

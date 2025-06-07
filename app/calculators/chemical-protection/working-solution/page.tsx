@@ -1,10 +1,10 @@
 'use client';
 
-import { Droplet, Ruler, Beaker } from 'lucide-react';
+import { Beaker, History } from 'lucide-react';
 import useChemProtWorkingForm from '@/app/hooks/useChemProtWorkingForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { Form } from '@/components/ui/form';
+import { Form, FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ChemWorkingSolutionCharts from '@/components/ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
@@ -13,12 +13,22 @@ import { RootState } from '@/store/store';
 import { ChemProtWorkingSolutionDisplayOutputRow } from '@/components/ChemProtWorkingSolutionDisplayOutputRow/ChemProtWorkingSolutionDisplayOutputRow';
 import { ChemProtWorkingSolutionBuildInputRow } from '@/components/ChemProtWorkingSolutionBuildInputRow/ChemProtWorkingSolutionBuildInputRow';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function ChemicalProtectionWorkingSolution() {
-    const { form, onSubmit, dataToBeSaved } = useChemProtWorkingForm();
+    const { form, onSubmit, dataToBeSaved, CountWarnings, plantsChems, loading, lastUsedPlantId } = useChemProtWorkingForm();
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
+
+    if (loading) {
+        return <LoadingDisplay />
+    }
+
+    // Find the plant name for the suggestion box
+    const lastUsedPlant = lastUsedPlantId ? plantsChems.find(pc => pc.plant.id === lastUsedPlantId)?.plant : undefined;
 
     return (
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
@@ -34,12 +44,116 @@ export default function ChemicalProtectionWorkingSolution() {
                 <CardContent className="pt-4 sm:pt-6">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(() => onSubmit())} className="space-y-6 sm:space-y-8">
+                            <div className="space-y-3 sm:space-y-4 flex flex-col items-center">
+                                <h2 className="text-xl sm:text-2xl font-semibold">
+                                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT)}
+                                </h2>
+                                <p className="text-sm text-black dark:text-white">
+                                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION)}
+                                </p>
+
+                                {lastUsedPlant && !form.watch('selectedPlantId') && (
+                                    <Alert className="mb-4 border-blue-200">
+                                        <History className="h-4 w-4" />
+                                        <AlertDescription className="flex items-center justify-between w-full gap-2">
+                                            <span>{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT)} - {translator(lastUsedPlant.latinName)}</span>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="bg-green-600 hover:bg-green-700 text-white border-green-600 hover:border-green-700"
+                                                onClick={() => {
+                                                    if (lastUsedPlantId) {
+                                                        form.setValue('selectedPlantId', lastUsedPlantId, {
+                                                            shouldValidate: true,
+                                                            shouldDirty: true,
+                                                            shouldTouch: true
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT)}
+                                            </Button>
+                                        </AlertDescription>
+                                    </Alert>
+                                )}
+
+                                <FormField
+                                    control={form.control}
+                                    name="selectedPlantId"
+                                    render={({ field }) => (
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                                                <SelectValue
+                                                    placeholder={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT)}
+                                                />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {plantsChems
+                                                    .filter((entry, index, self) =>
+                                                        index === self.findIndex(e => e.plant.id === entry.plant.id)
+                                                    )
+                                                    .map((entry) => (
+                                                        <SelectItem
+                                                            key={entry.plant.id}
+                                                            value={entry.plant.id}
+                                                            className="text-black dark:text-white sm:text-lg py-2 sm:py-3"
+                                                        >
+                                                            {translator(entry.plant.latinName)}
+                                                        </SelectItem>
+                                                    ))}
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                            </div>
+
+                            {form.watch('selectedPlantId') && (
+                                <div className="space-y-3 sm:space-y-4 flex flex-col items-center">
+                                    <h2 className="text-xl sm:text-2xl font-semibold">
+                                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL)}
+                                    </h2>
+                                    <p className="text-sm text-black dark:text-white">
+                                        {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL_DESCRIPTION)}
+                                    </p>
+                                    <FormField
+                                        control={form.control}
+                                        name="selectedChemicalId"
+                                        render={({ field }) => (
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                value={field.value || ""}
+                                                defaultValue=""
+                                            >
+                                                <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                                                    <SelectValue
+                                                        placeholder={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL)}
+                                                    />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {plantsChems
+                                                        .filter(entry => entry.plant.id === form.watch('selectedPlantId'))
+                                                        .map((entry) => (
+                                                            <SelectItem
+                                                                key={entry.chemical.id}
+                                                                value={entry.chemical.id}
+                                                                className="text-black dark:text-white sm:text-lg py-2 sm:py-3"
+                                                            >
+                                                                {translator(entry.chemical.nameKey)}
+                                                            </SelectItem>
+                                                        ))}
+                                                </SelectContent>
+                                            </Select>
+                                        )}
+                                    />
+                                </div>
+                            )}
+
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
                                 <ChemProtWorkingSolutionBuildInputRow
                                     varName="chemicalPerAcreML"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE)}
                                     form={form}
-                                    icon={<Droplet className="h-5 w-5" />}
+                                    icon={<Beaker className="h-5 w-5" />}
                                     translator={translator}
                                     unit={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
                                         translator(SELECTABLE_STRINGS.ML_ACRE) :
@@ -68,7 +182,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                     varName="areaToBeSprayedAcres"
                                     displayName={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA)}
                                     form={form}
-                                    icon={<Ruler className="h-5 w-5" />}
+                                    icon={<Beaker className="h-5 w-5" />}
                                     translator={translator}
                                     unit={unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
                                         translator(SELECTABLE_STRINGS.ACRE) :
@@ -76,6 +190,12 @@ export default function ChemicalProtectionWorkingSolution() {
                                     displayValue={form.watch('areaToBeSprayedAcres').toString()}
                                 />
                             </div>
+
+                            {CountWarnings() > 0 && (
+                                <div className="flex flex-row gap-2 justify-center">
+                                    <p className="text-yellow-500">{translator(SELECTABLE_STRINGS.HAS_VALUE_OUTSIDE_SUGGESTED_RANGE)}</p>
+                                </div>
+                            )}
 
                             {form.formState.isValid && (
                                 <div className="flex flex-col gap-4 sm:gap-6">
@@ -114,7 +234,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                         </CardContent>
                                     </Card>
 
-                                    {dataToBeSaved.isDataValid && authObject?.user?.id && (
+                                    {form.formState.isValid && authObject?.user?.id && (
                                         <div>
                                             <div className="flex justify-center mt-6 sm:mt-8">
                                                 <Button
