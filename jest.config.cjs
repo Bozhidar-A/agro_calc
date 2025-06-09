@@ -12,16 +12,7 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
-
-  // 👇 преобразувай ESM пакети (lucide-react)
-  transformIgnorePatterns: ['node_modules/(?!(lucide-react)/)'],
-
-  // 👇 задължи babel-jest да обработва .ts/.tsx
-  transform: {
-    '^.+\\.[tj]sx?$': 'babel-jest',
-  },
-
-  modulePathIgnorePatterns: ['<rootDir>/.next/'],
+  modulePathIgnorePatterns: ['<rootDir>/.next/']
 };
 
 module.exports = createJestConfig(customJestConfig);
