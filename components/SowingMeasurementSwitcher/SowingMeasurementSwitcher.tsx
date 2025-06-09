@@ -18,13 +18,13 @@ export default function SowingMeasurementSwitcher({ dataToBeSaved }: { dataToBeS
                         data={dataToBeSaved.sowingRatePlantsPerAcre}
                         text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                         unit={translator(
-                            SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE
+                            SELECTABLE_STRINGS.PLANTS_PER_ACRE
                         )}
                     />
                     <DisplayOutputRow
                         data={dataToBeSaved.usedSeedsKgPerAcre}
                         text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}
-                        unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)}
+                        unit={translator(SELECTABLE_STRINGS.KG_ACRE)}
                     />
                 </>
             );
@@ -35,13 +35,13 @@ export default function SowingMeasurementSwitcher({ dataToBeSaved }: { dataToBeS
                         data={ToFixedNumber(SowingRatePlantsPerAcreToHectare(dataToBeSaved.sowingRatePlantsPerAcre), 0)}
                         text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                         unit={translator(
-                            SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_HECTARE
+                            SELECTABLE_STRINGS.PLANTS_PER_HECTARE
                         )}
                     />
                     <DisplayOutputRow
                         data={ToFixedNumber(KgPerAcreToKgPerHectare(dataToBeSaved.usedSeedsKgPerAcre), 2)} // Convert kg/acre to kg/hectare
                         text={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}
-                        unit={translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_HECTARE)}
+                        unit={translator(SELECTABLE_STRINGS.KG_HECTARE)}
                     />
                 </>
             );
