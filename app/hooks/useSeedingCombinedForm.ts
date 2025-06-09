@@ -9,6 +9,7 @@ import { RoundToSecondStr } from "@/lib/math-util";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { ActivePlantsFormData, AuthState, CombinedCalcDBData, PlantCombinedDBData } from "@/lib/interfaces";
+import { useWarnings } from "@/app/hooks/useWarnings";
 
 export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
     const translator = useTranslate();
@@ -55,20 +56,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
     }
 
     //react-hook-form doesnt support warnings, so i have to hack my way around it
-    const [warnings, setWarnings] = useState<Record<string, string>>({});
-    function addWarning(field: string, message: string) {
-        setWarnings((prev) => ({ ...prev, [field]: message }));
-    }
-    function removeWarning(field: string) {
-        setWarnings((prev) => {
-            const newWarnings = { ...prev };
-            delete newWarnings[field];
-            return newWarnings;
-        });
-    }
-    function CountWarnings() {
-        return Object.keys(warnings).length;
-    }
+    const { warnings, AddWarning, RemoveWarning, CountWarnings } = useWarnings();
 
     //object making react-hook-form and zod work together
     const formSchema = z
@@ -144,10 +132,10 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
                     const selectedPlant = dbData.find((plant) => plant.id === item.id);
                     if (selectedPlant) {
                         if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
-                            addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
+                            AddWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
                         }
                         else {
-                            removeWarning(`${basePath}.seedingRate`);
+                            RemoveWarning(`${basePath}.seedingRate`);
                         }
                     }
                 }
@@ -169,17 +157,17 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
 
                 if (!item.active) {
                     //again hacky when active is false, clear all errors and warnings
-                    removeWarning(`${basePath}.seedingRate`);
+                    RemoveWarning(`${basePath}.seedingRate`);
                     form.clearErrors(`${basePath}.seedingRate`);
-                    removeWarning(`${basePath}.participation`);
+                    RemoveWarning(`${basePath}.participation`);
                     form.clearErrors(`${basePath}.participation`);
                 } else {
                     const selectedPlant = dbData.find((plant) => plant.id === item.id);
                     if (selectedPlant) {
                         if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
-                            addWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
+                            AddWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
                         } else {
-                            removeWarning(`${basePath}.seedingRate`);
+                            RemoveWarning(`${basePath}.seedingRate`);
                             form.clearErrors(`${basePath}.seedingRate`);
                         }
                     }

@@ -14,6 +14,7 @@ import { APICaller } from '@/lib/api-util';
 import { WikiChemical } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
+import { FormatInterval, FormatQuarantine } from '@/lib/utils';
 
 export default function WikiChemicalProtectionChemicalPage() {
   const params = useParams();
@@ -49,20 +50,6 @@ export default function WikiChemicalProtectionChemicalPage() {
         });
       });
   }, []);
-
-  const formatInterval = (min: number, max: number) => {
-    if (min === 0 && max === 0) {
-      return 'N/A';
-    }
-    if (min === max) {
-      return `${min} days`;
-    }
-    return `${min} - ${max} days`;
-  };
-
-  const formatQuarantine = (days: number) => {
-    return days === 0 ? 'N/A' : `${days} days`;
-  };
 
   if (loading) {
     return <LoadingDisplay />;
@@ -145,7 +132,7 @@ export default function WikiChemicalProtectionChemicalPage() {
                   {translator(
                     SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL
                   )}{' '}
-                  {formatInterval(
+                  {FormatInterval(
                     chemical.minIntervalBetweenApplicationsDays,
                     chemical.maxIntervalBetweenApplicationsDays
                   )}
@@ -154,7 +141,7 @@ export default function WikiChemicalProtectionChemicalPage() {
                   {translator(
                     SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE
                   )}{' '}
-                  {formatQuarantine(chemical.quarantinePeriodDays)}
+                  {FormatQuarantine(chemical.quarantinePeriodDays)}
                 </p>
               </div>
             </div>

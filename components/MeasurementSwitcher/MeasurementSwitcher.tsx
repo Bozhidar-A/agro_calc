@@ -10,6 +10,7 @@ import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../ui/button';
 import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
+import { RootState } from '@/store/store';
 
 function MUnitToI18nString(unitOfMeasurementLength: string) {
     switch (unitOfMeasurementLength) {
@@ -25,7 +26,7 @@ function MUnitToI18nString(unitOfMeasurementLength: string) {
 export default function MeasurementSwitcher() {
     const dispatch = useDispatch();
     const translator = useTranslate();
-    const measurementUnit = useSelector((state) => state.local.unitOfMeasurementLength);
+    const measurementUnit = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
 
     return (
         <DropdownMenu>

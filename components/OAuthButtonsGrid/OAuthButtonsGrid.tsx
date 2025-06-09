@@ -1,19 +1,7 @@
-import { Button } from "@/components/ui/button";
-import SimpleIconToSVG from "@/components/SimpleIconToSVG/SimpleIconToSVG";
-import { SupportedOAuthProvider } from "@/lib/interfaces";
 import { SUPPORTED_OAUTH_PROVIDERS } from "@/lib/utils";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/app/hooks/useTranslate";
-
-function OAuthButton({ buttonData }: { buttonData: SupportedOAuthProvider }) {
-    return (
-        <Button asChild className="text-black dark:text-white font-bold">
-            <a href={buttonData.authURL}>
-                <SimpleIconToSVG icon={buttonData.icon} />
-            </a>
-        </Button>
-    )
-}
+import { OAuthButton } from "@/components/OAuthButton/OAuthButton";
 
 export default function OAuthButtonsGrid() {
     const translator = useTranslate();

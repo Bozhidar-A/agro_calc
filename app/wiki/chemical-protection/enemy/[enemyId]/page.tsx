@@ -14,6 +14,7 @@ import { APICaller } from '@/lib/api-util';
 import { WikiEnemy } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
+import { FormatInterval, FormatQuarantine } from '@/lib/utils';
 
 export default function WikiChemicalProtectionEnemyPage() {
   const params = useParams();
@@ -49,20 +50,6 @@ export default function WikiChemicalProtectionEnemyPage() {
         });
       });
   }, []);
-
-  const formatInterval = (min: number, max: number) => {
-    if (min === 0 && max === 0) {
-      return 'N/A';
-    }
-    if (min === max) {
-      return `${min} days`;
-    }
-    return `${min} - ${max} days`;
-  };
-
-  const formatQuarantine = (days: number) => {
-    return days === 0 ? 'N/A' : `${days} days`;
-  };
 
   if (loading) {
     return <LoadingDisplay />;
@@ -167,7 +154,7 @@ export default function WikiChemicalProtectionEnemyPage() {
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_INTERVAL
                                 )}
-                                {formatInterval(
+                                {FormatInterval(
                                   chemRelation.chemical.minIntervalBetweenApplicationsDays,
                                   chemRelation.chemical.maxIntervalBetweenApplicationsDays
                                 )}
@@ -176,7 +163,7 @@ export default function WikiChemicalProtectionEnemyPage() {
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_QUARANTINE
                                 )}
-                                : {formatQuarantine(chemRelation.chemical.quarantinePeriodDays)}
+                                : {FormatQuarantine(chemRelation.chemical.quarantinePeriodDays)}
                               </p>
                             </div>
                           </div>
@@ -267,24 +254,24 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Additional Information */}
                           {(chemRelation.chemical.additionalInfo ||
                             chemRelation.chemical.additionalInfoNotes) && (
-                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
-                              <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                {translator(
-                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
-                                )}
-                              </h4>
-                              <div className="space-y-2 text-black dark:text-white">
-                                {chemRelation.chemical.additionalInfo && (
-                                  <p>{translator(chemRelation.chemical.additionalInfo)}</p>
-                                )}
-                                {chemRelation.chemical.additionalInfoNotes && (
-                                  <p className="text-sm text-black dark:text-white">
-                                    {translator(chemRelation.chemical.additionalInfoNotes)}
-                                  </p>
-                                )}
+                              <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
+                                <h4 className="font-semibold mb-2 text-black dark:text-white">
+                                  {translator(
+                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
+                                  )}
+                                </h4>
+                                <div className="space-y-2 text-black dark:text-white">
+                                  {chemRelation.chemical.additionalInfo && (
+                                    <p>{translator(chemRelation.chemical.additionalInfo)}</p>
+                                  )}
+                                  {chemRelation.chemical.additionalInfoNotes && (
+                                    <p className="text-sm text-black dark:text-white">
+                                      {translator(chemRelation.chemical.additionalInfoNotes)}
+                                    </p>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
                       </CardContent>
                     </Card>

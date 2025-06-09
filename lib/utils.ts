@@ -67,6 +67,10 @@ export function GetStrFromLangMapKey(lang: string, str: string) {
   return str;
 }
 
+export function FetchUnitIfExist(data) {
+  return data.unit ? `${data.unit}` : '';
+}
+
 export function Base64URLSafeEncode(str: string) {
   // Convert string to base64
   const base64 = btoa(unescape(encodeURIComponent(str)));
@@ -127,4 +131,34 @@ export function GetDisplayValue(value: number, unitOfMeasurement: UNIT_OF_MEASUR
     return ToFixedNumber(AcresToHectares(value), 2);
   }
   return ToFixedNumber(value, 2);
+};
+
+
+//spwa
+export function GetUnitSymbol(unitOfMeasurement: UNIT_OF_MEASUREMENT_LENGTH = UNIT_OF_MEASUREMENT_LENGTH.ACRES) {
+  return unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ? 'ha' : 'acre';
+}
+
+export function FormatInterval(min: number, max: number) {
+  if (min === 0 && max === 0) {
+    return 'N/A';
+  }
+  if (min === max) {
+    return `${min} days`;
+  }
+  return `${min} - ${max} days`;
+};
+
+export function FormatQuarantine(days: number) {
+  return days === 0 ? 'N/A' : `${days} days`;
+};
+
+export function FormatValue(value: number) {
+  if (value >= 1000000) {
+    return `${(value / 1000000).toFixed(1)}M`;
+  }
+  if (value >= 1000) {
+    return `${(value / 1000).toFixed(1)}K`;
+  }
+  return value.toFixed(1);
 };

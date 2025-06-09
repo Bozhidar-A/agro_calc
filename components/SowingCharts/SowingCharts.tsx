@@ -11,13 +11,13 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { SowingRateSaveData } from '@/app/hooks/useSowingRateForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { FormatValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { SowingRateSaveData } from '@/lib/interfaces';
 
 export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   if (!data) {
@@ -34,18 +34,18 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   const pieData = [
     {
       name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE) :
-        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_HECTARE),
+        translator(SELECTABLE_STRINGS.KG_ACRE) :
+        translator(SELECTABLE_STRINGS.KG_HECTARE),
       value: data.usedSeedsKgPerAcre,
     },
     {
       name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE) :
-        translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_HECTARE),
+        translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE) :
+        translator(SELECTABLE_STRINGS.PLANTS_PER_HECTARE),
       value: data.sowingRateSafeSeedsPerMeterSquared / 100,
     }, // Scale down for better visualization
     {
-      name: `${translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)} (${translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)})`,
+      name: `${translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING)} (${translator(SELECTABLE_STRINGS.CM)})`,
       value: data.internalRowHeightCm,
     },
   ];
@@ -59,17 +59,17 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
 
   const radarData = [
     {
-      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2),
+      metric: translator(SELECTABLE_STRINGS.SEEDS_PER_M2),
       value: data.sowingRateSafeSeedsPerMeterSquared,
       fullMark: maxValues.seedsPerMeter,
     },
     {
-      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
+      metric: translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE),
       value: data.sowingRatePlantsPerAcre,
       fullMark: maxValues.plantsPerAcre,
     },
     {
-      metric: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE),
+      metric: translator(SELECTABLE_STRINGS.KG_ACRE),
       value: data.usedSeedsKgPerAcre * 10, // Scale up for better visualization
       fullMark: maxValues.kgPerAcre * 10,
     },
@@ -83,11 +83,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   // For bar chart - key metrics
   const barData = [
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2),
+      name: translator(SELECTABLE_STRINGS.SEEDS_PER_M2),
       value: data.sowingRateSafeSeedsPerMeterSquared,
     },
     {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE),
+      name: translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE),
       value: data.sowingRatePlantsPerAcre / 100,
     }, // Scale down for visualization
     {
@@ -125,16 +125,6 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
               {radarData.map((item, index) => {
-                // Format the value based on its magnitude
-                const formatValue = (value: number) => {
-                  if (value >= 1000000) {
-                    return `${(value / 1000000).toFixed(1)}M`;
-                  }
-                  if (value >= 1000) {
-                    return `${(value / 1000).toFixed(1)}K`;
-                  }
-                  return value.toFixed(1);
-                };
 
                 // Calculate percentage of max value for visual indicator
                 const percentage = (item.value / item.fullMark) * 100;
@@ -143,7 +133,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                   <div key={item.metric} className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">{item.metric}</span>
-                      <span className="text-sm font-bold">{formatValue(item.value)}</span>
+                      <span className="text-sm font-bold">{FormatValue(item.value)}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                       <div
@@ -155,7 +145,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                       />
                     </div>
                     <div className="text-xs text-gray-500 text-right">
-                      Max: {formatValue(item.fullMark)}
+                      Max: {FormatValue(item.fullMark)}
                     </div>
                   </div>
                 );
@@ -212,11 +202,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                     // Undo scaling for display in tooltip
                     if (
                       name ===
-                      translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE)
+                      translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)
                     ) {
                       return (value * 100).toFixed(0);
                     }
-                    if (name === translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_KA_PER_ACRE)) {
+                    if (name === translator(SELECTABLE_STRINGS.KG_ACRE)) {
                       return (value / 10).toFixed(2);
                     }
                     return value;

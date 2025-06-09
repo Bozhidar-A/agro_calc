@@ -14,6 +14,7 @@ import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/app/hooks/useTranslate";
 import { Log } from "@/lib/logger";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
+import { useWarnings } from "@/app/hooks/useWarnings";
 
 const formSchema = z.object({
     selectedPlantId: z.string().optional(),
@@ -57,20 +58,7 @@ export default function useChemProtWorkingForm() {
     });
 
     //react-hook-form doesnt support warnings, so i have to hack my way around it
-    const [warnings, setWarnings] = useState<Record<string, string>>({});
-    function addWarning(field: string, message: string) {
-        setWarnings((prev) => ({ ...prev, [field]: message }));
-    }
-    function removeWarning(field: string) {
-        setWarnings((prev) => {
-            const newWarnings = { ...prev };
-            delete newWarnings[field];
-            return newWarnings;
-        });
-    }
-    function CountWarnings() {
-        return Object.keys(warnings).length;
-    }
+    const { warnings, AddWarning, RemoveWarning, CountWarnings } = useWarnings();
 
     // Fetch chemicals on mount
     useEffect(() => {
@@ -169,7 +157,7 @@ export default function useChemProtWorkingForm() {
                     shouldDirty: true,
                     shouldTouch: true
                 });
-                removeWarning('chemicalPerAcreML');
+                RemoveWarning('chemicalPerAcreML');
             }
         }
     }, [form.watch('selectedChemicalId'), form, unitOfMeasurement, plantsChems]);
@@ -268,9 +256,9 @@ export default function useChemProtWorkingForm() {
                         AcresToHectares(selectedChemicalData.dosage);
 
                     if (convertedDosage !== chemicalPerAcreML && form.getFieldState('chemicalPerAcreML').isDirty) {
-                        addWarning('chemicalPerAcreML', "Value out of bounds!");
+                        AddWarning('chemicalPerAcreML', "Value out of bounds!");
                     } else {
-                        removeWarning('chemicalPerAcreML');
+                        RemoveWarning('chemicalPerAcreML');
                     }
                 }
             }

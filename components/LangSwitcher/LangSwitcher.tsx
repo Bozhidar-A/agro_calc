@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SUPPORTED_LANGS } from '@/lib/utils';
 import { LocalSetLang } from '@/store/slices/localSettingsSlice';
+import { RootState } from '@/store/store';
 
 function ThemeIcon(theme: string | undefined) {
   switch (theme) {
@@ -24,7 +25,7 @@ function ThemeIcon(theme: string | undefined) {
 
 export function LangSwitcher() {
   const dispatch = useDispatch();
-  const lang = useSelector((state) => state.local.lang);
+  const lang = useSelector((state: RootState) => state.local.lang);
 
   return (
     <DropdownMenu>
