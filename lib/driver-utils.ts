@@ -222,3 +222,104 @@ export function getCombinedSteps(translator: (key: string) => string) {
         },
     ];
 }
+
+export function getChemProtWorkingSolutionSteps(translator: (key: string) => string) {
+    return [
+        {
+            element: '#plantSelection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#chemicalSelection',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#chemicalPerAcreML',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#workingSolutionPerAcreLiters',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION),
+            },
+        },
+        {
+            element: '#sprayerVolumePerAcreLiters',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION),
+            },
+        },
+        {
+            element: '#areaToBeSprayedAcres',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA_DESCRIPTION),
+            },
+        },
+        {
+            element: '#results',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS_DESCRIPTION),
+            },
+        },
+        {
+            element: '#saveCalculationButton',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#charts',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS),
+                description: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS_DESCRIPTION),
+            },
+        }
+    ];
+}
+
+export function getChemProtPercentSteps(translator: (key: string) => string) {
+    return [
+        {
+            element: '#desiredPercentage',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE),
+                description: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE_DESCRIPTION),
+            },
+        },
+        {
+            element: '#sprayerVolume',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME),
+                description: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION),
+            },
+        },
+        {
+            element: '#result',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT),
+                description: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT_DESCRIPTION),
+            },
+        },
+        {
+            element: '#saveCalculationButton',
+            popover: {
+                title: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION),
+                description: translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION_DESCRIPTION),
+            },
+        }
+    ];
+}
