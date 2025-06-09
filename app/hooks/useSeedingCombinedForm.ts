@@ -8,7 +8,7 @@ import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
 import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { ActivePlantsFormData, AuthState, CombinedCalcDBData, PlantCombinedDBData } from "@/lib/interfaces";
+import { ActivePlantsFormData, AuthState, CombinedCalcDBData, CombinedFormValues, PlantCombinedDBData } from "@/lib/interfaces";
 import { useWarnings } from "@/app/hooks/useWarnings";
 
 export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
@@ -16,7 +16,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
     //final data to save to db
     const [finalData, setFinalData] = useState<CombinedCalcDBData | null>(null);
 
-    function UpdateFinalData(data) {
+    function UpdateFinalData(data: CombinedFormValues) {
         const plants: ActivePlantsFormData[] = [];
         for (const plant of data.legume) {
             if (plant.active) {
@@ -46,8 +46,8 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
 
         const combinedData: CombinedCalcDBData = {
             plants,
-            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
-                data.cereal.reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
+            totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
+                data.cereal.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
             userId: authObj?.user?.id || "",
             isDataValid: (form.formState.isValid && CountWarnings() === 0),
         };
@@ -79,7 +79,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             }
         });
 
-    const form = useForm({
+    const form = useForm<CombinedFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: CreateDefaultValues(),
         mode: 'onBlur'
@@ -95,97 +95,95 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
         }
     }, [form.formState.isValid, warnings]);
 
-    // Debug form state changes
-    useEffect(() => {
-        console.log('Form state changed:', {
-            isValid: form.formState.isValid,
-            isDirty: form.formState.isDirty,
-            isSubmitting: form.formState.isSubmitting,
-            errors: form.formState.errors,
-            warnings
-        });
-    }, [form.formState.isValid, form.formState.isDirty, form.formState.isSubmitting, form.formState.errors, warnings]);
-
     //watcher to handle form value change
     //calculated vals
     useEffect(() => {
-        const subscription = form.watch((_, { name }) => {
-            if (name && name.includes('dropdownPlant')) {
-                const [section, index] = name.split('.');
-                const basePath = `${section}.${index}`;
+        const subscription = form.watch((_value, { name }) => {
+            if (!name) { return; }
 
-                //on active dropdown plant change update the hidden id state var
-                form.setValue(`${basePath}.id`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).id);
-                form.setValue(`${basePath}.plantType`, dbData.find((plant) => plant.latinName === form.getValues(basePath).dropdownPlant).plantType);
+            const [section, index] = name.split('.');
+            if (!section || !index) { return; }
+
+            const values = form.getValues();
+            const rowData = values[section as keyof CombinedFormValues]?.[parseInt(index, 10)];
+            if (!rowData) { return; }
+
+            //handle dropdown plant change
+            if (name.includes('dropdownPlant') && rowData.dropdownPlant) {
+                const selectedPlant = dbData.find((plant) => plant.latinName === rowData.dropdownPlant);
+                if (selectedPlant) {
+                    //batch update the form values
+                    type FormPath = keyof CombinedFormValues | `${keyof CombinedFormValues}.${number}.id` | `${keyof CombinedFormValues}.${number}.plantType`;
+                    const batch: Record<FormPath, string> = {
+                        [`${section}.${index}.id`]: selectedPlant.id,
+                        [`${section}.${index}.plantType`]: selectedPlant.plantType
+                    } as Record<FormPath, string>;
+
+                    Object.entries(batch).forEach(([path, value]) => {
+                        const formPath = path as FormPath;
+                        const currentValue = form.getValues(formPath);
+                        if (currentValue !== value) {
+                            form.setValue(formPath, value, { shouldValidate: false });
+                        }
+                    });
+                }
             }
 
-            if (name && (name.includes('participation') || name.includes('seedingRate') || name.includes('dropdownPlant'))) {
+            //handle active state change
+            if (name.includes('active')) {
+                type FormFieldPath = `${keyof CombinedFormValues}.${number}.${'seedingRate' | 'participation'}`;
+
+                const seedingRatePath = `${section}.${index}.seedingRate` as FormFieldPath;
+                const participationPath = `${section}.${index}.participation` as FormFieldPath;
+
+                if (!rowData.active) {
+                    //clear errors and warnings when deactivated
+                    RemoveWarning(seedingRatePath);
+                    form.clearErrors(seedingRatePath);
+                    RemoveWarning(participationPath);
+                    form.clearErrors(participationPath);
+                } else {
+                    //validate when activated
+                    const selectedPlant = dbData.find((plant) => plant.id === rowData.id);
+                    if (selectedPlant && rowData.seedingRate) {
+                        if (rowData.seedingRate < selectedPlant.minSeedingRate || rowData.seedingRate > selectedPlant.maxSeedingRate) {
+                            AddWarning(seedingRatePath, `Seeding rate out of bounds`);
+                        } else {
+                            RemoveWarning(seedingRatePath);
+                            form.clearErrors(seedingRatePath);
+                        }
+                    }
+                }
+            }
+
+            //handle seeding rate change
+            if (name.includes('seedingRate') && rowData.active && rowData.dropdownPlant) {
+                const selectedPlant = dbData.find((plant) => plant.id === rowData.id);
+                if (selectedPlant) {
+                    type FormFieldPath = `${keyof CombinedFormValues}.${number}.seedingRate`;
+                    const warningPath = `${section}.${index}.seedingRate` as FormFieldPath;
+                    if (rowData.seedingRate < selectedPlant.minSeedingRate || rowData.seedingRate > selectedPlant.maxSeedingRate) {
+                        AddWarning(warningPath, `Seeding rate out of bounds`);
+                    } else {
+                        RemoveWarning(warningPath);
+                    }
+                }
+            }
+
+            //update calculations if relevant fields changed
+            if (name.includes('participation') || name.includes('seedingRate') || name.includes('dropdownPlant')) {
                 UpdateSeedingComboAndPriceDA(form, name, dbData);
             }
 
-            if (name && name.includes('seedingRate')) {
-                const [section, index] = name.split('.');
-                const basePath = `${section}.${index}`;
-                const item = form.getValues(basePath);
-
-                if (item.active && item.dropdownPlant) {
-                    const selectedPlant = dbData.find((plant) => plant.id === item.id);
-                    if (selectedPlant) {
-                        if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
-                            AddWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
-                        }
-                        else {
-                            RemoveWarning(`${basePath}.seedingRate`);
-                        }
-                    }
-                }
-            }
-
-            if (name && name.includes('participation')) {
-                //devs know? about this, still not fixed, hacky workaround
-                //https://github.com/orgs/react-hook-form/discussions/8516#discussioncomment-9138591
-                //force all refined validations to run
-                //will add the error for participation if one is applicable
-                //VERY VERY hacky
-                form.trigger(); // workaround trigger
-            }
-
-            if (name && name.includes("active")) {
-                const [section, index] = name.split('.');
-                const basePath = `${section}.${index}`;
-                const item = form.getValues(basePath);
-
-                if (!item.active) {
-                    //again hacky when active is false, clear all errors and warnings
-                    RemoveWarning(`${basePath}.seedingRate`);
-                    form.clearErrors(`${basePath}.seedingRate`);
-                    RemoveWarning(`${basePath}.participation`);
-                    form.clearErrors(`${basePath}.participation`);
-                } else {
-                    const selectedPlant = dbData.find((plant) => plant.id === item.id);
-                    if (selectedPlant) {
-                        if (item.seedingRate < selectedPlant.minSeedingRate || item.seedingRate > selectedPlant.maxSeedingRate) {
-                            AddWarning(`${basePath}.seedingRate`, `Seeding rate out of bounds`);
-                        } else {
-                            RemoveWarning(`${basePath}.seedingRate`);
-                            form.clearErrors(`${basePath}.seedingRate`);
-                        }
-                    }
-
-                    // // Revalidate participation if needed
-                    // form.trigger();
-                }
-            }
-
-            //update the final data to save to db
+            //update final data
             setFinalData(UpdateFinalData(form.getValues()));
         });
 
         return () => subscription.unsubscribe();
     }, [form, dbData]);
 
-    async function onSubmit(data: any) {
-        let isAuthed = authObj?.isAuthenticated || false;
+    async function onSubmit() {
+        const isAuthed = authObj?.isAuthenticated || false;
 
         if (!isAuthed) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
@@ -198,7 +196,6 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
                 description: res.message,
             });
-            console.log(res.message);
             return;
         }
 
@@ -207,3 +204,5 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
 
     return { form, finalData, onSubmit, warnings, CountWarnings };
 };
+
+
