@@ -108,7 +108,7 @@ export default function useChemProtWorkingForm() {
                         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                     );
                     // Get the plant ID from the most recent entry
-                    setLastUsedPlantId(sortedHistory[0].plantId);
+                    setLastUsedPlantId(sortedHistory[0].plant.id);
                 }
             } catch (error) {
                 Log(['calc', 'sowing', 'history', 'BACKGROUND'], `Error fetching sowing history: ${error}`);
@@ -302,7 +302,7 @@ export default function useChemProtWorkingForm() {
             chemicalPerSprayerML:
                 (values.chemicalPerAcreML * values.sprayerVolumePerAcreLiters) /
                 values.workingSolutionPerAcreLiters,
-            isDataValid: true,
+            isDataValid: form.formState.isValid && CountWarnings() === 0,
         };
 
         try {
