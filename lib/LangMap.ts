@@ -37,6 +37,14 @@ export enum SELECTABLE_STRINGS {
   HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION = 'HOME_PAGE_MODERN_FARMING_SOLUTIONS_DESCRIPTION',
   HOME_PAGE_OUR_SUITE_OF_CALCULATORS = 'HOME_PAGE_OUR_SUITE_OF_CALCULATORS',
 
+  //footer
+  FOOTER_DESCRIPTION = 'FOOTER_DESCRIPTION',
+  FOOTER_QUICK_LINKS = 'FOOTER_QUICK_LINKS',
+  FOOTER_HOME = 'FOOTER_HOME',
+  FOOTER_SOWING_RATE_CALCULATOR = 'FOOTER_SOWING_RATE_CALCULATOR',
+  FOOTER_COMBINED_CALCULATOR = 'FOOTER_COMBINED_CALCULATOR',
+  FOOTER_CHEMICAL_PROTECTION_CALCULATOR = 'FOOTER_CHEMICAL_PROTECTION_CALCULATOR',
+
   //auth
   EMAIL = 'EMAIL',
   PASSWORD = 'PASSWORD',
@@ -699,7 +707,7 @@ export enum SELECTABLE_STRINGS {
   CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION = 'CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION',
 }
 
-const LangMap: LangMapInterface = {
+export const LangMap: LangMapInterface = {
   BG: {
     //plants
     [SELECTABLE_STRINGS.PISUM_SATIVUM]: 'Грах',
@@ -778,6 +786,14 @@ const LangMap: LangMapInterface = {
       'Прецизни инструменти за съвременния фермер, предназначени да увеличат максимално добива и ефективността.',
     [SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS]:
       'Нашият пакет от селскостопански калкулатори помага на фермери, агрономи и селскостопански специалисти да правят решения, базирани на данни, за подобряване на добивите, намаляване на отпадъците и увеличаване на рентабилността.',
+
+    //footer
+    [SELECTABLE_STRINGS.FOOTER_DESCRIPTION]: 'Точна агрономия за съвременния фермер',
+    [SELECTABLE_STRINGS.FOOTER_QUICK_LINKS]: 'Бързи връзки',
+    [SELECTABLE_STRINGS.FOOTER_HOME]: 'Начална страница',
+    [SELECTABLE_STRINGS.FOOTER_SOWING_RATE_CALCULATOR]: 'Калкулатор за сеитбена норма',
+    [SELECTABLE_STRINGS.FOOTER_COMBINED_CALCULATOR]: 'Калкулатор за комбинирани изчисления',
+    [SELECTABLE_STRINGS.FOOTER_CHEMICAL_PROTECTION_CALCULATOR]: 'Калкулатор за химическа защита',
 
     [SELECTABLE_STRINGS.EMAIL]: 'Имейл',
     [SELECTABLE_STRINGS.PASSWORD]: 'Парола',
@@ -1526,6 +1542,14 @@ const LangMap: LangMapInterface = {
       'Precision tools for the modern farmer, designed to maximize yield and efficiency.',
     [SELECTABLE_STRINGS.HOME_PAGE_OUR_SUITE_OF_CALCULATORS]:
       'Our suite of agricultural calculators helps farmers, agronomists, and agricultural professionals make data-driven decisions to improve crop yields, reduce waste, and maximize profitability.',
+
+    //footer
+    [SELECTABLE_STRINGS.FOOTER_DESCRIPTION]: 'Precision agriculture for the modern farmer',
+    [SELECTABLE_STRINGS.FOOTER_QUICK_LINKS]: 'Quick Links',
+    [SELECTABLE_STRINGS.FOOTER_HOME]: 'Home',
+    [SELECTABLE_STRINGS.FOOTER_SOWING_RATE_CALCULATOR]: 'Sowing Rate Calculator',
+    [SELECTABLE_STRINGS.FOOTER_COMBINED_CALCULATOR]: 'Combined Calculator',
+    [SELECTABLE_STRINGS.FOOTER_CHEMICAL_PROTECTION_CALCULATOR]: 'Chemical Protection Calculator',
 
     [SELECTABLE_STRINGS.EMAIL]: 'Email',
     [SELECTABLE_STRINGS.PASSWORD]: 'Password',
