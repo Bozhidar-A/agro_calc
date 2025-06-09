@@ -119,6 +119,20 @@ export async function AttachGitHubIdToUser(userId: string, githubId: string) {
   });
 }
 
+export async function FindUserSettingsByUserId(userId: string) {
+  return await prisma.userSettings.findUnique({
+    where: { userId },
+  });
+}
+
+export async function UpdateUserSettings(userId: string, theme: string, language: string, prefUnitOfMeasurement: string) {
+  return await prisma.userSettings.upsert({
+    where: { userId },
+    update: { theme, language, prefUnitOfMeasurement },
+    create: { userId, theme, language, prefUnitOfMeasurement },
+  });
+}
+
 //calc stuff
 
 //sowing
