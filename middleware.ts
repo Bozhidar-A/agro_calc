@@ -8,10 +8,18 @@ export async function middleware(request: NextRequest) {
     const routeDefinitions = {
         protected: {
             api: [
-                "/api/graphql",
+                "/api/user/settings",
+                "/api/calc/chem-protection/percent-solution/history",
+                "/api/calc/chem-protection/percent-solution/input",
+                "/api/calc/chem-protection/working-solution/history",
+                "/api/calc/chem-protection/working-solution/input",
+                "/api/calc/combined/history",
+                "/api/calc/combined/input",
+                "/api/calc/sowing/history",
+                "/api/calc/sowing/input",
             ],
             pages: [
-                "/prot"
+                "/profile"
             ],
             afterAuthAPI: [
                 "/api/auth/login",
@@ -21,7 +29,6 @@ export async function middleware(request: NextRequest) {
                 "/auth/login",
                 "/auth/register",
             ],
-            graphql: "/api/graphql"
         }
     };
 
@@ -32,6 +39,8 @@ export async function middleware(request: NextRequest) {
         Log(["middleware"], `Trying to access root route, letting through`);
         return NextResponse.next();
     }
+
+    const isAPIRoute = pathname.startsWith("/api");
 
     const isProtectedRoute = ArrayContainsAndItemsStartsWith([
         ...routeDefinitions.protected.api,
@@ -51,8 +60,15 @@ export async function middleware(request: NextRequest) {
 
         //no token?
         if (!accessToken) {
-            Log(["middleware"], `No access token found, redirecting to login page`);
+            Log(["middleware"], `No access token found, checking type of route`);
             //straight to jail
+
+            if (isAPIRoute) {
+                Log(["middleware"], `API route, returning 401`);
+                return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+            }
+
+            Log(["middleware"], `Page route, redirecting to login page`);
             return NextResponse.redirect(new URL('/auth/login', request.url));
         }
 
