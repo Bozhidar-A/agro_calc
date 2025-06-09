@@ -6,6 +6,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+type SowingRateField = {
+    type: string;
+    unit: string;
+    step?: number;
+    minSliderVal?: number;
+    maxSliderVal?: number;
+    constValue?: number;
+};
+
 export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>({
     varName,
     displayName,
@@ -15,12 +24,12 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
     translator,
     tourId
 }: BuildSowingRateRowProps<T> & { tourId: string }) {
-    const neededData = activePlantDbData[varName];
+    const neededData = activePlantDbData[varName] as SowingRateField;
 
     let inputValidityClass = 'border-green-700 focus-visible:ring-green-700';
     let inputValidityClassSlider = 'within-safe-range';
 
-    if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData?.minSliderVal, neededData?.maxSliderVal, neededData?.constValue)) {
+    if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData.minSliderVal, neededData.maxSliderVal, neededData.constValue)) {
         inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
         inputValidityClassSlider = 'outside-safe-range';
     }
@@ -34,8 +43,8 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                 </CardTitle>
                 <CardDescription className="text-black/90 dark:text-white/90">
                     {neededData.type === CalculatorValueTypes.SLIDER
-                        ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
-                        : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue || ''} ${FetchUnitIfExist(neededData)}`}
+                        ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal}`
+                        : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue}`}
                 </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
@@ -50,7 +59,11 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                         className={`text-center text-xl ${inputValidityClass}`}
                                         type="number"
                                         {...field}
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                        value={field.value || ''}
+                                        onChange={(e) => {
+                                            const value = e.target.valueAsNumber;
+                                            field.onChange(isNaN(value) ? '' : value);
+                                        }}
                                     />
                                 )}
                             />
@@ -63,9 +76,13 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                         type="range"
                                         min={neededData.minSliderVal}
                                         max={neededData.maxSliderVal}
-                                        step={0.01}
+                                        step={neededData.step || 0.01}
                                         {...field}
-                                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                        value={field.value || neededData.minSliderVal}
+                                        onChange={(e) => {
+                                            const value = e.target.valueAsNumber;
+                                            field.onChange(isNaN(value) ? neededData.minSliderVal : value);
+                                        }}
                                     />
                                 )}
                             />
@@ -79,7 +96,11 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                     className={`text-center text-xl ${inputValidityClass}`}
                                     type="number"
                                     {...field}
-                                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                                    value={field.value || ''}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        field.onChange(isNaN(value) ? '' : value);
+                                    }}
                                 />
                             )}
                         />
