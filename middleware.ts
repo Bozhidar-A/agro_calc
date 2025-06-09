@@ -10,13 +10,9 @@ export async function middleware(request: NextRequest) {
             api: [
                 "/api/user/settings",
                 "/api/calc/chem-protection/percent-solution/history",
-                "/api/calc/chem-protection/percent-solution/input",
                 "/api/calc/chem-protection/working-solution/history",
-                "/api/calc/chem-protection/working-solution/input",
                 "/api/calc/combined/history",
-                "/api/calc/combined/input",
                 "/api/calc/sowing/history",
-                "/api/calc/sowing/input",
             ],
             pages: [
                 "/profile"
