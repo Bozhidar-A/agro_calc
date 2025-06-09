@@ -278,6 +278,21 @@ export interface ChemProtWorkingToSave {
   chemicalPerSprayerML: number;
 }
 
+export interface ChemProtWorkingSolutionHistory {
+  plant?: {
+    id: string;
+    latinName: string;
+  } | null;
+  chemical?: {
+    id: string;
+    nameKey: string;
+  } | null;
+  totalChemicalForAreaLiters: number;
+  totalWorkingSolutionForAreaLiters: number;
+  roughSprayerCount: number;
+  chemicalPerSprayerML: number;
+}
+
 //wiki interface
 export interface WikiBaseEntity {
   id: string;
