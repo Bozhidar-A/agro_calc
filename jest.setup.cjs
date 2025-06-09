@@ -1,4 +1,5 @@
 require('@testing-library/jest-dom');
+require('./test-utils/mocks.ts');
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
@@ -30,3 +31,21 @@ window.ResizeObserver = ResizeObserver;
 jest.mock('redux-persist/integration/react', () => ({
   PersistGate: ({ children }) => children,
 }));
+
+//mock for lucide-react since its esm and not supported by jest
+jest.mock('lucide-react', () => {
+  const React = require('react');
+
+  //proxy to mock the icons
+  return new Proxy({}, {
+    get: (_, iconName) => {
+      return function MockIcon(props) {
+        return React.createElement('svg', {
+          'data-testid': `${String(iconName).toLowerCase()}-icon`,
+          'aria-label': String(iconName),
+          ...props
+        });
+      };
+    }
+  });
+});
