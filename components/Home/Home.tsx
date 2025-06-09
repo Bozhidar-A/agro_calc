@@ -1,18 +1,15 @@
 "use client"
 
-import { useSelector } from "react-redux"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Award } from "lucide-react"
 import { motion } from "framer-motion"
 import { useTranslate } from "@/app/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
-import type { RootState } from "@/store/store"
 import Image from "next/image"
 import { Footer } from "@/components/Footer/Footer"
 import CalculatorsCallToAction from "@/components/CalculatorsCallToAction/CalculatorsCallToAction"
 
 export default function Home() {
-    const authObj = useSelector((state: RootState) => state.auth)
     const translator = useTranslate()
 
     const benefits = [
@@ -148,13 +145,6 @@ export default function Home() {
 
             {/* Footer */}
             <Footer />
-
-            {/* Debug info - can be removed if not needed */}
-            {process.env.NODE_ENV === "development" && (
-                <div className="mt-8 text-xs">
-                    <p>{JSON.stringify(authObj)}</p>
-                </div>
-            )}
         </div>
     )
 }
