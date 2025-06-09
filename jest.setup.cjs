@@ -25,3 +25,8 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+
+//fix for redux persist
+jest.mock('redux-persist/integration/react', () => ({
+  PersistGate: ({ children }) => children,
+}));

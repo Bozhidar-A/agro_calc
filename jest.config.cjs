@@ -14,6 +14,8 @@ const customJestConfig = {
   transformIgnorePatterns: [
     'node_modules/(?!(lucide-react)/)',
   ],
+  modulePathIgnorePatterns: ["<rootDir>/.next/"],
 };
+
 
 module.exports = createJestConfig(customJestConfig);
