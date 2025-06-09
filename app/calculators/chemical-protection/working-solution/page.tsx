@@ -18,19 +18,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { getChemProtWorkingSolutionSteps, SpawnStartDriver } from '@/lib/driver-utils';
+import { useEffect, useState } from "react";
+import { WikiPlant } from "@/lib/interfaces";
 
 export default function ChemicalProtectionWorkingSolution() {
     const { form, onSubmit, dataToBeSaved, CountWarnings, plantsChems, loading, lastUsedPlantId } = useChemProtWorkingForm();
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
+    const [lastUsedPlant, setLastUsedPlant] = useState<WikiPlant | null>(null);
+
+    useEffect(() => {
+        if (lastUsedPlantId) {
+            //find the plant name for the suggestion box
+            setLastUsedPlant(plantsChems.find(pc => pc.plant.id === lastUsedPlantId)?.plant ?? null);
+        }
+    }, [lastUsedPlantId, plantsChems]);
 
     if (loading) {
         return <LoadingDisplay />
     }
-
-    // Find the plant name for the suggestion box
-    const lastUsedPlant = lastUsedPlantId ? plantsChems.find(pc => pc.plant.id === lastUsedPlantId)?.plant : undefined;
 
     return (
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">

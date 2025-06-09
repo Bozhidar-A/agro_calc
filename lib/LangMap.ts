@@ -1471,7 +1471,7 @@ export const LangMap: LangMapInterface = {
     //chemical protection working solution
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]: 'Химическа защита - Работен Разтвор',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]: 'Изчислете количеството работен разтвор за вашата площ',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "Имате вече сметка за сеитбена норма иска те ли да сметнете за растението",
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "Имате вече сметка за сеитбена норма, искате ли да я използвате за изчислението",
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: "Използвайте това растение",
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT]: 'Култура',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]: 'Опционално изберете култура, за да получите начална точка за изчислението',
@@ -1663,7 +1663,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES]: 'Hectares',
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES_SYMBOL]: 'ha',
 
-    [SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE]: 'Sowing rate calculator',
+    [SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE]: 'Sowing Rate Calculator',
     [SELECTABLE_STRINGS.SOWING_RATE_CALC_DESCRIPTION]:
       'Calculate the exact seeding rate for your crop',
     [SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE]: 'Pick a culture',
@@ -2255,7 +2255,7 @@ export const LangMap: LangMapInterface = {
     //chemical protection working solution
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]: 'Chemical Protection - Working Solution',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]: 'Calculate the working solution amount for your area',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "You have already calculated the seeding rate for this plant, do you want to calculate it for this plant",
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "You have already calculated the seeding rate for a plant, do you want to calculate with it",
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: "Use this plant",
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT]: 'Plant',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]: 'Optionally select a plant, to get a starting point for the calculation',
