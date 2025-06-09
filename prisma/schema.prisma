@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,32 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//auth
-
 model User {
-  id                            String                          @id @default(cuid())
-  email                         String                          @unique
-  password                      String? //nullable for OAuth
-  googleId                      String?                         @unique
-  githubId                      String?                         @unique
-  createdAt                     DateTime                        @default(now())
-  updatedAt                     DateTime                        @updatedAt
-  RefreshToken                  RefreshToken[]
-  SeedingDataCombinationHistory SeedingDataCombinationHistory[]
-  SowingRateHistory             SowingRateHistory[]
-
-  ChemProtPercentHistory ChemProtPercentHistory[]
-
+  id                             String                           @id @default(cuid())
+  email                          String                           @unique
+  password                       String?
+  createdAt                      DateTime                         @default(now())
+  updatedAt                      DateTime                         @updatedAt
+  googleId                       String?                          @unique
+  githubId                       String?                          @unique
+  ChemProtPercentHistory         ChemProtPercentHistory[]
   ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
+  RefreshToken                   RefreshToken?
+  SeedingDataCombinationHistory  SeedingDataCombinationHistory[]
+  SowingRateHistory              SowingRateHistory[]
+  UserSettings                   UserSettings[]
+}
+
+model UserSettings {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  theme                 String @default("light") //light, dark, system
+  language              String @default("bg") //bg, en
+  prefUnitOfMeasurement String @default("acres") //acres, hectares
+
+  updatedAt DateTime @updatedAt
 }
 
 model RefreshToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String   @unique //one token per user
-  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
@@ -47,148 +50,103 @@ model ResetPassword {
   id        String   @id @default(cuid())
   email     String
   token     String   @unique
-  expiresAt DateTime
   createdAt DateTime @default(now())
+  expiresAt DateTime
 
   @@index([email])
 }
 
-//calc stuff
 model Plant {
-  id        String @id @default(cuid())
-  latinName String @unique
-
+  id                                     String                                   @id @default(cuid())
+  latinName                              String                                   @unique
+  ChemProtWorkingSolutionHistory         ChemProtWorkingSolutionHistory[]
+  plantChemicals                         PlantChemical[]
   seedingDataCombination                 SeedingDataCombination?
   SeedingDataCombinationHistoryPlantData SeedingDataCombinationHistoryPlantData[]
-  SowingRatePlant                        SowingRatePlant?
   SowingRateHistory                      SowingRateHistory[]
-
-  plantChemicals PlantChemical[]
-
-  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
+  SowingRatePlant                        SowingRatePlant?
 }
 
-//sowing rate
 model SowingRatePlant {
-  id String @id @default(cuid())
-
-  // relationship back to plant
-  plantId String @unique
-  plant   Plant  @relation(fields: [plantId], references: [id], onDelete: Cascade)
-
-  //sowing rate
+  id                          String                                 @id @default(cuid())
+  plantId                     String                                 @unique
   coefficientSecurity         SowingRateCoefficientSecurity?
-  wantedPlantsPerMeterSquared SowingRateWantedPlantsPerMeterSquared?
-  massPer1000g                SowingRateMassPer1000g?
-  purity                      SowingRatePurity?
   germination                 SowingRateGermination?
+  massPer1000g                SowingRateMassPer1000g?
+  plant                       Plant                                  @relation(fields: [plantId], references: [id], onDelete: Cascade)
+  purity                      SowingRatePurity?
   rowSpacingCm                SowingRateRowSpacingCm?
+  wantedPlantsPerMeterSquared SowingRateWantedPlantsPerMeterSquared?
 }
 
 model SowingRateCoefficientSecurity {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
 
 model SowingRateWantedPlantsPerMeterSquared {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
 
 model SowingRateMassPer1000g {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
 
 model SowingRatePurity {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
 
 model SowingRateGermination {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
 
 model SowingRateRowSpacingCm {
-  id   String @id @default(cuid())
-  type String @default("slider")
-  unit String
-
-  // Fields for slider type
-  step         Float?
-  minSliderVal Float?
-  maxSliderVal Float?
-
-  // Field for const type
-  constValue Float?
-
-  // Relationship back to Plant
+  id            String          @id @default(cuid())
+  type          String          @default("slider")
+  unit          String
+  step          Float?
+  minSliderVal  Float?
+  maxSliderVal  Float?
+  constValue    Float?
   sowingPlantId String          @unique
   sowingPlant   SowingRatePlant @relation(fields: [sowingPlantId], references: [id], onDelete: Cascade)
 }
@@ -196,77 +154,56 @@ model SowingRateRowSpacingCm {
 model SowingRateHistory {
   id                                 String   @id @default(cuid())
   plantId                            String
-  plant                              Plant    @relation(fields: [plantId], references: [id])
   userId                             String
-  user                               User     @relation(fields: [userId], references: [id])
   sowingRateSafeSeedsPerMeterSquared Float
   sowingRatePlantsPerAcre            Float
   usedSeedsKgPerAcre                 Float
   internalRowHeightCm                Float
-  totalArea                          Float
   isDataValid                        Boolean
   createdAt                          DateTime @default(now())
+  totalArea                          Float
+  plant                              Plant    @relation(fields: [plantId], references: [id])
+  user                               User     @relation(fields: [userId], references: [id])
 }
 
-//combined
 model SeedingDataCombination {
-  id      String @id @default(cuid())
-  plantId String @unique
-  plant   Plant  @relation(fields: [plantId], references: [id])
-
-  plantType           String
+  id                  String @id @default(cuid())
+  plantId             String @unique
   minSeedingRate      Float
   maxSeedingRate      Float
   priceFor1kgSeedsBGN Float
+  plantType           String
+  plant               Plant  @relation(fields: [plantId], references: [id])
 }
 
 model SeedingDataCombinationHistory {
   id          String                                   @id @default(cuid())
-  plants      SeedingDataCombinationHistoryPlantData[]
   userId      String
-  user        User                                     @relation(fields: [userId], references: [id])
   totalPrice  Float
   isDataValid Boolean
   createdAt   DateTime                                 @default(now())
+  user        User                                     @relation(fields: [userId], references: [id])
+  plants      SeedingDataCombinationHistoryPlantData[]
 }
 
 model SeedingDataCombinationHistoryPlantData {
   id                              String                         @id @default(cuid())
   plantId                         String
-  plant                           Plant                          @relation(fields: [plantId], references: [id])
-  plantType                       String
   seedingRate                     Float
   participation                   Float
   combinedRate                    Float
-  pricePerAcreBGN                 Float
-  SeedingDataCombinationHistory   SeedingDataCombinationHistory? @relation(fields: [seedingDataCombinationHistoryId], references: [id])
   seedingDataCombinationHistoryId String?
-}
-
-//chemical protection
-
-enum ChemicalType {
-  HERBICIDE
-  INSECTICIDE
-  FUNGICIDE
-}
-
-enum ChemicalApplicationStage {
-  PRE_EMERGENT
-  PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE
-  PRE_EMERGENT_BEFORE_START_OF_GROWING_SEASON
-  PRE_EMERGENT_PRE_SOWING_SEEDS_TREATMENT
-  PRE_EMERGENT_DURING_SOWING
-  POST_EMERGENT
+  plantType                       String
+  pricePerAcreBGN                 Float
+  plant                           Plant                          @relation(fields: [plantId], references: [id])
+  SeedingDataCombinationHistory   SeedingDataCombinationHistory? @relation(fields: [seedingDataCombinationHistoryId], references: [id])
 }
 
 model Chemical {
-  id      String @id @default(cuid())
-  nameKey String @unique
-
-  type             ChemicalType
-  applicationStage ChemicalApplicationStage
-
+  id                                 String                           @id @default(cuid())
+  nameKey                            String                           @unique
+  type                               ChemicalType
+  applicationStage                   ChemicalApplicationStage
   dosage                             Float
   dosageUnit                         String
   maxApplications                    Float
@@ -277,20 +214,18 @@ model Chemical {
   pricePerAcreBGN                    Float
   additionalInfo                     String
   additionalInfoNotes                String
-
-  plantUsages                    PlantChemical[]                  @relation("ChemicalToPlantUsages")
-  activeIngredients              ChemicalActiveIngredient[]
-  chemicalTargetEnemies          ChemicalToEnemy[]
-  ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
+  ChemProtWorkingSolutionHistory     ChemProtWorkingSolutionHistory[]
+  activeIngredients                  ChemicalActiveIngredient[]
+  chemicalTargetEnemies              ChemicalToEnemy[]
+  plantUsages                        PlantChemical[]                  @relation("ChemicalToPlantUsages")
 }
 
 model PlantChemical {
-  id         String @id @default(cuid())
+  id         String   @id @default(cuid())
   plantId    String
   chemicalId String
-
-  plant    Plant    @relation(fields: [plantId], references: [id])
-  chemical Chemical @relation("ChemicalToPlantUsages", fields: [chemicalId], references: [id])
+  chemical   Chemical @relation("ChemicalToPlantUsages", fields: [chemicalId], references: [id])
+  plant      Plant    @relation(fields: [plantId], references: [id])
 
   @@unique([plantId, chemicalId])
 }
@@ -303,14 +238,12 @@ model ActiveIngredient {
 }
 
 model ChemicalActiveIngredient {
-  id                 String @id @default(cuid())
+  id                 String           @id @default(cuid())
   chemicalId         String
   activeIngredientId String
-
-  chemical         Chemical         @relation(fields: [chemicalId], references: [id])
-  activeIngredient ActiveIngredient @relation(fields: [activeIngredientId], references: [id])
-
-  quantity Float
+  quantity           Float
+  activeIngredient   ActiveIngredient @relation(fields: [activeIngredientId], references: [id])
+  chemical           Chemical         @relation(fields: [chemicalId], references: [id])
 
   @@unique([chemicalId, activeIngredientId])
 }
@@ -331,33 +264,43 @@ model ChemicalToEnemy {
   @@unique([chemicalId, enemyId])
 }
 
-//chem protection working solution
 model ChemProtWorkingSolutionHistory {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  plantId                           String?
-  plant                             Plant?    @relation(fields: [plantId], references: [id])
-  chemicalId                        String?
-  chemical                          Chemical? @relation(fields: [chemicalId], references: [id])
+  id                                String    @id @default(cuid())
+  userId                            String
   totalChemicalForAreaLiters        Float
   totalWorkingSolutionForAreaLiters Float
   roughSprayerCount                 Float
   chemicalPerSprayerML              Float
   isDataValid                       Boolean
-
-  createdAt DateTime @default(now())
+  createdAt                         DateTime  @default(now())
+  chemicalId                        String?
+  plantId                           String?
+  chemical                          Chemical? @relation(fields: [chemicalId], references: [id])
+  plant                             Plant?    @relation(fields: [plantId], references: [id])
+  user                              User      @relation(fields: [userId], references: [id])
 }
 
-//chem protection percent solution
 model ChemProtPercentHistory {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
+  id                String   @id @default(cuid())
+  userId            String
   desiredPercentage Float
   sprayerVolume     Float
   calculatedAmount  Float
   createdAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+}
+
+enum ChemicalType {
+  HERBICIDE
+  INSECTICIDE
+  FUNGICIDE
+}
+
+enum ChemicalApplicationStage {
+  PRE_EMERGENT
+  PRE_EMERGENT_AFTER_SOWING_BEFORE_EMERGENCE
+  PRE_EMERGENT_BEFORE_START_OF_GROWING_SEASON
+  PRE_EMERGENT_PRE_SOWING_SEEDS_TREATMENT
+  PRE_EMERGENT_DURING_SOWING
+  POST_EMERGENT
 }

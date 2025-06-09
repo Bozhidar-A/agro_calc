@@ -1,11 +1,13 @@
 'use client';
 
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 // import storage from 'redux-persist/lib/storage
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
-import authReducer from '@/store/slices/authSlice';
-import localSettingsReducer from '@/store/slices/localSettingsSlice';
+import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
+import localSettingsReducer, { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
+import { APICaller } from '@/lib/api-util';
+import { Log } from '@/lib/logger';
 
 const createNoopStorage = () => {
   return {
@@ -33,6 +35,55 @@ const combinedReducer = combineReducers({
   local: localSettingsReducer,
 });
 
+const listenerMiddleware = createListenerMiddleware();
+
+listenerMiddleware.startListening({
+  actionCreator: AuthSuccess,
+  effect: async (action, listenerApi) => {
+    console.log('AuthSuccess', action);
+
+    const state = listenerApi.getState() as RootState;
+    const user = state.auth.user;
+
+    if (user) {
+      const userSettings = await APICaller(['user', 'settings', 'get', 'store', 'listener'], `/api/user/settings?userId=${user.id}`, 'GET');
+
+      if (userSettings.success) {
+        listenerApi.dispatch(LocalSetLang(userSettings.userSettings.language));
+        listenerApi.dispatch(LocalSetTheme(userSettings.userSettings.theme));
+        listenerApi.dispatch(LocalSetUnitOfMeasurementLength(userSettings.userSettings.prefUnitOfMeasurement));
+      }
+    }
+  },
+});
+
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength),
+  effect: async (action, listenerApi) => {
+    console.log('Settings changed', action);
+
+    const state = listenerApi.getState() as RootState;
+    const user = state.auth.user;
+    const lang = state.local.lang;
+    const theme = state.local.theme;
+    const unitOfMeasurementLength = state.local.unitOfMeasurementLength;
+
+    if (user) {
+      const userSettings = await APICaller(['user', 'settings', 'post', 'store', 'listener'], `/api/user/settings`, 'POST', {
+        userId: user.id,
+        theme,
+        language: lang,
+        prefUnitOfMeasurement: unitOfMeasurementLength,
+      });
+
+      if (userSettings.success) {
+        Log(['user', 'settings', 'post', 'store', 'listener'], 'User settings updated');
+      }
+    }
+  },
+});
+
 const persistedReducer = persistReducer(persistConfig, combinedReducer);
 
 export const store = configureStore({
@@ -42,7 +93,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
-    }),
+    }).prepend(listenerMiddleware.middleware),
 });
 
 export const persistor = persistStore(store);
