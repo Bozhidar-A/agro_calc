@@ -1,5 +1,6 @@
 'use client';
 
+import "driver.js/dist/driver.css";
 import { Beaker, History } from 'lucide-react';
 import useChemProtWorkingForm from '@/app/hooks/useChemProtWorkingForm';
 import { useTranslate } from '@/app/hooks/useTranslate';
@@ -16,19 +17,27 @@ import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { getChemProtWorkingSolutionSteps, SpawnStartDriver } from '@/lib/driver-utils';
+import { useEffect, useState } from "react";
+import { WikiPlant } from "@/lib/interfaces";
 
 export default function ChemicalProtectionWorkingSolution() {
     const { form, onSubmit, dataToBeSaved, CountWarnings, plantsChems, loading, lastUsedPlantId } = useChemProtWorkingForm();
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
     const authObject = useSelector((state: RootState) => state.auth);
+    const [lastUsedPlant, setLastUsedPlant] = useState<WikiPlant | null>(null);
+
+    useEffect(() => {
+        if (lastUsedPlantId) {
+            //find the plant name for the suggestion box
+            setLastUsedPlant(plantsChems.find(pc => pc.plant.id === lastUsedPlantId)?.plant ?? null);
+        }
+    }, [lastUsedPlantId, plantsChems]);
 
     if (loading) {
         return <LoadingDisplay />
     }
-
-    // Find the plant name for the suggestion box
-    const lastUsedPlant = lastUsedPlantId ? plantsChems.find(pc => pc.plant.id === lastUsedPlantId)?.plant : undefined;
 
     return (
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
@@ -37,8 +46,17 @@ export default function ChemicalProtectionWorkingSolution() {
                     <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
                         {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}
                     </CardTitle>
-                    <CardDescription className="text-black dark:text-white sm:text-lg">
+                    <CardDescription className="text-black dark:text-white sm:text-lg flex flex-col gap-2 items-center">
                         {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
+                        <Button
+                            type="button"
+                            onClick={() => {
+                                SpawnStartDriver(getChemProtWorkingSolutionSteps(translator));
+                            }}
+                            className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+                        >
+                            {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
+                        </Button>
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4 sm:pt-6">
@@ -82,7 +100,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                     name="selectedPlantId"
                                     render={({ field }) => (
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                                            <SelectTrigger id="plantSelection" className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
                                                 <SelectValue
                                                     placeholder={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT)}
                                                 />
@@ -124,7 +142,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                                 value={field.value || ""}
                                                 defaultValue=""
                                             >
-                                                <SelectTrigger className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                                                <SelectTrigger id="chemicalSelection" className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
                                                     <SelectValue
                                                         placeholder={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL)}
                                                     />
@@ -159,6 +177,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                         translator(SELECTABLE_STRINGS.ML_ACRE) :
                                         translator(SELECTABLE_STRINGS.ML_HECTARE)}
                                     displayValue={form.watch('chemicalPerAcreML').toString()}
+                                    id="chemicalPerAcreML"
                                 />
                                 <ChemProtWorkingSolutionBuildInputRow
                                     varName="workingSolutionPerAcreLiters"
@@ -168,6 +187,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                     translator={translator}
                                     unit={translator(SELECTABLE_STRINGS.LITER)}
                                     displayValue={form.watch('workingSolutionPerAcreLiters').toString()}
+                                    id="workingSolutionPerAcreLiters"
                                 />
                                 <ChemProtWorkingSolutionBuildInputRow
                                     varName="sprayerVolumePerAcreLiters"
@@ -177,6 +197,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                     translator={translator}
                                     unit={translator(SELECTABLE_STRINGS.LITER)}
                                     displayValue={form.watch('sprayerVolumePerAcreLiters').toString()}
+                                    id="sprayerVolumePerAcreLiters"
                                 />
                                 <ChemProtWorkingSolutionBuildInputRow
                                     varName="areaToBeSprayedAcres"
@@ -188,6 +209,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                         translator(SELECTABLE_STRINGS.ACRE) :
                                         translator(SELECTABLE_STRINGS.HECTARE)}
                                     displayValue={form.watch('areaToBeSprayedAcres').toString()}
+                                    id="areaToBeSprayedAcres"
                                 />
                             </div>
 
@@ -199,7 +221,7 @@ export default function ChemicalProtectionWorkingSolution() {
 
                             {form.formState.isValid && (
                                 <div className="flex flex-col gap-4 sm:gap-6">
-                                    <Card className="overflow-hidden">
+                                    <Card id="results" className="overflow-hidden">
                                         <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
                                             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
                                                 <Beaker className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -242,11 +264,14 @@ export default function ChemicalProtectionWorkingSolution() {
                                                     size="lg"
                                                     disabled={!form.formState.isValid}
                                                     className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
+                                                    id="saveCalculationButton"
                                                 >
                                                     {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                                                 </Button>
                                             </div>
-                                            <ChemWorkingSolutionCharts data={dataToBeSaved} />
+                                            <div id="charts">
+                                                <ChemWorkingSolutionCharts data={dataToBeSaved} />
+                                            </div>
                                         </div>
                                     )}
                                 </div>

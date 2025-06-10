@@ -119,6 +119,20 @@ export async function AttachGitHubIdToUser(userId: string, githubId: string) {
   });
 }
 
+export async function FindUserSettingsByUserId(userId: string) {
+  return await prisma.userSettings.findUnique({
+    where: { userId },
+  });
+}
+
+export async function UpdateUserSettings(userId: string, theme: string, language: string, prefUnitOfMeasurement: string) {
+  return await prisma.userSettings.upsert({
+    where: { userId },
+    update: { theme, language, prefUnitOfMeasurement },
+    create: { userId, theme, language, prefUnitOfMeasurement },
+  });
+}
+
 //calc stuff
 
 //sowing
@@ -127,13 +141,68 @@ export async function GetSowingInputData() {
 
   const sowingData = await prisma.sowingRatePlant.findMany({
     include: {
-      plant: true,
-      coefficientSecurity: true,
-      wantedPlantsPerMeterSquared: true,
-      massPer1000g: true,
-      purity: true,
-      germination: true,
-      rowSpacingCm: true,
+      plant: {
+        select: {
+          id: true,
+          latinName: true,
+        }
+      },
+      coefficientSecurity: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      wantedPlantsPerMeterSquared: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      massPer1000g: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      purity: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+          constValue: true,
+        }
+      },
+      germination: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      rowSpacingCm: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+          constValue: true,
+        }
+      },
     },
   });
 
@@ -208,9 +277,22 @@ export async function GetSowingInputData() {
 
 export async function GetSowingHistory() {
   return await prisma.sowingRateHistory.findMany({
-    include: {
-      plant: true,
-    },
+    select: {
+      id: true,
+      sowingRateSafeSeedsPerMeterSquared: true,
+      sowingRatePlantsPerAcre: true,
+      usedSeedsKgPerAcre: true,
+      internalRowHeightCm: true,
+      totalArea: true,
+      isDataValid: true,
+      createdAt: true,
+      plant: {
+        select: {
+          latinName: true,
+          id: true
+        }
+      }
+    }
   });
 }
 
@@ -292,33 +374,74 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
 
 export async function GetCombinedHistory() {
   return await prisma.seedingDataCombinationHistory.findMany({
-    include: {
+    select: {
+      id: true,
+      totalPrice: true,
+      isDataValid: true,
+      createdAt: true,
       plants: {
-        include: {
-          plant: true,
-        },
-      },
-    },
+        select: {
+          plantType: true,
+          seedingRate: true,
+          participation: true,
+          combinedRate: true,
+          pricePerAcreBGN: true,
+          plant: {
+            select: {
+              latinName: true
+            }
+          }
+        }
+      }
+    }
   });
 }
 
 //chem protection percent solution
 export async function GetChemProtWorkingSolutionInputPlantChems() {
   return await prisma.plantChemical.findMany({
-    include: {
-      plant: true,
-      chemical: true,
-    },
-
+    select: {
+      id: true,
+      plant: {
+        select: {
+          id: true,
+          latinName: true
+        }
+      },
+      chemical: {
+        select: {
+          id: true,
+          nameKey: true,
+          dosage: true,
+          dosageUnit: true
+        }
+      }
+    }
   });
 }
 
 export async function GetChemProtWorkingSolutionHistory() {
   return await prisma.chemProtWorkingSolutionHistory.findMany({
-    include: {
-      plant: true,
-      chemical: true,
-    },
+    select: {
+      id: true,
+      totalChemicalForAreaLiters: true,
+      totalWorkingSolutionForAreaLiters: true,
+      roughSprayerCount: true,
+      chemicalPerSprayerML: true,
+      createdAt: true,
+      plant: {
+        select: {
+          id: true,
+          latinName: true
+        }
+      },
+      chemical: {
+        select: {
+          id: true,
+          nameKey: true
+        }
+      }
+    }
   });
 }
 
@@ -341,9 +464,14 @@ export async function InsertChemProtPercentHistoryEntry(data: ChemProtPercentHis
 //wiki stuff
 export function GetAllSowingPlants() {
   return prisma.sowingRatePlant.findMany({
-    include: {
-      plant: true,
-    },
+    select: {
+      plant: {
+        select: {
+          id: true,
+          latinName: true
+        }
+      }
+    }
   });
 }
 
@@ -352,14 +480,70 @@ export async function GetSowingPlantData(id: string) {
     where: {
       plantId: id,
     },
-    include: {
-      plant: true,
-      coefficientSecurity: true,
-      wantedPlantsPerMeterSquared: true,
-      massPer1000g: true,
-      purity: true,
-      germination: true,
-      rowSpacingCm: true,
+    select: {
+      id: true,
+      plant: {
+        select: {
+          id: true,
+          latinName: true,
+        }
+      },
+      coefficientSecurity: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      wantedPlantsPerMeterSquared: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      massPer1000g: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      purity: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+          constValue: true,
+        }
+      },
+      germination: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+        }
+      },
+      rowSpacingCm: {
+        select: {
+          type: true,
+          step: true,
+          unit: true,
+          minSliderVal: true,
+          maxSliderVal: true,
+          constValue: true,
+        }
+      },
     },
   });
 
@@ -458,9 +642,14 @@ export async function GetCombinedPlantData(id: string) {
 
 export function GetAllChemProtectionPlants() {
   return prisma.plantChemical.findMany({
-    include: {
-      plant: true,
-    },
+    select: {
+      plant: {
+        select: {
+          id: true,
+          latinName: true
+        }
+      }
+    }
   });
 }
 
@@ -469,48 +658,104 @@ export function GetChemProtectionPlantData(id: string) {
     where: {
       plantId: id,
     },
-    include: {
-      plant: true,
+    select: {
+      plant: {
+        select: {
+          id: true,
+          latinName: true
+        }
+      },
       chemical: {
-        include: {
+        select: {
+          id: true,
+          nameKey: true,
+          type: true,
+          applicationStage: true,
+          dosage: true,
+          dosageUnit: true,
+          maxApplications: true,
+          minIntervalBetweenApplicationsDays: true,
+          maxIntervalBetweenApplicationsDays: true,
+          quarantinePeriodDays: true,
+          pricePer1LiterBGN: true,
+          pricePerAcreBGN: true,
+          additionalInfo: true,
+          additionalInfoNotes: true,
           activeIngredients: {
-            include: {
-              activeIngredient: true,
-            },
+            select: {
+              quantity: true,
+              activeIngredient: {
+                select: {
+                  nameKey: true,
+                  unit: true
+                }
+              }
+            }
           },
           chemicalTargetEnemies: {
-            include: {
-              enemy: true,
-            },
-          },
-        },
-      },
-    },
+            select: {
+              enemy: {
+                select: {
+                  latinName: true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }
 
 export function GetAllChemProtectionEnemies() {
   return prisma.enemy.findMany({
-    include: {
+    select: {
+      id: true,
+      latinName: true,
       chemicals: {
-        include: {
+        select: {
           chemical: {
-            include: {
+            select: {
+              id: true,
+              nameKey: true,
+              type: true,
+              applicationStage: true,
+              dosage: true,
+              dosageUnit: true,
+              maxApplications: true,
+              minIntervalBetweenApplicationsDays: true,
+              maxIntervalBetweenApplicationsDays: true,
+              quarantinePeriodDays: true,
+              pricePer1LiterBGN: true,
+              pricePerAcreBGN: true,
+              additionalInfo: true,
+              additionalInfoNotes: true,
               activeIngredients: {
-                include: {
-                  activeIngredient: true,
-                },
+                select: {
+                  quantity: true,
+                  activeIngredient: {
+                    select: {
+                      nameKey: true,
+                      unit: true
+                    }
+                  }
+                }
               },
               plantUsages: {
-                include: {
-                  plant: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+                select: {
+                  plant: {
+                    select: {
+                      id: true,
+                      latinName: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -519,44 +764,104 @@ export function GetChemProtectionEnemyData(id: string) {
     where: {
       id,
     },
-    include: {
+    select: {
+      id: true,
+      latinName: true,
       chemicals: {
-        include: {
+        select: {
           chemical: {
-            include: {
+            select: {
+              id: true,
+              nameKey: true,
+              type: true,
+              applicationStage: true,
+              dosage: true,
+              dosageUnit: true,
+              maxApplications: true,
+              minIntervalBetweenApplicationsDays: true,
+              maxIntervalBetweenApplicationsDays: true,
+              quarantinePeriodDays: true,
+              pricePer1LiterBGN: true,
+              pricePerAcreBGN: true,
+              additionalInfo: true,
+              additionalInfoNotes: true,
               activeIngredients: {
-                include: {
-                  activeIngredient: true,
-                },
+                select: {
+                  quantity: true,
+                  activeIngredient: {
+                    select: {
+                      nameKey: true,
+                      unit: true
+                    }
+                  }
+                }
               },
               plantUsages: {
-                include: {
-                  plant: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+                select: {
+                  plant: {
+                    select: {
+                      id: true,
+                      latinName: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }
 
 export function GetAllChemProtectionChemicals() {
   return prisma.chemical.findMany({
-    include: {
-      activeIngredients: true,
+    select: {
+      id: true,
+      nameKey: true,
+      type: true,
+      applicationStage: true,
+      dosage: true,
+      dosageUnit: true,
+      maxApplications: true,
+      minIntervalBetweenApplicationsDays: true,
+      maxIntervalBetweenApplicationsDays: true,
+      quarantinePeriodDays: true,
+      pricePer1LiterBGN: true,
+      pricePerAcreBGN: true,
+      additionalInfo: true,
+      additionalInfoNotes: true,
+      activeIngredients: {
+        select: {
+          quantity: true,
+          activeIngredient: {
+            select: {
+              nameKey: true,
+              unit: true
+            }
+          }
+        }
+      },
       chemicalTargetEnemies: {
-        include: {
-          enemy: true,
-        },
+        select: {
+          enemy: {
+            select: {
+              latinName: true
+            }
+          }
+        }
       },
       plantUsages: {
-        include: {
-          plant: true,
-        },
-      },
-    },
+        select: {
+          plant: {
+            select: {
+              id: true,
+              latinName: true
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -565,43 +870,95 @@ export function GetChemProtectionChemData(id: string) {
     where: {
       id,
     },
-    include: {
+    select: {
+      id: true,
+      nameKey: true,
+      type: true,
+      applicationStage: true,
+      dosage: true,
+      dosageUnit: true,
+      maxApplications: true,
+      minIntervalBetweenApplicationsDays: true,
+      maxIntervalBetweenApplicationsDays: true,
+      quarantinePeriodDays: true,
+      pricePer1LiterBGN: true,
+      pricePerAcreBGN: true,
+      additionalInfo: true,
+      additionalInfoNotes: true,
       activeIngredients: {
-        include: {
-          activeIngredient: true,
-        },
+        select: {
+          quantity: true,
+          activeIngredient: {
+            select: {
+              nameKey: true,
+              unit: true
+            }
+          }
+        }
       },
       chemicalTargetEnemies: {
-        include: {
-          enemy: true,
-        },
+        select: {
+          enemy: {
+            select: {
+              latinName: true
+            }
+          }
+        }
       },
       plantUsages: {
-        include: {
-          plant: true,
-        },
-      },
-    },
+        select: {
+          plant: {
+            select: {
+              id: true,
+              latinName: true
+            }
+          }
+        }
+      }
+    }
   });
 }
 
 export function GetAllChemProtectionActiveIngredients() {
   return prisma.activeIngredient.findMany({
-    include: {
+    select: {
+      id: true,
+      nameKey: true,
+      unit: true,
       chemicals: {
-        include: {
+        select: {
+          quantity: true,
           chemical: {
-            include: {
+            select: {
+              id: true,
+              nameKey: true,
+              type: true,
+              applicationStage: true,
+              dosage: true,
+              dosageUnit: true,
+              maxApplications: true,
+              minIntervalBetweenApplicationsDays: true,
+              maxIntervalBetweenApplicationsDays: true,
+              quarantinePeriodDays: true,
+              pricePer1LiterBGN: true,
+              pricePerAcreBGN: true,
+              additionalInfo: true,
+              additionalInfoNotes: true,
               plantUsages: {
-                include: {
-                  plant: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+                select: {
+                  plant: {
+                    select: {
+                      id: true,
+                      latinName: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -610,20 +967,43 @@ export function GetChemProtectionActiveIngredientData(id: string) {
     where: {
       id,
     },
-    include: {
+    select: {
+      id: true,
+      nameKey: true,
+      unit: true,
       chemicals: {
-        include: {
+        select: {
+          quantity: true,
           chemical: {
-            include: {
+            select: {
+              id: true,
+              nameKey: true,
+              type: true,
+              applicationStage: true,
+              dosage: true,
+              dosageUnit: true,
+              maxApplications: true,
+              minIntervalBetweenApplicationsDays: true,
+              maxIntervalBetweenApplicationsDays: true,
+              quarantinePeriodDays: true,
+              pricePer1LiterBGN: true,
+              pricePerAcreBGN: true,
+              additionalInfo: true,
+              additionalInfoNotes: true,
               plantUsages: {
-                include: {
-                  plant: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
+                select: {
+                  plant: {
+                    select: {
+                      id: true,
+                      latinName: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   });
 }

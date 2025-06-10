@@ -154,6 +154,7 @@ export interface SowingRateHistory {
   id: string;
   plant: {
     latinName: string;
+    id: string;
   };
   sowingRateSafeSeedsPerMeterSquared: number;
   sowingRatePlantsPerAcre: number;
@@ -233,6 +234,29 @@ export interface PlantCombinedDBData {
   priceFor1kgSeedsBGN: number;
 }
 
+export interface CombinedFormValues {
+  legume: {
+    active: boolean;
+    id: string;
+    plantType: string;
+    dropdownPlant: string;
+    seedingRate: number;
+    participation: number;
+    seedingRateInCombination: number;
+    priceSeedsPerAcreBGN: number;
+  }[];
+  cereal: {
+    active: boolean;
+    id: string;
+    plantType: string;
+    dropdownPlant: string;
+    seedingRate: number;
+    participation: number;
+    seedingRateInCombination: number;
+    priceSeedsPerAcreBGN: number;
+  }[];
+}
+
 //chem protection
 export interface ChemicalOption {
   id: string;
@@ -272,6 +296,21 @@ export interface ChemProtWorkingToSave {
   plantId: string;
   chemicalId: string;
   isDataValid: boolean;
+  totalChemicalForAreaLiters: number;
+  totalWorkingSolutionForAreaLiters: number;
+  roughSprayerCount: number;
+  chemicalPerSprayerML: number;
+}
+
+export interface ChemProtWorkingSolutionHistory {
+  plant?: {
+    id: string;
+    latinName: string;
+  } | null;
+  chemical?: {
+    id: string;
+    nameKey: string;
+  } | null;
   totalChemicalForAreaLiters: number;
   totalWorkingSolutionForAreaLiters: number;
   roughSprayerCount: number;

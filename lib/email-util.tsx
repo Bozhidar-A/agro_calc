@@ -1,7 +1,4 @@
-import { Resend } from "resend";
 import { Log } from "./logger";
-
-export const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function SendEmail(
     to: string,
@@ -11,6 +8,11 @@ export async function SendEmail(
     senderEmail: string = "no-reply@resend.musaka.top",
 ) {
     try {
+        //fixes docker build time errors
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const { Resend } = require("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY!);
+
         Log(["email", "send"], `Sending email to ${to} with subject ${subject}`);
 
         const emailRes = await resend.emails.send({

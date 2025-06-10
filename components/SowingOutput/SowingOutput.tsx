@@ -27,7 +27,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
                                 <span className="text-lg sm:text-xl font-bold">{dataToBeSaved.sowingRateSafeSeedsPerMeterSquared}</span>
                                 <span className="text-lg sm:text-xl font-bold">
                                     {" "}
-                                    {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2)}
+                                    {translator(SELECTABLE_STRINGS.SEEDS_PER_M2)}
                                 </span>
                             </div>
                         </div>
@@ -44,7 +44,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
                                 <span className="text-lg sm:text-xl font-bold">{dataToBeSaved.internalRowHeightCm}</span>
                                 <span className="text-lg sm:text-xl font-bold">
                                     {" "}
-                                    {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}
+                                    {translator(SELECTABLE_STRINGS.CM)}
                                 </span>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ import { useTranslate } from '@/app/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from "@/lib/utils";
 import { SowingRateSaveData, AuthState, SowingRateDBData } from "@/lib/interfaces";
+import { useWarnings } from "@/app/hooks/useWarnings";
 
 
 export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
@@ -30,20 +31,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
     });
 
     //react-hook-form doesnt support warnings, so i have to hack my way around it
-    const [warnings, setWarnings] = useState<Record<string, string>>({});
-    function addWarning(field: string, message: string) {
-        setWarnings((prev) => ({ ...prev, [field]: message }));
-    }
-    function removeWarning(field: string) {
-        setWarnings((prev) => {
-            const newWarnings = { ...prev };
-            delete newWarnings[field];
-            return newWarnings;
-        });
-    }
-    function CountWarnings() {
-        return Object.keys(warnings).length;
-    }
+    const { warnings, AddWarning, RemoveWarning, CountWarnings } = useWarnings();
 
 
     const formSchema = z.object({
@@ -128,9 +116,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.coefficientSecurity.minSliderVal,
                 plant.coefficientSecurity.maxSliderVal,
                 plant.coefficientSecurity.constValue)) {
-                addWarning('coefficientSecurity', 'Value out of bounds!');
+                AddWarning('coefficientSecurity', 'Value out of bounds!');
             } else {
-                removeWarning('coefficientSecurity');
+                RemoveWarning('coefficientSecurity');
             }
 
             if (IsValueOutOfBounds(
@@ -139,9 +127,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.wantedPlantsPerMeterSquared.minSliderVal,
                 plant.wantedPlantsPerMeterSquared.maxSliderVal,
                 plant.wantedPlantsPerMeterSquared.constValue)) {
-                addWarning('wantedPlantsPerMeterSquared', 'Value out of bounds!');
+                AddWarning('wantedPlantsPerMeterSquared', 'Value out of bounds!');
             } else {
-                removeWarning('wantedPlantsPerMeterSquared');
+                RemoveWarning('wantedPlantsPerMeterSquared');
             }
 
             if (IsValueOutOfBounds(
@@ -150,9 +138,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.massPer1000g.minSliderVal,
                 plant.massPer1000g.maxSliderVal,
                 plant.massPer1000g.constValue)) {
-                addWarning('massPer1000g', 'Value out of bounds!');
+                AddWarning('massPer1000g', 'Value out of bounds!');
             } else {
-                removeWarning('massPer1000g');
+                RemoveWarning('massPer1000g');
             }
 
             if (IsValueOutOfBounds(
@@ -161,9 +149,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.purity.minSliderVal,
                 plant.purity.maxSliderVal,
                 plant.purity.constValue)) {
-                addWarning('purity', 'Value out of bounds!');
+                AddWarning('purity', 'Value out of bounds!');
             } else {
-                removeWarning('purity');
+                RemoveWarning('purity');
             }
 
             if (IsValueOutOfBounds(
@@ -172,9 +160,9 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.germination.minSliderVal,
                 plant.germination.maxSliderVal,
                 plant.germination.constValue)) {
-                addWarning('germination', 'Value out of bounds!');
+                AddWarning('germination', 'Value out of bounds!');
             } else {
-                removeWarning('germination');
+                RemoveWarning('germination');
             }
 
             if (IsValueOutOfBounds(
@@ -183,15 +171,15 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                 plant.rowSpacing.minSliderVal,
                 plant.rowSpacing.maxSliderVal,
                 plant.rowSpacing.constValue)) {
-                addWarning('rowSpacing', 'Value out of bounds!');
+                AddWarning('rowSpacing', 'Value out of bounds!');
             } else {
-                removeWarning('rowSpacing');
+                RemoveWarning('rowSpacing');
             }
 
             if (IsValueOutOfBounds(form.getValues('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
-                addWarning('totalArea', 'Value out of bounds!');
+                AddWarning('totalArea', 'Value out of bounds!');
             } else {
-                removeWarning('totalArea');
+                RemoveWarning('totalArea');
             }
 
         });

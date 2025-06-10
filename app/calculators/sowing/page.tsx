@@ -11,7 +11,6 @@ import SowingCharts from '@/components/SowingCharts/SowingCharts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormField } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -24,106 +23,13 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { RootState } from '@/store/store';
 import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
-import { IsValueOutOfBounds } from '@/lib/sowing-utils';
 import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
 import { useWatch } from 'react-hook-form';
-import { CalculatorValueTypes } from "@/lib/utils";
-import { BuildSowingRateRowProps, DisplayOutputRowProps, SowingRateDBData } from "@/lib/interfaces";
+import { DisplayOutputRowProps, SowingRateDBData } from "@/lib/interfaces";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import { Log } from "@/lib/logger";
 import Errored from "@/components/Errored/Errored";
-
-function FetchUnitIfExist(data) {
-  return data.unit ? `${data.unit}` : '';
-}
-
-
-function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'plant'>>({
-  varName,
-  displayName,
-  activePlantDbData,
-  form,
-  icon,
-  translator,
-  tourId
-}: BuildSowingRateRowProps<T> & { tourId: string }) {
-  const neededData = activePlantDbData[varName];
-
-  let inputValidityClass = 'border-green-700 focus-visible:ring-green-700';
-  let inputValidityClassSlider = 'within-safe-range';
-
-  if (IsValueOutOfBounds(form.watch(varName), neededData.type, neededData?.minSliderVal, neededData?.maxSliderVal, neededData?.constValue)) {
-    inputValidityClass = 'border-red-500 focus-visible:ring-red-500';
-    inputValidityClassSlider = 'outside-safe-range';
-  }
-
-  return (
-    <Card className="overflow-hidden" id={tourId}>
-      <CardHeader className="bg-green-700 pb-2">
-        <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
-          {icon}
-          {displayName}
-        </CardTitle>
-        <CardDescription className="text-black/90 dark:text-white/90">
-          {neededData.type === CalculatorValueTypes.SLIDER
-            ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal} ${FetchUnitIfExist(neededData)}`
-            : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue || ''} ${FetchUnitIfExist(neededData)}`}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="pt-4">
-        <div className="flex flex-col gap-2">
-          {neededData.type === CalculatorValueTypes.SLIDER ? (
-            <>
-              <FormField
-                control={form.control}
-                name={varName}
-                render={({ field }) => (
-                  <Input
-                    className={`text-center text-xl ${inputValidityClass}`}
-                    type="number"
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                  />
-                )}
-              />
-              <FormField
-                control={form.control}
-                name={varName}
-                render={({ field }) => (
-                  <Input
-                    className={`w-full ${inputValidityClassSlider}`}
-                    type="range"
-                    min={neededData.minSliderVal}
-                    max={neededData.maxSliderVal}
-                    step={0.01}
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                  />
-                )}
-              />
-            </>
-          ) : (
-            <FormField
-              control={form.control}
-              name={varName}
-              render={({ field }) => (
-                <Input
-                  className={`text-center text-xl ${inputValidityClass}`}
-                  type="number"
-                  {...field}
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-              )}
-            />
-          )}
-          <div className="text-center font-medium mt-1">
-            {`${form.watch(varName) || 0} ${FetchUnitIfExist(neededData)}`}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+import { BuildSowingRateRow } from "@/components/BuildSowingRateRow/BuildSowingRateRow";
 
 export function DisplayOutputRow({ data, text, unit }: DisplayOutputRowProps) {
   return (

@@ -176,13 +176,6 @@ export default function HistoryDisplay() {
         fetchHistory();
     }, []);
 
-    const WarningBanner = () => (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
-            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
-            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
-        </div>
-    );
-
     if (errored) {
         return <Errored />
     }
@@ -273,14 +266,18 @@ export default function HistoryDisplay() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-6">
-                                    {!history.isDataValid && <WarningBanner />}
+                                    {!history.isDataValid &&
+                                        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
+                                            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+                                            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
+                                        </div>}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_SEEDS_PER_M2)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SEEDS_PER_M2)}</p>
                                             <p className="text-base sm:text-lg">{history.sowingRateSafeSeedsPerMeterSquared.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE_PLANTS_PER_ACRE)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)}</p>
                                             <p className="text-base sm:text-lg">{history.sowingRatePlantsPerAcre.toFixed(2)}</p>
                                         </div>
                                         <div>
@@ -288,7 +285,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.usedSeedsKgPerAcre.toFixed(2)}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING_CM)}</p>
+                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CM)}</p>
                                             <p className="text-base sm:text-lg">{history.internalRowHeightCm.toFixed(2)}</p>
                                         </div>
                                         <div className="col-span-1 sm:col-span-2">

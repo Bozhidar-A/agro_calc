@@ -1,39 +1,31 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChemProtPercentFormValues } from "@/lib/interfaces";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
 import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 
-interface BuildInputRowProps {
-    varName: string;
-    displayName: string;
-    form: any;
-    icon: React.ReactNode;
-    translator: (key: string) => string;
-    unit: string;
-    displayValue?: string;
-    id?: string;
-}
 
-export function ChemProtWorkingSolutionBuildInputRow({
+export function ChemProtPSBuildInputRow({
     varName,
     displayName,
     form,
     icon,
-    translator,
     unit,
-    displayValue,
-    id
-}: BuildInputRowProps) {
+    tourId
+}: {
+    varName: keyof ChemProtPercentFormValues;
+    displayName: string;
+    form: any;
+    icon: React.ReactNode;
+    unit: string;
+    tourId: string;
+}) {
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden" id={tourId}>
             <CardHeader className="bg-green-700 pb-2">
                 <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
                     {icon}
                     {displayName}
                 </CardTitle>
-                <CardDescription className="text-black/90 dark:text-white/90">
-                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
-                </CardDescription>
             </CardHeader>
             <CardContent className="pt-4">
                 <div className="flex flex-col gap-2">
@@ -42,23 +34,27 @@ export function ChemProtWorkingSolutionBuildInputRow({
                         name={varName}
                         render={({ field }) => (
                             <Input
-                                min={0}
                                 className="text-center text-xl"
                                 type="number"
-                                id={id}
+                                min="0"
                                 {...field}
                                 onChange={(e) => {
-                                    const val = e.target.value;
-                                    field.onChange(val === '' ? '' : Number(val));
+                                    const value = e.target.value;
+                                    // If empty or not a number, set to 0
+                                    if (value === '' || isNaN(Number(value))) {
+                                        field.onChange(0);
+                                        return;
+                                    }
+                                    field.onChange(Number(value));
                                 }}
                             />
                         )}
                     />
                     <div className="text-center font-medium mt-1">
-                        {`${displayValue ?? (isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0)} ${unit}`}
+                        {`${form.watch(varName) || 0} ${unit}`}
                     </div>
                 </div>
             </CardContent>
         </Card>
     );
-} 
+}
