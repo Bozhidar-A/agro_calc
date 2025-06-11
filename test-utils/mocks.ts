@@ -16,10 +16,3 @@ export const initializeMockTranslate = (preloadedState?: { local: { lang: string
         setMockLanguage(preloadedState.local.lang);
     }
 };
-
-// Export the mock function for use in tests
-export const mockUseTranslate = () => {
-    return (key: keyof typeof SELECTABLE_STRINGS) => {
-        return LangMap[currentLang.toUpperCase() as keyof typeof LangMap][key];
-    };
-};
