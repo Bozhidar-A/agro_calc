@@ -5,7 +5,7 @@ import LoadingDisplay from './LoadingDisplay';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 // Mock the useTranslate hook
-jest.mock('@/app/hooks/useTranslate', () => ({
+jest.mock('@/hooks/useTranslate', () => ({
     useTranslate: () => mockTranslateFunction
 }));
 
@@ -18,6 +18,7 @@ describe('LoadingDisplay', () => {
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
         renderWithRedux((mockProps) => <LoadingDisplay {...mockProps} />, { preloadedState, mockProps: {} });
+        jest.clearAllMocks();
     });
 
     it('renders loading indicator and text', () => {

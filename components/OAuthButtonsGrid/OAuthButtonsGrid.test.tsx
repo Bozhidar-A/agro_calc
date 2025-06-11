@@ -6,7 +6,7 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 
 // Mock the useTranslate hook
-jest.mock('@/app/hooks/useTranslate', () => ({
+jest.mock('@/hooks/useTranslate', () => ({
     useTranslate: () => mockTranslateFunction
 }));
 
@@ -18,6 +18,7 @@ describe('OAuthButtonsGrid', () => {
 
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
+        jest.clearAllMocks();
     });
 
     it('renders the OR text', () => {

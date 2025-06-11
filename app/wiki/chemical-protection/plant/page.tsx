@@ -1,6 +1,6 @@
 'use client'
 
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import Errored from "@/components/Errored/Errored";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import { Card, CardTitle, CardHeader, CardContent } from "@/components/ui/card";

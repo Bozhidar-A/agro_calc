@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Award } from "lucide-react"
 import { motion } from "framer-motion"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import Image from "next/image"
 import { Footer } from "@/components/Footer/Footer"

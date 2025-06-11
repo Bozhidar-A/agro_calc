@@ -5,6 +5,7 @@ import { render } from '@/test-utils/render';
 describe('Errored', () => {
     beforeEach(() => {
         render(<Errored />);
+        jest.clearAllMocks();
     });
 
     it('renders the error heading', () => {

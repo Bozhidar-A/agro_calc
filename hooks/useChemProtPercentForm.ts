@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Log } from "@/lib/logger";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { ChemProtPercentFormValues, AuthState } from "@/lib/interfaces";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { CalculateChemProtPercentSolution } from "@/lib/math-util";
 
 export default function useChemProtPercentForm(authObject: AuthState) {

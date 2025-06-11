@@ -20,7 +20,7 @@ jest.mock('@/components/MeasurementSwitcher/MeasurementSwitcher', () => {
 });
 
 // Mock the useTranslate hook
-jest.mock('@/app/hooks/useTranslate', () => ({
+jest.mock('@/hooks/useTranslate', () => ({
     useTranslate: () => mockTranslateFunction
 }));
 
@@ -32,6 +32,7 @@ describe('SettingsGrid', () => {
 
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
+        jest.clearAllMocks();
     });
 
     it('renders all setting labels with correct translations', () => {

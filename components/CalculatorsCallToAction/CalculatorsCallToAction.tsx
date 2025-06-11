@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { motion } from "framer-motion";
 import { Leaf, Calculator, FlaskRoundIcon as Flask, ArrowRight } from "lucide-react";

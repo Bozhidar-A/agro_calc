@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 // Mock the useTranslate hook
-jest.mock('@/app/hooks/useTranslate', () => ({
+jest.mock('@/hooks/useTranslate', () => ({
     useTranslate: () => mockTranslateFunction
 }));
 

@@ -11,10 +11,10 @@ import { RootState } from "@/store/store";
 import { APICaller } from "@/lib/api-util";
 import { toast } from "sonner";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { Log } from "@/lib/logger";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
-import { useWarnings } from "@/app/hooks/useWarnings";
+import { useWarnings } from "@/hooks/useWarnings";
 
 const formSchema = z.object({
     selectedPlantId: z.string().optional(),

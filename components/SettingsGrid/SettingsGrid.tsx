@@ -1,5 +1,5 @@
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { Label } from "@radix-ui/react-label";
 import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
 import { LangSwitcher } from "../LangSwitcher/LangSwitcher";

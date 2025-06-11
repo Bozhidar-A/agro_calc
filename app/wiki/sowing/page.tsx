@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { APICaller } from "@/lib/api-util";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import Errored from "@/components/Errored/Errored";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { toast } from "sonner";

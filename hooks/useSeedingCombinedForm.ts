@@ -6,10 +6,10 @@ import { toast } from "sonner";
 import { CreateDefaultValues, CreateZodSchemaForPlantRow, UpdateSeedingComboAndPriceDA, ValidateMixBalance } from "@/lib/seedingCombined-utils";
 import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { ActivePlantsFormData, AuthState, CombinedCalcDBData, CombinedFormValues, PlantCombinedDBData } from "@/lib/interfaces";
-import { useWarnings } from "@/app/hooks/useWarnings";
+import { useWarnings } from "@/hooks/useWarnings";
 
 export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
     const translator = useTranslate();

@@ -2,12 +2,12 @@
 
 import "driver.js/dist/driver.css";
 import { Droplet, Scale } from 'lucide-react';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import useChemProtPercentForm from '@/app/hooks/useChemProtPercentForm';
+import useChemProtPercentForm from '@/hooks/useChemProtPercentForm';
 import { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 import { getChemProtPercentSteps, SpawnStartDriver } from '@/lib/driver-utils';
