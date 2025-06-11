@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Errored from './Errored';
+import { render } from '@/test-utils/render';
 
 describe('Errored', () => {
     beforeEach(() => {

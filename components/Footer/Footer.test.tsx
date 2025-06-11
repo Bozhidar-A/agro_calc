@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '@/test-utils/render';
+import { renderWithRedux } from '@/test-utils/render';
 import { Footer } from './Footer';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
@@ -17,23 +17,20 @@ describe('Footer', () => {
 
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
+        renderWithRedux((mockProps) => <Footer {...mockProps} />, { preloadedState, mockProps: {} });
     });
 
     const translate = mockTranslateFunction;
 
     it('renders the footer component', () => {
-        renderWithProviders(<Footer />, { preloadedState });
         expect(screen.getByRole('contentinfo')).toBeInTheDocument();
     });
 
     it('displays the Agro-Calc title', () => {
-        renderWithProviders(<Footer />, { preloadedState });
         expect(screen.getByText('Agro-Calc')).toBeInTheDocument();
     });
 
     it('renders all navigation links with correct hrefs', () => {
-        renderWithProviders(<Footer />, { preloadedState });
-
         const expectedLinks = [
             { href: '/', text: translate(SELECTABLE_STRINGS.FOOTER_HOME) },
             { href: '/calculators/sowing', text: translate(SELECTABLE_STRINGS.FOOTER_SOWING_RATE_CALCULATOR) },
@@ -52,17 +49,14 @@ describe('Footer', () => {
     });
 
     it('renders the quick links section with correct heading', () => {
-        renderWithProviders(<Footer />, { preloadedState });
         expect(screen.getByText(translate(SELECTABLE_STRINGS.FOOTER_QUICK_LINKS))).toBeInTheDocument();
     });
 
     it('renders the footer description', () => {
-        renderWithProviders(<Footer />, { preloadedState });
         expect(screen.getByText(translate(SELECTABLE_STRINGS.FOOTER_DESCRIPTION))).toBeInTheDocument();
     });
 
     it('applies correct styling classes', () => {
-        renderWithProviders(<Footer />, { preloadedState });
         const footer = screen.getByRole('contentinfo');
         expect(footer).toHaveClass('bg-green-700', 'text-white', 'py-12', 'w-full');
     });

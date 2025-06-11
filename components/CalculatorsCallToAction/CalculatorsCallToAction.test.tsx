@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import CalculatorsCallToAction from './CalculatorsCallToAction';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
-import { renderWithProviders } from '@/test-utils/render';
+import { renderWithRedux } from '@/test-utils/render';
 
 // Mock the useTranslate hook
 jest.mock('@/app/hooks/useTranslate', () => ({
@@ -16,7 +16,7 @@ describe('CalculatorsCallToAction', () => {
 
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
-        renderWithProviders(<CalculatorsCallToAction />, { preloadedState });
+        renderWithRedux((mockProps) => <CalculatorsCallToAction {...mockProps} />, { preloadedState, mockProps: {} });
     });
 
     it('renders the main title and description', () => {

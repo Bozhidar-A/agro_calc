@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { FormProvider, useForm, DefaultValues } from 'react-hook-form';
 
 // app
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
@@ -57,24 +58,61 @@ function createTestStore(preloadedState = {}) {
 }
 
 //render component with mocked providers
-export function renderWithProviders(
-  ui: React.ReactNode,
+export function renderWithRedux(
+  ui: (mockProps: any) => React.ReactNode,
   {
     preloadedState = {
       local: { lang: 'en' },
       auth: { user: null, token: null },
     },
-  }: { preloadedState?: any } = {}
+    mockProps
+  }: { preloadedState?: any, mockProps?: any } = {}
 ) {
   const { store, persistor } = createTestStore(preloadedState);
 
-  return testingLibraryRender(
+  const result = testingLibraryRender(
     <Provider store={store}>
       <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {ui}
+          {ui(mockProps)}
         </ThemeProvider>
       </PersistGate>
     </Provider>
   );
+
+  return { ...result, store };
+}
+
+//render react-hook-form with mock providers
+export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
+  ui: (props: { form: any }) => React.ReactNode,
+  {
+    preloadedState = {
+      local: { lang: 'en' },
+      auth: { user: null, token: null },
+    },
+    reactFormDefaultValues,
+  }: { preloadedState?: any, reactFormDefaultValues?: DefaultValues<TFormValues> } = {}
+) {
+  const { store, persistor } = createTestStore(preloadedState);
+
+  function Wrapper() {
+    const form = useForm<TFormValues>({
+      defaultValues: reactFormDefaultValues,
+    });
+
+    return (
+      <Provider store={store}>
+        <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <FormProvider {...form}>
+              {ui({ form })}
+            </FormProvider>
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    );
+  }
+
+  return testingLibraryRender(<Wrapper />);
 }
