@@ -2,10 +2,11 @@ import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/test-utils/render';
 import { Footer } from './Footer';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { mockUseTranslate } from '@/test-utils/mocks';
+import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 
+// Mock the useTranslate hook
 jest.mock('@/app/hooks/useTranslate', () => ({
-    useTranslate: () => mockUseTranslate('bg')
+    useTranslate: () => mockTranslateFunction
 }));
 
 describe('Footer', () => {
@@ -14,7 +15,11 @@ describe('Footer', () => {
         auth: { user: null, token: null, isAuthenticated: false }
     };
 
-    const translate = mockUseTranslate(preloadedState.local.lang);
+    beforeEach(() => {
+        initializeMockTranslate(preloadedState);
+    });
+
+    const translate = mockTranslateFunction;
 
     it('renders the footer component', () => {
         renderWithProviders(<Footer />, { preloadedState });
