@@ -49,3 +49,17 @@ jest.mock('lucide-react', () => {
     }
   });
 });
+
+// mock framer-motion to avoid animation-related issues in tests
+jest.mock('framer-motion', () => {
+  const React = require('react');
+  return {
+    motion: new Proxy({}, {
+      get: (_, element) => {
+        return function MockComponent({ children, ...props }) {
+          return React.createElement(element, props, children);
+        };
+      }
+    })
+  };
+});

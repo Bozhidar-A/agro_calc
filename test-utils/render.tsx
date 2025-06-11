@@ -56,7 +56,7 @@ function createTestStore(preloadedState = {}) {
   return { store, persistor };
 }
 
-// Render component with mocked providers
+//render component with mocked providers
 export function renderWithProviders(
   ui: React.ReactNode,
   {
