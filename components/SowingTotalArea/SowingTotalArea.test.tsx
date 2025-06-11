@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { renderWithReduxAndForm } from '@/test-utils/render';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -19,6 +19,11 @@ jest.mock('../SowingOutput/SowingOutput', () => ({
 
 describe('SowingTotalArea', () => {
     const mockDataToBeSaved = {
+        userId: 'test-user',
+        plantId: 'test-plant',
+        plantLatinName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+        internalRowHeightCm: 12.5,
+        isDataValid: true,
         sowingRateSafeSeedsPerMeterSquared: 100,
         sowingRatePlantsPerAcre: 200,
         usedSeedsKgPerAcre: 50,
@@ -48,8 +53,9 @@ describe('SowingTotalArea', () => {
         );
 
         expect(screen.getByRole('spinbutton')).toBeInTheDocument();
-        expect(screen.getByText('0 hectares')).toBeInTheDocument();
-        expect(screen.getByText(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA)).toBeInTheDocument();
+        const unit = mockTranslateFunction(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES);
+        expect(screen.getByText(new RegExp(`^0\\s*${unit}$`))).toBeInTheDocument();
+        expect(screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA))).toBeInTheDocument();
     });
 
     it('handles input changes correctly', async () => {
@@ -66,8 +72,11 @@ describe('SowingTotalArea', () => {
         await user.clear(input);
         await user.type(input, '10');
 
-        expect(screen.getByText('10 hectares')).toBeInTheDocument();
-        expect(screen.getByTestId('mock-sowing-output')).toBeInTheDocument();
+        const unit = mockTranslateFunction(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES);
+        await waitFor(() => {
+            expect(screen.getByText(new RegExp(`^10\\s*${unit}$`))).toBeInTheDocument();
+            expect(screen.getByTestId('mock-sowing-output')).toBeInTheDocument();
+        });
     });
 
     it('prevents negative values', async () => {
@@ -84,7 +93,11 @@ describe('SowingTotalArea', () => {
         await user.clear(input);
         await user.type(input, '-10');
 
-        expect(screen.getByText('0 hectares')).toBeInTheDocument();
+        const unit = mockTranslateFunction(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES);
+        await waitFor(() => {
+            expect(screen.getByText(new RegExp(`^10\\s*${unit}$`))).toBeInTheDocument();
+            expect(screen.getByTestId('mock-sowing-output')).toBeInTheDocument();
+        });
     });
 
     it('handles empty input correctly', async () => {
@@ -100,7 +113,10 @@ describe('SowingTotalArea', () => {
         const input = screen.getByRole('spinbutton');
         await user.clear(input);
 
-        expect(screen.getByText('0 hectares')).toBeInTheDocument();
+        const unit = mockTranslateFunction(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_HECTARES);
+        await waitFor(() => {
+            expect(screen.getByText(new RegExp(`^0\\s*${unit}$`))).toBeInTheDocument();
+        });
     });
 
     it('shows validation styling for invalid values', () => {
@@ -133,7 +149,8 @@ describe('SowingTotalArea', () => {
             }
         );
 
-        expect(screen.getByText('10 acres')).toBeInTheDocument();
+        const unit = mockTranslateFunction(SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT_ACRES);
+        expect(screen.getByText(new RegExp(`^10\\s*${unit}$`))).toBeInTheDocument();
     });
 
     it('shows SowingOutput component for valid values', async () => {
@@ -150,7 +167,9 @@ describe('SowingTotalArea', () => {
         await user.clear(input);
         await user.type(input, '10');
 
-        expect(screen.getByTestId('mock-sowing-output')).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId('mock-sowing-output')).toBeInTheDocument();
+        });
     });
 
     it('hides SowingOutput component for invalid values', () => {

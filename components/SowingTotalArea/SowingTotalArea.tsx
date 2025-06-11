@@ -8,9 +8,9 @@ import { useTranslate } from "@/hooks/useTranslate"
 import { FormField } from "../ui/form"
 import { IsValueOutOfBounds } from "@/lib/sowing-utils"
 import { CalculatorValueTypes, UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
-import type { SowingRateSaveData } from "@/hooks/useSowingRateForm"
 import SowingOutput from "../SowingOutput/SowingOutput"
 import { useSelector } from "react-redux"
+import { SowingRateSaveData } from "@/lib/interfaces"
 
 
 //Heavy based on BuildSowingRateRow component
