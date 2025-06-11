@@ -1,7 +1,7 @@
 import { PieChart } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 
 export default function LoadingDisplay() {
     const translator = useTranslate();

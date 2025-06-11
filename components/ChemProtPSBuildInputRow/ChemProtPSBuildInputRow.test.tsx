@@ -10,8 +10,8 @@ describe('ChemProtPSBuildInputRow', () => {
         calculatedAmount: 0
     };
 
-    const renderComponent = () => {
-        return renderWithReduxAndForm<ChemProtPercentFormValues>(
+    beforeEach(() => {
+        renderWithReduxAndForm<ChemProtPercentFormValues>(
             (props) => (
                 <ChemProtPSBuildInputRow
                     varName="desiredPercentage"
@@ -24,10 +24,7 @@ describe('ChemProtPSBuildInputRow', () => {
             ),
             { reactFormDefaultValues: defaultValues }
         );
-    };
-
-    beforeEach(() => {
-        renderComponent();
+        jest.clearAllMocks();
     });
 
     it('renders with correct display name', () => {

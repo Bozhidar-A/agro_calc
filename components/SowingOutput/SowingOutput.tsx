@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
-import type { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import type { SowingRateSaveData } from "@/hooks/useSowingRateForm"
+import { useTranslate } from "@/hooks/useTranslate"
 import SowingMeasurementSwitcher from "../SowingMeasurementSwitcher/SowingMeasurementSwitcher"
 import { Leaf } from "lucide-react"
 

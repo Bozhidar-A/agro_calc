@@ -1,6 +1,6 @@
-import { SowingRateSaveData } from "@/app/hooks/useSowingRateForm";
+import { SowingRateSaveData } from "@/hooks/useSowingRateForm";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { DisplayOutputRow } from "@/app/calculators/sowing/page";
 import { useSelector } from "react-redux";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";

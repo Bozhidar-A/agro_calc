@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Errored from "@/components/Errored/Errored";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import { useParams } from "next/navigation";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { CalculatorValueTypes } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

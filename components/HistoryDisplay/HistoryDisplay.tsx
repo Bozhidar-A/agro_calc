@@ -6,7 +6,7 @@ import { SeedingDataCombinationHistory, SowingRateHistory, ChemProtPercentHistor
 import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { toast } from 'sonner';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { Log } from '@/lib/logger';
 import { APICaller } from '@/lib/api-util';
 import Errored from '@/components/Errored/Errored';

@@ -8,11 +8,11 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { CmToMeters, MetersSquaredToAcre, MetersToCm, ToFixedNumber } from "@/lib/math-util";
 import { IsValueOutOfBounds } from "@/lib/sowing-utils";
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from "@/lib/utils";
 import { SowingRateSaveData, AuthState, SowingRateDBData } from "@/lib/interfaces";
-import { useWarnings } from "@/app/hooks/useWarnings";
+import { useWarnings } from "@/hooks/useWarnings";
 
 
 export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {

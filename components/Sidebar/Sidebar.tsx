@@ -6,7 +6,7 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetHeader } from '@/co
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { AuthLogout } from '@/store/slices/authSlice';
 import { toast } from 'sonner';
 import { APICaller } from '@/lib/api-util';

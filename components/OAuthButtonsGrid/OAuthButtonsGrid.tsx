@@ -1,6 +1,6 @@
 import { SUPPORTED_OAUTH_PROVIDERS } from "@/lib/utils";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { OAuthButton } from "@/components/OAuthButton/OAuthButton";
 
 export default function OAuthButtonsGrid() {
