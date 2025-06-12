@@ -177,9 +177,9 @@ export default function WikiChemicalProtectionChemicalPage() {
                 {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS)}
               </h4>
               <div className="space-y-2">
-                {chemical.activeIngredients.map((ingredient) => (
+                {chemical.activeIngredients.map((ingredient, index) => (
                   <div
-                    key={ingredient.id}
+                    key={`${ingredient.id}-${index}`}
                     className="flex justify-between items-center text-black dark:text-white"
                   >
                     <Link
