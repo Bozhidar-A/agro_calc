@@ -4,6 +4,7 @@ import { initializeMockTranslate, mockTranslateFunction } from '@/test-utils/moc
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import SowingMeasurementSwitcher from './SowingMeasurementSwitcher';
+import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
 
 // Mock the useTranslate hook
 jest.mock('@/hooks/useTranslate', () => ({
@@ -118,13 +119,21 @@ describe('SowingMeasurementSwitcher', () => {
                 auth: { user: null, token: null, isAuthenticated: false }
             };
 
-            renderWithRedux(
+            const { store } = renderWithRedux(
                 (mockProps) => <SowingMeasurementSwitcher dataToBeSaved={mockData} {...mockProps} />,
                 { preloadedState: initialState }
             );
 
+            // Verify initial hectares display
             await screen.findByText(mockTranslateFunction(SELECTABLE_STRINGS.PLANTS_PER_HECTARE));
             expect(screen.getByText('2000')).toBeInTheDocument();
+
+            // Change to acres
+            store.dispatch(LocalSetUnitOfMeasurementLength(UNIT_OF_MEASUREMENT_LENGTH.ACRES));
+
+            // Verify acres display
+            await screen.findByText(mockTranslateFunction(SELECTABLE_STRINGS.PLANTS_PER_ACRE));
+            expect(screen.getByText('200')).toBeInTheDocument();
         });
 
         it('handles invalid measurement unit gracefully', async () => {
