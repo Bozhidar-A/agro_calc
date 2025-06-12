@@ -68,15 +68,13 @@ export function renderWithRedux(
     mockProps
   }: { preloadedState?: any, mockProps?: any } = {}
 ) {
-  const { store, persistor } = createTestStore(preloadedState);
+  const { store } = createTestStore(preloadedState);
 
   const result = testingLibraryRender(
     <Provider store={store}>
-      <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {ui(mockProps)}
-        </ThemeProvider>
-      </PersistGate>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {ui(mockProps)}
+      </ThemeProvider>
     </Provider>
   );
 
@@ -94,7 +92,7 @@ export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
     reactFormDefaultValues,
   }: { preloadedState?: any, reactFormDefaultValues?: DefaultValues<TFormValues> } = {}
 ) {
-  const { store, persistor } = createTestStore(preloadedState);
+  const { store } = createTestStore(preloadedState);
 
   function Wrapper() {
     const form = useForm<TFormValues>({
@@ -103,13 +101,11 @@ export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
 
     return (
       <Provider store={store}>
-        <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <FormProvider {...form}>
-              {ui({ form })}
-            </FormProvider>
-          </ThemeProvider>
-        </PersistGate>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <FormProvider {...form}>
+            {ui({ form })}
+          </FormProvider>
+        </ThemeProvider>
       </Provider>
     );
   }
