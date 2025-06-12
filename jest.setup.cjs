@@ -1,5 +1,5 @@
 require('@testing-library/jest-dom');
-require('./test-utils/mocks.ts');
+const { mockTranslateFunction } = require('./test-utils/mocks');
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
@@ -71,16 +71,20 @@ jest.mock('recharts', () => {
     ResponsiveContainer: ({ children }) => React.createElement('div', {}, children),
     PieChart: ({ children }) => React.createElement('div', { 'data-testid': 'pie-chart' }, children),
     BarChart: ({ children }) => React.createElement('div', { 'data-testid': 'bar-chart' }, children),
-    Pie: ({ data }) => (
+    LineChart: ({ children }) => React.createElement('div', { 'data-testid': 'line-chart' }, children),
+    Line: ({ dataKey, name }) => React.createElement('div', { 'data-testid': 'line', 'data-name': name }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
+    Pie: ({ data, dataKey, nameKey }) => (
       React.createElement('div', { 'data-testid': 'pie' },
-        data.map((item, index) => (
-          React.createElement('div', { key: index, 'data-value': item.value }, item.name)
-        ))
+        data?.map((item, index) => {
+          const name = typeof nameKey === 'function' ? nameKey(item) : item[nameKey];
+          const value = typeof dataKey === 'function' ? dataKey(item) : item[dataKey];
+          return React.createElement('div', { key: index, 'data-name': name, 'data-value': value }, name);
+        })
       )
     ),
-    Bar: ({ children }) => React.createElement('div', { 'data-testid': 'bar' }, children),
+    Bar: ({ dataKey, name }) => React.createElement('div', { 'data-testid': 'bar', 'data-name': name }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
     Cell: () => React.createElement('div', { 'data-testid': 'chart-cell' }),
-    XAxis: () => React.createElement('div', { 'data-testid': 'x-axis' }),
+    XAxis: ({ dataKey }) => React.createElement('div', { 'data-testid': 'x-axis' }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
     YAxis: () => React.createElement('div', { 'data-testid': 'y-axis' }),
     Tooltip: () => React.createElement('div', { 'data-testid': 'tooltip' }),
     Legend: () => React.createElement('div', { 'data-testid': 'legend' })
@@ -105,3 +109,13 @@ jest.mock('next/link', () => {
   const React = require('react');
   return ({ children, href }) => React.createElement('a', { href }, children);
 });
+
+jest.mock('@/components/Errored/Errored', () => {
+  const React = require('react');
+  return ({ children }) => React.createElement('div', { 'data-testid': 'error-component' }, children);
+})
+
+// Mock useTranslate hook
+jest.mock('@/hooks/useTranslate', () => ({
+  useTranslate: () => mockTranslateFunction
+}));

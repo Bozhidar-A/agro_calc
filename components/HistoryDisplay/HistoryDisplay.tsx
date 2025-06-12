@@ -293,7 +293,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.totalArea.toFixed(2)}</p>
                                         </div>
                                     </div>
-                                    <SowingCharts data={history} />
+                                    <SowingCharts testId="sowing-charts" data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE)}</div>}
@@ -313,7 +313,11 @@ export default function HistoryDisplay() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-6">
-                                    {!history.isDataValid && <WarningBanner />}
+                                    {!history.isDataValid &&
+                                        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
+                                            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+                                            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
+                                        </div>}
                                     <div className="space-y-3 sm:space-y-4">
                                         {history.plants.map((plantData, index) => (
                                             <div key={index} className="border-b pb-2 last:border-0">
@@ -333,18 +337,18 @@ export default function HistoryDisplay() {
                                                     </div>
                                                     <div>
                                                         <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</p>
-                                                        <p className="text-sm sm:text-base">{plantData.pricePerAcreBGN.toFixed(2)} BGN</p>
+                                                        <p className="text-sm sm:text-base">{plantData.pricePerAcreBGN.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
                                         <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t">
                                             <p className="text-base sm:text-lg font-medium">
-                                                {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}: {history.totalPrice.toFixed(2)} BGN
+                                                {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}: {history.totalPrice.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}
                                             </p>
                                         </div>
                                     </div>
-                                    <CombinedCharts data={history} />
+                                    <CombinedCharts testId="combined-charts" data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SEEDING_DATA)}</div>}
@@ -424,10 +428,10 @@ export default function HistoryDisplay() {
                                         </div>
                                         <div>
                                             <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)}</p>
-                                            <p className="text-base sm:text-lg">{history.chemicalPerSprayerML.toFixed(2)} L</p>
+                                            <p className="text-base sm:text-lg">{history.chemicalPerSprayerML.toFixed(2)} ml</p>
                                         </div>
                                     </div>
-                                    <ChemWorkingSolutionCharts data={history} />
+                                    <ChemWorkingSolutionCharts testId="chem-working-solution-charts" data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_CHEM_PROTECTION)}</div>}

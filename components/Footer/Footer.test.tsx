@@ -4,11 +4,6 @@ import { Footer } from './Footer';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('Footer', () => {
     const preloadedState = {
         local: { lang: 'bg' },

@@ -3,11 +3,6 @@ import CalculatorsCallToAction from './CalculatorsCallToAction';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 import { renderWithRedux } from '@/test-utils/render';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('CalculatorsCallToAction', () => {
     const preloadedState = {
         local: { lang: 'bg' },

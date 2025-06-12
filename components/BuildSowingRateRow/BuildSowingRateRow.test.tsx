@@ -4,12 +4,8 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from '@/lib/utils';
 import { SowingRateDBData } from '@/lib/interfaces';
 import { renderWithReduxAndForm } from '@/test-utils/render';
-import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
+import { initializeMockTranslate } from '@/test-utils/mocks';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
 
 describe('BuildSowingRateRow', () => {
     // Mock data for slider type

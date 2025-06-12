@@ -5,11 +5,6 @@ import { SUPPORTED_OAUTH_PROVIDERS } from '@/lib/utils';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('OAuthButtonsGrid', () => {
     const preloadedState = {
         local: { lang: 'bg' },

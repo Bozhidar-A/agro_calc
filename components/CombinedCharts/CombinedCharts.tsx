@@ -1,37 +1,23 @@
 "use client";
-import { BarChart, Bar, PieChart, Pie, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
+import { BarChart, Bar, PieChart, Pie, LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslate } from "@/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useSelector } from "react-redux";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
 import { KgPerAcreToKgPerHectare } from "@/lib/math-util";
-
-export interface CombinedHistoryDataPlant {
-    plantLatinName: string;
-    plantType: string;
-    seedingRate: number;
-    participation: number;
-    combinedRate: number;
-    pricePerAcreBGN: number;
-}
-
-export interface CombinedHistoryData {
-    plants: CombinedHistoryDataPlant[];
-    totalPrice: number;
-    userId: string;
-    isDataValid: boolean;
-}
+import Errored from "@/components/Errored/Errored";
+import { CombinedHistoryData } from "@/lib/interfaces";
 
 export default function CombinedCharts({ data }: { data: CombinedHistoryData | null }) {
-    if (!data || !data.plants || data.plants.length === 0) {
-        return null;
-    }
-
     const translator = useTranslate();
     const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
 
-    // The data already has the correct property names
+    if (!data || !data.plants || data.plants.length === 0) {
+        return <Errored />;
+    }
+
     return (
         <div className="mt-8">
             <Card className="mb-6">

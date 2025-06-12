@@ -4,11 +4,6 @@ import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/moc
 import LoadingDisplay from './LoadingDisplay';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('LoadingDisplay', () => {
     const preloadedState = {
         local: { lang: 'en' },
