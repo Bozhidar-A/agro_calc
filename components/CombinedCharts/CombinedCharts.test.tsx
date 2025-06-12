@@ -4,6 +4,7 @@ import { initializeMockTranslate, mockTranslateFunction } from '@/test-utils/moc
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import CombinedCharts from './CombinedCharts';
+import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
 
 describe('CombinedCharts', () => {
     const mockData = {
@@ -127,6 +128,34 @@ describe('CombinedCharts', () => {
 
             // Check that acres title is displayed
             expect(screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON))).toBeInTheDocument();
+        });
+
+        it('updates display when measurement unit changes', async () => {
+            const initialState = {
+                local: {
+                    lang: 'bg',
+                    unitOfMeasurementLength: UNIT_OF_MEASUREMENT_LENGTH.HECTARES
+                },
+                auth: { user: null, token: null, isAuthenticated: false }
+            };
+
+            const { store } = renderWithRedux(
+                (mockProps) => <CombinedCharts data={mockData} {...mockProps} />,
+                { preloadedState: initialState }
+            );
+
+            //verify initial hectares display
+            expect(screen.getByTestId('line')).toHaveAttribute('data-name', mockTranslateFunction(SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL));
+
+            //change to acres
+            store.dispatch(LocalSetUnitOfMeasurementLength(UNIT_OF_MEASUREMENT_LENGTH.ACRES));
+
+            //wait for it to update because redux state
+            //verify acres display
+            expect(await screen.getByTestId('line')).toHaveAttribute('data-name', mockTranslateFunction(SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL));
+
+            //verify hectares display is not present
+            expect(await screen.queryByTestId('line')).not.toHaveAttribute('data-name', mockTranslateFunction(SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL));
         });
     });
 
