@@ -118,6 +118,7 @@ export enum SELECTABLE_STRINGS {
   SEEDS_PER_M2 = 'SEEDS_PER_M2',
   PLANTS_PER_ACRE = 'PLANTS_PER_ACRE',
   PLANTS_PER_HECTARE = 'PLANTS_PER_HECTARE',
+  BGN = 'BGN',
 
   //latin names
   // Seeding crops
@@ -774,6 +775,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SEEDS_PER_M2]: 'брой семена/m²',
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'брой растения/декар',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'брой растения/хектар',
+    [SELECTABLE_STRINGS.BGN]: 'лв',
 
     [SELECTABLE_STRINGS.GET_STARTED]: 'Да започваме!',
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Добре дошли, ',
@@ -1559,6 +1561,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SEEDS_PER_M2]: 'seeds/m²',
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'plants/acre',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'plants/hectare',
+    [SELECTABLE_STRINGS.BGN]: 'BGN',
 
     [SELECTABLE_STRINGS.GET_STARTED]: "Let's start!",
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Welcome, ',
