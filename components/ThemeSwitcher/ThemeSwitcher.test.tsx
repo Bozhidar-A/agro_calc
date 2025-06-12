@@ -1,14 +1,10 @@
 import { screen } from '@testing-library/react';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { renderWithRedux } from '@/test-utils/render';
-import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
+import { initializeMockTranslate } from '@/test-utils/mocks';
 import userEvent from '@testing-library/user-event';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
 
 // Mock next-themes
 const mockSetTheme = jest.fn();

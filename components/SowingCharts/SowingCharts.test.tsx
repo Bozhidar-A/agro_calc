@@ -6,11 +6,6 @@ import { SUPPORTED_LANGS, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import SowingCharts from './SowingCharts';
 import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('SowingCharts', () => {
     const mockData = {
         userId: 'test-user',
@@ -61,7 +56,8 @@ describe('SowingCharts', () => {
             expect(screen.getAllByTestId('pie-chart')).toHaveLength(1);
             expect(screen.getAllByTestId('bar-chart')).toHaveLength(2);
             expect(screen.getAllByTestId('tooltip')).toHaveLength(3);
-            expect(screen.getAllByTestId('chart-cell').length).toBeGreaterThan(0);
+            expect(screen.getAllByTestId('bar')).toHaveLength(2);
+            expect(screen.getAllByTestId('pie')).toHaveLength(1);
         });
 
         it('displays correct units for acres mode', () => {
@@ -94,7 +90,7 @@ describe('SowingCharts', () => {
             );
 
             // Verify initial hectares display
-            await screen.findByText(mockTranslateFunction(SELECTABLE_STRINGS.PLANTS_PER_HECTARE));
+            await screen.findByText(/брой растения\/декар/i);
 
             // Change to acres
             store.dispatch(LocalSetUnitOfMeasurementLength(UNIT_OF_MEASUREMENT_LENGTH.ACRES));
@@ -123,12 +119,9 @@ describe('SowingCharts', () => {
                 { preloadedState }
             );
 
-            const kgHectareText = mockTranslateFunction(SELECTABLE_STRINGS.KG_HECTARE);
-            const plantsPerHectareText = mockTranslateFunction(SELECTABLE_STRINGS.PLANTS_PER_HECTARE);
-
             // Use queryAllByText to handle multiple instances
-            expect(screen.queryAllByText(kgHectareText).length).toBeGreaterThan(0);
-            expect(screen.queryAllByText(plantsPerHectareText).length).toBeGreaterThan(0);
+            expect(screen.queryAllByText(/кг\/декар/i).length).toBeGreaterThan(0);
+            expect(screen.queryAllByText(/брой растения\/декар/i).length).toBeGreaterThan(0);
         });
     });
 

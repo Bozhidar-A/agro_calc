@@ -19,11 +19,6 @@ jest.mock('@/components/MeasurementSwitcher/MeasurementSwitcher', () => {
     };
 });
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 describe('SettingsGrid', () => {
     const preloadedState = {
         local: { lang: 'bg' },

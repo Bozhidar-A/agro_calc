@@ -6,11 +6,6 @@ import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import SowingMeasurementSwitcher from './SowingMeasurementSwitcher';
 import { LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 // Mock the DisplayOutputRow component
 jest.mock('@/app/calculators/sowing/page', () => ({
     DisplayOutputRow: ({ data, text, unit }: { data: number; text: string; unit: string }) => (

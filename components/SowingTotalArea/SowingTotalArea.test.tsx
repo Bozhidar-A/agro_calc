@@ -6,11 +6,6 @@ import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import SowingTotalArea from './SowingTotalArea';
 import userEvent from '@testing-library/user-event';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 // Mock the SowingOutput component
 jest.mock('../SowingOutput/SowingOutput', () => ({
     __esModule: true,

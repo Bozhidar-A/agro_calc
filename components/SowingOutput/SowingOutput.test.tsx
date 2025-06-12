@@ -1,13 +1,8 @@
 import { screen } from '@testing-library/react';
 import { renderWithRedux } from '@/test-utils/render';
-import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
+import { initializeMockTranslate, mockTranslateFunction } from '@/test-utils/mocks';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import SowingOutput from './SowingOutput';
-
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
 
 // Mock the SowingMeasurementSwitcher component
 jest.mock('../SowingMeasurementSwitcher/SowingMeasurementSwitcher', () => ({

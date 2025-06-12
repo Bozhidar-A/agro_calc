@@ -208,6 +208,22 @@ export interface SeedCombinedSectionProps {
   dbData: any[];
 }
 
+export interface CombinedHistoryDataPlant {
+  plantLatinName: string;
+  plantType: string;
+  seedingRate: number;
+  participation: number;
+  combinedRate: number;
+  pricePerAcreBGN: number;
+}
+
+export interface CombinedHistoryData {
+  plants: CombinedHistoryDataPlant[];
+  totalPrice: number;
+  userId: string;
+  isDataValid: boolean;
+}
+
 //hook combined form
 export interface ActivePlantsFormData {
   plantId: string;

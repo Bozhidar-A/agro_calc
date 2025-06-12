@@ -2,6 +2,8 @@ import { screen } from '@testing-library/react';
 import Errored from './Errored';
 import { renderWithRedux } from '@/test-utils/render';
 
+jest.unmock('@/components/Errored/Errored');
+
 describe('Errored', () => {
     beforeEach(() => {
         renderWithRedux((mockProps) => <Errored {...mockProps} />);

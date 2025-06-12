@@ -4,11 +4,6 @@ import { initializeMockTranslate, mockTranslateFunction } from '@/test-utils/moc
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { SeedCombinedRow } from './SeedCombinedRow';
 
-// Mock the useTranslate hook
-jest.mock('@/hooks/useTranslate', () => ({
-    useTranslate: () => mockTranslateFunction
-}));
-
 // Mock CombinedMeasurementSwitcher component
 jest.mock('../CombinedMeasurementSwitcher/CombinedMeasurementSwitcher', () => ({
     __esModule: true,
