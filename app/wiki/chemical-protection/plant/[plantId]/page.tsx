@@ -175,13 +175,13 @@ export default function WikiChemicalProtectionPlantPage() {
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                             )}
-                            : {chemData.chemical.pricePer1LiterBGN} BGN
+                            : {chemData.chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                           <p>
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
                             )}
-                            : {chemData.chemical.pricePerAcreBGN} BGN
+                            : {chemData.chemical.pricePerAcreBGN} {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                         </div>
 

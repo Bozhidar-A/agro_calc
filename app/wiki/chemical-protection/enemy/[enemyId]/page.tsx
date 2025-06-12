@@ -182,13 +182,13 @@ export default function WikiChemicalProtectionEnemyPage() {
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                                 )}
-                                : {chemRelation.chemical.pricePer1LiterBGN} BGN
+                                : {chemRelation.chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
                               </p>
                               <p>
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
                                 )}
-                                : {chemRelation.chemical.pricePerAcreBGN} BGN
+                                : {chemRelation.chemical.pricePerAcreBGN} {translator(SELECTABLE_STRINGS.BGN)}
                               </p>
                             </div>
                           </div>
