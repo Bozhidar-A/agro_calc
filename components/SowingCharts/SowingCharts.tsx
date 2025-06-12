@@ -174,11 +174,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                   dataKey="value"
                   label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                 >
-                  {pieData.map((entry, index) => (
+                  {pieData.map((_: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => value.toFixed(2)} />
+                <Tooltip formatter={(value) => (value as number).toFixed(2)} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -198,22 +198,22 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip
-                  formatter={(value, name, props) => {
+                  formatter={(value, name) => {
                     // Undo scaling for display in tooltip
                     if (
                       name ===
                       translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)
                     ) {
-                      return (value * 100).toFixed(0);
+                      return (value as number * 100).toFixed(0);
                     }
                     if (name === translator(SELECTABLE_STRINGS.KG_ACRE)) {
-                      return (value / 10).toFixed(2);
+                      return (value as number / 10).toFixed(2);
                     }
                     return value;
                   }}
                 />
                 <Bar dataKey="value" fill="#82ca9d">
-                  {barData.map((entry, index) => (
+                  {barData.map((_: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Bar>
@@ -264,7 +264,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
               >
                 <XAxis type="number" domain={[0, 100]} />
                 <YAxis dataKey="name" type="category" />
-                <Tooltip formatter={(value) => `${value.toFixed(1)}%`} />
+                <Tooltip formatter={(value) => `${(value as number).toFixed(1)}%`} />
                 <Legend />
                 <Bar
                   dataKey="efficiency"
