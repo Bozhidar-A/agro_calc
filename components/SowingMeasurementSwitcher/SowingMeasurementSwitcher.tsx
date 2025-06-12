@@ -1,4 +1,4 @@
-import { SowingRateSaveData } from "@/hooks/useSowingRateForm";
+import { SowingRateSaveData } from "@/lib/interfaces";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/hooks/useTranslate";
 import { DisplayOutputRow } from "@/app/calculators/sowing/page";

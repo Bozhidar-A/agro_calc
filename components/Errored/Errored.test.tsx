@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react';
 import Errored from './Errored';
-import { render } from '@/test-utils/render';
+import { renderWithRedux } from '@/test-utils/render';
 
 describe('Errored', () => {
     beforeEach(() => {
-        render(<Errored />);
+        renderWithRedux((mockProps) => <Errored {...mockProps} />);
         jest.clearAllMocks();
     });
 

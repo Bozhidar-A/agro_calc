@@ -67,7 +67,7 @@ export function GetStrFromLangMapKey(lang: string, str: string) {
   return str;
 }
 
-export function FetchUnitIfExist(data) {
+export function FetchUnitIfExist(data: { unit: string }) {
   return data.unit ? `${data.unit}` : '';
 }
 
