@@ -1,64 +1,57 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FormField } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-
-interface BuildInputRowProps {
-    varName: string;
-    displayName: string;
-    form: any;
-    icon: React.ReactNode;
-    translator: (key: string) => string;
-    unit: string;
-    displayValue?: string;
-    id?: string;
-}
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormField } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { ChemProtWorkingSolutionBuildInputRowProps } from '@/lib/interfaces';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export function ChemProtWorkingSolutionBuildInputRow({
-    varName,
-    displayName,
-    form,
-    icon,
-    translator,
-    unit,
-    displayValue,
-    id
-}: BuildInputRowProps) {
-    return (
-        <Card className="overflow-hidden">
-            <CardHeader className="bg-green-700 pb-2">
-                <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
-                    {icon}
-                    {displayName}
-                </CardTitle>
-                <CardDescription className="text-black/90 dark:text-white/90">
-                    {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4">
-                <div className="flex flex-col gap-2">
-                    <FormField
-                        control={form.control}
-                        name={varName}
-                        render={({ field }) => (
-                            <Input
-                                min={0}
-                                className="text-center text-xl"
-                                type="number"
-                                id={id}
-                                {...field}
-                                onChange={(e) => {
-                                    const val = e.target.value;
-                                    field.onChange(val === '' ? '' : Number(val));
-                                }}
-                            />
-                        )}
-                    />
-                    <div className="text-center font-medium mt-1">
-                        {`${displayValue ?? (isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0)} ${unit}`}
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    );
-} 
+  varName,
+  displayName,
+  form,
+  icon,
+  translator,
+  unit,
+  displayValue,
+  id,
+}: ChemProtWorkingSolutionBuildInputRowProps) {
+  return (
+    <Card className="overflow-hidden" data-testid="card">
+      <CardHeader className="bg-green-700 pb-2" data-testid="card-header">
+        <CardTitle
+          className="flex items-center gap-2 text-lg text-black dark:text-white"
+          data-testid="card-title"
+        >
+          {icon}
+          {displayName}
+        </CardTitle>
+        <CardDescription className="text-black/90 dark:text-white/90">
+          {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="pt-4">
+        <div className="flex flex-col gap-2">
+          <FormField
+            control={form.control}
+            name={varName}
+            render={({ field }) => (
+              <Input
+                min={0}
+                className="text-center text-xl"
+                type="number"
+                id={id}
+                {...field}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  field.onChange(val === '' ? '' : Number(val));
+                }}
+              />
+            )}
+          />
+          <div className="text-center font-medium mt-1">
+            {`${displayValue ?? (isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0)} ${unit}`}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
