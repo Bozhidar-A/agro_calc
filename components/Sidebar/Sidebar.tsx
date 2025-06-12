@@ -143,7 +143,7 @@ export default function Sidebar() {
                         </div>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="ghost" className="w-full justify-start font-normal">
+                                <Button variant="ghost" className="w-full justify-start font-normal" data-testid="settings-button">
                                     <Settings className="mr-2 h-4 w-4" />
                                     {translator(SELECTABLE_STRINGS.SETTINGS)}
                                 </Button>

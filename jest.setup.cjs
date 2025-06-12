@@ -63,3 +63,45 @@ jest.mock('framer-motion', () => {
     })
   };
 });
+
+// Mock the recharts library
+jest.mock('recharts', () => {
+  const React = require('react');
+  return {
+    ResponsiveContainer: ({ children }) => React.createElement('div', {}, children),
+    PieChart: ({ children }) => React.createElement('div', { 'data-testid': 'pie-chart' }, children),
+    BarChart: ({ children }) => React.createElement('div', { 'data-testid': 'bar-chart' }, children),
+    Pie: ({ data }) => (
+      React.createElement('div', { 'data-testid': 'pie' },
+        data.map((item, index) => (
+          React.createElement('div', { key: index, 'data-value': item.value }, item.name)
+        ))
+      )
+    ),
+    Bar: ({ children }) => React.createElement('div', { 'data-testid': 'bar' }, children),
+    Cell: () => React.createElement('div', { 'data-testid': 'chart-cell' }),
+    XAxis: () => React.createElement('div', { 'data-testid': 'x-axis' }),
+    YAxis: () => React.createElement('div', { 'data-testid': 'y-axis' }),
+    Tooltip: () => React.createElement('div', { 'data-testid': 'tooltip' }),
+    Legend: () => React.createElement('div', { 'data-testid': 'legend' })
+  };
+});
+
+// Mock toast notifications
+jest.mock('sonner', () => ({
+  toast: {
+    success: jest.fn(),
+    error: jest.fn()
+  }
+}));
+
+// Mock API calls
+jest.mock('@/lib/api-util', () => ({
+  APICaller: jest.fn()
+}));
+
+// Mock next/link
+jest.mock('next/link', () => {
+  const React = require('react');
+  return ({ children, href }) => React.createElement('a', { href }, children);
+});
