@@ -115,7 +115,17 @@ jest.mock('@/components/Errored/Errored', () => {
   return ({ children }) => React.createElement('div', { 'data-testid': 'error-component' }, children);
 })
 
-// Mock useTranslate hook
+//mock useTranslate hook
 jest.mock('@/hooks/useTranslate', () => ({
   useTranslate: () => mockTranslateFunction
+}));
+
+//mock useWarnings hook
+jest.mock('@/hooks/useWarnings', () => ({
+  useWarnings: () => ({
+    warnings: {},
+    AddWarning: jest.fn(),
+    RemoveWarning: jest.fn(),
+    CountWarnings: jest.fn()
+  })
 }));
