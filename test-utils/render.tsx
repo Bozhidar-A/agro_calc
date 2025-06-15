@@ -1,15 +1,14 @@
-import { render as testingLibraryRender } from '@testing-library/react';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { render as testingLibraryRender } from '@testing-library/react';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { Provider } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { FormProvider, useForm, DefaultValues } from 'react-hook-form';
-
 // app
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
-import localReducer from '@/store/slices/localSettingsSlice';
 import authReducer from '@/store/slices/authSlice';
+import localReducer from '@/store/slices/localSettingsSlice';
 
 // fallback for tests without redux
 export function render(ui: React.ReactNode) {
@@ -64,8 +63,8 @@ export function renderWithRedux(
       local: { lang: 'en' },
       auth: { user: null, token: null },
     },
-    mockProps
-  }: { preloadedState?: any, mockProps?: any } = {}
+    mockProps,
+  }: { preloadedState?: any; mockProps?: any } = {}
 ) {
   const { store } = createTestStore(preloadedState);
 
@@ -89,7 +88,7 @@ export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
       auth: { user: null, token: null },
     },
     reactFormDefaultValues,
-  }: { preloadedState?: any, reactFormDefaultValues?: DefaultValues<TFormValues> } = {}
+  }: { preloadedState?: any; reactFormDefaultValues?: DefaultValues<TFormValues> } = {}
 ) {
   const { store } = createTestStore(preloadedState);
 
@@ -101,13 +100,29 @@ export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
     return (
       <Provider store={store}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <FormProvider {...form}>
-            {ui({ form })}
-          </FormProvider>
+          <FormProvider {...form}>{ui({ form })}</FormProvider>
         </ThemeProvider>
       </Provider>
     );
   }
 
   return testingLibraryRender(<Wrapper />);
+}
+
+//hook render with redux
+export function renderWithReduxHookWrapper(preloadedState: any = {}) {
+  const { store } = createTestStore(preloadedState);
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <Provider store={store}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+      </ThemeProvider>
+    </Provider>
+  );
+
+  return {
+    wrapper,
+    store,
+  }
 }
