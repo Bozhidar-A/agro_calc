@@ -1,0 +1,123 @@
+import { APICaller } from '@/lib/api-util';
+import { Log } from '@/lib/logger';
+
+// Mock fetch at module level
+const mockFetch = jest.fn();
+global.fetch = mockFetch;
+
+// Mock the Log function
+jest.mock('@/lib/logger', () => ({
+    Log: jest.fn()
+}));
+
+// Mock the module that uses fetch
+jest.mock('@/lib/api-util', () => ({
+    APICaller: jest.fn().mockImplementation(async (logPath, route, method, variables) => {
+        Log(logPath, `Calling ${route} ${method} ${variables ? JSON.stringify(variables) : ""}`);
+        const headers = {
+            "Content-Type": "application/json",
+        };
+        const fetchOptions: RequestInit = {
+            method,
+            credentials: 'include',
+            headers,
+        };
+        if (method !== "GET" && variables) {
+            fetchOptions.body = JSON.stringify(variables);
+        }
+        const res = await mockFetch(route, fetchOptions);
+        if (!res.ok) {
+            Log(logPath, `API call failed with: ${res.statusText}`);
+            return { success: false, message: res.statusText };
+        }
+        const data = await res.json();
+        Log(logPath, `API call returned: ${JSON.stringify(data)}`);
+        return data;
+    })
+}));
+
+describe('APICaller', () => {
+    beforeEach(() => {
+        // Clear all mocks before each test
+        jest.clearAllMocks();
+        mockFetch.mockClear();
+    });
+
+    it('should make a successful GET request', async () => {
+        const mockResponse = { data: 'test data' };
+        mockFetch.mockResolvedValueOnce({
+            ok: true,
+            json: () => Promise.resolve(mockResponse)
+        });
+
+        const result = await APICaller(['test'], '/api/test', 'GET');
+
+        expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        expect(result).toEqual(mockResponse);
+        expect(Log).toHaveBeenCalled();
+    });
+
+    it('should make a successful POST request with variables', async () => {
+        const mockResponse = { success: true };
+        const variables = { key: 'value' };
+        mockFetch.mockResolvedValueOnce({
+            ok: true,
+            json: () => Promise.resolve(mockResponse)
+        });
+
+        const result = await APICaller(['test'], '/api/test', 'POST', variables);
+
+        expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(variables)
+        });
+        expect(result).toEqual(mockResponse);
+        expect(Log).toHaveBeenCalled();
+    });
+
+    it('should handle API errors', async () => {
+        const errorMessage = 'Not Found';
+        mockFetch.mockResolvedValueOnce({
+            ok: false,
+            statusText: errorMessage
+        });
+
+        const result = await APICaller(['test'], '/api/test', 'GET');
+
+        expect(result).toEqual({
+            success: false,
+            message: errorMessage
+        });
+        expect(Log).toHaveBeenCalled();
+    });
+
+    it('should handle network errors', async () => {
+        const networkError = new Error('Network error');
+        mockFetch.mockRejectedValueOnce(networkError);
+
+        await expect(APICaller(['test'], '/api/test', 'GET')).rejects.toThrow('Network error');
+    });
+
+    it('should not include body in GET requests even with variables', async () => {
+        const mockResponse = { data: 'test data' };
+        const variables = { key: 'value' };
+        mockFetch.mockResolvedValueOnce({
+            ok: true,
+            json: () => Promise.resolve(mockResponse)
+        });
+
+        await APICaller(['test'], '/api/test', 'GET', variables);
+
+        expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+            method: 'GET',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' }
+        });
+    });
+}); 
