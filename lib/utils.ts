@@ -134,11 +134,6 @@ export function GetDisplayValue(value: number, unitOfMeasurement: UNIT_OF_MEASUR
 };
 
 
-//spwa
-export function GetUnitSymbol(unitOfMeasurement: UNIT_OF_MEASUREMENT_LENGTH = UNIT_OF_MEASUREMENT_LENGTH.ACRES) {
-  return unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ? 'ha' : 'acre';
-}
-
 export function FormatInterval(min: number, max: number) {
   if (min === 0 && max === 0) {
     return 'N/A';
