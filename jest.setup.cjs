@@ -122,10 +122,10 @@ jest.mock('@/hooks/useTranslate', () => ({
 
 //mock useWarnings hook
 jest.mock('@/hooks/useWarnings', () => ({
-  useWarnings: () => ({
+  useWarnings: jest.fn(() => ({
     warnings: {},
     AddWarning: jest.fn(),
     RemoveWarning: jest.fn(),
-    CountWarnings: jest.fn()
-  })
+    CountWarnings: jest.fn(() => 0)
+  }))
 }));
