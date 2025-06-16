@@ -85,18 +85,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
         mode: 'onBlur'
     });
 
-    // Update finalData when validation state changes
-    useEffect(() => {
-        if (finalData) {
-            setFinalData(prev => ({
-                ...prev!,
-                isDataValid: (form.formState.isValid && CountWarnings() === 0)
-            }));
-        }
-    }, [form.formState.isValid, warnings]);
-
-    //watcher to handle form value change
-    //calculated vals
+    // Combined effect to handle form changes and validation updates
     useEffect(() => {
         const subscription = form.watch((_value, { name }) => {
             if (!name) { return; }
@@ -175,8 +164,10 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
                 UpdateSeedingComboAndPriceDA(form, name, dbData);
             }
 
-            //update final data
-            setFinalData(UpdateFinalData(form.getValues()));
+            // Update final data with validation state
+            const newFinalData = UpdateFinalData(form.getValues());
+            newFinalData.isDataValid = (form.formState.isValid && CountWarnings() === 0);
+            setFinalData(newFinalData);
         });
 
         return () => subscription.unsubscribe();

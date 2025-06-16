@@ -1,8 +1,6 @@
-'use client';
-
 import { APICaller } from "@/lib/api-util";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -13,7 +11,6 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from "@/lib/utils";
 import { SowingRateSaveData, AuthState, SowingRateDBData } from "@/lib/interfaces";
 import { useWarnings } from "@/hooks/useWarnings";
-
 
 export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
     const translator = useTranslate();
@@ -30,9 +27,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         isDataValid: false
     });
 
-    //react-hook-form doesnt support warnings, so i have to hack my way around it
     const { warnings, AddWarning, RemoveWarning, CountWarnings } = useWarnings();
-
 
     const formSchema = z.object({
         cultureLatinName: z.string(),
@@ -68,23 +63,72 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         },
         mode: 'onChange',
         reValidateMode: 'onBlur'
-    })
+    });
 
-    // Trigger validation on mount
-    //EXTREMELY HACKY SOLUTION, but it works
-    //this is to make the form validate on mount specifically for errors
+    const calculateSavingData = useCallback(() => {
+        if (!activePlantDbData) {
+            return null;
+        }
+
+        const formValues = form.getValues();
+        const formState = form.formState;
+
+        const wantedPlantsPerMeterSquared = (formValues.wantedPlantsPerMeterSquared * 100) /
+            (formValues.germination * formValues.coefficientSecurity);
+
+        const sowingRatePlantsPerAcre = MetersSquaredToAcre(wantedPlantsPerMeterSquared);
+
+        const usedSeedsKgPerAcre = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
+            (formValues.purity * formValues.germination);
+
+        const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
+
+        return {
+            userId: authObj?.user?.id || '',
+            plantId: activePlantDbData.plant.plantId,
+            plantLatinName: activePlantDbData.plant.plantLatinName,
+            sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
+            sowingRatePlantsPerAcre: ToFixedNumber(sowingRatePlantsPerAcre, 0),
+            usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
+            internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
+            totalArea: formValues.totalArea,
+            isDataValid: formState.isValid && CountWarnings() === 0
+        };
+    }, [activePlantDbData, authObj, form.getValues, form.formState, CountWarnings]);
+
+    //calculate data whenever form values or active plant changes
+    useEffect(() => {
+        const subscription = form.watch(() => {
+            const newData = calculateSavingData();
+            if (newData) {
+                setDataToBeSaved(newData);
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form.watch, calculateSavingData]);
+
+    //trigger validation on mount
     useEffect(() => {
         form.trigger();
-    }, []);
+    }, [form]);
 
+    //inane BS but this prevents infinite loops and makes test happy
+    const isUpdatingRef = useRef(false);
+
+    //handle form value changes and validation
     useEffect(() => {
         const subscription = form.watch((_, { name }) => {
+            //skip if we're in the middle of an update
+            if (isUpdatingRef.current) {
+                return;
+            }
+
             const plant = dbData.find(entry => entry.plant.plantLatinName === form.getValues('cultureLatinName'));
 
             if (name === 'cultureLatinName' && plant) {
                 setActivePlantDbData(plant);
 
-                // Only set values if they are different from current values to prevent loops
                 const currentValues = form.getValues();
                 const newValues = {
                     coefficientSecurity: plant.coefficientSecurity.type === CalculatorValueTypes.SLIDER ? plant.coefficientSecurity.minSliderVal : plant.coefficientSecurity.constValue,
@@ -95,147 +139,64 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
                     rowSpacing: plant.rowSpacing.type === CalculatorValueTypes.SLIDER ? plant.rowSpacing.minSliderVal : plant.rowSpacing.constValue
                 };
 
-                // Only update values that have changed
-                Object.entries(newValues).forEach(([key, value]) => {
-                    if (currentValues[key as keyof typeof currentValues] !== value) {
-                        form.setValue(key as any, value);
-                    }
-                });
+                //only update values if they are different from current values
+                const hasChanges = Object.entries(newValues).some(([key, value]) =>
+                    currentValues[key as keyof typeof currentValues] !== value
+                );
+
+                if (hasChanges) {
+                    isUpdatingRef.current = true;
+                    Object.entries(newValues).forEach(([key, value]) => {
+                        form.setValue(key as any, value, { shouldValidate: false });
+                    });
+                    //trigger validation after all updates are done
+                    setTimeout(() => {
+                        form.trigger();
+                        isUpdatingRef.current = false;
+                    }, 0);
+                }
                 return;
             }
 
             if (!plant) {
-                //dont do the checks if we dont have a plant
                 return;
             }
 
-            //this feels stupid, but it works
-            if (IsValueOutOfBounds(
-                form.getValues('coefficientSecurity'),
-                plant.coefficientSecurity.type,
-                plant.coefficientSecurity.minSliderVal,
-                plant.coefficientSecurity.maxSliderVal,
-                plant.coefficientSecurity.constValue)) {
-                AddWarning('coefficientSecurity', 'Value out of bounds!');
-            } else {
-                RemoveWarning('coefficientSecurity');
-            }
+            //validation warnings - only run if we're not in the middle of an update
+            if (!isUpdatingRef.current) {
+                const validationChecks = [
+                    { field: 'coefficientSecurity', config: plant.coefficientSecurity },
+                    { field: 'wantedPlantsPerMeterSquared', config: plant.wantedPlantsPerMeterSquared },
+                    { field: 'massPer1000g', config: plant.massPer1000g },
+                    { field: 'purity', config: plant.purity },
+                    { field: 'germination', config: plant.germination },
+                    { field: 'rowSpacing', config: plant.rowSpacing }
+                ];
 
-            if (IsValueOutOfBounds(
-                form.getValues('wantedPlantsPerMeterSquared'),
-                plant.wantedPlantsPerMeterSquared.type,
-                plant.wantedPlantsPerMeterSquared.minSliderVal,
-                plant.wantedPlantsPerMeterSquared.maxSliderVal,
-                plant.wantedPlantsPerMeterSquared.constValue)) {
-                AddWarning('wantedPlantsPerMeterSquared', 'Value out of bounds!');
-            } else {
-                RemoveWarning('wantedPlantsPerMeterSquared');
-            }
+                validationChecks.forEach(({ field, config }) => {
+                    if (IsValueOutOfBounds(
+                        form.getValues(field as any),
+                        config.type,
+                        config.minSliderVal,
+                        config.maxSliderVal,
+                        config.constValue
+                    )) {
+                        AddWarning(field, 'Value out of bounds!');
+                    } else {
+                        RemoveWarning(field);
+                    }
+                });
 
-            if (IsValueOutOfBounds(
-                form.getValues('massPer1000g'),
-                plant.massPer1000g.type,
-                plant.massPer1000g.minSliderVal,
-                plant.massPer1000g.maxSliderVal,
-                plant.massPer1000g.constValue)) {
-                AddWarning('massPer1000g', 'Value out of bounds!');
-            } else {
-                RemoveWarning('massPer1000g');
+                if (IsValueOutOfBounds(form.getValues('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
+                    AddWarning('totalArea', 'Value out of bounds!');
+                } else {
+                    RemoveWarning('totalArea');
+                }
             }
-
-            if (IsValueOutOfBounds(
-                form.getValues('purity'),
-                plant.purity.type,
-                plant.purity.minSliderVal,
-                plant.purity.maxSliderVal,
-                plant.purity.constValue)) {
-                AddWarning('purity', 'Value out of bounds!');
-            } else {
-                RemoveWarning('purity');
-            }
-
-            if (IsValueOutOfBounds(
-                form.getValues('germination'),
-                plant.germination.type,
-                plant.germination.minSliderVal,
-                plant.germination.maxSliderVal,
-                plant.germination.constValue)) {
-                AddWarning('germination', 'Value out of bounds!');
-            } else {
-                RemoveWarning('germination');
-            }
-
-            if (IsValueOutOfBounds(
-                form.getValues('rowSpacing'),
-                plant.rowSpacing.type,
-                plant.rowSpacing.minSliderVal,
-                plant.rowSpacing.maxSliderVal,
-                plant.rowSpacing.constValue)) {
-                AddWarning('rowSpacing', 'Value out of bounds!');
-            } else {
-                RemoveWarning('rowSpacing');
-            }
-
-            if (IsValueOutOfBounds(form.getValues('totalArea'), CalculatorValueTypes.ABOVE_ZERO)) {
-                AddWarning('totalArea', 'Value out of bounds!');
-            } else {
-                RemoveWarning('totalArea');
-            }
-
         });
 
         return () => subscription.unsubscribe();
-    }, [form, dbData]);
-
-    useEffect(() => {
-        const calculateSavingData = () => {
-            // Only calculate if we have a selected plant
-            if (!activePlantDbData) {
-                return;
-            }
-
-            const formValues = form.getValues();
-
-            // Get all the required values
-            const wantedPlantsPerMeterSquared = (formValues.wantedPlantsPerMeterSquared * 100) /
-                (formValues.germination * formValues.coefficientSecurity);
-
-            const sowingRatePlantsPerAcre = MetersSquaredToAcre(wantedPlantsPerMeterSquared);
-
-            const usedSeedsKgPerAcre = (wantedPlantsPerMeterSquared * formValues.massPer1000g * 10) /
-                (formValues.purity * formValues.germination);
-
-            const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
-
-            console.log("isValid:", form.formState.isValid && CountWarnings() === 0)
-
-            // Create the saveable data
-            const saveableData: SowingRateSaveData = {
-                userId: authObj?.user?.id || '',
-                plantId: activePlantDbData.plant.plantId,
-                plantLatinName: activePlantDbData.plant.plantLatinName,
-                sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
-                sowingRatePlantsPerAcre: ToFixedNumber(sowingRatePlantsPerAcre, 0),
-                usedSeedsKgPerAcre: ToFixedNumber(usedSeedsKgPerAcre, 2),
-                internalRowHeightCm: ToFixedNumber(internalRowHeightCm, 2),
-                totalArea: formValues.totalArea,
-                isDataValid: form.formState.isValid && CountWarnings() === 0
-            };
-
-            setDataToBeSaved(saveableData);
-        };
-
-        // Call immediately to update calculations on activePlantDbData change
-        calculateSavingData();
-
-        // Also subscribe to form changes
-        const subscription = form.watch(() => {
-            calculateSavingData();
-        });
-
-        return () => subscription.unsubscribe();
-    }, [form, activePlantDbData, authObj, warnings]);
-
+    }, [form, dbData, AddWarning, RemoveWarning]);
 
     async function onSubmit(_data: any) {
         if (!authObj.isAuthenticated) {
@@ -248,17 +209,22 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             return;
         }
 
-        const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/sowing/history', "POST", dataToBeSaved);
+        try {
+            const res = await APICaller(['calc', 'combined', 'page', 'save history'], '/api/calc/sowing/history', "POST", dataToBeSaved);
 
-        if (!res.success) {
-            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
-                description: res.message,
-            });
-            console.log(res.message);
-            return;
+            if (!res.success) {
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR), {
+                    description: res.message,
+                });
+                console.log(res.message);
+                return;
+            }
+
+            toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
+        } catch (error) {
+            toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR));
+            console.error('Submit error:', error);
         }
-
-        toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
     }
 
     return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, CountWarnings };
