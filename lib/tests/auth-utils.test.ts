@@ -1,5 +1,5 @@
 import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest } from '@/lib/auth-utils';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 import * as prismaUtils from '@/prisma/prisma-utils';
 import { cookies } from 'next/headers';
 
@@ -56,6 +56,11 @@ describe('Auth Utils', () => {
         process.env.JWT_REFRESH_SECRET = 'test-refresh-secret';
         process.env.SALT_ROUNDS = '10';
         mockCookies = cookies() as any;
+
+        // Mock TextEncoder
+        global.TextEncoder = jest.fn().mockImplementation(() => ({
+            encode: jest.fn().mockReturnValue(new Uint8Array())
+        }));
     });
 
     describe('BackendRegister', () => {
@@ -67,6 +72,7 @@ describe('Auth Utils', () => {
             const result = await BackendRegister('test@test.com', 'Test123!');
 
             expect(result.success).toBe(true);
+
             expect(prismaUtils.CreateNewUser).toHaveBeenCalledWith('test@test.com', 'Test123!');
         });
 
@@ -86,8 +92,46 @@ describe('Auth Utils', () => {
     });
 
     describe('BackendLogin', () => {
+        it('should login a new user successfully', async () => {
+            const mockUser = {
+                id: '123',
+                email: 'test@test.com',
+                password: 'hashed-password'
+            };
+            (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(mockUser);
+            (compare as jest.Mock).mockResolvedValue(true);
+            (prismaUtils.DeleteAllRefreshTokensByUserId as jest.Mock).mockResolvedValue({ count: 1 });
+            (prismaUtils.InsertRefreshTokenByUserId as jest.Mock).mockResolvedValue({ id: 'token-123' });
+
+            const result = await BackendLogin('test@test.com', 'Test123!');
+
+            expect(result.success).toBe(true);
+            expect(result.user).toEqual({
+                id: '123',
+                email: 'test@test.com'
+            });
+            expect(prismaUtils.FindUserByEmail).toHaveBeenCalledWith('test@test.com');
+            expect(compare).toHaveBeenCalledWith('Test123!', 'hashed-password');
+            expect(mockCookies.set).toHaveBeenCalledTimes(3);
+        });
+
         it('should reject invalid credentials', async () => {
             (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(null);
+
+            const result = await BackendLogin('test@test.com', 'wrong-password');
+
+            expect(result.success).toBe(false);
+            expect(result.message).toBe('Invalid email or password');
+        });
+
+        it('should reject invalid password', async () => {
+            const mockUser = {
+                id: '123',
+                email: 'test@test.com',
+                password: 'hashed-password'
+            };
+            (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(mockUser);
+            (compare as jest.Mock).mockResolvedValue(false);
 
             const result = await BackendLogin('test@test.com', 'wrong-password');
 
