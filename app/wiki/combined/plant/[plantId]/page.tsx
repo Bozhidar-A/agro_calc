@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import Errored from "@/components/Errored/Errored";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import { useParams } from "next/navigation";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useSelector } from "react-redux";
 import { KgPerAcreToKgPerHectare } from "@/lib/math-util";
 import { toast } from "sonner";
 import { Log } from "@/lib/logger";
+import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
 
 export default function WikiCombinedPlantPage() {
     const params = useParams();
@@ -49,10 +50,6 @@ export default function WikiCombinedPlantPage() {
 
     if (errored) {
         return <Errored />
-    }
-
-    const getUnitSymbol = () => {
-        return unitOfMeasurement === 'acres' ? 'acre' : 'ha';
     }
 
     const convertSeedingRate = (rate: number) => {
@@ -92,15 +89,20 @@ export default function WikiCombinedPlantPage() {
                                 </div>
                                 <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
                                     <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MIN_SEEDING_RATE)}:</span>{" "}
-                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.minSeedingRate || 0)} kg/{getUnitSymbol()}</span>
+                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.minSeedingRate || 0)} {
+                                        unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ? translator(SELECTABLE_STRINGS.KG_ACRE) : translator(SELECTABLE_STRINGS.KG_HECTARE)
+                                    }</span>
                                 </div>
                                 <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
                                     <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE)}:</span>{" "}
-                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.maxSeedingRate || 0)} kg/{getUnitSymbol()}</span>
+                                    <span className="text-black dark:text-white">{convertSeedingRate(plantData?.maxSeedingRate || 0)} {
+                                        unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ? translator(SELECTABLE_STRINGS.KG_ACRE) : translator(SELECTABLE_STRINGS.KG_HECTARE)
+                                    }
+                                    </span>
                                 </div>
                                 <div className="bg-green-50 dark:bg-black p-4 rounded-lg text-center">
                                     <span className="font-semibold text-black dark:text-white">{translator(SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS)}:</span>{" "}
-                                    <span className="text-black dark:text-white">{plantData?.priceFor1kgSeedsBGN} BGN</span>
+                                    <span className="text-black dark:text-white">{plantData?.priceFor1kgSeedsBGN} {translator(SELECTABLE_STRINGS.BGN)}</span>
                                 </div>
                             </div>
                         </div>

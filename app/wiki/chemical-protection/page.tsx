@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 

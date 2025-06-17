@@ -6,7 +6,7 @@ import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetHeader } from '@/co
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { AuthLogout } from '@/store/slices/authSlice';
 import { toast } from 'sonner';
 import { APICaller } from '@/lib/api-util';
@@ -143,7 +143,7 @@ export default function Sidebar() {
                         </div>
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="ghost" className="w-full justify-start font-normal">
+                                <Button variant="ghost" className="w-full justify-start font-normal" data-testid="settings-button">
                                     <Settings className="mr-2 h-4 w-4" />
                                     {translator(SELECTABLE_STRINGS.SETTINGS)}
                                 </Button>

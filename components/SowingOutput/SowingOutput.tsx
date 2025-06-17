@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
-import type { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { SowingRateSaveData } from "@/lib/interfaces"
+import { useTranslate } from "@/hooks/useTranslate"
 import SowingMeasurementSwitcher from "../SowingMeasurementSwitcher/SowingMeasurementSwitcher"
 import { Leaf } from "lucide-react"
 
@@ -10,7 +10,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
 
     return (
         <div>
-            <Card className="overflow-hidden" id="visualizationSection">
+            <Card className="overflow-hidden" id="visualizationSection" data-testid="visualizationSection">
                 <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
                     <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
                         <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />

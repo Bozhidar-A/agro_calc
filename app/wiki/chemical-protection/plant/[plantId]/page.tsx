@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -175,13 +175,13 @@ export default function WikiChemicalProtectionPlantPage() {
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                             )}
-                            : {chemData.chemical.pricePer1LiterBGN} BGN
+                            : {chemData.chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                           <p>
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
                             )}
-                            : {chemData.chemical.pricePerAcreBGN} BGN
+                            : {chemData.chemical.pricePerAcreBGN} {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                         </div>
 

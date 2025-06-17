@@ -1,4 +1,4 @@
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { FormField } from "../ui/form";

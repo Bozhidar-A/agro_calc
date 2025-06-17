@@ -5,16 +5,16 @@ import { useForm } from "react-hook-form";
 
 import * as z from "zod";
 import { ChemProtWorkingInputPlantChem, ChemProtWorkingToSave, SowingRateHistory } from "@/lib/interfaces";
-import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares } from "@/lib/math-util";
+import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares, HectaresToAcres } from "@/lib/math-util";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { APICaller } from "@/lib/api-util";
 import { toast } from "sonner";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { Log } from "@/lib/logger";
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils";
-import { useWarnings } from "@/app/hooks/useWarnings";
+import { useWarnings } from "@/hooks/useWarnings";
 
 const formSchema = z.object({
     selectedPlantId: z.string().optional(),
@@ -141,26 +141,32 @@ export default function useChemProtWorkingForm() {
         }
     }, [form.watch('selectedPlantId'), form, plantsChems]);
 
-    // Watch for chemical selection changes
+    // Watch for chemical selection changes using a subscription
     useEffect(() => {
-        const selectedChemicalId = form.watch('selectedChemicalId');
-        if (selectedChemicalId) {
-            const selectedChemical = plantsChems.find((c) => c.chemical.id === selectedChemicalId);
-            if (selectedChemical) {
-                const convertedDosage = unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-                    selectedChemical.chemical.dosage :
-                    AcresToHectares(selectedChemical.chemical.dosage);
-
-                // Auto-fill the chemical per acre based on the selected chemical's dosage
-                form.setValue('chemicalPerAcreML', convertedDosage, {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                    shouldTouch: true
-                });
-                RemoveWarning('chemicalPerAcreML');
+        const subscription = form.watch((values, { name }) => {
+            if (name === 'selectedChemicalId') {
+                const selectedChemicalId = values.selectedChemicalId;
+                if (selectedChemicalId) {
+                    const selectedChemical = plantsChems.find((c) => c.chemical.id === selectedChemicalId);
+                    if (selectedChemical) {
+                        const convertedDosage = unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES
+                            ? selectedChemical.chemical.dosage
+                            : AcresToHectares(selectedChemical.chemical.dosage);
+                        // Only set if different to avoid infinite loop
+                        if (form.getValues('chemicalPerAcreML') !== convertedDosage) {
+                            form.setValue('chemicalPerAcreML', convertedDosage, {
+                                shouldValidate: true,
+                                shouldDirty: true,
+                                shouldTouch: true
+                            });
+                            RemoveWarning('chemicalPerAcreML');
+                        }
+                    }
+                }
             }
-        }
-    }, [form.watch('selectedChemicalId'), form, unitOfMeasurement, plantsChems]);
+        });
+        return () => subscription.unsubscribe();
+    }, [form, plantsChems, unitOfMeasurement]);
 
     // Trigger validation on mount
     useEffect(() => {
@@ -280,7 +286,12 @@ export default function useChemProtWorkingForm() {
 
     //changes for unit of measurement
     useEffect(() => {
-        form.setValue("chemicalPerAcreML", form.getValues("chemicalPerAcreML") * 10);
+        const currentValue = form.getValues("chemicalPerAcreML");
+        if (unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES) {
+            form.setValue("chemicalPerAcreML", AcresToHectares(currentValue));
+        } else {
+            form.setValue("chemicalPerAcreML", HectaresToAcres(currentValue));
+        }
     }, [unitOfMeasurement])
 
     const onSubmit = async () => {

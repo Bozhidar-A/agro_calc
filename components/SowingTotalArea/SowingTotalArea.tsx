@@ -4,13 +4,13 @@ import { CalculatorIcon } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { useTranslate } from "@/hooks/useTranslate"
 import { FormField } from "../ui/form"
 import { IsValueOutOfBounds } from "@/lib/sowing-utils"
 import { CalculatorValueTypes, UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
-import type { SowingRateSaveData } from "@/app/hooks/useSowingRateForm"
 import SowingOutput from "../SowingOutput/SowingOutput"
 import { useSelector } from "react-redux"
+import { SowingRateSaveData } from "@/lib/interfaces"
 
 
 //Heavy based on BuildSowingRateRow component

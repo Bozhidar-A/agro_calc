@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 
 export function Footer() {

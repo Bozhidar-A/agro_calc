@@ -13,7 +13,7 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useTranslate } from '@/hooks/useTranslate';
 import { ChemProtWorkingSolutionHistory } from '@/lib/interfaces';
 
 export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWorkingSolutionHistory }) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslate } from "@/app/hooks/useTranslate";
+import { useTranslate } from "@/hooks/useTranslate";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { motion } from "framer-motion";
 import { Leaf, Calculator, FlaskRoundIcon as Flask, ArrowRight } from "lucide-react";
@@ -46,13 +46,14 @@ export default function CalculatorsCallToAction() {
         <div>
             <motion.div
                 id="calculators-section"
+                data-testid="calculators-section"
                 className="container mx-auto py-16 px-4 w-full"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
             >
                 <Card className="w-full max-w-7xl mx-auto">
-                    <CardHeader className="text-center bg-green-700">
+                    <CardHeader className="text-center bg-green-700" data-testid="main-header">
                         <CardTitle className="text-2xl sm:text-3xl text-white dark:text-white">
                             {translator(SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS)}
                         </CardTitle>
@@ -61,7 +62,7 @@ export default function CalculatorsCallToAction() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-6 sm:p-8">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 sm:gap-10" data-testid="calculators-grid">
                             {calculators.map((calculator) => (
                                 <Link href={calculator.path} key={calculator.id} className="block">
                                     <Card className="h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] border-2">

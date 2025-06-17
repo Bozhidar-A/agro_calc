@@ -5,7 +5,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { CalculateParticipation } from "@/lib/seedingCombined-utils"
 import { SeedCombinedRow } from "@/components/SeedCombinedRow/SeedCombinedRow"
 import { TreesIcon as Plant, Percent } from "lucide-react"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import { useSelector } from "react-redux"
 import { UNIT_OF_MEASUREMENT_LENGTH } from "@/lib/utils"
@@ -63,7 +63,7 @@ export function SeedCombinedSection({ name, title, maxPercentage, form, dbData }
                         <div className="text-center">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</div>
                     </div>
 
-                    {form.watch(name).map((_, index) => (
+                    {form.watch(name).map((_: any, index: number) => (
                         <SeedCombinedRow key={index} form={form} name={name} index={index} dbData={dbData} />
                     ))}
                 </div>

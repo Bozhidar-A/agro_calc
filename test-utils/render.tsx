@@ -1,15 +1,14 @@
-import { render as testingLibraryRender } from '@testing-library/react';
 import React from 'react';
-import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { PersistGate } from 'redux-persist/integration/react';
+import { render as testingLibraryRender } from '@testing-library/react';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { Provider } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
 // app
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
-import localReducer from '@/store/slices/localSettingsSlice';
 import authReducer from '@/store/slices/authSlice';
+import localReducer from '@/store/slices/localSettingsSlice';
 
 // fallback for tests without redux
 export function render(ui: React.ReactNode) {
@@ -56,25 +55,74 @@ function createTestStore(preloadedState = {}) {
   return { store, persistor };
 }
 
-// Render component with mocked providers
-export function renderWithProviders(
-  ui: React.ReactNode,
+//render component with mocked providers
+export function renderWithRedux(
+  ui: (mockProps: any) => React.ReactNode,
   {
     preloadedState = {
       local: { lang: 'en' },
       auth: { user: null, token: null },
     },
-  }: { preloadedState?: any } = {}
+    mockProps,
+  }: { preloadedState?: any; mockProps?: any } = {}
 ) {
-  const { store, persistor } = createTestStore(preloadedState);
+  const { store } = createTestStore(preloadedState);
 
-  return testingLibraryRender(
+  const result = testingLibraryRender(
     <Provider store={store}>
-      <PersistGate loading={<h1>Loading...</h1>} persistor={persistor}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {ui}
-        </ThemeProvider>
-      </PersistGate>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {ui(mockProps)}
+      </ThemeProvider>
     </Provider>
   );
+
+  return { ...result, store };
+}
+
+//render react-hook-form with mock providers
+export function renderWithReduxAndForm<TFormValues extends Record<string, any>>(
+  ui: (props: { form: any }) => React.ReactNode,
+  {
+    preloadedState = {
+      local: { lang: 'en' },
+      auth: { user: null, token: null },
+    },
+    reactFormDefaultValues,
+  }: { preloadedState?: any; reactFormDefaultValues?: DefaultValues<TFormValues> } = {}
+) {
+  const { store } = createTestStore(preloadedState);
+
+  function Wrapper() {
+    const form = useForm<TFormValues>({
+      defaultValues: reactFormDefaultValues,
+    });
+
+    return (
+      <Provider store={store}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <FormProvider {...form}>{ui({ form })}</FormProvider>
+        </ThemeProvider>
+      </Provider>
+    );
+  }
+
+  return testingLibraryRender(<Wrapper />);
+}
+
+//hook render with redux
+export function renderWithReduxHookWrapper(preloadedState: any = {}) {
+  const { store } = createTestStore(preloadedState);
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <Provider store={store}>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {children}
+      </ThemeProvider>
+    </Provider>
+  );
+
+  return {
+    wrapper,
+    store,
+  }
 }

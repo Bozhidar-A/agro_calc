@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { FormField } from "@/components/ui/form"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useTranslate } from "@/app/hooks/useTranslate"
+import { useTranslate } from "@/hooks/useTranslate"
 import { cn } from "@/lib/utils"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import CombinedMeasurementSwitcher from "../CombinedMeasurementSwitcher/CombinedMeasurementSwitcher"
@@ -21,7 +21,7 @@ export function SeedCombinedRow({ form, name, index, dbData }: SeedCombinedRowPr
     // Get all selected plant names in the form
     const selectedPlantNames = form
         .watch(name)
-        .map((row) => row.dropdownPlant)
+        .map((row: any) => row.dropdownPlant)
         .filter(Boolean)
 
     // Check if this row is active

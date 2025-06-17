@@ -67,7 +67,7 @@ export function GetStrFromLangMapKey(lang: string, str: string) {
   return str;
 }
 
-export function FetchUnitIfExist(data) {
+export function FetchUnitIfExist(data: { unit: string }) {
   return data.unit ? `${data.unit}` : '';
 }
 
@@ -133,11 +133,6 @@ export function GetDisplayValue(value: number, unitOfMeasurement: UNIT_OF_MEASUR
   return ToFixedNumber(value, 2);
 };
 
-
-//spwa
-export function GetUnitSymbol(unitOfMeasurement: UNIT_OF_MEASUREMENT_LENGTH = UNIT_OF_MEASUREMENT_LENGTH.ACRES) {
-  return unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.HECTARES ? 'ha' : 'acre';
-}
 
 export function FormatInterval(min: number, max: number) {
   if (min === 0 && max === 0) {

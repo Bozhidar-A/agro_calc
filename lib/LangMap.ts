@@ -118,6 +118,7 @@ export enum SELECTABLE_STRINGS {
   SEEDS_PER_M2 = 'SEEDS_PER_M2',
   PLANTS_PER_ACRE = 'PLANTS_PER_ACRE',
   PLANTS_PER_HECTARE = 'PLANTS_PER_HECTARE',
+  BGN = 'BGN',
 
   //latin names
   // Seeding crops
@@ -774,6 +775,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SEEDS_PER_M2]: 'брой семена/m²',
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'брой растения/декар',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'брой растения/хектар',
+    [SELECTABLE_STRINGS.BGN]: 'лв',
 
     [SELECTABLE_STRINGS.GET_STARTED]: 'Да започваме!',
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Добре дошли, ',
@@ -969,16 +971,16 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT]: 'Участие (%)',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE]: 'Сеитбена норма',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX]: 'Сеидбена норма - в смеската',
-    [SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE]: 'Цена на семена за дка/BGN',
+    [SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE]: 'Цена на семена за дка/лв',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_BY_PLANT_TYPE]: 'Сеитбена норма по тип култура',
     [SELECTABLE_STRINGS.COMBINED_PARTICIPATION_DISTRIBUTION]: 'Разпределение на участията',
     [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON]:
       'Сравнение на цената на семената за дка',
-    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL]: 'Цена на семена за дка/BGN',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL]: 'Цена на семена за дка/лв',
     [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON]:
       'Сравнение на цената на семената за хектар',
     [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL]:
-      'Цена на семена за хектар/BGN',
+      'Цена на семена за хектар/лв',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_COMPARISON]: 'Сравнение на сеитбените норми',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE_PLANT]: 'Сеитбена норма - самостоятелно',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX_PLANT]: 'Сеитбена норма - в смеската',
@@ -1559,6 +1561,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SEEDS_PER_M2]: 'seeds/m²',
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'plants/acre',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'plants/hectare',
+    [SELECTABLE_STRINGS.BGN]: 'BGN',
 
     [SELECTABLE_STRINGS.GET_STARTED]: "Let's start!",
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Welcome, ',

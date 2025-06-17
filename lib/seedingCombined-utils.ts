@@ -1,4 +1,4 @@
-import { CombinedHistoryData, CombinedHistoryDataPlant } from "@/components/CombinedCharts/CombinedCharts";
+import { CombinedHistoryData, CombinedHistoryDataPlant } from "@/lib/interfaces";
 import { z } from "zod";
 import { ToFixedNumber } from "./math-util";
 

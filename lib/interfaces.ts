@@ -208,6 +208,22 @@ export interface SeedCombinedSectionProps {
   dbData: any[];
 }
 
+export interface CombinedHistoryDataPlant {
+  plantLatinName: string;
+  plantType: string;
+  seedingRate: number;
+  participation: number;
+  combinedRate: number;
+  pricePerAcreBGN: number;
+}
+
+export interface CombinedHistoryData {
+  plants: CombinedHistoryDataPlant[];
+  totalPrice: number;
+  userId: string;
+  isDataValid: boolean;
+}
+
 //hook combined form
 export interface ActivePlantsFormData {
   plantId: string;
@@ -263,7 +279,7 @@ export interface ChemicalOption {
   nameKey: string;
   dosage: number;
   dosageUnit: string;
-};
+}
 export interface ChemProtPercentFormValues {
   desiredPercentage: number;
   sprayerVolume: number;
@@ -289,6 +305,17 @@ export interface ChemProtWorkingFormValues {
   workingSolutionPerAcreLiters: number;
   sprayerVolumePerAcreLiters: number;
   areaToBeSprayedAcres: number;
+}
+
+export interface ChemProtWorkingSolutionBuildInputRowProps {
+  varName: string;
+  displayName: string;
+  form: any;
+  icon: React.ReactNode;
+  translator: (key: string) => string;
+  unit: string;
+  displayValue?: string;
+  id?: string;
 }
 
 export interface ChemProtWorkingToSave {

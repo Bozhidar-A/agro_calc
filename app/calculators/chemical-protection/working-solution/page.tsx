@@ -2,8 +2,8 @@
 
 import "driver.js/dist/driver.css";
 import { Beaker, History } from 'lucide-react';
-import useChemProtWorkingForm from '@/app/hooks/useChemProtWorkingForm';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import useChemProtWorkingForm from '@/hooks/useChemProtWorkingForm';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Form, FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';

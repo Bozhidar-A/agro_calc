@@ -2,8 +2,8 @@
 
 import { Moon, Sun, SunMoon } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslate } from '@/app/hooks/useTranslate';
+import { useDispatch } from 'react-redux';
+import { useTranslate } from '@/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -45,6 +45,7 @@ export function ThemeSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
+          data-testid="light-theme-option"
           onClick={() => {
             setTheme('light');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_LIGHT));
@@ -53,6 +54,7 @@ export function ThemeSwitcher() {
           {translator(SELECTABLE_STRINGS.THEME_LIGHT)}
         </DropdownMenuItem>
         <DropdownMenuItem
+          data-testid="dark-theme-option"
           onClick={() => {
             setTheme('dark');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_DARK));
@@ -61,6 +63,7 @@ export function ThemeSwitcher() {
           {translator(SELECTABLE_STRINGS.THEME_DARK)}
         </DropdownMenuItem>
         <DropdownMenuItem
+          data-testid="system-theme-option"
           onClick={() => {
             setTheme('system');
             dispatch(LocalSetTheme(SELECTABLE_STRINGS.THEME_SYSTEM));
