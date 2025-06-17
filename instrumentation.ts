@@ -2293,7 +2293,7 @@ const dbData = {
   ],
 };
 
-export async function register() {
+export async function register(initData: typeof dbData = dbData) {
   // On start up, run this function
 
   //check all ENVs are set
@@ -2349,7 +2349,7 @@ export async function register() {
     if (plantCount === 0) {
       console.log('Seeding database...');
 
-      for (const plant of dbData.plants) {
+      for (const plant of initData.plants) {
         await prisma.plant.create({
           data: plant,
         });
@@ -2357,7 +2357,7 @@ export async function register() {
 
       //sowing rate
       console.log('Seeding Sowing Rate...');
-      for (const sowingRateData of dbData.SowingRateData) {
+      for (const sowingRateData of initData.SowingRateData) {
         const plant = await prisma.plant.findUnique({
           where: {
             latinName: sowingRateData.plantName,
@@ -2501,7 +2501,7 @@ export async function register() {
 
       //combined
       console.log('Seeding Combined...');
-      for (const seedingDataCombination of dbData.SeedingDataCombination) {
+      for (const seedingDataCombination of initData.SeedingDataCombination) {
         const plant = await prisma.plant.findUnique({
           where: {
             latinName: seedingDataCombination.plantName,
@@ -2531,7 +2531,7 @@ export async function register() {
 
       //chem protection
       console.log('Seeding Chem Protection...');
-      for (const chemicalData of dbData.ChemicalProtectionData) {
+      for (const chemicalData of initData.ChemicalProtectionData) {
         // create chemical
         const createdChemical = await prisma.chemical.create({
           data: {
