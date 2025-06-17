@@ -143,6 +143,7 @@ export async function BackendLogin(email: string, password: string) {
     //compare passwords
     if (!(await compare(password, user.password))) {
       Log(['auth', 'login'], `Invalid password for user ${user.id}`);
+      return { success: false, message: 'Invalid email or password' };
     }
 
     //delete all old refresh tokens
