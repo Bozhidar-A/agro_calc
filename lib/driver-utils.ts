@@ -8,12 +8,12 @@ export function SpawnStartDriver(newSteps: {}[]) {
         allowClose: true,
         disableActiveInteraction: true,
         showProgress: true,
-        nextBtnText: 'Next',
-        prevBtnText: 'Previous',
-        doneBtnText: 'Done',
+        nextBtnText: '→',
+        prevBtnText: '←',
+        doneBtnText: '✓',
         steps: [
             ...newSteps
-        ]
+        ],
     }
     const driverTour = driver(settings);
     driverTour.drive();
