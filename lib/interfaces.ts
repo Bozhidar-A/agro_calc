@@ -42,6 +42,10 @@ export interface LangMapInterface {
   };
 }
 
+export interface TranslatorInterface {
+  (key: string): string;
+}
+
 //sowing rate interface
 export interface SowingRateDBData {
   id: string;

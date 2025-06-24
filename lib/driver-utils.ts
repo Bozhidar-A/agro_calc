@@ -1,6 +1,7 @@
 import { driver } from "driver.js";
 import '@/app/globals.css';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { TranslatorInterface } from "@/lib/interfaces";
 
 export function SpawnStartDriver(newSteps: {}[]) {
     const settings = {
@@ -19,7 +20,7 @@ export function SpawnStartDriver(newSteps: {}[]) {
     driverTour.drive();
 }
 
-export function getSowingStepsNoPlant(translator: (key: string) => string) {
+export function getSowingStepsNoPlant(translator: TranslatorInterface) {
     return [
         {
             element: '#cultureSelect',
@@ -31,7 +32,7 @@ export function getSowingStepsNoPlant(translator: (key: string) => string) {
     ];
 }
 
-export function getSowingStepsPickedPlant(translator: (key: string) => string) {
+export function getSowingStepsPickedPlant(translator: TranslatorInterface) {
     return [
         {
             element: '#cultureSelect',
@@ -113,7 +114,7 @@ export function getSowingStepsPickedPlant(translator: (key: string) => string) {
     ];
 }
 
-export function getCombinedSteps(translator: (key: string) => string) {
+export function getCombinedSteps(translator: TranslatorInterface) {
     return [
         {
             element: '#perennialLegumeSection',
@@ -223,7 +224,7 @@ export function getCombinedSteps(translator: (key: string) => string) {
     ];
 }
 
-export function getChemProtWorkingSolutionSteps(translator: (key: string) => string) {
+export function getChemProtWorkingSolutionSteps(translator: TranslatorInterface) {
     return [
         {
             element: '#plantSelection',
@@ -291,7 +292,7 @@ export function getChemProtWorkingSolutionSteps(translator: (key: string) => str
     ];
 }
 
-export function getChemProtPercentSteps(translator: (key: string) => string) {
+export function getChemProtPercentSteps(translator: TranslatorInterface) {
     return [
         {
             element: '#desiredPercentage',
