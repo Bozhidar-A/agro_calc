@@ -5,6 +5,7 @@ import { Providers } from '@/store/providers';
 import './globals.css';
 
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
@@ -54,7 +55,10 @@ export default async function RootLayout({
         <Providers initialAuthState={initialAuthState!}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header />
-            {children}
+            <div className='flex flex-col items-center justify-center min-h-screen'>
+              {children}
+            </div>
+            <Footer />
             <Toaster richColors />
           </ThemeProvider>
         </Providers>

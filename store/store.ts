@@ -2,7 +2,6 @@
 
 import { combineReducers, configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
 import localSettingsReducer, { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
@@ -40,7 +39,7 @@ const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({
   actionCreator: AuthSuccess,
   effect: async (action, listenerApi) => {
-    console.log('AuthSuccess', action);
+    Log(['auth', 'success', 'store', 'listener'], `AuthSuccess action received - ${JSON.stringify(action)}`);
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
@@ -61,7 +60,7 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   matcher: isAnyOf(LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength),
   effect: async (action, listenerApi) => {
-    console.log('Settings changed', action);
+    Log(['local', 'settings', 'change', 'store', 'listener'], `Settings changed - ${JSON.stringify(action)}`);
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
