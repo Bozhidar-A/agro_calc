@@ -6,7 +6,6 @@ import { motion } from "framer-motion"
 import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import Image from "next/image"
-import { Footer } from "@/components/Footer/Footer"
 import CalculatorsCallToAction from "@/components/CalculatorsCallToAction/CalculatorsCallToAction"
 
 export default function Home() {
@@ -32,7 +31,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      {/* Hero Section */}
+
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <motion.h1
           className="text-6xl font-bold text-green-800"
@@ -65,7 +64,6 @@ export default function Home() {
         </motion.div>
       </div>
 
-      {/* Benefits Section with Images */}
       <motion.div
         className="w-full py-16"
         initial={{ opacity: 0 }}
@@ -75,7 +73,6 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">{translator(SELECTABLE_STRINGS.HOME_PAGE_WHY_USE_AGRO_CALC)}</h2>
 
-          {/* Image Banner */}
           <div className="relative w-full h-64 md:h-80 mb-16 rounded-xl overflow-hidden shadow-xl">
             <Image
               src="/images/harvesting-combine-field.jpg"
@@ -92,7 +89,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Benefits Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {benefits.map((benefit, index) => (
               <motion.div
@@ -109,7 +105,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Image Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
             <div className="relative h-48 rounded-lg overflow-hidden shadow-md">
               <Image src="/images/aerial-drone-view-nature-moldova.jpg" alt="Crop field" fill style={{ objectFit: "cover" }} />
@@ -140,11 +135,7 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Calculators Section */}
       <CalculatorsCallToAction />
-
-      {/* Footer */}
-      <Footer />
     </div>
   )
 }

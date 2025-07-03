@@ -1,8 +1,10 @@
+'use client'
+
 import Link from "next/link"
 import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 
-export function Footer() {
+export default function Footer() {
     const translator = useTranslate();
 
     return (
