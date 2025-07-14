@@ -21,9 +21,7 @@ export default function Sidebar() {
     const authObj = useSelector((state: RootState) => state.auth);
 
     async function HandleLogout() {
-        const backendWork = await APICaller(['auth', 'logout'], '/api/auth/logout', 'POST', {
-            userId: authObj.user.id,
-        });
+        const backendWork = await APICaller(['auth', 'logout'], '/api/auth/logout', 'POST');
 
         if (backendWork.success) {
             dispatch(AuthLogout());
