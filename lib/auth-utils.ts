@@ -235,7 +235,7 @@ export async function BackendLogout(userId: string) {
         const deletedTokensCount = await DeleteAllRefreshTokensByUserId(userId);
 
         Log(
-          ['auth', 'logout'],
+          ['auth', 'logout', 'backend'],
           `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`
         );
       }
@@ -246,7 +246,7 @@ export async function BackendLogout(userId: string) {
       //still log em out
       //an internal error/state desync error should not cause an sao incident
       //its also bloody stupid
-      Log(['auth', 'logout'], 'No refresh token found');
+      Log(['auth', 'logout', 'backend'], 'No refresh token found');
     }
 
     // Clear cookies
@@ -257,8 +257,63 @@ export async function BackendLogout(userId: string) {
     return { success: true };
   } catch (error: unknown) {
     const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-    Log(['auth', 'logout'], `BackendLogout failed with: ${errorMessage}`);
+    Log(['auth', 'logout', 'backend'], `BackendLogout failed with: ${errorMessage}`);
     return { success: false, message: errorMessage };
+  }
+}
+
+//no matter what, we should be able to logout
+export async function FrontendLogout() {
+  try {
+    const cookieStore = await cookies();
+
+    let noAccessToken: boolean = false;
+    let noRefreshToken: boolean = false;
+
+    const accessToken = cookieStore.get('accessToken')?.value;
+
+    if (!accessToken) {
+      Log(['auth', 'logout', 'frontend'], 'No access token found');
+      noAccessToken = true;
+    }
+
+    const refreshToken = cookieStore.get('refreshToken')?.value;
+
+    if (!refreshToken) {
+      Log(['auth', 'logout', 'frontend'], 'No refresh token found');
+      noRefreshToken = true;
+    }
+
+    if (noAccessToken && noRefreshToken) {
+      Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
+      //tell the frontend to logout
+      //something wacky is going on
+      //and we shouldnt be here
+      //even so user should not be able to login if no token is generated this messes with the flow
+      return { success: true };
+    }
+
+    let decodedData = null;
+    if (noAccessToken) {
+      decodedData = await jwtVerify(refreshToken!, new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
+    }
+
+    if (noRefreshToken) {
+      decodedData = await jwtVerify(accessToken!, new TextEncoder().encode(process.env.JWT_SECRET));
+    }
+
+    const decodedUserId = decodedData?.payload?.userId;
+
+    if (!decodedUserId) {
+      Log(['auth', 'logout', 'frontend'], 'No user id found');
+      return { success: true };
+    }
+
+    return await BackendLogout(decodedUserId as string);
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'logout', 'frontend'], `FrontendLogout failed with: ${errorMessage}`);
+    return { success: true };
   }
 }
 
