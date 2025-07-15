@@ -222,12 +222,8 @@ export async function BackendLogin(email: string, password: string) {
   }
 }
 
-export async function BackendLogout(userId: string) {
+export async function BackendLogout(userId: string, refreshTokenVal: string) {
   try {
-    const cookieStore = await cookies();
-
-    const refreshTokenVal = cookieStore.get('refreshToken')?.value;
-
     if (refreshTokenVal) {
       //ugly hack 2
       if (process.env.NEXT_RUNTIME === 'nodejs') {
@@ -248,11 +244,6 @@ export async function BackendLogout(userId: string) {
       //its also bloody stupid
       Log(['auth', 'logout', 'backend'], 'No refresh token found');
     }
-
-    // Clear cookies
-    cookieStore.delete('accessToken');
-    cookieStore.delete('refreshToken');
-    cookieStore.delete('userId');
 
     return { success: true };
   } catch (error: unknown) {
@@ -284,6 +275,10 @@ export async function FrontendLogout() {
       noRefreshToken = true;
     }
 
+    //nuke cookies
+    cookieStore.delete('accessToken');
+    cookieStore.delete('refreshToken');
+
     if (noAccessToken && noRefreshToken) {
       Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
       //tell the frontend to logout
@@ -309,7 +304,7 @@ export async function FrontendLogout() {
       return { success: true };
     }
 
-    return await BackendLogout(decodedUserId as string);
+    return await BackendLogout(decodedUserId as string, refreshToken as string);
   } catch (error: unknown) {
     const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
     Log(['auth', 'logout', 'frontend'], `FrontendLogout failed with: ${errorMessage}`);

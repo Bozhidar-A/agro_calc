@@ -84,7 +84,20 @@ export async function GET(request: Request): Promise<Response> {
 
         await InsertRefreshTokenByUserId(refreshToken, user.id);
 
-        const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOST_URL}/`);
+        const authState = {
+            user: {
+                id: user.id,
+                email: user.email,
+            },
+            isAuthenticated: true,
+            loading: false,
+            error: null,
+            authType: 'github',
+            timestamp: Date.now()
+        };
+        const authStateBase64 = Buffer.from(JSON.stringify(authState)).toString('base64');
+
+        const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOST_URL}/${process.env.OAUTH_CLIENT_HANDLE_PATH_REDIRECT}?updateAuthState=${authStateBase64}`);
 
         // Set cookies
         response.cookies.set("accessToken", accessToken, {
@@ -99,33 +112,6 @@ export async function GET(request: Request): Promise<Response> {
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60,
-            path: "/",
-        });
-        response.cookies.set("userId", user.id, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60,
-            path: "/",
-        });
-
-        const authState = {
-            user: {
-                id: user.id,
-                email: user.email,
-            },
-            isAuthenticated: true,
-            loading: false,
-            error: null,
-            authType: 'github',
-            timestamp: Date.now()
-        };
-
-        response.cookies.set("oAuthClientState", JSON.stringify(authState), {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            maxAge: 60,
             path: "/",
         });
 
