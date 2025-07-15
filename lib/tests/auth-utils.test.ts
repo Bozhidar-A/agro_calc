@@ -1,4 +1,4 @@
-import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest } from '@/lib/auth-utils';
+import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest, FrontendLogout } from '@/lib/auth-utils';
 import { hash, compare } from 'bcryptjs';
 import * as prismaUtils from '@/prisma/prisma-utils';
 import { cookies } from 'next/headers';
@@ -140,15 +140,55 @@ describe('Auth Utils', () => {
         });
     });
 
-    describe('BackendLogout', () => {
+    describe('FrontendLogout', () => {
         it('should logout successfully', async () => {
             mockCookies.get.mockReturnValue({ value: 'refresh-token' });
             (prismaUtils.DeleteAllRefreshTokensByUserId as jest.Mock).mockResolvedValue({ count: 1 });
 
-            const result = await BackendLogout('123');
+            const result = await FrontendLogout();
 
             expect(result.success).toBe(true);
-            expect(mockCookies.delete).toHaveBeenCalledTimes(3);
+            expect(mockCookies.delete).toHaveBeenCalledTimes(2);
+        });
+    });
+
+    describe('BackendLogout', () => {
+        const OLD_ENV = process.env;
+
+        beforeEach(() => {
+            jest.resetModules();
+            process.env = { ...OLD_ENV, NEXT_RUNTIME: 'nodejs' };
+        });
+
+        afterEach(() => {
+            process.env = OLD_ENV;
+        });
+
+        it('should delete refresh tokens and return success when refreshTokenVal is provided', async () => {
+            (prismaUtils.DeleteAllRefreshTokensByUserId as jest.Mock).mockResolvedValue({ count: 1 });
+
+            const result = await BackendLogout('user-123', 'refresh-token-abc');
+
+            expect(prismaUtils.DeleteAllRefreshTokensByUserId).toHaveBeenCalledWith('user-123');
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should log and return success when no refreshTokenVal is provided', async () => {
+            const result = await BackendLogout('user-123', '');
+
+            expect(prismaUtils.DeleteAllRefreshTokensByUserId).not.toHaveBeenCalled();
+            expect(result).toEqual({ success: true });
+        });
+
+        it('should return failure on error', async () => {
+            (prismaUtils.DeleteAllRefreshTokensByUserId as jest.Mock).mockImplementation(() => {
+                throw new Error('DB error');
+            });
+
+            const result = await BackendLogout('user-123', 'refresh-token-abc');
+
+            expect(result.success).toBe(false);
+            expect(result.message).toBe('DB error');
         });
     });
 
