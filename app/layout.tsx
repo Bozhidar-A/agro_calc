@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { cookies } from 'next/headers';
 import { OAuthClientStateCookie } from '@/lib/interfaces';
+import { toast } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Agro Calc',
@@ -21,27 +22,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //handle oauth bounce from callback
-  //this is absolutely terrible but just handles client side state
-  //real auth is double checked on the server
-  const cookieStore = await cookies();
-  const authStateCookie = cookieStore.get('oAuthClientState');
-
-  let initialAuthState: OAuthClientStateCookie | null = null;
-  if (authStateCookie) {
-    try {
-      const parsedState = JSON.parse(authStateCookie.value);
-      //check if the auth state is less than 5 seconds old
-      //this prevents ghost logins from old cookies
-      //even more scuffed
-      if (parsedState.timestamp && (Date.now() - parsedState.timestamp) < 5000) {
-        initialAuthState = parsedState;
-      }
-    } catch (e) {
-      //invalid json I DO NOT CARE
-    }
-  }
-
   return (
     <html lang="en">
       <head>
@@ -52,7 +32,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <Providers initialAuthState={initialAuthState!}>
+        <Providers>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header />
             <div className='flex flex-col items-center justify-center min-h-screen'>
