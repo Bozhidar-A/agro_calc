@@ -24,7 +24,7 @@ const schema = z
       .regex(/[a-z]/, SELECTABLE_STRINGS.PASSWORD_HAS_LOWER)
       .regex(/[A-Z]/, SELECTABLE_STRINGS.PASSWORD_HAS_UPPER)
       .regex(/[0-9]/, SELECTABLE_STRINGS.PASSWORD_HAS_NUMBER)
-      .regex(/[$-/:-?{-~!"^_`\[\]]/, SELECTABLE_STRINGS.PASSWORD_HAS_SYMBOL),
+      .regex(/[$-/:-?{-~!"^_`\\[\]]/, SELECTABLE_STRINGS.PASSWORD_HAS_SYMBOL),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -37,14 +37,14 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
   const router = useRouter();
   const translator = useTranslate();
 
-  async function HandleSubmit(data) {
+  async function HandleSubmit(data: z.infer<typeof schema>) {
     const backendWork = await APICaller(['auth', 'register'], '/api/auth/register', 'POST', data);
 
     if (!backendWork.success) {
@@ -69,7 +69,7 @@ export default function Register() {
             <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
-              <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.email.message as string)}</p>
             )}
           </div>
 
@@ -77,7 +77,7 @@ export default function Register() {
             <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.password.message as string)}</p>
             )}
           </div>
 
@@ -85,7 +85,7 @@ export default function Register() {
             <Label htmlFor="confirmPassword" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD_CONFIRM)}</Label>
             <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message as string)}</p>
             )}
           </div>
 

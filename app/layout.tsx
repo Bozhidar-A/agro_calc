@@ -8,9 +8,6 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
-import { cookies } from 'next/headers';
-import { OAuthClientStateCookie } from '@/lib/interfaces';
-import { toast } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Agro Calc',
