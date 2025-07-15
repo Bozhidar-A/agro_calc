@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { renderWithRedux } from '@/test-utils/render';
-import { Footer } from './Footer';
+import Footer from '@/components/Footer/Footer';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { mockTranslateFunction, initializeMockTranslate } from '@/test-utils/mocks';
 
