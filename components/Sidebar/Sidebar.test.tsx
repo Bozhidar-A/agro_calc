@@ -106,7 +106,7 @@ describe('Sidebar', () => {
             expect(APICaller).toHaveBeenCalledWith(
                 ['auth', 'logout'],
                 '/api/auth/logout',
-                'POST'
+                'GET'
             );
 
             // Wait for and verify toast was shown
