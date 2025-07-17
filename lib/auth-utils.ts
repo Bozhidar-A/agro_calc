@@ -104,7 +104,7 @@ export async function BackendRegister(email: string, password: string) {
       Log(['auth', 'register'], `Password must contain a number: ${email}`);
       return { success: false, message: 'Password must contain a number' };
     }
-    if (!/[$-/:-?{-~!"^_`\[\]]/.test(password)) {
+    if (!/[$-/:-?{-~!"^_`\\[\]]/.test(password)) {
       Log(['auth', 'register'], `Password must contain a special character: ${email}`);
       return { success: false, message: 'Password must contain a special character' };
     }
