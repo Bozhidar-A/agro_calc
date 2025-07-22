@@ -17,6 +17,7 @@ import {
 import { Log } from './logger';
 import { User } from '@prisma/client';
 import { prisma } from './prisma';
+import { DecryptTokenContent } from '@/lib/utils-server';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -141,7 +142,7 @@ export async function BackendLogin(email: string, password: string) {
     }
 
     //compare passwords
-    if (!(await compare(password, user.password))) {
+    if (!user.password || !(await compare(password, user.password))) {
       Log(['auth', 'login'], `Invalid password for user ${user.id}`);
       return { success: false, message: 'Invalid email or password' };
     }
@@ -222,17 +223,30 @@ export async function BackendLogin(email: string, password: string) {
   }
 }
 
-export async function BackendLogout(userId: string, refreshTokenVal: string) {
+//no matter what, we should be able to logout
+export async function BackendLogout() {
   try {
-    if (refreshTokenVal) {
+    const cookieStore = await cookies();
+    const decodedData = await DecryptTokenContent();
+
+    //nuke cookies
+    cookieStore.delete('accessToken');
+    cookieStore.delete('refreshToken');
+
+    if (!decodedData.success) {
+      Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
+      return { success: true };
+    }
+
+    if (decodedData.data?.refreshToken && decodedData.data?.validRefreshToken) {
       //ugly hack 2
       if (process.env.NEXT_RUNTIME === 'nodejs') {
         //delete all refresh tokens
-        const deletedTokensCount = await DeleteAllRefreshTokensByUserId(userId);
+        const deletedTokensCount = await DeleteAllRefreshTokensByUserId(decodedData.data.userId);
 
         Log(
           ['auth', 'logout', 'backend'],
-          `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${userId}`
+          `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${decodedData.data.userId}`
         );
       }
     } else {
@@ -249,72 +263,12 @@ export async function BackendLogout(userId: string, refreshTokenVal: string) {
   } catch (error: unknown) {
     const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
     Log(['auth', 'logout', 'backend'], `BackendLogout failed with: ${errorMessage}`);
-    return { success: false, message: errorMessage };
+    return { success: true, message: errorMessage };
   }
 }
 
-//no matter what, we should be able to logout
-export async function FrontendLogout() {
-  try {
-    const cookieStore = await cookies();
-
-    let noAccessToken: boolean = false;
-    let noRefreshToken: boolean = false;
-
-    const accessToken = cookieStore.get('accessToken')?.value;
-
-    if (!accessToken) {
-      Log(['auth', 'logout', 'frontend'], 'No access token found');
-      noAccessToken = true;
-    }
-
-    const refreshToken = cookieStore.get('refreshToken')?.value;
-
-    if (!refreshToken) {
-      Log(['auth', 'logout', 'frontend'], 'No refresh token found');
-      noRefreshToken = true;
-    }
-
-    //nuke cookies
-    cookieStore.delete('accessToken');
-    cookieStore.delete('refreshToken');
-
-    if (noAccessToken && noRefreshToken) {
-      Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
-      //tell the frontend to logout
-      //something wacky is going on
-      //and we shouldnt be here
-      //even so user should not be able to login if no token is generated this messes with the flow
-      return { success: true };
-    }
-
-    let decodedData = null;
-    if (noAccessToken) {
-      decodedData = await jwtVerify(refreshToken!, new TextEncoder().encode(process.env.JWT_REFRESH_SECRET));
-    }
-
-    if (noRefreshToken) {
-      decodedData = await jwtVerify(accessToken!, new TextEncoder().encode(process.env.JWT_SECRET));
-    }
-
-    const decodedUserId = decodedData?.payload?.userId;
-
-    if (!decodedUserId) {
-      Log(['auth', 'logout', 'frontend'], 'No user id found');
-      return { success: true };
-    }
-
-    return await BackendLogout(decodedUserId as string, refreshToken as string);
-  } catch (error: unknown) {
-    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-    Log(['auth', 'logout', 'frontend'], `FrontendLogout failed with: ${errorMessage}`);
-    return { success: true };
-  }
-}
-
-export async function BackendRefreshAccessToken() {
+export async function BackendRefreshAccessToken(refreshToken: string) {
   const cookieStore = await cookies();
-  const refreshToken = cookieStore.get('refreshToken')?.value;
 
   if (!refreshToken) {
     throw new Error('No refresh token found');
@@ -326,12 +280,12 @@ export async function BackendRefreshAccessToken() {
     'refresh'
   );
 
-  if (!validToken) {
+  if (!validToken || typeof decoded !== 'object' || !('payload' in decoded) || !decoded.payload?.userId) {
     throw new Error('Invalid refresh token');
   }
 
   // Generate new access token
-  const newAccessToken = await new SignJWT({ userId: decoded?.payload?.userId, type: 'access' })
+  const newAccessToken = await new SignJWT({ userId: decoded.payload.userId, type: 'access' })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime('15m')
     .sign(new TextEncoder().encode(process.env.JWT_SECRET));
@@ -346,7 +300,7 @@ export async function BackendRefreshAccessToken() {
 }
 
 export async function HashPassword(password: string) {
-  return await hash(password, parseInt(process.env.SALT_ROUNDS!));
+  return await hash(password, parseInt(process.env.SALT_ROUNDS!, 10));
 }
 
 export async function BackendUpdateUserPassword(user: User, password: string) {

@@ -1,11 +1,11 @@
-import { FrontendLogout } from "@/lib/auth-utils";
+import { BackendLogout } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
         Log(["auth", "logout", "route"], `GET called`);
-        const res = await FrontendLogout();
+        const res = await BackendLogout();
         Log(["auth", "logout", "route"], `GET returned: ${JSON.stringify(res)}`);
 
         return NextResponse.json(res);
