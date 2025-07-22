@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
         protected: {
             api: [
                 "/api/user/settings",
+                "/api/auth/logout",
                 "/api/calc/chem-protection/percent-solution/history",
                 "/api/calc/chem-protection/working-solution/history",
                 "/api/calc/combined/history",
@@ -49,6 +50,7 @@ export async function middleware(request: NextRequest) {
     ], pathname);
 
     const accessToken = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
     //check if user is trying to access protected route
     if (isProtectedRoute) {
@@ -77,13 +79,17 @@ export async function middleware(request: NextRequest) {
             Log(["middleware"], `Access token is invalid, trying to refresh`);
 
             try {
-                await BackendRefreshAccessToken();
+                if (!refreshToken) {
+                    Log(["middleware"], "No refreshToken provided");
+                    throw new Error("No refreshToken provided")
+                }
+                await BackendRefreshAccessToken(refreshToken);
             } catch (error: unknown) {
                 const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
                 Log(["middleware", "refresh", "error"], `BackendRefreshAccessToken threw: ${errorMessage}`);
 
                 //try to logout user
-                const logoutAction = await BackendLogout(cookieStore.get("userId")?.value ?? "UNKNOWN???");
+                const logoutAction = await BackendLogout();
 
                 //this should never happen
                 //if it does, log it and fix it
