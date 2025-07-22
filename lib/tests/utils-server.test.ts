@@ -18,12 +18,12 @@ jest.mock("@/lib/auth-utils", () => ({
     BackendVerifyToken: jest.fn()
 }));
 
-import { DecryptTokenContent } from "../utils-server";
+import { DecodeTokenContent } from "../utils-server";
 import { cookies } from "next/headers";
 import { Log } from "@/lib/logger";
 import { BackendVerifyToken } from "@/lib/auth-utils";
 
-describe("DecryptTokenContent", () => {
+describe("DecodeTokenContent", () => {
     let mockCookies: { get: jest.Mock; set: jest.Mock; delete: jest.Mock };
 
     beforeEach(() => {
@@ -43,7 +43,7 @@ describe("DecryptTokenContent", () => {
             .mockResolvedValueOnce([true, { payload: { userId: "user-123" } }]) // access
             .mockResolvedValueOnce([true, { payload: { userId: "user-123" } }]); // refresh
 
-        const result = await DecryptTokenContent();
+        const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
         if (result.data) {
             expect(result.data.userId).toBe("user-123");
@@ -56,7 +56,7 @@ describe("DecryptTokenContent", () => {
 
     it("returns success false if both tokens are missing", async () => {
         mockCookies.get.mockReturnValue(undefined);
-        const result = await DecryptTokenContent();
+        const result = await DecodeTokenContent();
         expect(result.success).toBe(false);
         expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], "No access or refresh token found");
     });
@@ -70,14 +70,14 @@ describe("DecryptTokenContent", () => {
         (BackendVerifyToken as jest.Mock)
             .mockResolvedValueOnce([true, { payload: {} }]) // access
             .mockResolvedValueOnce([true, { payload: {} }]); // refresh
-        const result = await DecryptTokenContent();
+        const result = await DecodeTokenContent();
         expect(result.success).toBe(false);
         expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], "No user id found");
     });
 
     it("returns success true and logs error if exception is thrown", async () => {
         mockCookies.get.mockImplementation(() => { throw new Error("fail!"); });
-        const result = await DecryptTokenContent();
+        const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
         expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], expect.stringContaining("FrontendLogout failed with: fail!"));
     });
@@ -91,7 +91,7 @@ describe("DecryptTokenContent", () => {
         (BackendVerifyToken as jest.Mock)
             .mockResolvedValueOnce([false, false]) // access
             .mockResolvedValueOnce([true, { payload: { userId: "user-456" } }]); // refresh
-        const result = await DecryptTokenContent();
+        const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
         if (result.data) {
             expect(result.data.userId).toBe("user-456");

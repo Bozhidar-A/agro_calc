@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { Log } from "@/lib/logger";
 import { BackendVerifyToken } from "@/lib/auth-utils";
 
-export async function DecryptTokenContent() {
+export async function DecodeTokenContent() {
     try {
         const cookieStore = await cookies();
 
@@ -25,7 +25,7 @@ export async function DecryptTokenContent() {
 
         if (noAccessToken && noRefreshToken) {
             Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
-            return { success: false };
+            return { success: false, message: 'No access or refresh token found' };
         }
 
         const [validAccessToken, decodedAccessToken] = await BackendVerifyToken(
@@ -59,7 +59,7 @@ export async function DecryptTokenContent() {
 
         if (!decodedUserId) {
             Log(['auth', 'logout', 'frontend'], 'No user id found');
-            return { success: false };
+            return { success: false, message: 'No user id found' };
         }
 
         return {

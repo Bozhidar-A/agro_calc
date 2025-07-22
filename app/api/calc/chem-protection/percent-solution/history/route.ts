@@ -1,6 +1,7 @@
 import { Log } from "@/lib/logger";
 import { GetChemProtPercentHistory, InsertChemProtPercentHistoryEntry } from "@/prisma/prisma-utils";
 import { NextRequest, NextResponse } from "next/server";
+import { DecodeTokenContent } from "@/lib/utils-server";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,7 +21,12 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
         Log(["calc", "chem-protection", "percent-solution", "history"], `GET called`);
-        const history = await GetChemProtPercentHistory();
+        const decryptedData = await DecodeTokenContent();
+        if (!decryptedData.success || !decryptedData.data || !decryptedData.data.userId) {
+            Log(["calc", "chem-protection", "percent-solution", "history"], `GET - DecodeTokenContent failed: ${decryptedData.message}`);
+            return NextResponse.json({ success: false, message: decryptedData.message });
+        }
+        const history = await GetChemProtPercentHistory(decryptedData.data.userId);
         Log(["calc", "chem-protection", "percent-solution", "history"], `GET returned: ${JSON.stringify(history)}`);
         return NextResponse.json({ success: true, data: history });
     } catch (error: unknown) {

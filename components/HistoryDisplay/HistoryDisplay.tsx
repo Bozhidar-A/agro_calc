@@ -145,20 +145,14 @@ export default function HistoryDisplay() {
 
         return filtered;
     };
+
     // Fetch history data
     useEffect(() => {
         Log(["history", "display"], "Fetching history data");
         const fetchHistory = async () => {
-            const sowingRateHistoryFetch = await APICaller(["history", "display", "sowing"], "/api/calc/sowing/history", "GET");
-            const seedingDataHistoryFetch = await APICaller(["history", "display", "seeding"], "/api/calc/combined/history", "GET");
-            const chemProtPercentHistoryFetch = await APICaller(["history", "display", "chem-protection"], "/api/calc/chem-protection/percent-solution/history", "GET");
-            const chemProtWorkingSolutionHistoryFetch = await APICaller(["history", "display", "chem-protection"], "/api/calc/chem-protection/working-solution/history", "GET");
+            const userCalcHistoryFetch = await APICaller(["user", "calc-history"], "/api/user/calc-history", "GET");
 
-
-            if (!sowingRateHistoryFetch.success ||
-                !seedingDataHistoryFetch.success ||
-                !chemProtPercentHistoryFetch.success ||
-                !chemProtWorkingSolutionHistoryFetch.success) {
+            if (!userCalcHistoryFetch.success) {
                 setErrored(true);
                 toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
                     description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
@@ -166,10 +160,10 @@ export default function HistoryDisplay() {
                 return;
             }
 
-            setSowingRateHistory(sowingRateHistoryFetch.data);
-            setSeedingDataHistory(seedingDataHistoryFetch.data);
-            setChemProtPercentHistory(chemProtPercentHistoryFetch.data);
-            setChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistoryFetch.data);
+            setSowingRateHistory(userCalcHistoryFetch.data.sowingHistory);
+            setSeedingDataHistory(userCalcHistoryFetch.data.combinedHistory);
+            setChemProtPercentHistory(userCalcHistoryFetch.data.chemProtPercentHistory);
+            setChemProtWorkingSolutionHistory(userCalcHistoryFetch.data.chemProtWorkingSolutionHistory);
 
             setLoading(false);
         };
@@ -191,10 +185,10 @@ export default function HistoryDisplay() {
         </div>
     }
 
-    const filteredSowingRateHistory = filterSowingRateHistory(sowingRateHistory);
-    const filteredSeedingDataHistory = filterSeedingDataHistory(seedingDataHistory);
-    const filteredChemProtPercentHistory = filterChemProtPercentHistory(chemProtPercentHistory);
-    const filteredChemProtWorkingSolutionHistory = filterChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistory);
+    const filteredSowingRateHistory = filterSowingRateHistory(sowingRateHistory || []);
+    const filteredSeedingDataHistory = filterSeedingDataHistory(seedingDataHistory || []);
+    const filteredChemProtPercentHistory = filterChemProtPercentHistory(chemProtPercentHistory || []);
+    const filteredChemProtWorkingSolutionHistory = filterChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistory || []);
 
     return (
         <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center">
