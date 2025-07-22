@@ -160,10 +160,11 @@ export default function HistoryDisplay() {
                 return;
             }
 
-            setSowingRateHistory(userCalcHistoryFetch.data.sowingHistory);
-            setSeedingDataHistory(userCalcHistoryFetch.data.combinedHistory);
-            setChemProtPercentHistory(userCalcHistoryFetch.data.chemProtPercentHistory);
-            setChemProtWorkingSolutionHistory(userCalcHistoryFetch.data.chemProtWorkingSolutionHistory);
+            const data = userCalcHistoryFetch.data || {};
+            setSowingRateHistory(Array.isArray(data.sowingHistory) ? data.sowingHistory : []);
+            setSeedingDataHistory(Array.isArray(data.combinedHistory) ? data.combinedHistory : []);
+            setChemProtPercentHistory(Array.isArray(data.chemProtPercentHistory) ? data.chemProtPercentHistory : []);
+            setChemProtWorkingSolutionHistory(Array.isArray(data.chemProtWorkingSolutionHistory) ? data.chemProtWorkingSolutionHistory : []);
 
             setLoading(false);
         };
@@ -249,103 +250,133 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="sowing-rate">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredSowingRateHistory.length > 0 ? filteredSowingRateHistory.map((history) => (
-                            <Card key={history.id}>
-                                <CardHeader className="p-3 sm:p-6">
-                                    <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
-                                        <span className="text-base sm:text-lg">{translator(history.plant.latinName as SELECTABLE_STRINGS)}</span>
-                                        <span className="text-xs sm:text-sm text-gray-500">
-                                            {format(new Date(history.createdAt), 'PPp')}
-                                        </span>
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-3 sm:p-6">
-                                    {!history.isDataValid &&
-                                        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
-                                            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
-                                            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
-                                        </div>}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                                        <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SEEDS_PER_M2)}</p>
-                                            <p className="text-base sm:text-lg">{history.sowingRateSafeSeedsPerMeterSquared.toFixed(2)}</p>
+                        {filteredSowingRateHistory.length > 0 ? filteredSowingRateHistory.map((history) => {
+                            // Map SowingRateHistory to SowingRateSaveData
+                            const sowingRateSaveData = {
+                                userId: '', // Not available in history, set as empty string
+                                plantId: history.plant?.id || '',
+                                plantLatinName: history.plant?.latinName || '',
+                                sowingRateSafeSeedsPerMeterSquared: history.sowingRateSafeSeedsPerMeterSquared,
+                                sowingRatePlantsPerAcre: history.sowingRatePlantsPerAcre,
+                                usedSeedsKgPerAcre: history.usedSeedsKgPerAcre,
+                                internalRowHeightCm: history.internalRowHeightCm,
+                                totalArea: history.totalArea,
+                                isDataValid: history.isDataValid,
+                            };
+                            return (
+                                <Card key={history.id}>
+                                    <CardHeader className="p-3 sm:p-6">
+                                        <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                                            <span className="text-base sm:text-lg">{translator(history.plant.latinName as SELECTABLE_STRINGS)}</span>
+                                            <span className="text-xs sm:text-sm text-gray-500">
+                                                {format(new Date(history.createdAt), 'PPp')}
+                                            </span>
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="p-3 sm:p-6">
+                                        {!history.isDataValid &&
+                                            <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
+                                                <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+                                                <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
+                                            </div>}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                            <div>
+                                                <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SEEDS_PER_M2)}</p>
+                                                <p className="text-base sm:text-lg">{history.sowingRateSafeSeedsPerMeterSquared.toFixed(2)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)}</p>
+                                                <p className="text-base sm:text-lg">{history.sowingRatePlantsPerAcre.toFixed(2)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}</p>
+                                                <p className="text-base sm:text-lg">{history.usedSeedsKgPerAcre.toFixed(2)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CM)}</p>
+                                                <p className="text-base sm:text-lg">{history.internalRowHeightCm.toFixed(2)}</p>
+                                            </div>
+                                            <div className="col-span-1 sm:col-span-2">
+                                                <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA)}</p>
+                                                <p className="text-base sm:text-lg">{history.totalArea.toFixed(2)}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)}</p>
-                                            <p className="text-base sm:text-lg">{history.sowingRatePlantsPerAcre.toFixed(2)}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS)}</p>
-                                            <p className="text-base sm:text-lg">{history.usedSeedsKgPerAcre.toFixed(2)}</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.CM)}</p>
-                                            <p className="text-base sm:text-lg">{history.internalRowHeightCm.toFixed(2)}</p>
-                                        </div>
-                                        <div className="col-span-1 sm:col-span-2">
-                                            <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_TOTAL_AREA)}</p>
-                                            <p className="text-base sm:text-lg">{history.totalArea.toFixed(2)}</p>
-                                        </div>
-                                    </div>
-                                    <SowingCharts testId="sowing-charts" data={history} />
-                                </CardContent>
-                            </Card>
-                        )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE)}</div>}
+                                        <SowingCharts data={sowingRateSaveData} />
+                                    </CardContent>
+                                </Card>
+                            );
+                        }) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE)}</div>}
                     </div>
                 </TabsContent>
 
                 <TabsContent value="seeding-data">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredSeedingDataHistory.length > 0 ? filteredSeedingDataHistory.map((history) => (
-                            <Card key={history.id}>
-                                <CardHeader className="p-3 sm:p-6">
-                                    <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
-                                        <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</span>
-                                        <span className="text-xs sm:text-sm text-gray-500">
-                                            {format(new Date(history.createdAt), 'PPp')}
-                                        </span>
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-3 sm:p-6">
-                                    {!history.isDataValid &&
-                                        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
-                                            <AlertTriangle className="h-5 w-5 flex-shrink-0" />
-                                            <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
-                                        </div>}
-                                    <div className="space-y-3 sm:space-y-4">
-                                        {history.plants.map((plantData, index) => (
-                                            <div key={index} className="border-b pb-2 last:border-0">
-                                                <h4 className="font-medium text-sm sm:text-base">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                                                    <div>
-                                                        <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</p>
-                                                        <p className="text-sm sm:text-base">{translator(plantData.plantType as SELECTABLE_STRINGS)}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE)}</p>
-                                                        <p className="text-sm sm:text-base">{plantData.seedingRate.toFixed(2)}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</p>
-                                                        <p className="text-sm sm:text-base">{plantData.participation.toFixed(2)}%</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</p>
-                                                        <p className="text-sm sm:text-base">{plantData.pricePerAcreBGN.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}</p>
+                        {filteredSeedingDataHistory.length > 0 ? filteredSeedingDataHistory.map((history) => {
+                            // Map SeedingDataCombinationHistory to CombinedHistoryData
+                            const combinedHistoryData = {
+                                plants: history.plants.map(plantData => ({
+                                    plantLatinName: plantData.plant.latinName,
+                                    plantType: plantData.plantType,
+                                    seedingRate: plantData.seedingRate,
+                                    participation: plantData.participation,
+                                    combinedRate: plantData.combinedRate,
+                                    pricePerAcreBGN: plantData.pricePerAcreBGN,
+                                })),
+                                totalPrice: history.totalPrice,
+                                userId: history.userId || '',
+                                isDataValid: history.isDataValid,
+                            };
+                            return (
+                                <Card key={history.id}>
+                                    <CardHeader className="p-3 sm:p-6">
+                                        <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                                            <span className="text-base sm:text-lg">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</span>
+                                            <span className="text-xs sm:text-sm text-gray-500">
+                                                {format(new Date(history.createdAt), 'PPp')}
+                                            </span>
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="p-3 sm:p-6">
+                                        {!history.isDataValid &&
+                                            <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-3 flex items-center gap-2 text-yellow-800">
+                                                <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+                                                <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
+                                            </div>}
+                                        <div className="space-y-3 sm:space-y-4">
+                                            {history.plants.map((plantData, index) => (
+                                                <div key={index} className="border-b pb-2 last:border-0">
+                                                    <h4 className="font-medium text-sm sm:text-base">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                                                        <div>
+                                                            <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PLANT)}</p>
+                                                            <p className="text-sm sm:text-base">{translator(plantData.plantType as SELECTABLE_STRINGS)}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SOWING_RATE)}</p>
+                                                            <p className="text-sm sm:text-base">{plantData.seedingRate.toFixed(2)}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_PARTICIPATION_PERCENT)}</p>
+                                                            <p className="text-sm sm:text-base">{plantData.participation.toFixed(2)}%</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-xs sm:text-sm text-gray-500">{translator(SELECTABLE_STRINGS.COMBINED_SEED_PRICE_PER_ACRE)}</p>
+                                                            <p className="text-sm sm:text-base">{plantData.pricePerAcreBGN.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                            ))}
+                                            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t">
+                                                <p className="text-base sm:text-lg font-medium">
+                                                    {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}: {history.totalPrice.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}
+                                                </p>
                                             </div>
-                                        ))}
-                                        <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t">
-                                            <p className="text-base sm:text-lg font-medium">
-                                                {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}: {history.totalPrice.toFixed(2)} {translator(SELECTABLE_STRINGS.BGN)}
-                                            </p>
                                         </div>
-                                    </div>
-                                    <CombinedCharts testId="combined-charts" data={history} />
-                                </CardContent>
-                            </Card>
-                        )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SEEDING_DATA)}</div>}
+                                        <CombinedCharts data={combinedHistoryData} />
+                                    </CardContent>
+                                </Card>
+                            );
+                        }) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_SEEDING_DATA)}</div>}
                     </div>
                 </TabsContent>
 
@@ -425,7 +456,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.chemicalPerSprayerML.toFixed(2)} ml</p>
                                         </div>
                                     </div>
-                                    <ChemWorkingSolutionCharts testId="chem-working-solution-charts" data={history} />
+                                    <ChemWorkingSolutionCharts data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_CHEM_PROTECTION)}</div>}

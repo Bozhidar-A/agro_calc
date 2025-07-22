@@ -132,7 +132,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should show "no history" message when all histories are empty', async () => {
-        (APICaller as jest.Mock).mockResolvedValue({ success: true, data: [] });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: [],
+                combinedHistory: [],
+                chemProtPercentHistory: [],
+                chemProtWorkingSolutionHistory: []
+            }
+        });
         renderWithRedux(
             () => <HistoryDisplay />,
             { preloadedState }
@@ -144,12 +152,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should render all history tabs when data is available', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: mockSowingRateHistory })
-            .mockResolvedValueOnce({ success: true, data: mockCombinedDataHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtPercentHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtWorkingSolutionHistory });
-
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: mockSowingRateHistory,
+                combinedHistory: mockCombinedDataHistory,
+                chemProtPercentHistory: mockChemProtPercentHistory,
+                chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
+            }
+        });
         renderWithRedux(
             () => <HistoryDisplay />,
             { preloadedState }
@@ -173,12 +184,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should filter sowing rate history by search query', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: mockSowingRateHistory })
-            .mockResolvedValueOnce({ success: true, data: mockCombinedDataHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtPercentHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtWorkingSolutionHistory });
-
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: mockSowingRateHistory,
+                combinedHistory: mockCombinedDataHistory,
+                chemProtPercentHistory: mockChemProtPercentHistory,
+                chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
+            }
+        });
         renderWithRedux(
             () => <HistoryDisplay />,
             { preloadedState }
@@ -203,11 +217,15 @@ describe('HistoryDisplay', () => {
             isDataValid: false
         }];
 
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: invalidSowingRateHistory })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: invalidSowingRateHistory,
+                combinedHistory: [],
+                chemProtPercentHistory: [],
+                chemProtWorkingSolutionHistory: []
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
@@ -220,11 +238,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should display all data fields for sowing rate history', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: mockSowingRateHistory })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: mockSowingRateHistory,
+                combinedHistory: [],
+                chemProtPercentHistory: [],
+                chemProtWorkingSolutionHistory: []
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
@@ -241,11 +263,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should display all data fields for combined data history', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: mockCombinedDataHistory })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: [],
+                combinedHistory: mockCombinedDataHistory,
+                chemProtPercentHistory: [],
+                chemProtWorkingSolutionHistory: []
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
@@ -266,11 +292,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should display all data fields for chemical protection percent solution history', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtPercentHistory })
-            .mockResolvedValueOnce({ success: true, data: [] });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: [],
+                combinedHistory: [],
+                chemProtPercentHistory: mockChemProtPercentHistory,
+                chemProtWorkingSolutionHistory: []
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
@@ -289,11 +319,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should display all data fields for chemical protection working solution history', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: [] })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtWorkingSolutionHistory });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: [],
+                combinedHistory: [],
+                chemProtPercentHistory: [],
+                chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
@@ -318,11 +352,15 @@ describe('HistoryDisplay', () => {
     });
 
     it('should render all charts for each tab', async () => {
-        (APICaller as jest.Mock)
-            .mockResolvedValueOnce({ success: true, data: mockSowingRateHistory })
-            .mockResolvedValueOnce({ success: true, data: mockCombinedDataHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtPercentHistory })
-            .mockResolvedValueOnce({ success: true, data: mockChemProtWorkingSolutionHistory });
+        (APICaller as jest.Mock).mockResolvedValue({
+            success: true,
+            data: {
+                sowingHistory: mockSowingRateHistory,
+                combinedHistory: mockCombinedDataHistory,
+                chemProtPercentHistory: mockChemProtPercentHistory,
+                chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
+            }
+        });
 
         renderWithRedux(
             () => <HistoryDisplay />,
