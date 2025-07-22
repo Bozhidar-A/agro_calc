@@ -1,6 +1,7 @@
 import { Log } from "@/lib/logger";
 import { GetSowingHistory, InsertSowingHistoryEntry } from "@/prisma/prisma-utils";
 import { NextRequest, NextResponse } from "next/server";
+import { DecodeTokenContent } from "@/lib/utils-server";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,7 +21,12 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
         Log(["calc", "sowing", "history"], `GET called`);
-        const history = await GetSowingHistory();
+        const decryptedData = await DecodeTokenContent();
+        if (!decryptedData.success || !decryptedData.data || !decryptedData.data.userId) {
+            Log(["calc", "sowing", "history"], `GET - DecodeTokenContent failed: ${decryptedData.message}`);
+            return NextResponse.json({ success: false, message: decryptedData.message });
+        }
+        const history = await GetSowingHistory(decryptedData.data.userId);
         Log(["calc", "sowing", "history"], `GET returned: ${JSON.stringify(history)}`);
         return NextResponse.json({ success: true, data: history });
     } catch (error: unknown) {

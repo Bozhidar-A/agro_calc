@@ -17,7 +17,7 @@ import {
 import { Log } from './logger';
 import { User } from '@prisma/client';
 import { prisma } from './prisma';
-import { DecryptTokenContent } from '@/lib/utils-server';
+import { DecodeTokenContent } from '@/lib/utils-server';
 
 export async function BackendVerifyToken(secret: string, token: string, type: string) {
   try {
@@ -227,7 +227,7 @@ export async function BackendLogin(email: string, password: string) {
 export async function BackendLogout() {
   try {
     const cookieStore = await cookies();
-    const decodedData = await DecryptTokenContent();
+    const decodedData = await DecodeTokenContent();
 
     //nuke cookies
     cookieStore.delete('accessToken');

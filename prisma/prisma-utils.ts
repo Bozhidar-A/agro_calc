@@ -275,8 +275,9 @@ export async function GetSowingInputData() {
   return finalData;
 }
 
-export async function GetSowingHistory() {
+export async function GetSowingHistory(userId: string) {
   return await prisma.sowingRateHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       sowingRateSafeSeedsPerMeterSquared: true,
@@ -372,8 +373,9 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
   });
 }
 
-export async function GetCombinedHistory() {
+export async function GetCombinedHistory(userId: string) {
   return await prisma.seedingDataCombinationHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       totalPrice: true,
@@ -420,8 +422,9 @@ export async function GetChemProtWorkingSolutionInputPlantChems() {
   });
 }
 
-export async function GetChemProtWorkingSolutionHistory() {
+export async function GetChemProtWorkingSolutionHistory(userId: string) {
   return await prisma.chemProtWorkingSolutionHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       totalChemicalForAreaLiters: true,
@@ -451,8 +454,10 @@ export async function InsertChemProtWorkingSolutionHistoryEntry(data: ChemProtWo
   });
 }
 
-export async function GetChemProtPercentHistory() {
-  return await prisma.chemProtPercentHistory.findMany();
+export async function GetChemProtPercentHistory(userId: string) {
+  return await prisma.chemProtPercentHistory.findMany({
+    where: { userId }
+  });
 }
 
 export async function InsertChemProtPercentHistoryEntry(data: ChemProtPercentHistory) {

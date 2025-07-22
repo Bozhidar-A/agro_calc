@@ -1,6 +1,6 @@
 // Mock all dependencies
 jest.mock("@/lib/utils-server", () => ({
-    DecryptTokenContent: jest.fn()
+    DecodeTokenContent: jest.fn()
 }))
 
 jest.mock('@/lib/logger', () => ({
@@ -47,7 +47,7 @@ jest.mock('next/headers', () => {
 });
 
 import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest } from '@/lib/auth-utils';
-import { DecryptTokenContent } from '@/lib/utils-server'
+import { DecodeTokenContent } from '@/lib/utils-server'
 import { hash, compare } from 'bcryptjs';
 import * as prismaUtils from '@/prisma/prisma-utils';
 import { cookies } from 'next/headers';
@@ -144,7 +144,7 @@ describe('Auth Utils', () => {
         beforeEach(() => {
             jest.resetModules();
             process.env = { ...OLD_ENV, NEXT_RUNTIME: 'nodejs' };
-            (DecryptTokenContent as jest.Mock).mockReset();
+            (DecodeTokenContent as jest.Mock).mockReset();
         });
 
         afterEach(() => {
@@ -152,7 +152,7 @@ describe('Auth Utils', () => {
         });
 
         it('should delete refresh tokens and return success when refresh token is present', async () => {
-            (DecryptTokenContent as jest.Mock).mockResolvedValue({
+            (DecodeTokenContent as jest.Mock).mockResolvedValue({
                 success: true,
                 data: {
                     accessToken: undefined,
@@ -173,7 +173,7 @@ describe('Auth Utils', () => {
         });
 
         it('should log and return success when no refresh token is present', async () => {
-            (DecryptTokenContent as jest.Mock).mockResolvedValue({
+            (DecodeTokenContent as jest.Mock).mockResolvedValue({
                 success: false,
                 data: {
                     accessToken: undefined,
@@ -190,8 +190,8 @@ describe('Auth Utils', () => {
             expect(result).toEqual({ success: true });
         });
 
-        it('should return success even if DecryptTokenContent fails', async () => {
-            (DecryptTokenContent as jest.Mock).mockImplementation(async () => { throw new Error('fail'); });
+        it('should return success even if DecodeTokenContent fails', async () => {
+            (DecodeTokenContent as jest.Mock).mockImplementation(async () => { throw new Error('fail'); });
             const result = await BackendLogout();
             expect(result).toEqual({ success: true, message: "fail" });
         });
