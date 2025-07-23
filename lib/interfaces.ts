@@ -296,7 +296,7 @@ export interface ChemProtPercentHistory {
   desiredPercentage: number;
   sprayerVolume: number;
   calculatedAmount: number;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface ChemProtWorkingInputPlantChem {
