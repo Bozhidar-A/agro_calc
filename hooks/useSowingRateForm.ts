@@ -15,6 +15,7 @@ import { useWarnings } from "@/hooks/useWarnings";
 export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
     const translator = useTranslate();
     const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
+    const [calculatedRate, setCalculatedRate] = useState<number | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
         userId: '',
         plantId: '',
@@ -198,6 +199,33 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         return () => subscription.unsubscribe();
     }, [form, dbData, AddWarning, RemoveWarning]);
 
+    // Calculate sowing rate when form values change
+    useEffect(() => {
+        if (activePlantDbData && form.watch('cultureLatinName')) {
+            const coefficientSecurity = form.watch('coefficientSecurity') || 0;
+            const wantedPlants = form.watch('wantedPlantsPerMeterSquared') || 0;
+            const massPer1000g = form.watch('massPer1000g') || 0;
+            const purity = form.watch('purity') || 0;
+            const germination = form.watch('germination') || 0;
+            const rowSpacing = form.watch('rowSpacing') || 0;
+
+            if (
+                coefficientSecurity &&
+                wantedPlants &&
+                massPer1000g &&
+                purity &&
+                germination &&
+                rowSpacing
+            ) {
+                // Formula: (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) / (purity * germination * 1000)
+                const rate =
+                    (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) /
+                    (purity * germination * 1000);
+                setCalculatedRate(Number.parseFloat(rate.toFixed(2)));
+            }
+        }
+    }, [form.watch(), activePlantDbData]);
+
     async function onSubmit(_data: any) {
         if (!authObj.isAuthenticated) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
@@ -227,5 +255,5 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         }
     }
 
-    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, CountWarnings };
+    return { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, CountWarnings, calculatedRate };
 }

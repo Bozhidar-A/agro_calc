@@ -58,8 +58,9 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                     <Input
                                         className={`text-center text-xl ${inputValidityClass}`}
                                         type="number"
+                                        step={neededData.step || 0.01}
                                         {...field}
-                                        value={field.value || ''}
+                                        value={field.value ?? ''}
                                         onChange={(e) => {
                                             const value = e.target.valueAsNumber;
                                             field.onChange(isNaN(value) ? '' : value);
@@ -78,7 +79,7 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                         max={neededData.maxSliderVal}
                                         step={neededData.step || 0.01}
                                         {...field}
-                                        value={field.value || neededData.minSliderVal}
+                                        value={field.value ?? neededData.minSliderVal}
                                         onChange={(e) => {
                                             const value = e.target.valueAsNumber;
                                             field.onChange(isNaN(value) ? neededData.minSliderVal : value);
@@ -95,8 +96,9 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
                                 <Input
                                     className={`text-center text-xl ${inputValidityClass}`}
                                     type="number"
+                                    step={neededData.step || 0.01}
                                     {...field}
-                                    value={field.value || ''}
+                                    value={field.value ?? ''}
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
                                         field.onChange(isNaN(value) ? '' : value);
