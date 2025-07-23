@@ -78,7 +78,7 @@ export default function SowingRate() {
     fetchData();
   }, []);
 
-  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, calculatedRate } = useSowingRateForm(
+  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(
     authObj,
     dbData
   );
@@ -235,7 +235,7 @@ export default function SowingRate() {
                     </div>
                   )}
 
-                  {form.formState.isValid && calculatedRate !== null && (
+                  {form.formState.isValid && dataToBeSaved && (
                     <div className="flex flex-col gap-4 sm:gap-6">
                       <SowingOutput dataToBeSaved={dataToBeSaved} />
 
