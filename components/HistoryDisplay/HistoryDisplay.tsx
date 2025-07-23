@@ -33,118 +33,23 @@ type ChemProtWorkingSolutionHistoryWithRelations = ChemProtWorkingSolutionHistor
 };
 
 export default function HistoryDisplay() {
-    const [sowingRateHistory, setSowingRateHistory] = useState<SowingRateHistory[]>([]);
-    const [seedingDataHistory, setSeedingDataHistory] = useState<SeedingDataCombinationHistory[]>([]);
-    const [chemProtPercentHistory, setChemProtPercentHistory] = useState<ChemProtPercentHistory[]>([]);
-    const [chemProtWorkingSolutionHistory, setChemProtWorkingSolutionHistory] = useState<ChemProtWorkingSolutionHistoryWithRelations[]>([]);
+    const [calcHistory, setCalcHistory] = useState<{
+        sowingRateHistory: SowingRateHistory[];
+        seedingDataHistory: SeedingDataCombinationHistory[];
+        chemProtPercentHistory: ChemProtPercentHistory[];
+        chemProtWorkingSolutionHistory: ChemProtWorkingSolutionHistoryWithRelations[];
+    }>({
+        sowingRateHistory: [],
+        seedingDataHistory: [],
+        chemProtPercentHistory: [],
+        chemProtWorkingSolutionHistory: []
+    });
+    const [filteredCalcHistory, setFilteredCalcHistory] = useState(calcHistory);
     const [loading, setLoading] = useState(true);
     const [errored, setErrored] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
     const translator = useTranslate();
-
-    // Filter functions
-    const filterSowingRateHistory = (history: SowingRateHistory[]) => {
-        let filtered = history;
-
-        // Filter by search query
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            filtered = filtered.filter(item => {
-                const translatedName = translator(item.plant.latinName as SELECTABLE_STRINGS);
-                return translatedName.toLowerCase().includes(query);
-            });
-        }
-
-        // Filter by date
-        if (selectedDate) {
-            filtered = filtered.filter(item => {
-                const itemDate = new Date(item.createdAt);
-                return isWithinInterval(itemDate, {
-                    start: startOfDay(selectedDate),
-                    end: endOfDay(selectedDate)
-                });
-            });
-        }
-
-        // Sort by date (newest first)
-        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-        return filtered;
-    };
-
-    const filterSeedingDataHistory = (history: SeedingDataCombinationHistory[]) => {
-        let filtered = history;
-
-        // Filter by search query
-        if (searchQuery) {
-            const query = searchQuery.toLowerCase();
-            filtered = filtered.filter(item =>
-                item.plants.some(plant => {
-                    const translatedName = translator(plant.plant.latinName as SELECTABLE_STRINGS);
-                    const translatedType = translator(plant.plantType as SELECTABLE_STRINGS);
-                    return translatedName.toLowerCase().includes(query) ||
-                        translatedType.toLowerCase().includes(query);
-                })
-            );
-        }
-
-        // Filter by date
-        if (selectedDate) {
-            filtered = filtered.filter(item => {
-                const itemDate = new Date(item.createdAt);
-                return isWithinInterval(itemDate, {
-                    start: startOfDay(selectedDate),
-                    end: endOfDay(selectedDate)
-                });
-            });
-        }
-
-        // Sort by date (newest first)
-        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-        return filtered;
-    };
-
-    const filterChemProtPercentHistory = (history: ChemProtPercentHistory[]) => {
-        let filtered = history;
-
-        // Filter by date
-        if (selectedDate) {
-            filtered = filtered.filter(item => {
-                const itemDate = new Date(item.createdAt);
-                return isWithinInterval(itemDate, {
-                    start: startOfDay(selectedDate),
-                    end: endOfDay(selectedDate)
-                });
-            });
-        }
-
-        // Sort by date (newest first)
-        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-        return filtered;
-    };
-
-    const filterChemProtWorkingSolutionHistory = (history: ChemProtWorkingSolutionHistoryWithRelations[]) => {
-        let filtered = history;
-
-        // Filter by date
-        if (selectedDate) {
-            filtered = filtered.filter(item => {
-                const itemDate = new Date(item.createdAt);
-                return isWithinInterval(itemDate, {
-                    start: startOfDay(selectedDate),
-                    end: endOfDay(selectedDate)
-                });
-            });
-        }
-
-        // Sort by date (newest first)
-        filtered = [...filtered].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-        return filtered;
-    };
 
     // Fetch history data
     useEffect(() => {
@@ -161,15 +66,100 @@ export default function HistoryDisplay() {
             }
 
             const data = userCalcHistoryFetch.data || {};
-            setSowingRateHistory(Array.isArray(data.sowingHistory) ? data.sowingHistory : []);
-            setSeedingDataHistory(Array.isArray(data.combinedHistory) ? data.combinedHistory : []);
-            setChemProtPercentHistory(Array.isArray(data.chemProtPercentHistory) ? data.chemProtPercentHistory : []);
-            setChemProtWorkingSolutionHistory(Array.isArray(data.chemProtWorkingSolutionHistory) ? data.chemProtWorkingSolutionHistory : []);
-
+            const deepData = {
+                sowingRateHistory: data.sowingRateHistory || [],
+                seedingDataHistory: data.seedingDataHistory || [],
+                chemProtPercentHistory: data.chemProtPercentHistory || [],
+                chemProtWorkingSolutionHistory: data.chemProtWorkingSolutionHistory || []
+            };
+            setCalcHistory(deepData);
+            setFilteredCalcHistory(deepData);
             setLoading(false);
         };
         fetchHistory();
     }, []);
+
+    //Update filtered history whenever calcHistory, searchQuery, or selectedDate changes
+    useEffect(() => {
+        const filteredHistory = {
+            sowingRateHistory: [...calcHistory.sowingRateHistory],
+            seedingDataHistory: [...calcHistory.seedingDataHistory],
+            chemProtPercentHistory: [...calcHistory.chemProtPercentHistory],
+            chemProtWorkingSolutionHistory: [...calcHistory.chemProtWorkingSolutionHistory]
+        };
+
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+
+            filteredHistory.sowingRateHistory = filteredHistory.sowingRateHistory.filter(item => {
+                const translatedName = translator(item.plant.latinName as SELECTABLE_STRINGS);
+                return translatedName.toLowerCase().includes(query);
+            });
+
+            filteredHistory.seedingDataHistory = filteredHistory.seedingDataHistory.filter(item =>
+                item.plants.some(plant => {
+                    const translatedName = translator(plant.plant.latinName as SELECTABLE_STRINGS);
+                    const translatedType = translator(plant.plantType as SELECTABLE_STRINGS);
+                    return translatedName.toLowerCase().includes(query) ||
+                        translatedType.toLowerCase().includes(query);
+                })
+            );
+
+            filteredHistory.chemProtWorkingSolutionHistory = filteredHistory.chemProtWorkingSolutionHistory.filter(item => {
+                const plantName = item.plant?.latinName ? translator(item.plant.latinName as SELECTABLE_STRINGS) : '';
+                const chemicalName = item.chemical?.nameKey ? translator(item.chemical.nameKey as SELECTABLE_STRINGS) : '';
+                return plantName.toLowerCase().includes(query) || chemicalName.toLowerCase().includes(query);
+            });
+        }
+
+        if (selectedDate) {
+            filteredHistory.sowingRateHistory = filteredHistory.sowingRateHistory.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+
+            filteredHistory.seedingDataHistory = filteredHistory.seedingDataHistory.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+
+            filteredHistory.chemProtPercentHistory = filteredHistory.chemProtPercentHistory.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+
+            filteredHistory.chemProtWorkingSolutionHistory = filteredHistory.chemProtWorkingSolutionHistory.filter(item => {
+                const itemDate = new Date(item.createdAt);
+                return isWithinInterval(itemDate, {
+                    start: startOfDay(selectedDate),
+                    end: endOfDay(selectedDate)
+                });
+            });
+        }
+
+        //sort by date (newest first)
+        filteredHistory.sowingRateHistory = [...filteredHistory.sowingRateHistory].sort(sortByNewestFirst);
+        filteredHistory.seedingDataHistory = [...filteredHistory.seedingDataHistory].sort(sortByNewestFirst);
+        filteredHistory.chemProtPercentHistory = [...filteredHistory.chemProtPercentHistory].sort(sortByNewestFirst);
+        filteredHistory.chemProtWorkingSolutionHistory = [...filteredHistory.chemProtWorkingSolutionHistory].sort(sortByNewestFirst);
+
+        setFilteredCalcHistory(filteredHistory);
+    }, [calcHistory, searchQuery, selectedDate]);
+
+    function sortByNewestFirst<T extends { createdAt: Date | string }>(a: T, b: T): number {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateB.getTime() - dateA.getTime();
+    }
 
     if (errored) {
         return <Errored />
@@ -179,17 +169,15 @@ export default function HistoryDisplay() {
         return <LoadingDisplay />
     }
 
-    if (sowingRateHistory.length === 0 && seedingDataHistory.length === 0 && chemProtPercentHistory.length === 0 && chemProtWorkingSolutionHistory.length === 0) {
+    if (calcHistory.sowingRateHistory.length === 0 &&
+        calcHistory.seedingDataHistory.length === 0 &&
+        calcHistory.chemProtPercentHistory.length === 0 &&
+        calcHistory.chemProtWorkingSolutionHistory.length === 0) {
         return <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center justify-center text-center">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-8">{translator(SELECTABLE_STRINGS.NO_HISTORY)}</h2>
             <CalculatorsCallToAction />
         </div>
     }
-
-    const filteredSowingRateHistory = filterSowingRateHistory(sowingRateHistory || []);
-    const filteredSeedingDataHistory = filterSeedingDataHistory(seedingDataHistory || []);
-    const filteredChemProtPercentHistory = filterChemProtPercentHistory(chemProtPercentHistory || []);
-    const filteredChemProtWorkingSolutionHistory = filterChemProtWorkingSolutionHistory(chemProtWorkingSolutionHistory || []);
 
     return (
         <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center">
@@ -250,7 +238,7 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="sowing-rate">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredSowingRateHistory.length > 0 ? filteredSowingRateHistory.map((history) => {
+                        {filteredCalcHistory.sowingRateHistory.length > 0 ? filteredCalcHistory.sowingRateHistory.map((history) => {
                             // Map SowingRateHistory to SowingRateSaveData
                             const sowingRateSaveData = {
                                 userId: '', // Not available in history, set as empty string
@@ -311,7 +299,7 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="seeding-data">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredSeedingDataHistory.length > 0 ? filteredSeedingDataHistory.map((history) => {
+                        {filteredCalcHistory.seedingDataHistory.length > 0 ? filteredCalcHistory.seedingDataHistory.map((history) => {
                             // Map SeedingDataCombinationHistory to CombinedHistoryData
                             const combinedHistoryData = {
                                 plants: history.plants.map(plantData => ({
@@ -382,7 +370,7 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="chem-protection-percent-solution">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredChemProtPercentHistory.length > 0 ? filteredChemProtPercentHistory.map((history) => (
+                        {filteredCalcHistory.chemProtPercentHistory.length > 0 ? filteredCalcHistory.chemProtPercentHistory.map((history) => (
                             <Card key={history.id}>
                                 <CardHeader className="p-3 sm:p-6">
                                     <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
@@ -415,7 +403,7 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="chem-protection-working-solution">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredChemProtWorkingSolutionHistory.length > 0 ? filteredChemProtWorkingSolutionHistory.map((history) => (
+                        {filteredCalcHistory.chemProtWorkingSolutionHistory.length > 0 ? filteredCalcHistory.chemProtWorkingSolutionHistory.map((history) => (
                             <Card key={history.id}>
                                 <CardHeader className="p-3 sm:p-6">
                                     <CardTitle className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">

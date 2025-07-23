@@ -21,18 +21,13 @@ export async function GET() {
             GetChemProtWorkingSolutionHistory(decryptedData.data.userId)
         ]);
 
-        const [sowingHistory, combinedHistory, chemProtPercentHistory, chemProtWorkingSolutionHistory] = await calcHistory;
-
-        if (!sowingHistory || !combinedHistory || !chemProtPercentHistory || !chemProtWorkingSolutionHistory) {
-            Log(["user", "calc-history"], `GET returned: No history found`);
-            return NextResponse.json({ success: false, message: "No history found" });
-        }
+        const [sowingRateHistory, combinedHistory, chemProtPercentHistory, chemProtWorkingSolutionHistory] = await calcHistory;
 
         Log(["user", "calc-history"], `GET returned: History data retrieved successfully`);
         return NextResponse.json({
             success: true,
             data: {
-                sowingHistory,
+                sowingRateHistory,
                 combinedHistory,
                 chemProtPercentHistory,
                 chemProtWorkingSolutionHistory
