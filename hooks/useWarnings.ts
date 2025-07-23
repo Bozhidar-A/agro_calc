@@ -1,4 +1,3 @@
-// hooks/useWarnings.ts
 import { useState } from 'react';
 
 export function useWarnings() {
