@@ -9,7 +9,6 @@ export async function middleware(request: NextRequest) {
         protected: {
             api: [
                 "/api/user/settings",
-                "/api/auth/logout",
                 "/api/user/calc-history",
                 "/api/calc/chem-protection/percent-solution/history",
                 "/api/calc/chem-protection/working-solution/history",
