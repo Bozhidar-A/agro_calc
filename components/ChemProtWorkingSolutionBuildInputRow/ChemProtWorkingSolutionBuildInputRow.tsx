@@ -33,22 +33,31 @@ export function ChemProtWorkingSolutionBuildInputRow({
           <FormField
             control={form.control}
             name={varName}
-            render={({ field }) => (
-              <Input
-                min={0}
-                className="text-center text-xl"
-                type="number"
-                id={id}
-                {...field}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  field.onChange(val === '' ? '' : Number(val));
-                }}
-              />
-            )}
+            render={({ field }) => {
+              const watchedValue = form.watch(varName);
+              const currentValue = watchedValue ?? 0;
+              return (
+                <Input
+                  min={0}
+                  className="text-center text-xl"
+                  type="number"
+                  id={id}
+                  value={currentValue}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      field.onChange('');
+                    } else {
+                      const numVal = Number(val);
+                      field.onChange(isNaN(numVal) ? '' : numVal);
+                    }
+                  }}
+                />
+              );
+            }}
           />
           <div className="text-center font-medium mt-1">
-            {`${displayValue ?? (isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0)} ${unit}`}
+            {`${displayValue ?? (form.watch(varName) || 0)} ${unit}`}
           </div>
         </div>
       </CardContent>
