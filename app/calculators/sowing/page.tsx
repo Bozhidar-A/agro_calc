@@ -46,7 +46,6 @@ export default function SowingRate() {
   const authObj = useSelector((state: RootState) => state.auth);
   const translator = useTranslate();
   const [dbData, setDbData] = useState<SowingRateDBData[]>([]);
-  const [calculatedRate, setCalculatedRate] = useState<number | null>(null);
   const [errored, setErrored] = useState(false);
 
   useEffect(() => {
@@ -79,7 +78,7 @@ export default function SowingRate() {
     fetchData();
   }, []);
 
-  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(
+  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved, calculatedRate } = useSowingRateForm(
     authObj,
     dbData
   );
@@ -89,33 +88,6 @@ export default function SowingRate() {
     control: form.control,
     name: 'cultureLatinName',
   });
-
-  // Calculate sowing rate when form values change
-  useEffect(() => {
-    if (activePlantDbData && form.watch('cultureLatinName')) {
-      const coefficientSecurity = form.watch('coefficientSecurity') || 0;
-      const wantedPlants = form.watch('wantedPlantsPerMeterSquared') || 0;
-      const massPer1000g = form.watch('massPer1000g') || 0;
-      const purity = form.watch('purity') || 0;
-      const germination = form.watch('germination') || 0;
-      const rowSpacing = form.watch('rowSpacing') || 0;
-
-      if (
-        coefficientSecurity &&
-        wantedPlants &&
-        massPer1000g &&
-        purity &&
-        germination &&
-        rowSpacing
-      ) {
-        // Formula: (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) / (purity * germination * 1000)
-        const rate =
-          (wantedPlants * massPer1000g * 100 * 100 * coefficientSecurity) /
-          (purity * germination * 1000);
-        setCalculatedRate(Number.parseFloat(rate.toFixed(2)));
-      }
-    }
-  }, [form.watch(), activePlantDbData]);
 
   if (errored) {
     return <Errored />
