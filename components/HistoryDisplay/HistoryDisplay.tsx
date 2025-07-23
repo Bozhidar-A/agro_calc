@@ -35,12 +35,12 @@ type ChemProtWorkingSolutionHistoryWithRelations = ChemProtWorkingSolutionHistor
 export default function HistoryDisplay() {
     const [calcHistory, setCalcHistory] = useState<{
         sowingRateHistory: SowingRateHistory[];
-        seedingDataHistory: SeedingDataCombinationHistory[];
+        combinedHistory: SeedingDataCombinationHistory[];
         chemProtPercentHistory: ChemProtPercentHistory[];
         chemProtWorkingSolutionHistory: ChemProtWorkingSolutionHistoryWithRelations[];
     }>({
         sowingRateHistory: [],
-        seedingDataHistory: [],
+        combinedHistory: [],
         chemProtPercentHistory: [],
         chemProtWorkingSolutionHistory: []
     });
@@ -68,7 +68,7 @@ export default function HistoryDisplay() {
             const data = userCalcHistoryFetch.data || {};
             const deepData = {
                 sowingRateHistory: data.sowingRateHistory || [],
-                seedingDataHistory: data.seedingDataHistory || [],
+                combinedHistory: data.combinedHistory || [],
                 chemProtPercentHistory: data.chemProtPercentHistory || [],
                 chemProtWorkingSolutionHistory: data.chemProtWorkingSolutionHistory || []
             };
@@ -83,7 +83,7 @@ export default function HistoryDisplay() {
     useEffect(() => {
         const filteredHistory = {
             sowingRateHistory: [...calcHistory.sowingRateHistory],
-            seedingDataHistory: [...calcHistory.seedingDataHistory],
+            combinedHistory: [...calcHistory.combinedHistory],
             chemProtPercentHistory: [...calcHistory.chemProtPercentHistory],
             chemProtWorkingSolutionHistory: [...calcHistory.chemProtWorkingSolutionHistory]
         };
@@ -96,8 +96,8 @@ export default function HistoryDisplay() {
                 return translatedName.toLowerCase().includes(query);
             });
 
-            filteredHistory.seedingDataHistory = filteredHistory.seedingDataHistory.filter(item =>
-                item.plants.some(plant => {
+            filteredHistory.combinedHistory = filteredHistory.combinedHistory.filter(item =>
+                item.plants.some((plant: any) => {
                     const translatedName = translator(plant.plant.latinName as SELECTABLE_STRINGS);
                     const translatedType = translator(plant.plantType as SELECTABLE_STRINGS);
                     return translatedName.toLowerCase().includes(query) ||
@@ -121,7 +121,7 @@ export default function HistoryDisplay() {
                 });
             });
 
-            filteredHistory.seedingDataHistory = filteredHistory.seedingDataHistory.filter(item => {
+            filteredHistory.combinedHistory = filteredHistory.combinedHistory.filter(item => {
                 const itemDate = new Date(item.createdAt);
                 return isWithinInterval(itemDate, {
                     start: startOfDay(selectedDate),
@@ -148,7 +148,7 @@ export default function HistoryDisplay() {
 
         //sort by date (newest first)
         filteredHistory.sowingRateHistory = [...filteredHistory.sowingRateHistory].sort(sortByNewestFirst);
-        filteredHistory.seedingDataHistory = [...filteredHistory.seedingDataHistory].sort(sortByNewestFirst);
+        filteredHistory.combinedHistory = [...filteredHistory.combinedHistory].sort(sortByNewestFirst);
         filteredHistory.chemProtPercentHistory = [...filteredHistory.chemProtPercentHistory].sort(sortByNewestFirst);
         filteredHistory.chemProtWorkingSolutionHistory = [...filteredHistory.chemProtWorkingSolutionHistory].sort(sortByNewestFirst);
 
@@ -170,7 +170,7 @@ export default function HistoryDisplay() {
     }
 
     if (calcHistory.sowingRateHistory.length === 0 &&
-        calcHistory.seedingDataHistory.length === 0 &&
+        calcHistory.combinedHistory.length === 0 &&
         calcHistory.chemProtPercentHistory.length === 0 &&
         calcHistory.chemProtWorkingSolutionHistory.length === 0) {
         return <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center justify-center text-center">
@@ -289,7 +289,7 @@ export default function HistoryDisplay() {
                                                 <p className="text-base sm:text-lg">{history.totalArea.toFixed(2)}</p>
                                             </div>
                                         </div>
-                                        <SowingCharts data={sowingRateSaveData} />
+                                        <SowingCharts data-testId="sowing-charts" data={sowingRateSaveData} />
                                     </CardContent>
                                 </Card>
                             );
@@ -299,10 +299,10 @@ export default function HistoryDisplay() {
 
                 <TabsContent value="seeding-data">
                     <div className="grid gap-3 sm:gap-4">
-                        {filteredCalcHistory.seedingDataHistory.length > 0 ? filteredCalcHistory.seedingDataHistory.map((history) => {
+                        {filteredCalcHistory.combinedHistory.length > 0 ? filteredCalcHistory.combinedHistory.map((history: any) => {
                             // Map SeedingDataCombinationHistory to CombinedHistoryData
                             const combinedHistoryData = {
-                                plants: history.plants.map(plantData => ({
+                                plants: history.plants.map((plantData: any) => ({
                                     plantLatinName: plantData.plant.latinName,
                                     plantType: plantData.plantType,
                                     seedingRate: plantData.seedingRate,
@@ -331,7 +331,7 @@ export default function HistoryDisplay() {
                                                 <span className="text-sm">{translator(SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS)}</span>
                                             </div>}
                                         <div className="space-y-3 sm:space-y-4">
-                                            {history.plants.map((plantData, index) => (
+                                            {history.plants.map((plantData: any, index: any) => (
                                                 <div key={index} className="border-b pb-2 last:border-0">
                                                     <h4 className="font-medium text-sm sm:text-base">{translator(plantData.plant.latinName as SELECTABLE_STRINGS)}</h4>
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
@@ -444,7 +444,7 @@ export default function HistoryDisplay() {
                                             <p className="text-base sm:text-lg">{history.chemicalPerSprayerML.toFixed(2)} ml</p>
                                         </div>
                                     </div>
-                                    <ChemWorkingSolutionCharts data={history} />
+                                    <ChemWorkingSolutionCharts data-testId="chem-working-solution-charts" data={history} />
                                 </CardContent>
                             </Card>
                         )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_HISTORY_CHEM_PROTECTION)}</div>}

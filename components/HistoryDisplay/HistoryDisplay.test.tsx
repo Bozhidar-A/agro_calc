@@ -135,7 +135,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: [],
+                sowingRateHistory: [],
                 combinedHistory: [],
                 chemProtPercentHistory: [],
                 chemProtWorkingSolutionHistory: []
@@ -155,7 +155,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: mockSowingRateHistory,
+                sowingRateHistory: mockSowingRateHistory,
                 combinedHistory: mockCombinedDataHistory,
                 chemProtPercentHistory: mockChemProtPercentHistory,
                 chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
@@ -187,7 +187,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: mockSowingRateHistory,
+                sowingRateHistory: mockSowingRateHistory,
                 combinedHistory: mockCombinedDataHistory,
                 chemProtPercentHistory: mockChemProtPercentHistory,
                 chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
@@ -220,7 +220,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: invalidSowingRateHistory,
+                sowingRateHistory: invalidSowingRateHistory,
                 combinedHistory: [],
                 chemProtPercentHistory: [],
                 chemProtWorkingSolutionHistory: []
@@ -241,7 +241,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: mockSowingRateHistory,
+                sowingRateHistory: mockSowingRateHistory,
                 combinedHistory: [],
                 chemProtPercentHistory: [],
                 chemProtWorkingSolutionHistory: []
@@ -266,7 +266,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: [],
+                sowingRateHistory: [],
                 combinedHistory: mockCombinedDataHistory,
                 chemProtPercentHistory: [],
                 chemProtWorkingSolutionHistory: []
@@ -295,7 +295,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: [],
+                sowingRateHistory: [],
                 combinedHistory: [],
                 chemProtPercentHistory: mockChemProtPercentHistory,
                 chemProtWorkingSolutionHistory: []
@@ -322,7 +322,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: [],
+                sowingRateHistory: [],
                 combinedHistory: [],
                 chemProtPercentHistory: [],
                 chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
@@ -355,7 +355,7 @@ describe('HistoryDisplay', () => {
         (APICaller as jest.Mock).mockResolvedValue({
             success: true,
             data: {
-                sowingHistory: mockSowingRateHistory,
+                sowingRateHistory: mockSowingRateHistory,
                 combinedHistory: mockCombinedDataHistory,
                 chemProtPercentHistory: mockChemProtPercentHistory,
                 chemProtWorkingSolutionHistory: mockChemProtWorkingSolutionHistory
