@@ -56,14 +56,21 @@ export function ArrayContainsAndItemsStartsWith(array: string[], item: any) {
 }
 
 export function GetStrFromLangMapKey(lang: string, str: string) {
+  if (!lang || !lang.trim()) {
+    return str;
+  }
+
+  //return the string from the LangMap if it exists
   if (LangMap[lang]?.[str]) {
     return LangMap[lang][str];
   }
 
+  //fallback to BG if the langCode is not found
   if (LangMap[SUPPORTED_LANGS.BG.code]?.[str]) {
     return LangMap[SUPPORTED_LANGS.BG.code][str];
   }
 
+  //fallback to the key itself if no translation is found
   return str;
 }
 
