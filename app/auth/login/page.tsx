@@ -37,9 +37,17 @@ export default function Login() {
 
   useEffect(() => {
     const updateAuthState = searchParams.get('updateAuthState');
-    if (updateAuthState === 'refreshTokenExpired') {
-      toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED));
-      dispatch(AuthLogout());
+    switch (updateAuthState) {
+      case 'refreshTokenExpired':
+        toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED));
+        dispatch(AuthLogout());
+        break;
+      case 'resetPasswordWhileAuth':
+        toast.info(translator(SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH));
+        dispatch(AuthLogout());
+        break;
+      default:
+        break;
     }
   }, [searchParams]);
 

@@ -390,6 +390,7 @@ export async function BackendPasswordReset(token: string, password: string, conf
 
     await DeleteResetPasswordByEmail(user.email);
     await DeleteAllRefreshTokensByUserId(user.id);
+    await BackendLogout();
 
     return { success: true };
   } catch (error: unknown) {
