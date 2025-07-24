@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,6 +13,8 @@ import { Label } from '@/components/ui/label';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Separator } from '@/components/ui/separator';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 const schema = z.object({
     email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -22,6 +23,7 @@ const schema = z.object({
 export default function RequestResetPassword() {
     const router = useRouter();
     const translator = useTranslate();
+    const lang = useSelector((state: RootState) => state.local.lang);
 
     const {
         register,
@@ -34,7 +36,11 @@ export default function RequestResetPassword() {
 
     async function HandleSubmit(data: any) {
         toast.info(translator(SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_REQUEST_PROCESSING));
-        const backendWork = await APICaller(['auth', 'passwordReset', 'request'], '/api/auth/passwordReset/request', 'POST', data);
+        const requestData = {
+            ...data,
+            prefLangCode: lang
+        };
+        const backendWork = await APICaller(['auth', 'passwordReset', 'request'], '/api/auth/passwordReset/request', 'POST', requestData);
 
         if (backendWork.success) {
             toast.success(translator(SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_REQUEST_SENT));
@@ -54,7 +60,7 @@ export default function RequestResetPassword() {
                         <Label htmlFor="email">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
                         <Input id="email" type="email" {...register('email')} />
                         {errors.email && (
-                            <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
+                            <p className="text-red-500 text-sm">{translator(errors.email.message as string)}</p>
                         )}
                     </div>
 

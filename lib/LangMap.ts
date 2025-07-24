@@ -80,10 +80,18 @@ export enum SELECTABLE_STRINGS {
   TOAST_ERROR_PASSWORD_RESET_REQUEST_FAILED = 'TOAST_ERROR_PASSWORD_RESET_REQUEST_FAILED',
   TOAST_PASSWORD_RESET_SUCCESS = 'TOAST_PASSWORD_RESET_SUCCESS',
   TOAST_ERROR_PASSWORD_RESET_FAILED = 'TOAST_ERROR_PASSWORD_RESET_FAILED',
+  TOAST_INFO_RESET_PASSWORD_WHILE_AUTH = 'TOAST_INFO_RESET_PASSWORD_WHILE_AUTH',
 
   AGRICULTURAL_CALCULATORS = 'AGRICULTURAL_CALCULATORS',
   SELECT_CALCULATOR = 'SELECT_CALCULATOR',
   OPEN_CALCULATOR = 'OPEN_CALCULATOR',
+
+  //rese email
+  RESET_EMAIL_TITLE = 'RESET_EMAIL_TITLE',
+  RESET_EMAIL_INSTRUCTIONS = 'RESET_EMAIL_INSTRUCTIONS',
+  RESET_EMAIL_RESET_BUTTON = 'RESET_EMAIL_RESET_BUTTON',
+  RESET_EMAIL_RESET_BUTTON_NO_WORK = 'RESET_EMAIL_RESET_BUTTON_NO_WORK',
+  RESET_EMAIL_DID_NOT_REQUEST_RESET = 'RESET_EMAIL_DID_NOT_REQUEST_RESET',
 
   //settings
   SETTINGS = 'SETTINGS',
@@ -864,10 +872,17 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Паролата е нулирана успешно!',
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]:
       'Възникна грешка при нулиране на паролата',
+    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: "Паролата ви е нулирана, моля влезте отново.",
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
     [SELECTABLE_STRINGS.OPEN_CALCULATOR]: 'Отвори калкулатор',
+
+    [SELECTABLE_STRINGS.RESET_EMAIL_TITLE]: 'Нулиране на парола',
+    [SELECTABLE_STRINGS.RESET_EMAIL_INSTRUCTIONS]: "Получихме заявка за нулиране на паролата ви. За да продължите с нулирането на паролата, моля кликнете върху бутона по-долу:",
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON]: 'Нулиране на парола',
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]: 'Ако бутонът не работи, моля копирайте и поставете следния линк в браузъра си:',
+    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]: "Ако не сте искали да нулирате паролата си, моля игнорирайте този имейл. Вашата парола няма да бъде променена, освен ако не следвате линка по-горе.",
 
     [SELECTABLE_STRINGS.SETTINGS]: 'Настройки',
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT]: 'Предпочитана единица за измерване',
@@ -1652,10 +1667,18 @@ export const LangMap: LangMapInterface = {
       'Failed to send password request',
     [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Succesfully reset password!',
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]: 'Failed to reset password!',
+    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: 'Your password has been reset, please log in again.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',
     [SELECTABLE_STRINGS.OPEN_CALCULATOR]: 'Open calculator',
+
+    [SELECTABLE_STRINGS.RESET_EMAIL_TITLE]: "Password Reset Request",
+    [SELECTABLE_STRINGS.RESET_EMAIL_INSTRUCTIONS]:
+      'We received a request to reset your password. To proceed with the password reset, please click the button below:',
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON]: 'Reset Password',
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]: "If the button above doesn't work, you can copy and paste the following link into your browser:",
+    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]: "If you did not request a password reset, please ignore this email. Your password will not be changed unless you follow the link above.",
 
     [SELECTABLE_STRINGS.SETTINGS]: 'Settings',
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT]: 'Preferred unit of measurement',

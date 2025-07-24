@@ -52,7 +52,7 @@ export default function ResetPassword() {
 
         if (backendWork.success) {
             toast.success(translator(SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS));
-            router.push('/auth/login');
+            router.push('/auth/login?updateAuthState=resetPasswordWhileAuth');
             return;
         }
 
