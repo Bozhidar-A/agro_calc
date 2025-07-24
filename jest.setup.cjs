@@ -1,5 +1,5 @@
 require('@testing-library/jest-dom');
-const { mockTranslateFunction } = require('./test-utils/mocks');
+const { mockTranslateFunction, mockGetStrFromLangMapKey } = require('./test-utils/mocks');
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
@@ -128,4 +128,10 @@ jest.mock('@/hooks/useWarnings', () => ({
     RemoveWarning: jest.fn(),
     CountWarnings: jest.fn(() => 0)
   }))
+}));
+
+// Global mock for GetStrFromLangMapKey
+jest.mock('@/lib/utils', () => ({
+  ...jest.requireActual('@/lib/utils'),
+  GetStrFromLangMapKey: mockGetStrFromLangMapKey
 }));
