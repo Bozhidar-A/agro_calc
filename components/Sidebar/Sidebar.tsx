@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetTrigger, SheetContent, SheetTitle, SheetHeader } from '@/components/ui/sheet';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
 import { useTranslate } from '@/hooks/useTranslate';
 import { AuthLogout } from '@/store/slices/authSlice';
 import { toast } from 'sonner';
@@ -14,14 +14,13 @@ import { Log } from '@/lib/logger';
 import Link from 'next/link';
 import SettingsGrid from '../SettingsGrid/SettingsGrid';
 import { useRouter } from 'next/navigation';
-import { GetEmailSafely } from '@/lib/utils';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const translator = useTranslate();
     const dispatch = useDispatch();
     const router = useRouter();
-    const authObj = useSelector((state: RootState) => state.auth);
+    const { isAuthenticated, user, email } = useAuth();
 
     async function HandleLogout() {
         const backendWork = await APICaller(['auth', 'logout'], '/api/auth/logout', 'GET');
@@ -48,10 +47,9 @@ export default function Sidebar() {
 
             <SheetContent data-testid="sheet-content" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="space-y-2.5 pb-4">
-                    {authObj.isAuthenticated && authObj.user ? (
+                    {isAuthenticated && user ? (
                         <SheetTitle className="text-xl font-semibold">
-                            {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}
-                            {GetEmailSafely(authObj)}
+                            {email}
                         </SheetTitle>
                     ) : (
                         <SheetTitle className="text-xl font-semibold">{translator(SELECTABLE_STRINGS.MENU)}</SheetTitle>
@@ -59,7 +57,7 @@ export default function Sidebar() {
                 </SheetHeader>
 
                 <div className="flex flex-col space-y-4">
-                    {authObj.isAuthenticated ? (
+                    {isAuthenticated ? (
                         <div className="flex flex-col justify-center space-y-4 w-full">
                             <Button asChild variant="outline" className="w-full font-medium">
                                 <Link href="/profile" onClick={() => setOpen(false)}>

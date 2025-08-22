@@ -8,16 +8,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form } from '@/components/ui/form';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import useChemProtPercentForm from '@/hooks/useChemProtPercentForm';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
 import { getChemProtPercentSteps, SpawnStartDriver } from '@/lib/driver-utils';
 import { ChemProtPSBuildInputRow } from '@/components/ChemProtPSBuildInputRow/ChemProtPSBuildInputRow';
 
 
 export default function PercentSolution() {
     const translator = useTranslate();
-    const authObject = useSelector((state: RootState) => state.auth);
-    const { form, onSubmit, calculatedAmount } = useChemProtPercentForm(authObject);
+    const { userId } = useAuth();
+    const { form, onSubmit, calculatedAmount } = useChemProtPercentForm();
 
     return (
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
@@ -84,7 +83,7 @@ export default function PercentSolution() {
                                         </CardContent>
                                     </Card>
 
-                                    {form.formState.isValid && authObject?.user?.id && (
+                                    {form.formState.isValid && userId && (
                                         <div className="flex justify-center mt-6 sm:mt-8">
                                             <Button id="saveCalculationButton" type="submit" size="lg" disabled={!form.formState.isValid} className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white">
                                                 {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
