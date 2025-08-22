@@ -13,11 +13,14 @@ import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 import Link from 'next/link';
 import SettingsGrid from '../SettingsGrid/SettingsGrid';
+import { useRouter } from 'next/navigation';
+import { GetEmailSafely } from '@/lib/utils';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const translator = useTranslate();
     const dispatch = useDispatch();
+    const router = useRouter();
     const authObj = useSelector((state: RootState) => state.auth);
 
     async function HandleLogout() {
@@ -26,6 +29,7 @@ export default function Sidebar() {
         if (backendWork.success) {
             dispatch(AuthLogout());
             toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGOUT_SUCCESS));
+            router.push('/');
             return;
         }
 
@@ -46,7 +50,8 @@ export default function Sidebar() {
                 <SheetHeader className="space-y-2.5 pb-4">
                     {authObj.isAuthenticated && authObj.user ? (
                         <SheetTitle className="text-xl font-semibold">
-                            {translator(SELECTABLE_STRINGS.HEADER_WELCOME)} {authObj.user.email}
+                            {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}
+                            {GetEmailSafely(authObj)}
                         </SheetTitle>
                     ) : (
                         <SheetTitle className="text-xl font-semibold">{translator(SELECTABLE_STRINGS.MENU)}</SheetTitle>
