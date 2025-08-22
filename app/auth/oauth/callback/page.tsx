@@ -4,14 +4,13 @@ import { AuthSuccess } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
 import { toast } from "sonner";
-import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslate } from "@/hooks/useTranslate";
+import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 
 export default function OAuthCallback() {
-    //handle oauth bounce from callback
-    //this is absolutely terrible but just handles client side state
-    //real auth is double checked on the server
+    const translator = useTranslate();
     const dispatch = useDispatch();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -20,16 +19,27 @@ export default function OAuthCallback() {
     useEffect(() => {
         if (updateAuthState) {
             try {
-                const parsedState = JSON.parse(
-                    Buffer.from(updateAuthState, 'base64').toString('utf-8')
-                );
-                if (parsedState.timestamp && (Date.now() - parsedState.timestamp) < 5000) {
+                const base64 = decodeURIComponent(updateAuthState);
+                const json =
+                    typeof window !== "undefined" &&
+                    (window.atob
+                        ? window.atob(base64)
+                        : Buffer.from(base64, "base64").toString("utf-8"));
+
+                const parsedState = JSON.parse(json as string);
+                const age = parsedState?.timestamp
+                    ? Date.now() - parsedState.timestamp
+                    : null;
+
+                const MAX_AGE_MS = 30_000; // 30 seconds
+                if (parsedState.timestamp && age !== null && age < MAX_AGE_MS) {
                     dispatch(AuthSuccess(parsedState));
-                    toast.success(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS);
-                    router.replace('/');
+                    router.replace("/");
+                } else {
+                    toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED));
                 }
-            } catch (e) {
-                // invalid json, ignore
+            } catch {
+                toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED));
             }
         }
     }, [updateAuthState, dispatch, router]);

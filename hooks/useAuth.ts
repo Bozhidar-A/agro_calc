@@ -9,6 +9,7 @@ export function useAuth() {
     const user = isAuthenticated ? authObj.user : null;
     const userId = user?.id ?? "";
     const email = user?.email ?? "";
+    const shouldShowLoginToast = authObj.showLoginToast ?? false;
 
-    return { isAuthenticated, user, userId, email, rawObj: authObj };
+    return { isAuthenticated, user, userId, email, shouldShowLoginToast, rawObj: authObj };
 }

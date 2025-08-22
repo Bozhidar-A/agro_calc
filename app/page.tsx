@@ -7,9 +7,16 @@ import { useTranslate } from "@/hooks/useTranslate"
 import { SELECTABLE_STRINGS } from "@/lib/LangMap"
 import Image from "next/image"
 import CalculatorsCallToAction from "@/components/CalculatorsCallToAction/CalculatorsCallToAction"
+import { useAuth } from "@/hooks/useAuth"
+import { useEffect } from "react"
+import { toast } from "sonner"
+import { useDispatch } from "react-redux"
+import { ClearLoginToast } from "@/store/slices/authSlice"
 
 export default function Home() {
   const translator = useTranslate()
+  const dispatch = useDispatch();
+  const { shouldShowLoginToast } = useAuth();
 
   const benefits = [
     {
@@ -28,6 +35,13 @@ export default function Home() {
       icon: <Award className="h-10 w-10 text-white" />,
     },
   ]
+
+  useEffect(() => {
+    if (shouldShowLoginToast) {
+      toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
+      dispatch(ClearLoginToast());
+    }
+  }, [shouldShowLoginToast]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
