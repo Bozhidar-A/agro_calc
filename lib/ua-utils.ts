@@ -73,24 +73,24 @@ export async function ReverseGeocode(
 }
 
 
-export async function FormatUserAccessInfo(loc: UserGPSLoc | null, ua: UserAgentNext | null): Promise<string> {
+export async function FormatUserAccessInfo(loc: UserGPSLoc | null, ua: UserAgentNext | null, OAuthProvider: string | null): Promise<string> {
     let locationStr = "?";
     if (loc) {
         const location = await ReverseGeocode(loc.lat, loc.lon);
         locationStr = location ? `${location.city || location.town || location.village || "?"}, ${location.country || "?"}` : "?";
     }
     const userAgent = ua ? FormatUserAgent(ua) : "? - ? (?, ?, ?)";
-    return `${locationStr} / ${userAgent}`;
+    return `${locationStr} / ${userAgent} / ${OAuthProvider || "?"}`;
 }
 
-export async function FromRequestFormatUserAccessInfo(request: NextRequest, userAgent: UserAgentNext | null): Promise<string> {
+export async function FromRequestFormatUserAccessInfo(request: NextRequest, userAgent: UserAgentNext | null, OAuthProvider: string | null): Promise<string> {
     const lat = request.headers.get("x-user-lat");
     const lon = request.headers.get("x-user-lon");
 
     const loc: UserGPSLoc | null = lat && lon ? { lat: parseFloat(lat), lon: parseFloat(lon) } : null;
     const ua: UserAgentNext | null = userAgent ? userAgent : null;
 
-    return await FormatUserAccessInfo(loc, ua);
+    return await FormatUserAccessInfo(loc, ua, OAuthProvider);
 }
 
 //since OAuth LOVES to mess with me here are some duct tape solutions

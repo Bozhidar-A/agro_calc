@@ -28,6 +28,21 @@ export async function AttachCredentialsToUser(userId: string, email: string, pas
   });
 }
 
+export async function GetAllRefreshTokensByUserId(userId: string) {
+  return await prisma.refreshToken.findMany({
+    where: { userId },
+    select: {
+      id: true,
+      //dont dox people
+      token: false,
+      userInfo: true,
+      createdAt: true,
+      expiresAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
 export async function FindRefreshToken(token: string) {
   return await prisma.refreshToken.findUnique({ where: { token } });
 }
@@ -39,6 +54,15 @@ export async function DeleteAllRefreshTokensByUserId(userId: string) {
   }
 
   return await prisma.refreshToken.deleteMany({ where: { userId } });
+}
+
+export async function DeleteRefreshTokenById(tokenId: string) {
+  if (!tokenId) {
+    Log(['prisma', 'DeleteRefreshTokenById'], `No tokenId provided`);
+    return;
+  }
+
+  return await prisma.refreshToken.delete({ where: { id: tokenId } });
 }
 
 export async function InsertRefreshTokenByUserId(token: string, userId: string, refreshTokenUserInfo: string) {

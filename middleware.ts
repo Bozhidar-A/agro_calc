@@ -8,6 +8,9 @@ export async function middleware(request: NextRequest) {
     const routeDefinitions = {
         protected: {
             api: [
+                "/api/auth/sessions/fetch",
+                "/api/auth/sessions/endSession",
+                "/api/auth/sessions/endAllSessions",
                 "/api/user/settings",
                 "/api/user/calc-history",
                 "/api/calc/chem-protection/percent-solution/history",

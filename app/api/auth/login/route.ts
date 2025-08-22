@@ -1,6 +1,7 @@
 import { BackendLogin } from "@/lib/auth-utils"
 import { Log } from "@/lib/logger";
 import { FromRequestFormatUserAccessInfo } from "@/lib/ua-utils";
+import { CREDENTIALS_PROVIDER } from "@/lib/utils";
 import { NextRequest, NextResponse, userAgent } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -8,7 +9,7 @@ export async function POST(req: NextRequest) {
         const { email, password } = await req.json();
 
         Log(["auth", "login", "route"], `POST called with: email-${email}; pass-${password}`);
-        const userAccessInfo = await FromRequestFormatUserAccessInfo(req, userAgent(req));
+        const userAccessInfo = await FromRequestFormatUserAccessInfo(req, userAgent(req), CREDENTIALS_PROVIDER);
         const res = await BackendLogin(email, password, userAccessInfo);
         Log(["auth", "login", "route"], `POST returned: ${JSON.stringify(res)}`);
 
