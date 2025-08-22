@@ -79,7 +79,7 @@ describe("DecodeTokenContent", () => {
         mockCookies.get.mockImplementation(() => { throw new Error("fail!"); });
         const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
-        expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], expect.stringContaining("FrontendLogout failed with: fail!"));
+        expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], expect.stringContaining("DecodeTokenContent failed with: fail!"));
     });
 
     it("returns userId from refresh token if access token is invalid", async () => {

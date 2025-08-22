@@ -28,9 +28,19 @@ export async function AttachCredentialsToUser(userId: string, email: string, pas
   });
 }
 
-export async function GetAllRefreshTokensByUserId(userId: string) {
+export async function GetAllRefreshTokensByUserId(userId: string, requesterRefreshToken: string | undefined) {
+  if (!userId) {
+    Log(['prisma', 'GetAllRefreshTokensByUserId'], `No userId provided`);
+    return [];
+  }
+
+  if (!requesterRefreshToken) {
+    Log(['prisma', 'GetAllRefreshTokensByUserId'], `No requesterRefreshToken provided`);
+    return [];
+  }
+
   return await prisma.refreshToken.findMany({
-    where: { userId },
+    where: { userId, NOT: { token: requesterRefreshToken } },
     select: {
       id: true,
       //dont dox people
