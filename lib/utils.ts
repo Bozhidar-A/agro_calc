@@ -2,19 +2,22 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import LangMap from '@/lib/LangMap';
 import { siGithub, siGoogle } from 'simple-icons';
-import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { AuthState, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 
+export const CREDENTIALS_PROVIDER = "Credentials";
 export const SUPPORTED_OAUTH_PROVIDERS: Record<string, SupportedOAuthProvider> = {
   GOOGLE: {
     name: 'Google',
     icon: siGoogle,
-    authURL: '/api/auth/login/google'
+    authURL: '/api/auth/login/google',
+    currLoc: null
   },
   GITHUB: {
     name: 'GitHub',
     icon: siGithub,
-    authURL: '/api/auth/login/github'
+    authURL: '/api/auth/login/github',
+    currLoc: null
   }
 }
 
@@ -164,3 +167,9 @@ export function FormatValue(value: number) {
   }
   return value.toFixed(1);
 };
+
+export function GetEmailSafely(authObj: AuthState) {
+  return authObj.isAuthenticated && authObj.user && authObj.user.email
+    ? authObj.user.email
+    : "";
+}

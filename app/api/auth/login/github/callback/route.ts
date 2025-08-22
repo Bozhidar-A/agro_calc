@@ -9,6 +9,7 @@ import {
 } from "@/prisma/prisma-utils";
 import { HandleOAuthLogin } from '@/lib/auth-utils';
 import { DeleteTempUserLocationCookies, FormatUserAccessInfo, ReadTempUserLocationCookies } from "@/lib/ua-utils";
+import { SUPPORTED_OAUTH_PROVIDERS } from "@/lib/utils";
 
 export async function GET(request: NextRequest): Promise<Response> {
     try {
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         const githubId = githubUser.id.toString();
 
         // Use generic OAuth handler
-        const refreshTokenUserInfo = await FormatUserAccessInfo(location, userAgent(request));
+        const refreshTokenUserInfo = await FormatUserAccessInfo(location, userAgent(request), SUPPORTED_OAUTH_PROVIDERS.GITHUB.name);
         const { user, accessToken, refreshToken } = await HandleOAuthLogin({
             provider: "github",
             providerId: githubId,

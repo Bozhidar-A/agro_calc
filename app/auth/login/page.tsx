@@ -46,6 +46,10 @@ export default function Login() {
         toast.info(translator(SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH));
         dispatch(AuthLogout());
         break;
+      case 'forceLogout':
+        toast.info(translator(SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT));
+        dispatch(AuthLogout());
+        break;
       default:
         break;
     }

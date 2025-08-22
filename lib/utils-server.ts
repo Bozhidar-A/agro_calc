@@ -63,7 +63,8 @@ export async function DecodeTokenContent() {
         }
 
         return {
-            success: true, data: {
+            success: true,
+            data: {
                 accessToken,
                 validAccessToken,
                 decodedAccessToken,
