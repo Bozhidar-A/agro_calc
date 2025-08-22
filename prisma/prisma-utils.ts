@@ -2,7 +2,7 @@ import { HashPassword } from '@/lib/auth-utils';
 import { ChemProtWorkingToSave, CombinedCalcDBData, SowingRateDBData, SowingRateSaveData } from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
 import { prisma } from '@/lib/prisma';
-import { ChemProtPercentHistory } from '@prisma/client';
+import { ChemProtPercentHistory, User } from '@prisma/client';
 
 export async function FindUserByEmail(email: string) {
   return await prisma.user.findUnique({ where: { email } });
@@ -41,11 +41,12 @@ export async function DeleteAllRefreshTokensByUserId(userId: string) {
   return await prisma.refreshToken.deleteMany({ where: { userId } });
 }
 
-export async function InsertRefreshTokenByUserId(token: string, userId: string) {
+export async function InsertRefreshTokenByUserId(token: string, userId: string, refreshTokenUserInfo: string) {
   return await prisma.refreshToken.create({
     data: {
       token,
       userId,
+      userInfo: refreshTokenUserInfo,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     },
   });
@@ -87,7 +88,7 @@ export async function CreateUserGoogle(googleId: string, email: string) {
   });
 }
 
-export async function AttachGoogleIdToUser(userId: string, googleId: string) {
+export async function AttachGoogleIdToUser(userId: string, googleId: string): Promise<User> {
   return await prisma.user.update({
     where: { id: userId },
     data: { googleId },
@@ -112,7 +113,7 @@ export async function CreateUserGitHub(githubId: string, email: string) {
   });
 }
 
-export async function AttachGitHubIdToUser(userId: string, githubId: string) {
+export async function AttachGitHubIdToUser(userId: string, githubId: string): Promise<User> {
   return await prisma.user.update({
     where: { id: userId },
     data: { githubId },

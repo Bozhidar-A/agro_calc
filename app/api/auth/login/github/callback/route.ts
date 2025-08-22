@@ -1,18 +1,16 @@
 import { github } from "@/lib/oauth-utils";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse, userAgent } from "next/server";
 import { Log } from "@/lib/logger";
 import {
     CreateUserGitHub,
     FindUserByGitHubId,
-    DeleteAllRefreshTokensByUserId,
-    InsertRefreshTokenByUserId,
     AttachGitHubIdToUser,
-    FindUserByEmail,
 } from "@/prisma/prisma-utils";
-import { SignJWT } from "jose";
+import { HandleOAuthLogin } from '@/lib/auth-utils';
+import { DeleteTempUserLocationCookies, FormatUserAccessInfo, ReadTempUserLocationCookies } from "@/lib/ua-utils";
 
-export async function GET(request: Request): Promise<Response> {
+export async function GET(request: NextRequest): Promise<Response> {
     try {
         const url = new URL(request.url);
         const code = url.searchParams.get("code");
@@ -20,6 +18,11 @@ export async function GET(request: Request): Promise<Response> {
 
         const cookieStore = await cookies();
         const storedState = cookieStore.get("github_oauth_state")?.value;
+        const location = ReadTempUserLocationCookies(request);
+
+        //clean up tmp cookies
+        cookieStore.delete("github_oauth_state");
+        DeleteTempUserLocationCookies(request);
 
         if (!code || !state || !storedState || state !== storedState) {
             return new Response(null, { status: 400 });
@@ -44,45 +47,19 @@ export async function GET(request: Request): Promise<Response> {
         //get the first verified email or fallback to GitHub username
         const verifiedEmail = githubUserEmails.find((email: any) => email.primary)?.email;
         const githubName = verifiedEmail || githubUser.login;
-
         const githubId = githubUser.id.toString();
 
-        Log(["auth", "login", "github", "callback"], `GitHub ID: ${githubId}`);
-        Log(["auth", "login", "github", "callback"], `GitHub Name: ${githubName}`);
-
-        Log(["auth", "login", "github", "callback"], `Finding user by GitHub ID: ${githubId}`);
-        let user = await FindUserByGitHubId(githubId);
-        if (!user) {
-            Log(["auth", "login", "github", "callback"], `User not found, finding user by email: ${githubName}`);
-            const existingUser = await FindUserByEmail(githubName);
-            if (existingUser) {
-                Log(["auth", "login", "github", "callback"], `User already exists, attaching GitHub ID to user: ${existingUser.id}`);
-                await AttachGitHubIdToUser(existingUser.id, githubId);
-                Log(["auth", "login", "github", "callback"], `Attached GitHub ID to user: ${existingUser.id}`);
-                user = existingUser;
-            } else {
-                Log(["auth", "login", "github", "callback"], `Creating new user: ${githubName}`);
-                user = await CreateUserGitHub(githubId, githubName);
-                Log(["auth", "login", "github", "callback"], `Created new user: ${user.id}`);
-            }
-        }
-
-        Log(["auth", "login", "github", "callback"], `User: ${JSON.stringify(user?.id)}`);
-
-        await DeleteAllRefreshTokensByUserId(user.id);
-
-        const encoder = new TextEncoder();
-        const accessToken = await new SignJWT({ userId: user.id, type: "access" })
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("15m")
-            .sign(encoder.encode(process.env.JWT_SECRET!));
-
-        const refreshToken = await new SignJWT({ userId: user.id, type: "refresh" })
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("7d")
-            .sign(encoder.encode(process.env.JWT_REFRESH_SECRET!));
-
-        await InsertRefreshTokenByUserId(refreshToken, user.id);
+        // Use generic OAuth handler
+        const refreshTokenUserInfo = await FormatUserAccessInfo(location, userAgent(request));
+        const { user, accessToken, refreshToken } = await HandleOAuthLogin({
+            provider: "github",
+            providerId: githubId,
+            email: githubName,
+            findUserByProviderId: FindUserByGitHubId,
+            attachProviderIdToUser: AttachGitHubIdToUser,
+            createUserWithProvider: CreateUserGitHub,
+            refreshTokenUserInfo
+        })
 
         const authState = {
             user: {
