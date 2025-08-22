@@ -17,6 +17,7 @@ export enum SELECTABLE_STRINGS {
   SAVE_CALCULATION = 'SAVE_CALCULATION',
   CALCULATION_VISUALIZATION = 'CALCULATION_VISUALIZATION',
   LOADING = 'LOADING',
+  ACTIVE_SESSIONS = 'ACTIVE_SESSIONS',
   HISTORY_HERE = 'HISTORY_HERE',
   NO_HISTORY = 'NO_HISTORY',
   NO_HISTORY_SOWING_RATE = 'NO_HISTORY_SOWING_RATE',
@@ -81,6 +82,7 @@ export enum SELECTABLE_STRINGS {
   TOAST_PASSWORD_RESET_SUCCESS = 'TOAST_PASSWORD_RESET_SUCCESS',
   TOAST_ERROR_PASSWORD_RESET_FAILED = 'TOAST_ERROR_PASSWORD_RESET_FAILED',
   TOAST_INFO_RESET_PASSWORD_WHILE_AUTH = 'TOAST_INFO_RESET_PASSWORD_WHILE_AUTH',
+  TOAST_INFO_FORCE_LOGOUT = 'TOAST_INFO_FORCE_LOGOUT',
 
   AGRICULTURAL_CALCULATORS = 'AGRICULTURAL_CALCULATORS',
   SELECT_CALCULATOR = 'SELECT_CALCULATOR',
@@ -800,6 +802,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Запази калкулацията',
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Визуализация на калкулацията',
     [SELECTABLE_STRINGS.LOADING]: 'Зареждане...',
+    [SELECTABLE_STRINGS.ACTIVE_SESSIONS]: 'Активни сесии',
     [SELECTABLE_STRINGS.HISTORY_HERE]: 'Ето вашата история на изчисления',
     [SELECTABLE_STRINGS.NO_HISTORY]: 'Нямате история? Сметнете нещо за да се появи тук!',
     [SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE]: 'Не е намерена история за сеитбена норма',
@@ -873,6 +876,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]:
       'Възникна грешка при нулиране на паролата',
     [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: "Паролата ви е нулирана, моля влезте отново.",
+    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: "Всички сесии са прекратени. Моля, влезте отново.",
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
@@ -1593,6 +1597,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Save calculation',
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Calculation visualization',
     [SELECTABLE_STRINGS.LOADING]: 'Loading...',
+    [SELECTABLE_STRINGS.ACTIVE_SESSIONS]: 'Here are your active sessions',
     [SELECTABLE_STRINGS.HISTORY_HERE]: 'Here is your calculation history',
     [SELECTABLE_STRINGS.NO_HISTORY]: 'No history? Calculate something to appear here!',
     [SELECTABLE_STRINGS.NO_HISTORY_SOWING_RATE]: 'No sowing rate history found',
@@ -1668,6 +1673,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Succesfully reset password!',
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]: 'Failed to reset password!',
     [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: 'Your password has been reset, please log in again.',
+    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: 'All sessions have been terminated. Please log in again.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',
