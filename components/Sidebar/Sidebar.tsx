@@ -48,7 +48,7 @@ export default function Sidebar() {
             <SheetContent data-testid="sheet-content" className="w-[300px] sm:w-[400px]">
                 <SheetHeader className="space-y-2.5 pb-4">
                     {isAuthenticated && user ? (
-                        <SheetTitle className="text-xl font-semibold">
+                        <SheetTitle className="text-xl font-semibold" data-testid="user-email">
                             {email}
                         </SheetTitle>
                     ) : (
