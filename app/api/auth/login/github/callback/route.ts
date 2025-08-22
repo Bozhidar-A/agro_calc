@@ -17,6 +17,9 @@ export async function GET(request: NextRequest): Promise<Response> {
         const code = url.searchParams.get("code");
         const state = url.searchParams.get("state");
 
+        //log presence of query params and state comparison for debugging
+        Log(["auth", "login", "github", "callback"], `Callback received - hasCode=${!!code}, hasState=${!!state}`);
+
         const cookieStore = await cookies();
         const storedState = cookieStore.get("github_oauth_state")?.value;
         const location = ReadTempUserLocationCookies(request);
@@ -26,6 +29,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         DeleteTempUserLocationCookies(request);
 
         if (!code || !state || !storedState || state !== storedState) {
+            Log(["auth", "login", "github", "callback"], `Invalid callback: code=${!!code}, state=${!!state}, storedStatePresent=${!!storedState}, stateMatches=${state === storedState}`);
             return new Response(null, { status: 400 });
         }
 
@@ -36,6 +40,7 @@ export async function GET(request: NextRequest): Promise<Response> {
             },
         });
         const githubUser = await githubUserResponse.json();
+        Log(["auth", "login", "github", "callback"], `GitHub user fetched: id=${githubUser?.id}, login=${githubUser?.login}`);
 
         //try to fetch the user's emails
         const githubUserEmailsResponse = await fetch("https://api.github.com/user/emails", {
@@ -44,13 +49,15 @@ export async function GET(request: NextRequest): Promise<Response> {
             },
         });
         const githubUserEmails = await githubUserEmailsResponse.json();
+        Log(["auth", "login", "github", "callback"], `GitHub emails fetched: count=${Array.isArray(githubUserEmails) ? githubUserEmails.length : 0}`);
 
         //get the first verified email or fallback to GitHub username
         const verifiedEmail = githubUserEmails.find((email: any) => email.primary)?.email;
+        Log(["auth", "login", "github", "callback"], `Verified email resolved: ${verifiedEmail}`);
         const githubName = verifiedEmail || githubUser.login;
         const githubId = githubUser.id.toString();
 
-        // Use generic OAuth handler
+        //use generic OAuth handler
         const refreshTokenUserInfo = await FormatUserAccessInfo(location, userAgent(request), SUPPORTED_OAUTH_PROVIDERS.GITHUB.name);
         const { user, accessToken, refreshToken } = await HandleOAuthLogin({
             provider: "github",
@@ -75,7 +82,10 @@ export async function GET(request: NextRequest): Promise<Response> {
         };
         const authStateBase64 = Buffer.from(JSON.stringify(authState)).toString('base64');
 
-        const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOST_URL}/${process.env.OAUTH_CLIENT_HANDLE_PATH_REDIRECT}?updateAuthState=${authStateBase64}`);
+        // URL-encode the base64 payload so it survives as a query param reliably
+        const redirectBase = `${process.env.NEXT_PUBLIC_HOST_URL}/${process.env.OAUTH_CLIENT_HANDLE_PATH_REDIRECT}`;
+        Log(["auth", "login", "github", "callback"], `Preparing redirect to ${redirectBase} with payloadLength=${authStateBase64.length}`);
+        const response = NextResponse.redirect(`${redirectBase}?updateAuthState=${encodeURIComponent(authStateBase64)}`);
 
         // Set cookies
         response.cookies.set("accessToken", accessToken, {

@@ -20,6 +20,7 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   authType: string | null;
+  showLoginToast: boolean;
 }
 
 export interface HandleOAuthLoginArgs {

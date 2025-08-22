@@ -84,6 +84,8 @@ export enum SELECTABLE_STRINGS {
   TOAST_ERROR_PASSWORD_RESET_FAILED = 'TOAST_ERROR_PASSWORD_RESET_FAILED',
   TOAST_INFO_RESET_PASSWORD_WHILE_AUTH = 'TOAST_INFO_RESET_PASSWORD_WHILE_AUTH',
   TOAST_INFO_FORCE_LOGOUT = 'TOAST_INFO_FORCE_LOGOUT',
+  TOAST_ERROR_OAUTH_CALLBACK_EXPIRED = 'TOAST_ERROR_OAUTH_CALLBACK_EXPIRED',
+  TOAST_ERROR_OAUTH_CALLBACK_FAILED = 'TOAST_ERROR_OAUTH_CALLBACK_FAILED',
 
   AGRICULTURAL_CALCULATORS = 'AGRICULTURAL_CALCULATORS',
   SELECT_CALCULATOR = 'SELECT_CALCULATOR',
@@ -879,6 +881,8 @@ export const LangMap: LangMapInterface = {
       'Възникна грешка при нулиране на паролата',
     [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: "Паролата ви е нулирана, моля влезте отново.",
     [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: "Всички сесии са прекратени. Моля, влезте отново.",
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]: "OAuth сесията е изтекла. Моля, влезте отново.",
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]: "Неуспешен опит за OAuth вход. Моля, опитайте отново.",
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
@@ -1677,6 +1681,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]: 'Failed to reset password!',
     [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: 'Your password has been reset, please log in again.',
     [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: 'All sessions have been terminated. Please log in again.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]: 'OAuth session expired. Please log in again.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]: 'Failed to complete OAuth login. Please try again.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',

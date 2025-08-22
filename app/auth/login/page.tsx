@@ -78,7 +78,7 @@ export default function Login() {
     }
 
     dispatch(AuthSuccess({ user: backendWork.user, authType: 'credentials' }));
-    toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
+    // toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
     router.push('/');
   }
 
