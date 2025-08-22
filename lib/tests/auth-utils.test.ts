@@ -46,7 +46,7 @@ jest.mock('next/headers', () => {
     };
 });
 
-import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest } from '@/lib/auth-utils';
+import { BackendLogin, BackendRegister, BackendLogout, BackendPasswordResetRequest, HandleOAuthLogin } from '@/lib/auth-utils';
 import { DecodeTokenContent } from '@/lib/utils-server'
 import { hash, compare } from 'bcryptjs';
 import * as prismaUtils from '@/prisma/prisma-utils';
@@ -94,6 +94,7 @@ describe('Auth Utils', () => {
     });
 
     describe('BackendLogin', () => {
+
         it('should login a new user successfully', async () => {
             const mockUser = {
                 id: '123',
@@ -105,7 +106,7 @@ describe('Auth Utils', () => {
             (prismaUtils.DeleteAllRefreshTokensByUserId as jest.Mock).mockResolvedValue({ count: 1 });
             (prismaUtils.InsertRefreshTokenByUserId as jest.Mock).mockResolvedValue({ id: 'token-123' });
 
-            const result = await BackendLogin('test@test.com', 'Test123!');
+            const result = await BackendLogin('test@test.com', 'Test123!', 'test-ua');
 
             expect(result.success).toBe(true);
             expect(result.user).toEqual({
@@ -119,7 +120,7 @@ describe('Auth Utils', () => {
 
         it('should reject invalid credentials', async () => {
             (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(null);
-            const result = await BackendLogin('test@test.com', 'wrong-password');
+            const result = await BackendLogin('test@test.com', 'wrong-password', 'test-ua');
             expect(result.success).toBe(false);
             expect(result.message).toBe('Invalid email or password');
         });
@@ -132,7 +133,7 @@ describe('Auth Utils', () => {
             };
             (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(mockUser);
             (compare as jest.Mock).mockResolvedValue(false);
-            const result = await BackendLogin('test@test.com', 'wrong-password');
+            const result = await BackendLogin('test@test.com', 'wrong-password', 'test-ua');
             expect(result.success).toBe(false);
             expect(result.message).toBe('Invalid email or password');
         });
@@ -203,6 +204,97 @@ describe('Auth Utils', () => {
             const result = await BackendPasswordResetRequest('nonexistent@test.com');
             expect(result.success).toBe(false);
             expect(result.message).toBe('User not found');
+        });
+        describe('HandleOAuthLogin', () => {
+            const provider = 'github';
+            const providerId = 'gh-123';
+            const email = 'test@test.com';
+            const refreshTokenUserInfo = 'ua-info';
+            const userObj = { id: 'u1', email };
+
+            let findUserByProviderId: jest.Mock;
+            let attachProviderIdToUser: jest.Mock;
+            let createUserWithProvider: jest.Mock;
+
+            beforeEach(() => {
+                findUserByProviderId = jest.fn();
+                attachProviderIdToUser = jest.fn();
+                createUserWithProvider = jest.fn();
+                (prismaUtils.FindUserByEmail as jest.Mock).mockReset();
+                (prismaUtils.InsertRefreshTokenByUserId as jest.Mock).mockResolvedValue({});
+            });
+
+            it('creates new user if not found by providerId or email', async () => {
+                findUserByProviderId.mockResolvedValue(null);
+                (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(null);
+                createUserWithProvider.mockResolvedValue(userObj);
+
+                const result = await HandleOAuthLogin({
+                    provider,
+                    providerId,
+                    email,
+                    findUserByProviderId,
+                    attachProviderIdToUser,
+                    createUserWithProvider,
+                    refreshTokenUserInfo
+                });
+                expect(createUserWithProvider).toHaveBeenCalledWith(providerId, email);
+                expect(result.user).toEqual(userObj);
+                expect(result.accessToken).toBeDefined();
+                expect(result.refreshToken).toBeDefined();
+            });
+
+            it('attaches providerId to existing user found by email', async () => {
+                findUserByProviderId.mockResolvedValue(null);
+                (prismaUtils.FindUserByEmail as jest.Mock).mockResolvedValue(userObj);
+                attachProviderIdToUser.mockResolvedValue(undefined);
+
+                const result = await HandleOAuthLogin({
+                    provider,
+                    providerId,
+                    email,
+                    findUserByProviderId,
+                    attachProviderIdToUser,
+                    createUserWithProvider,
+                    refreshTokenUserInfo
+                });
+                expect(attachProviderIdToUser).toHaveBeenCalledWith(userObj.id, providerId);
+                expect(result.user).toEqual(userObj);
+            });
+
+            it('returns user found by providerId', async () => {
+                findUserByProviderId.mockResolvedValue(userObj);
+
+                const result = await HandleOAuthLogin({
+                    provider,
+                    providerId,
+                    email,
+                    findUserByProviderId,
+                    attachProviderIdToUser,
+                    createUserWithProvider,
+                    refreshTokenUserInfo
+                });
+                expect(result.user).toEqual(userObj);
+                expect(createUserWithProvider).not.toHaveBeenCalled();
+                expect(attachProviderIdToUser).not.toHaveBeenCalled();
+            });
+
+            it('returns tokens and user info', async () => {
+                findUserByProviderId.mockResolvedValue(userObj);
+
+                const result = await HandleOAuthLogin({
+                    provider,
+                    providerId,
+                    email,
+                    findUserByProviderId,
+                    attachProviderIdToUser,
+                    createUserWithProvider,
+                    refreshTokenUserInfo
+                });
+                expect(typeof result.accessToken).toBe('string');
+                expect(typeof result.refreshToken).toBe('string');
+                expect(result.user).toEqual(userObj);
+            });
         });
     });
 }); 
