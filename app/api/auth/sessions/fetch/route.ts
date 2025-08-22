@@ -13,7 +13,7 @@ export async function GET() {
             Log(["auth", "sessions", "fetch"], `GET failed: decodedData or userId is null`);
             return NextResponse.json({ success: false, message: "Invalid token data" });
         }
-        const res = await GetAllRefreshTokensByUserId(decodedData.data.userId);
+        const res = await GetAllRefreshTokensByUserId(decodedData.data.userId, decodedData.data.refreshToken);
         Log(["auth", "sessions", "fetch"], `GET returned: ${JSON.stringify(res)}`);
 
         return NextResponse.json({ success: true, data: res });
