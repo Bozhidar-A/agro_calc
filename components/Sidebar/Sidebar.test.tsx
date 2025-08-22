@@ -6,6 +6,11 @@ import { APICaller } from '@/lib/api-util';
 import { toast } from 'sonner';
 import Sidebar from './Sidebar';
 
+jest.mock('@/hooks/useAuth', () => ({
+    useAuth: jest.fn(),
+}));
+import { useAuth } from '@/hooks/useAuth';
+
 
 describe('Sidebar', () => {
     const preloadedState = {
@@ -26,6 +31,13 @@ describe('Sidebar', () => {
 
     describe('Unauthenticated State', () => {
         it('shows login and register buttons when not authenticated', async () => {
+            (useAuth as jest.Mock).mockReturnValue({
+                isAuthenticated: false,
+                user: null,
+                loading: false,
+                error: null,
+                authType: null,
+            });
             renderWithRedux(() => <Sidebar />, { preloadedState });
 
             // Open sidebar
@@ -33,8 +45,8 @@ describe('Sidebar', () => {
             fireEvent.click(menuButton);
 
             // Check for login/register buttons
-            expect(screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.LOGIN))).toBeInTheDocument();
-            expect(screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.REGISTER))).toBeInTheDocument();
+            expect(screen.getByText('Вход')).toBeInTheDocument();
+            expect(screen.getByText('Регистрация')).toBeInTheDocument();
         });
 
         it('shows all calculator navigation links', async () => {
@@ -64,6 +76,13 @@ describe('Sidebar', () => {
         };
 
         it('shows profile and logout buttons when authenticated', async () => {
+            (useAuth as jest.Mock).mockReturnValue({
+                isAuthenticated: true,
+                user: { id: '123', email: 'test@test.com' },
+                loading: false,
+                error: null,
+                authType: 'local',
+            });
             renderWithRedux(() => <Sidebar />, { preloadedState: authenticatedState });
 
             // Open sidebar
@@ -76,6 +95,14 @@ describe('Sidebar', () => {
         });
 
         it('shows welcome message with user email', async () => {
+            (useAuth as jest.Mock).mockReturnValue({
+                isAuthenticated: true,
+                user: { id: '123', email: 'test@test.com' },
+                email: 'test@test.com',
+                loading: false,
+                error: null,
+                authType: 'local',
+            });
             renderWithRedux(() => <Sidebar />, { preloadedState: authenticatedState });
 
             // Open sidebar
@@ -83,7 +110,7 @@ describe('Sidebar', () => {
             fireEvent.click(menuButton);
 
             // Check for welcome message
-            expect(screen.getByText(new RegExp(authenticatedState.auth.user.email))).toBeInTheDocument();
+            expect(screen.getByTestId('user-email')).toHaveTextContent('test@test.com');
         });
 
         it('handles logout successfully', async () => {
