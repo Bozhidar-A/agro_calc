@@ -3,7 +3,7 @@
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
 import { Leaf } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import useSeedingCombinedForm from '@/hooks/useSeedingCombinedForm';
 import { useTranslate } from '@/hooks/useTranslate';
@@ -19,7 +19,6 @@ import {
   CalculateParticipation,
   FormatCombinedFormSavedToGraphDisplay,
 } from '@/lib/seedingCombined-utils';
-import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
 import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
 import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
@@ -28,7 +27,7 @@ import Errored from "@/components/Errored/Errored";
 import { PlantCombinedDBData } from "@/lib/interfaces";
 
 export default function Combined() {
-  const authObj = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useAuth();
   const [dbData, setDbData] = useState<PlantCombinedDBData[]>([]);
   const [errored, setErrored] = useState(false);
   const translator = useTranslate();
@@ -62,7 +61,7 @@ export default function Combined() {
     fetchData();
   }, []);
 
-  const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
+  const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(dbData);
 
   if (errored) {
     return <Errored />
@@ -160,7 +159,7 @@ export default function Combined() {
                 </CardContent>
               </Card>
 
-              {authObj.isAuthenticated && (
+              {isAuthenticated && (
                 <div className="flex justify-center w-full">
                   <Button
                     id="saveMixtureCalculation"

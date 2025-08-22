@@ -1,5 +1,7 @@
 'use client';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 import "driver.js/dist/driver.css";
 import { Beaker, History } from 'lucide-react';
 import useChemProtWorkingForm from '@/hooks/useChemProtWorkingForm';
@@ -9,8 +11,7 @@ import { Form, FormField } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ChemWorkingSolutionCharts from '@/components/ChemWorkingSolutionCharts/ChemWorkingSolutionCharts';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import { useAuth } from '@/hooks/useAuth';
 import { ChemProtWorkingSolutionDisplayOutputRow } from '@/components/ChemProtWorkingSolutionDisplayOutputRow/ChemProtWorkingSolutionDisplayOutputRow';
 import { ChemProtWorkingSolutionBuildInputRow } from '@/components/ChemProtWorkingSolutionBuildInputRow/ChemProtWorkingSolutionBuildInputRow';
 import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
@@ -22,10 +23,10 @@ import { useEffect, useState } from "react";
 import { WikiPlant } from "@/lib/interfaces";
 
 export default function ChemicalProtectionWorkingSolution() {
+    const { userId } = useAuth();
     const { form, onSubmit, dataToBeSaved, CountWarnings, plantsChems, loading, lastUsedPlantId } = useChemProtWorkingForm();
     const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
     const translator = useTranslate();
-    const authObject = useSelector((state: RootState) => state.auth);
     const [lastUsedPlant, setLastUsedPlant] = useState<WikiPlant | null>(null);
 
     useEffect(() => {
@@ -256,7 +257,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                         </CardContent>
                                     </Card>
 
-                                    {form.formState.isValid && authObject?.user?.id && (
+                                    {form.formState.isValid && userId && (
                                         <div>
                                             <div className="flex justify-center mt-6 sm:mt-8">
                                                 <Button

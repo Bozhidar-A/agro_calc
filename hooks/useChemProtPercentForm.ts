@@ -8,12 +8,15 @@ import { APICaller } from "@/lib/api-util";
 import { toast } from "sonner";
 import { Log } from "@/lib/logger";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
-import { ChemProtPercentFormValues, AuthState } from "@/lib/interfaces";
+import { ChemProtPercentFormValues } from "@/lib/interfaces";
 import { useTranslate } from "@/hooks/useTranslate";
 import { CalculateChemProtPercentSolution } from "@/lib/math-util";
 
-export default function useChemProtPercentForm(authObject: AuthState) {
+import { useAuth } from "@/hooks/useAuth";
+
+export default function useChemProtPercentForm() {
     const translator = useTranslate();
+    const { userId } = useAuth();
     const [calculatedAmount, setCalculatedAmount] = useState<number | null>(null);
 
     const formSchema = z.object({
@@ -63,7 +66,7 @@ export default function useChemProtPercentForm(authObject: AuthState) {
                 'POST',
                 {
                     ...data,
-                    userId: authObject?.user?.id,
+                    userId: userId,
                     calculatedAmount,
                 }
             );

@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { ChemProtWorkingInputPlantChem, ChemProtWorkingToSave, SowingRateHistory } from "@/lib/interfaces";
 import { CalculateChemProtRoughSprayerCount, CalculateChemProtTotalChemicalLiters, CalculateChemProtTotalWorkingSolutionLiters, CalculateChemProtWorkingSolutionPerSprayerML, AcresToHectares, HectaresToAcres } from "@/lib/math-util";
+import { useAuth } from "@/hooks/useAuth";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { APICaller } from "@/lib/api-util";
 import { toast } from "sonner";
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
@@ -27,13 +27,13 @@ const formSchema = z.object({
 
 export default function useChemProtWorkingForm() {
     const translator = useTranslate();
-    const authObject = useSelector((state: RootState) => state.auth);
-    const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
+    const { userId } = useAuth();
+    const unitOfMeasurement = useSelector((state: any) => state.local.unitOfMeasurementLength);
     const [loading, setLoading] = useState(true);
     const [plantsChems, setPlantsChems] = useState<ChemProtWorkingInputPlantChem[]>([]);
     const [lastUsedPlantId, setLastUsedPlantId] = useState<string | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<ChemProtWorkingToSave>({
-        userId: authObject?.user?.id ?? '',
+        userId,
         plantId: "",
         chemicalId: "",
         totalChemicalForAreaLiters: 0,
@@ -115,10 +115,10 @@ export default function useChemProtWorkingForm() {
             }
         };
 
-        if (authObject?.user?.id) {
+        if (userId) {
             fetchSowingHistory();
         }
-    }, [authObject?.user?.id]);
+    }, [userId]);
 
     //watch for plant selection changes
     useEffect(() => {
@@ -197,7 +197,7 @@ export default function useChemProtWorkingForm() {
             }
 
             setDataToBeSaved({
-                userId: authObject?.user?.id,
+                userId,
                 plantId: form.getValues('selectedPlantId') || "",
                 chemicalId: form.getValues('selectedChemicalId') || "",
                 totalChemicalForAreaLiters: totalChemicalLiters,
@@ -270,7 +270,7 @@ export default function useChemProtWorkingForm() {
             }
 
             setDataToBeSaved({
-                userId: authObject?.user?.id,
+                userId,
                 plantId: form.getValues('selectedPlantId') || "",
                 chemicalId: form.getValues('selectedChemicalId') || "",
                 totalChemicalForAreaLiters: totalChemicalLiters,
@@ -301,7 +301,7 @@ export default function useChemProtWorkingForm() {
 
         const values = form.getValues();
         const dataToBeSaved = {
-            userId: authObject?.user?.id,
+            userId,
             plantId: values.selectedPlantId || null,
             chemicalId: values.selectedChemicalId || null,
             totalChemicalForAreaLiters: (values.chemicalPerAcreML * values.areaToBeSprayedAcres) / 1000,

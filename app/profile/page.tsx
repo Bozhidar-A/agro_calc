@@ -2,17 +2,29 @@
 
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/hooks/useTranslate";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import HistoryDisplay from "@/components/HistoryDisplay/HistoryDisplay";
 import { User, History, LogIn } from "lucide-react";
 import SettingsGrid from "@/components/SettingsGrid/SettingsGrid";
 import LoggedInInstances from "@/components/LoggedInInstances/LoggedInInstances";
-import { GetEmailSafely } from "@/lib/utils";
 
 export default function Profile() {
     const translator = useTranslate();
-    const authObj = useSelector((state: RootState) => state.auth);
+    const { userId, email, isAuthenticated } = useAuth();
+    const router = useRouter();
+
+    //scuffed to stop requests firing even after becoming unauth
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated, router]);
+
+    if (!isAuthenticated) {
+        return null;
+    }
 
     return (
         <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
@@ -25,7 +37,7 @@ export default function Profile() {
                     </h1>
                     <p className="text-base sm:text-lg text-gray-600">
                         {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}
-                        {GetEmailSafely(authObj)}
+                        {email}
                     </p>
                 </div>
 
@@ -46,7 +58,7 @@ export default function Profile() {
                         {translator(SELECTABLE_STRINGS.ACTIVE_SESSIONS)}
                     </h2>
                     <div className="border-t border-gray-200 pt-3 sm:pt-4">
-                        <LoggedInInstances userId={authObj.user.id} />
+                        <LoggedInInstances userId={userId} />
                     </div>
                 </div>
 

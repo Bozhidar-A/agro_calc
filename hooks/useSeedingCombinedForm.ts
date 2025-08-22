@@ -8,10 +8,12 @@ import { APICaller } from "@/lib/api-util";
 import { RoundToSecondStr } from "@/lib/math-util";
 import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { ActivePlantsFormData, AuthState, CombinedCalcDBData, CombinedFormValues, PlantCombinedDBData } from "@/lib/interfaces";
+import { ActivePlantsFormData, CombinedCalcDBData, CombinedFormValues, PlantCombinedDBData } from "@/lib/interfaces";
+import { useAuth } from "@/hooks/useAuth";
 import { useWarnings } from "@/hooks/useWarnings";
 
-export default function useSeedingCombinedForm(authObj: AuthState, dbData: PlantCombinedDBData[]) {
+export default function useSeedingCombinedForm(dbData: PlantCombinedDBData[]) {
+    const { isAuthenticated, userId } = useAuth();
     const translator = useTranslate();
     //final data to save to db
     const [finalData, setFinalData] = useState<CombinedCalcDBData | null>(null);
@@ -48,7 +50,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
             plants,
             totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
                 data.cereal.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
-            userId: authObj?.user?.id || "",
+            userId: userId,
             isDataValid: (form.formState.isValid && CountWarnings() === 0),
         };
 
@@ -174,9 +176,7 @@ export default function useSeedingCombinedForm(authObj: AuthState, dbData: Plant
     }, [form, dbData]);
 
     async function onSubmit() {
-        const isAuthed = authObj?.isAuthenticated || false;
-
-        if (!isAuthed) {
+        if (!isAuthenticated) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }

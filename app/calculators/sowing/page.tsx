@@ -3,7 +3,7 @@
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
 import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import useSowingRateForm from '@/hooks/useSowingRateForm';
 import { useTranslate } from '@/hooks/useTranslate';
@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/select';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { RootState } from '@/store/store';
 import SowingOutput from '@/components/SowingOutput/SowingOutput';
 import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
@@ -43,7 +42,6 @@ export function DisplayOutputRow({ data, text, unit }: DisplayOutputRowProps) {
 }
 
 export default function SowingRate() {
-  const authObj = useSelector((state: RootState) => state.auth);
   const translator = useTranslate();
   const [dbData, setDbData] = useState<SowingRateDBData[]>([]);
   const [errored, setErrored] = useState(false);
@@ -79,7 +77,6 @@ export default function SowingRate() {
   }, []);
 
   const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(
-    authObj,
     dbData
   );
 

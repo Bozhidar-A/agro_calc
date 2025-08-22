@@ -9,11 +9,13 @@ import { IsValueOutOfBounds } from "@/lib/sowing-utils";
 import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { CalculatorValueTypes } from "@/lib/utils";
-import { SowingRateSaveData, AuthState, SowingRateDBData } from "@/lib/interfaces";
+import { SowingRateSaveData, SowingRateDBData } from "@/lib/interfaces";
+import { useAuth } from "@/hooks/useAuth";
 import { useWarnings } from "@/hooks/useWarnings";
 import { Log } from "@/lib/logger";
 
-export default function useSowingRateForm(authObj: AuthState, dbData: SowingRateDBData[]) {
+export default function useSowingRateForm(dbData: SowingRateDBData[]) {
+    const { isAuthenticated, userId } = useAuth();
     const translator = useTranslate();
     const [activePlantDbData, setActivePlantDbData] = useState<SowingRateDBData | null>(null);
     const [dataToBeSaved, setDataToBeSaved] = useState<SowingRateSaveData>({
@@ -85,7 +87,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
         const internalRowHeightCm = MetersToCm((1000 / CmToMeters(formValues.rowSpacing))) / sowingRatePlantsPerAcre;
 
         return {
-            userId: authObj?.user?.id || '',
+            userId,
             plantId: activePlantDbData.plant.plantId,
             plantLatinName: activePlantDbData.plant.plantLatinName,
             sowingRateSafeSeedsPerMeterSquared: ToFixedNumber(wantedPlantsPerMeterSquared, 0),
@@ -95,7 +97,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             totalArea: formValues.totalArea,
             isDataValid: formState.isValid && CountWarnings() === 0
         };
-    }, [activePlantDbData, authObj, form.getValues, form.formState, CountWarnings]);
+    }, [activePlantDbData, form.getValues, form.formState, CountWarnings]);
 
     //calculate data whenever form values or active plant changes
     useEffect(() => {
@@ -200,7 +202,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
     }, [form, dbData, AddWarning, RemoveWarning]);
 
     async function onSubmit(_data: any) {
-        if (!authObj.isAuthenticated) {
+        if (!isAuthenticated) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN));
             return;
         }
@@ -224,7 +226,7 @@ export default function useSowingRateForm(authObj: AuthState, dbData: SowingRate
             toast.success(translator(SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS));
         } catch (error) {
             toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR));
-            Log(['frontend', 'hooks', 'useSowingRateForm', 'onSubmit'], error.message);
+            Log(['frontend', 'hooks', 'useSowingRateForm', 'onSubmit'], (error as Error)?.message ?? String(error));
         }
     }
 
