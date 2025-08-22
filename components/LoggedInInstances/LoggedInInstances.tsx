@@ -69,6 +69,7 @@ export default function LoggedInInstances({ userId }: { userId: string }) {
             return;
         }
 
+        console.log("I AM A PIECE OF SHIT")
         router.push('/auth/login?updateAuthState=forceLogout');
     }
 
@@ -81,10 +82,10 @@ export default function LoggedInInstances({ userId }: { userId: string }) {
     }
 
     return (
-        <div className="max-w-3xl mx-auto p-4">
-            <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-lg p-6 border border-zinc-200 dark:border-zinc-800">
-                <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-                    <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{translator(SELECTABLE_STRINGS.ACTIVE_SESSIONS)}</h2>
+        <div className="container mx-auto p-2 sm:p-4 flex flex-col items-center">
+            <div className="w-full max-w-4xl">
+                <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row gap-2 sm:gap-4 items-center justify-between">
+                    <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100">{translator(SELECTABLE_STRINGS.ACTIVE_OTHER_SESSIONS)}</h2>
                     <Link
                         href="/auth/password/request"
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-500 transition-colors text-sm shadow-sm"
@@ -93,32 +94,33 @@ export default function LoggedInInstances({ userId }: { userId: string }) {
                         {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
                     </Link>
                 </div>
-                <Button onClick={HandleKillAllSessions} className="mb-4 w-full sm:w-auto" variant="outline">Logout All</Button>
-                <div className="overflow-x-auto">
-                    <table className="min-w-full border border-zinc-200 dark:border-zinc-800 rounded-lg">
-                        <thead className="bg-zinc-100 dark:bg-zinc-800">
-                            <tr>
-                                <th className="px-4 py-2 text-left text-sm font-semibold text-zinc-700 dark:text-zinc-200">User Info</th>
-                                <th className="px-4 py-2 text-left text-sm font-semibold text-zinc-700 dark:text-zinc-200">Created</th>
-                                <th className="px-4 py-2 text-left text-sm font-semibold text-zinc-700 dark:text-zinc-200">Expires</th>
-                                <th className="px-4 py-2 text-left text-sm font-semibold text-zinc-700 dark:text-zinc-200">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tokens.map((token) => (
-                                <tr key={token.id} className="border-t border-zinc-200 dark:border-zinc-800">
-                                    <td className="px-4 py-2 whitespace-pre-wrap text-xs text-zinc-800 dark:text-zinc-100 max-w-xs break-words">
-                                        <pre className="whitespace-pre-wrap break-words">{token.userInfo}</pre>
-                                    </td>
-                                    <td className="px-4 py-2 text-xs text-zinc-700 dark:text-zinc-300">{new Date(token.createdAt).toLocaleString()}</td>
-                                    <td className="px-4 py-2 text-xs text-zinc-700 dark:text-zinc-300">{new Date(token.expiresAt).toLocaleString()}</td>
-                                    <td className="px-4 py-2">
+                <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
+                    <Button onClick={HandleKillAllSessions} className="w-full sm:w-auto" variant="outline">Logout All</Button>
+                </div>
+                <div className="grid gap-3 sm:gap-4">
+                    {tokens.length > 0 ? tokens.map((token) => (
+                        <div key={token.id} className="bg-card rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800">
+                            <div className="p-3 sm:p-6 flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                                <span className="text-base sm:text-lg font-semibold text-zinc-800 dark:text-zinc-100">{translator(SELECTABLE_STRINGS.ACTIVE_OTHER_SESSIONS)}</span>
+                                <span className="text-xs sm:text-sm text-gray-500">{new Date(token.createdAt).toLocaleString()}</span>
+                            </div>
+                            <div className="p-3 sm:p-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                    <div>
+                                        <p className="text-xs sm:text-sm font-medium">User Info</p>
+                                        <pre className="whitespace-pre-wrap break-words text-xs text-zinc-800 dark:text-zinc-100 max-w-xs">{token.userInfo}</pre>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs sm:text-sm font-medium">Expires</p>
+                                        <p className="text-base sm:text-lg">{new Date(token.expiresAt).toLocaleString()}</p>
+                                    </div>
+                                    <div className="col-span-1 sm:col-span-2 flex justify-end mt-2">
                                         <Button onClick={() => HandleKillSession(token.id)} variant="destructive" size="sm">Logout</Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )) : <div className="text-center text-gray-500 text-sm sm:text-base">{translator(SELECTABLE_STRINGS.NO_OTHER_SESSIONS)}</div>}
                 </div>
             </div>
         </div>
