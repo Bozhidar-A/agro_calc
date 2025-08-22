@@ -101,7 +101,8 @@ jest.mock('sonner', () => ({
 
 // Mock API calls
 jest.mock('@/lib/api-util', () => ({
-  APICaller: jest.fn()
+  APICaller: jest.fn(),
+  TryGetUserLocation: jest.fn().mockResolvedValue(null)
 }));
 
 // Mock next/link
@@ -134,4 +135,17 @@ jest.mock('@/hooks/useWarnings', () => ({
 jest.mock('@/lib/utils', () => ({
   ...jest.requireActual('@/lib/utils'),
   GetStrFromLangMapKey: mockGetStrFromLangMapKey
+}));
+
+//mock router
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() })
+}));
+
+//mock useAuth hook
+jest.mock('@/hooks/useAuth', () => ({
+  useAuth: () => ({
+    isAuthenticated: true,
+    userId: 'test-user-id'
+  })
 }));
