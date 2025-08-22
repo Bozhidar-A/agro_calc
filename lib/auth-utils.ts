@@ -14,12 +14,13 @@ import {
   FindUserByEmail,
   InsertRefreshTokenByUserId,
 } from '@/prisma/prisma-utils';
-import { Log } from './logger';
+import { Log } from '@/lib/logger';
 import { User } from '@prisma/client';
-import { prisma } from './prisma';
+import { prisma } from '@/lib/prisma';
 import { DecodeTokenContent } from '@/lib/utils-server';
+import { HandleOAuthLoginArgs, HandleOAuthLoginResult } from '@/lib/interfaces';
 
-export async function BackendVerifyToken(secret: string, token: string, type: string) {
+export async function BackendVerifyToken(secret: string, token: string | undefined, type: string) {
   try {
     if (!token) {
       return [false, null];
@@ -130,7 +131,7 @@ export async function BackendRegister(email: string, password: string) {
   }
 }
 
-export async function BackendLogin(email: string, password: string) {
+export async function BackendLogin(email: string, password: string, refreshTokenUserInfo: string) {
   try {
     const cookieStore = await cookies();
 
@@ -164,7 +165,7 @@ export async function BackendLogin(email: string, password: string) {
     Log(['auth', 'login'], `refreshToken: ${refreshToken} for user ${user.id}`);
 
     //insert new refresh token
-    const insertedToken = await InsertRefreshTokenByUserId(refreshToken, user.id);
+    const insertedToken = await InsertRefreshTokenByUserId(refreshToken, user.id, refreshTokenUserInfo);
 
     Log(['auth', 'login'], `Inserted new refresh token ${insertedToken.id} for user ${user.id}`);
 
@@ -223,6 +224,63 @@ export async function BackendLogin(email: string, password: string) {
   }
 }
 
+//generic OAuth login handler
+export async function HandleOAuthLogin({
+  provider,
+  providerId,
+  email,
+  findUserByProviderId,
+  attachProviderIdToUser,
+  createUserWithProvider,
+  refreshTokenUserInfo
+}: HandleOAuthLoginArgs): Promise<HandleOAuthLoginResult> {
+  Log(["auth", "oauth", provider, "login"], `Starting OAuth login for provider: ${provider}, providerId: ${providerId}, email: ${email}`);
+  let user = await findUserByProviderId(providerId);
+  if (!user) {
+    Log(["auth", "oauth", provider, "login"], `No user found by providerId. Looking up by email: ${email}`);
+    const existingUser = await FindUserByEmail(email);
+    if (existingUser) {
+      Log(["auth", "oauth", provider, "login"], `Existing user found by email. Attaching providerId to user: ${existingUser.id}`);
+      await attachProviderIdToUser(existingUser.id, providerId);
+      user = existingUser;
+    } else {
+      Log(["auth", "oauth", provider, "login"], `No user found by email. Creating new user with providerId: ${providerId}`);
+      user = await createUserWithProvider(providerId, email);
+      Log(["auth", "oauth", provider, "login"], `Created new user: ${user.id}`);
+    }
+  } else {
+    Log(["auth", "oauth", provider, "login"], `User found by providerId: ${user.id}`);
+  }
+
+  // Generate tokens
+  const encoder = new TextEncoder();
+  const accessToken = await new SignJWT({ userId: user.id, type: "access" })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("15m")
+    .sign(encoder.encode(process.env.JWT_SECRET!));
+
+  Log(["auth", "oauth", provider, "login"], `Generated access token for user: ${user.id}`);
+
+  const refreshToken = await new SignJWT({ userId: user.id, type: "refresh" })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("7d")
+    .sign(encoder.encode(process.env.JWT_REFRESH_SECRET!));
+
+  Log(["auth", "oauth", provider, "login"], `Generated refresh token for user: ${user.id}`);
+
+  await InsertRefreshTokenByUserId(refreshToken, user.id, refreshTokenUserInfo);
+  Log(["auth", "oauth", provider, "login"], `Inserted refresh token for user: ${user.id}`);
+
+  return {
+    user: {
+      id: user.id,
+      email: user.email,
+    },
+    accessToken,
+    refreshToken,
+  };
+}
+
 //no matter what, we should be able to logout
 export async function BackendLogout() {
   try {
@@ -232,6 +290,7 @@ export async function BackendLogout() {
     //nuke cookies
     cookieStore.delete('accessToken');
     cookieStore.delete('refreshToken');
+    cookieStore.delete('userId');
 
     if (!decodedData.success) {
       Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');

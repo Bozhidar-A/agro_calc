@@ -17,7 +17,7 @@ model User {
   githubId                       String?                          @unique
   ChemProtPercentHistory         ChemProtPercentHistory[]
   ChemProtWorkingSolutionHistory ChemProtWorkingSolutionHistory[]
-  RefreshToken                   RefreshToken?
+  RefreshToken                   RefreshToken[]
   SeedingDataCombinationHistory  SeedingDataCombinationHistory[]
   SowingRateHistory              SowingRateHistory[]
   UserSettings                   UserSettings[]
@@ -38,7 +38,8 @@ model UserSettings {
 model RefreshToken {
   id        String   @id @default(cuid())
   token     String   @unique
-  userId    String   @unique
+  userId    String
+  userInfo  String
   expiresAt DateTime
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])

@@ -21,6 +21,8 @@ export async function middleware(request: NextRequest) {
             afterAuthAPI: [
                 "/api/auth/login",
                 "/api/auth/register",
+                "/api/auth/login/google",
+                "/api/auth/login/github",
             ],
             afterAuthPages: [
                 "/auth/login",
@@ -54,9 +56,23 @@ export async function middleware(request: NextRequest) {
 
     //check if user is trying to access protected route
     if (isProtectedRoute) {
-        Log(["middleware"], `Trying to access rotected route: ${pathname}`);
+        Log(["middleware"], `Trying to access protected route: ${pathname}`);
 
-        //no token?
+        //to stop tokens from being used after they have been invalidated
+        //check if the passed refresh token exists in the db
+        //if it doesnt force logout
+        const [validRefreshToken] = await BackendVerifyToken(
+            process.env.JWT_REFRESH_SECRET || '',
+            refreshToken,
+            'refresh'
+        );
+
+        if (!validRefreshToken) {
+            Log(["middleware"], `Invalid refresh token found, forcing logout`);
+            await BackendLogout();
+        }
+
+        //no access token?
         if (!accessToken) {
             Log(["middleware"], `No access token found, checking type of route`);
             //straight to jail

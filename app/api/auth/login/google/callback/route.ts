@@ -1,13 +1,13 @@
 import { google } from "@/lib/oauth-utils";
 import { cookies } from "next/headers";
 import { decodeIdToken } from "arctic";
-import { AttachGoogleIdToUser, CreateUserGoogle, DeleteAllRefreshTokensByUserId, FindUserByEmail, FindUserByGoogleId, InsertRefreshTokenByUserId } from "@/prisma/prisma-utils";
-import { NextResponse } from "next/server";
-import { SignJWT } from "jose";
+import { AttachGoogleIdToUser, CreateUserGoogle, FindUserByGoogleId } from "@/prisma/prisma-utils";
+import { NextRequest, NextResponse, userAgent } from "next/server";
 import { Log } from "@/lib/logger";
+import { HandleOAuthLogin } from '@/lib/auth-utils';
+import { DeleteTempUserLocationCookies, FormatUserAccessInfo, ReadTempUserLocationCookies } from "@/lib/ua-utils";
 
-export async function GET(request: Request) {
-
+export async function GET(request: NextRequest) {
     try {
         Log(["auth", "login", "google", "callback"], `GET called with: ${request.url}`);
 
@@ -18,6 +18,12 @@ export async function GET(request: Request) {
         const cookieStore = await cookies();
         const storedState = cookieStore.get("google_oauth_state")?.value;
         const codeVerifier = cookieStore.get("google_code_verifier")?.value;
+        const location = ReadTempUserLocationCookies(request);
+
+        //clean up tmp cookies
+        cookieStore.delete("google_oauth_state");
+        cookieStore.delete("google_code_verifier");
+        DeleteTempUserLocationCookies(request);
 
         Log(["auth", "login", "google", "callback"], `Stored state: ${storedState}`);
         Log(["auth", "login", "google", "callback"], `Code: ${code}`);
@@ -42,48 +48,18 @@ export async function GET(request: Request) {
         const userId = claims.sub;
         const email = claims.email;
 
-        Log(["auth", "login", "google", "callback"], `Google ID: ${userId}`);
-        Log(["auth", "login", "google", "callback"], `Google Email: ${email}`);
 
-        Log(["auth", "login", "google", "callback"], `Finding user by Google ID: ${userId}`);
-        let user = await FindUserByGoogleId(userId);
-        if (!user) {
-
-            Log(["auth", "login", "google", "callback"], `User not found, finding user by email: ${email}`);
-            const existingUser = await FindUserByEmail(email);
-
-            if (existingUser) {
-                Log(["auth", "login", "google", "callback"], `User already exists, attaching Google ID to user: ${existingUser.id}`);
-                await AttachGoogleIdToUser(existingUser.id, userId);
-                user = existingUser;
-            } else {
-                Log(["auth", "login", "google", "callback"], `Creating new user: ${email}`);
-                user = await CreateUserGoogle(userId, email);
-                Log(["auth", "login", "google", "callback"], `Created new user: ${user.id}`);
-            }
-        }
-
-        Log(["auth", "login", "google", "callback"], `User: ${JSON.stringify(user?.id)}`);
-
-        //nuke all old refresh tokens
-        const deletedTokensCount = await DeleteAllRefreshTokensByUserId(user.id);
-
-        Log(["auth", "login", "google", "callback"], `Deleted ${deletedTokensCount?.count} old refresh tokens for user ${user.id}`);
-
-        const encoder = new TextEncoder();
-        const accessToken = await new SignJWT({ userId: user.id, type: "access" })
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("15m")
-            .sign(encoder.encode(process.env.JWT_SECRET!));
-
-        const refreshToken = await new SignJWT({ userId: user.id, type: "refresh" })
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("7d")
-            .sign(encoder.encode(process.env.JWT_REFRESH_SECRET!));
-
-        await InsertRefreshTokenByUserId(refreshToken, user.id);
-
-        Log(["auth", "login", "google", "callback"], `Inserted refresh token for user ${user.id}`);
+        const refreshTokenUserInfo = await FormatUserAccessInfo(location, userAgent(request));
+        // Use generic OAuth handler
+        const { user, accessToken, refreshToken } = await HandleOAuthLogin({
+            provider: "google",
+            providerId: userId,
+            email,
+            findUserByProviderId: FindUserByGoogleId,
+            attachProviderIdToUser: AttachGoogleIdToUser,
+            createUserWithProvider: CreateUserGoogle,
+            refreshTokenUserInfo
+        });
 
         const authState = {
             user: {
@@ -99,7 +75,6 @@ export async function GET(request: Request) {
         const authStateBase64 = Buffer.from(JSON.stringify(authState)).toString('base64');
 
         const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_HOST_URL}/${process.env.OAUTH_CLIENT_HANDLE_PATH_REDIRECT}?updateAuthState=${authStateBase64}`);
-
 
         // Set cookies
         response.cookies.set("accessToken", accessToken, {

@@ -1,8 +1,11 @@
+import { User } from "@prisma/client";
+
 //general
 export interface SupportedOAuthProvider {
   name: string;
   icon: any;
   authURL: string;
+  currLoc: UserGPSLoc | null;
 }
 
 export interface SupportedLang {
@@ -17,6 +20,25 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   authType: string | null;
+}
+
+export interface HandleOAuthLoginArgs {
+  provider: "google" | "github";
+  providerId: string;
+  email: string;
+  findUserByProviderId: (id: string) => Promise<User | null>;
+  attachProviderIdToUser: (userId: string, providerId: string) => Promise<User>;
+  createUserWithProvider: (providerId: string, email: string) => Promise<User>;
+  refreshTokenUserInfo: string;
+}
+
+export interface HandleOAuthLoginResult {
+  user: {
+    id: string;
+    email: string;
+  };
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface OAuthClientStateCookie {
@@ -45,6 +67,63 @@ export interface LangMapInterface {
 export interface TranslatorInterface {
   (key: string): string;
 }
+
+export interface ReverseGeocodeAddress {
+  building?: string;
+  road?: string;
+  neighbourhood?: string;
+  suburb?: string;
+  village?: string;
+  town?: string;
+  city?: string;
+  county?: string;
+  state?: string;
+  postcode?: string;
+  country?: string;
+  country_code?: string;
+}
+
+export interface ReverseGeocodeResult {
+  place_id?: number;
+  licence?: string;
+  osm_type?: string;
+  osm_id?: number;
+  lat?: string;
+  lon?: string;
+  display_name?: string;
+  address?: ReverseGeocodeAddress;
+  boundingbox?: [string, string, string, string];
+}
+
+export interface UserGPSLoc {
+  lat: number;
+  lon: number;
+}
+
+export interface UserAgentNext {
+  isBot: boolean;
+  browser: {
+    name?: string;
+    version?: string;
+  };
+  device: {
+    model?: string;
+    type?: string;
+    vendor?: string;
+  };
+  engine: {
+    name?: string;
+    version?: string;
+  };
+  os: {
+    name?: string;
+    version?: string;
+  };
+  cpu: {
+    architecture?: string;
+  };
+}
+
 
 //sowing rate interface
 export interface SowingRateDBData {
