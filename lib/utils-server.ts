@@ -1,82 +1,70 @@
 import { cookies } from "next/headers";
 import { Log } from "@/lib/logger";
 import { BackendVerifyToken } from "@/lib/auth-utils";
+import { JWTPayload, JWTVerifyResult } from "jose";
+
+type DecodedLike = JWTVerifyResult<JWTPayload> | JWTPayload | boolean | null | undefined;
+
+function ToJWTPayload(decoded: DecodedLike): JWTPayload | null {
+    if (!decoded || decoded === true || decoded === false) {
+        return null;
+    }
+    if (typeof decoded === "object" && "payload" in decoded) {
+        return (decoded as JWTVerifyResult<JWTPayload>).payload ?? null;
+    }
+    return (decoded as JWTPayload) ?? null;
+}
 
 export async function DecodeTokenContent() {
     try {
         const cookieStore = await cookies();
+        const accessToken = cookieStore.get("accessToken")?.value ?? "";
+        const refreshToken = cookieStore.get("refreshToken")?.value ?? "";
 
-        let noAccessToken: boolean = false;
-        let noRefreshToken: boolean = false;
-
-        const accessToken = cookieStore.get('accessToken')?.value;
-
-        if (!accessToken) {
-            Log(['auth', 'logout', 'frontend'], 'No access token found');
-            noAccessToken = true;
+        if (!accessToken && !refreshToken) {
+            return { success: false, message: "No access or refresh token found" };
         }
 
-        const refreshToken = cookieStore.get('refreshToken')?.value;
-
-        if (!refreshToken) {
-            Log(['auth', 'logout', 'frontend'], 'No refresh token found');
-            noRefreshToken = true;
-        }
-
-        if (noAccessToken && noRefreshToken) {
-            Log(['auth', 'logout', 'frontend'], 'No access or refresh token found');
-            return { success: false, message: 'No access or refresh token found' };
-        }
-
-        const [validAccessToken, decodedAccessToken] = await BackendVerifyToken(
-            process.env.JWT_SECRET || '',
-            accessToken ?? '',
-            'access'
+        const [validAccessToken, rawAccess] = await BackendVerifyToken(
+            process.env.JWT_SECRET || "",
+            accessToken,
+            "access"
         );
 
-        const [validRefreshToken, decodedRefreshToken] = await BackendVerifyToken(
-            process.env.JWT_REFRESH_SECRET || '',
-            refreshToken ?? '',
-            'refresh'
+        const [validRefreshToken, rawRefresh] = await BackendVerifyToken(
+            process.env.JWT_REFRESH_SECRET || "",
+            refreshToken,
+            "refresh"
         );
 
-        let decodedUserId: string | undefined = undefined;
-        if (
-            validAccessToken &&
-            typeof decodedAccessToken !== 'boolean' &&
-            decodedAccessToken?.payload?.userId &&
-            typeof decodedAccessToken.payload.userId === 'string'
-        ) {
-            decodedUserId = decodedAccessToken.payload.userId;
-        } else if (
-            validRefreshToken &&
-            typeof decodedRefreshToken !== 'boolean' &&
-            decodedRefreshToken?.payload?.userId &&
-            typeof decodedRefreshToken.payload.userId === 'string'
-        ) {
-            decodedUserId = decodedRefreshToken.payload.userId;
-        }
+        // <<< THE TWO YOU ASKED FOR >>>
+        const decodedAccess = validAccessToken ? ToJWTPayload(rawAccess) : null;
+        const decodedRefresh = validRefreshToken ? ToJWTPayload(rawRefresh) : null;
 
-        if (!decodedUserId) {
-            Log(['auth', 'logout', 'frontend'], 'No user id found');
-            return { success: false, message: 'No user id found' };
+        const userId =
+            (decodedAccess?.userId as string | undefined) ??
+            (decodedRefresh?.userId as string | undefined) ??
+            null;
+
+        if (!userId) {
+            return { success: false, message: "No user id found" };
         }
 
         return {
             success: true,
             data: {
-                accessToken,
+                accessToken: accessToken || undefined,
+                refreshToken: refreshToken || undefined,
                 validAccessToken,
-                decodedAccessToken,
-                refreshToken,
                 validRefreshToken,
-                decodedRefreshToken,
-                userId: decodedUserId,
-            }
-        }
+                decodedAccess,
+                decodedRefresh,
+                userId,
+            },
+        };
     } catch (error: unknown) {
         const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-        Log(['auth', 'logout', 'frontend'], `FrontendLogout failed with: ${errorMessage}`);
+        Log(['auth', 'logout', 'frontend'], `DecodeTokenContent failed with: ${errorMessage}`);
         return { success: true };
     }
 }
