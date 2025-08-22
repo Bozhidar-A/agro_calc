@@ -8,6 +8,11 @@ import useSowingRateForm from '@/hooks/useSowingRateForm';
 import { APICaller } from '@/lib/api-util';
 import { toast } from 'sonner';
 
+let authMock = { isAuthenticated: true, userId: 'test-user-id' };
+jest.mock('@/hooks/useAuth', () => ({
+    useAuth: () => authMock
+}));
+
 describe('useSowingRateForm', () => {
     const mockAuthState = {
         user: { id: 'test-user-id' },
@@ -78,11 +83,12 @@ describe('useSowingRateForm', () => {
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
         jest.clearAllMocks();
+        authMock = { isAuthenticated: true, userId: 'test-user-id' };
     });
 
     it('initializes with default values', () => {
         const { result } = renderHook(
-            () => useSowingRateForm(mockAuthState, mockDbData),
+            () => useSowingRateForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -100,7 +106,7 @@ describe('useSowingRateForm', () => {
 
     it('updates activePlantDbData when culture is selected', async () => {
         const { result } = renderHook(
-            () => useSowingRateForm(mockAuthState, mockDbData),
+            () => useSowingRateForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -116,7 +122,7 @@ describe('useSowingRateForm', () => {
 
     it('calculates sowing rate data correctly', async () => {
         const { result } = renderHook(
-            () => useSowingRateForm(mockAuthState, mockDbData),
+            () => useSowingRateForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -142,7 +148,7 @@ describe('useSowingRateForm', () => {
         (APICaller as jest.Mock).mockResolvedValue({ success: true });
 
         const { result } = renderHook(
-            () => useSowingRateForm(mockAuthState, mockDbData),
+            () => useSowingRateForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -186,7 +192,7 @@ describe('useSowingRateForm', () => {
         });
 
         const { result } = renderHook(
-            () => useSowingRateForm(mockAuthState, mockDbData),
+            () => useSowingRateForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 

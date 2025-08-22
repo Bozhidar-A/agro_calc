@@ -45,20 +45,21 @@ describe("DecodeTokenContent", () => {
 
         const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
-        if (result.data) {
-            expect(result.data.userId).toBe("user-123");
-            expect(result.data.accessToken).toBe("access-token");
-            expect(result.data.refreshToken).toBe("refresh-token");
-        } else {
-            throw new Error("Expected result.data to be defined");
-        }
+        expect(result.data).toBeDefined();
+        expect(result.data?.userId).toBe("user-123");
+        expect(result.data?.accessToken).toBe("access-token");
+        expect(result.data?.refreshToken).toBe("refresh-token");
+        expect(result.data?.validAccessToken).toBe(true);
+        expect(result.data?.validRefreshToken).toBe(true);
+        expect(result.data?.decodedAccess).toEqual({ userId: "user-123" });
+        expect(result.data?.decodedRefresh).toEqual({ userId: "user-123" });
     });
 
     it("returns success false if both tokens are missing", async () => {
         mockCookies.get.mockReturnValue(undefined);
         const result = await DecodeTokenContent();
         expect(result.success).toBe(false);
-        expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], "No access or refresh token found");
+        expect(result.message).toBe("No access or refresh token found");
     });
 
     it("returns success false if no userId is found in tokens", async () => {
@@ -72,13 +73,14 @@ describe("DecodeTokenContent", () => {
             .mockResolvedValueOnce([true, { payload: {} }]); // refresh
         const result = await DecodeTokenContent();
         expect(result.success).toBe(false);
-        expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], "No user id found");
+        expect(result.message).toBe("No user id found");
     });
 
     it("returns success true and logs error if exception is thrown", async () => {
         mockCookies.get.mockImplementation(() => { throw new Error("fail!"); });
         const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
+        expect(result.data).toBeUndefined();
         expect(Log).toHaveBeenCalledWith(["auth", "logout", "frontend"], expect.stringContaining("DecodeTokenContent failed with: fail!"));
     });
 
@@ -93,10 +95,11 @@ describe("DecodeTokenContent", () => {
             .mockResolvedValueOnce([true, { payload: { userId: "user-456" } }]); // refresh
         const result = await DecodeTokenContent();
         expect(result.success).toBe(true);
-        if (result.data) {
-            expect(result.data.userId).toBe("user-456");
-        } else {
-            throw new Error("Expected result.data to be defined");
-        }
+        expect(result.data).toBeDefined();
+        expect(result.data?.userId).toBe("user-456");
+        expect(result.data?.validAccessToken).toBe(false);
+        expect(result.data?.validRefreshToken).toBe(true);
+        expect(result.data?.decodedAccess).toBeNull();
+        expect(result.data?.decodedRefresh).toEqual({ userId: "user-456" });
     });
 });

@@ -3,11 +3,16 @@ import { renderWithReduxHookWrapper } from '@/test-utils/render';
 import { initializeMockTranslate, mockTranslateFunction } from '@/test-utils/mocks';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthState, PlantCombinedDBData } from '@/lib/interfaces';
+
 import useSeedingCombinedForm from '@/hooks/useSeedingCombinedForm';
 import { APICaller } from '@/lib/api-util';
 import { toast } from 'sonner';
 
 jest.unmock('@/hooks/useWarnings');
+let authMock = { isAuthenticated: true, userId: 'test-user-id' };
+jest.mock('@/hooks/useAuth', () => ({
+    useAuth: () => authMock
+}));
 
 describe('useSeedingCombinedForm', () => {
     const mockAuthState: AuthState = {
@@ -45,11 +50,12 @@ describe('useSeedingCombinedForm', () => {
     beforeEach(() => {
         initializeMockTranslate(preloadedState);
         jest.clearAllMocks();
+        authMock = { isAuthenticated: true, userId: 'test-user-id' };
     });
 
     it('initializes with default values', () => {
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -62,7 +68,7 @@ describe('useSeedingCombinedForm', () => {
 
     it('updates form values when plant is selected', async () => {
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -80,7 +86,7 @@ describe('useSeedingCombinedForm', () => {
 
     it('validates seeding rate bounds', async () => {
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -105,7 +111,7 @@ describe('useSeedingCombinedForm', () => {
 
     it('calculates total price correctly', async () => {
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -131,9 +137,9 @@ describe('useSeedingCombinedForm', () => {
 
     it('handles successful form submission', async () => {
         (APICaller as jest.Mock).mockResolvedValue({ success: true });
-
+        authMock = { isAuthenticated: true, userId: 'test-user-id' };
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -167,9 +173,9 @@ describe('useSeedingCombinedForm', () => {
             success: false,
             message: errorMessage
         });
-
+        authMock = { isAuthenticated: true, userId: 'test-user-id' };
         const { result } = renderHook(
-            () => useSeedingCombinedForm(mockAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 
@@ -182,13 +188,9 @@ describe('useSeedingCombinedForm', () => {
     });
 
     it('prevents submission when not authenticated', async () => {
-        const unauthenticatedAuthState = {
-            ...mockAuthState,
-            isAuthenticated: false
-        };
-
+        authMock = { isAuthenticated: false, userId: null };
         const { result } = renderHook(
-            () => useSeedingCombinedForm(unauthenticatedAuthState, mockDbData),
+            () => useSeedingCombinedForm(mockDbData),
             { wrapper: renderWithReduxHookWrapper(preloadedState).wrapper }
         );
 

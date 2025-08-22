@@ -50,7 +50,7 @@ export default function useSeedingCombinedForm(dbData: PlantCombinedDBData[]) {
             plants,
             totalPrice: parseFloat(RoundToSecondStr(data.legume.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
                 data.cereal.reduce((acc: number, curr) => acc + curr.priceSeedsPerAcreBGN, 0))),
-            userId: userId,
+            userId,
             isDataValid: (form.formState.isValid && CountWarnings() === 0),
         };
 

@@ -22,14 +22,11 @@ describe('OAuthButtonsGrid', () => {
         expect(orText).toBeInTheDocument();
     });
 
-    it('renders all OAuth provider buttons', () => {
+    it('renders all OAuth provider buttons with location prop', () => {
         renderWithRedux(() => <OAuthButtonsGrid />, { preloadedState });
-
-        //check if all provider buttons are rendered
+        // Each OAuthButton should receive currLoc prop, but we only check rendering and hrefs here
         const links = screen.getAllByRole('link');
         expect(links).toHaveLength(Object.keys(SUPPORTED_OAUTH_PROVIDERS).length);
-
-        //verify each link has the correct href
         Object.values(SUPPORTED_OAUTH_PROVIDERS).forEach(provider => {
             const link = links.find(l => l.getAttribute('href') === provider.authURL);
             expect(link).toBeInTheDocument();
@@ -38,12 +35,8 @@ describe('OAuthButtonsGrid', () => {
 
     it('renders with correct layout classes', () => {
         renderWithRedux(() => <OAuthButtonsGrid />, { preloadedState });
-
-        // Check outer container
         const container = screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.OR)).parentElement;
         expect(container).toHaveClass('flex', 'flex-col', 'items-center', 'justify-center', 'gap-2');
-
-        // Check buttons grid container
         const buttonsGrid = container?.querySelector('.flex.flex-wrap');
         expect(buttonsGrid).toHaveClass('flex', 'flex-wrap', 'justify-center', 'gap-2');
     });
