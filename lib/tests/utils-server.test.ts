@@ -102,4 +102,65 @@ describe("DecodeTokenContent", () => {
         expect(result.data?.decodedAccess).toBeNull();
         expect(result.data?.decodedRefresh).toEqual({ userId: "user-456" });
     });
+
+    it("decodes only access token when target='access'", async () => {
+        mockCookies.get.mockImplementation((name: string) => {
+            if (name === "accessToken") { return { value: "access-token" }; }
+            if (name === "refreshToken") { return { value: "refresh-token" }; }
+            return undefined;
+        });
+        (BackendVerifyToken as jest.Mock)
+            .mockResolvedValueOnce([true, { payload: { userId: "only-access" } }]); // access only
+
+        const result = await DecodeTokenContent('access');
+        expect(result.success).toBe(true);
+        expect(result.data).toBeDefined();
+        expect(result.data?.userId).toBe("only-access");
+        expect(result.data?.validAccessToken).toBe(true);
+        // refresh was not verified, placeholder resolves to false
+        expect(result.data?.validRefreshToken).toBe(false);
+        expect(result.data?.decodedAccess).toEqual({ userId: "only-access" });
+        expect(result.data?.decodedRefresh).toBeNull();
+        expect(BackendVerifyToken).toHaveBeenCalledTimes(1);
+    });
+
+    it("decodes only refresh token when target='refresh'", async () => {
+        mockCookies.get.mockImplementation((name: string) => {
+            if (name === "accessToken") { return { value: "access-token" }; }
+            if (name === "refreshToken") { return { value: "refresh-token" }; }
+            return undefined;
+        });
+        (BackendVerifyToken as jest.Mock)
+            .mockResolvedValueOnce([true, { payload: { userId: "only-refresh" } }]); // refresh only
+
+        const result = await DecodeTokenContent('refresh');
+        expect(result.success).toBe(true);
+        expect(result.data).toBeDefined();
+        expect(result.data?.userId).toBe("only-refresh");
+        expect(result.data?.validRefreshToken).toBe(true);
+        expect(result.data?.validAccessToken).toBe(false);
+        expect(result.data?.decodedRefresh).toEqual({ userId: "only-refresh" });
+        expect(result.data?.decodedAccess).toBeNull();
+        expect(BackendVerifyToken).toHaveBeenCalledTimes(1);
+    });
+
+    it("returns failure when requested access token is missing", async () => {
+        mockCookies.get.mockImplementation((name: string) => {
+            if (name === "refreshToken") { return { value: "refresh-token" }; }
+            return undefined;
+        });
+        const result = await DecodeTokenContent('access');
+        expect(result.success).toBe(false);
+        expect(result.message).toBe('No access token found');
+    });
+
+    it("returns failure when requested refresh token is missing", async () => {
+        mockCookies.get.mockImplementation((name: string) => {
+            if (name === "accessToken") { return { value: "access-token" }; }
+            return undefined;
+        });
+        const result = await DecodeTokenContent('refresh');
+        expect(result.success).toBe(false);
+        expect(result.message).toBe('No refresh token found');
+    });
 });

@@ -15,29 +15,49 @@ function ToJWTPayload(decoded: DecodedLike): JWTPayload | null {
     return (decoded as JWTPayload) ?? null;
 }
 
-export async function DecodeTokenContent() {
+export async function DecodeTokenContent(
+    // which token(s) to verify/decode; default is both
+    target: 'access' | 'refresh' | 'both' = 'both'
+) {
     try {
         const cookieStore = await cookies();
         const accessToken = cookieStore.get("accessToken")?.value ?? "";
         const refreshToken = cookieStore.get("refreshToken")?.value ?? "";
 
-        if (!accessToken && !refreshToken) {
-            return { success: false, message: "No access or refresh token found" };
+        // If the caller requested a specific token, ensure that token exists.
+        if (target === 'access' && !accessToken) {
+            return { success: false, message: 'No access token found' };
+        }
+        if (target === 'refresh' && !refreshToken) {
+            return { success: false, message: 'No refresh token found' };
         }
 
-        const [validAccessToken, rawAccess] = await BackendVerifyToken(
-            process.env.JWT_SECRET || "",
-            accessToken,
-            "access"
-        );
+        // If both were requested and neither exists, return early.
+        if (target === 'both' && !accessToken && !refreshToken) {
+            return { success: false, message: 'No access or refresh token found' };
+        }
 
-        const [validRefreshToken, rawRefresh] = await BackendVerifyToken(
-            process.env.JWT_REFRESH_SECRET || "",
-            refreshToken,
-            "refresh"
-        );
+        const jwtSecret = process.env.JWT_SECRET || "";
+        const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET || "";
 
-        // <<< THE TWO YOU ASKED FOR >>>
+        // Build verification promises conditionally. Use placeholders for skipped items
+        // so the resulting tuple shape is predictable.
+        const verifyAccess = (target === 'access' || target === 'both')
+            ? BackendVerifyToken(jwtSecret, accessToken, 'access')
+            : Promise.resolve([false, null] as const);
+
+        const verifyRefresh = (target === 'refresh' || target === 'both')
+            ? BackendVerifyToken(jwtRefreshSecret, refreshToken, 'refresh')
+            : Promise.resolve([false, null] as const);
+
+        // If caller only requested one token, we still run both promises but the
+        // skipped one resolves immediately; Promise.all keeps wall-clock time low
+        // and the result shape stable.
+        const [[validAccessToken, rawAccess], [validRefreshToken, rawRefresh]] = await Promise.all([
+            verifyAccess,
+            verifyRefresh,
+        ]);
+
         const decodedAccess = validAccessToken ? ToJWTPayload(rawAccess) : null;
         const decodedRefresh = validRefreshToken ? ToJWTPayload(rawRefresh) : null;
 

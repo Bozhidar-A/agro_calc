@@ -285,7 +285,7 @@ export async function HandleOAuthLogin({
 export async function BackendLogout() {
   try {
     const cookieStore = await cookies();
-    const decodedData = await DecodeTokenContent();
+    const decodedData = await DecodeTokenContent('refresh');
 
     //nuke cookies
     cookieStore.delete('accessToken');
