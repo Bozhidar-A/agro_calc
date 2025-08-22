@@ -40,7 +40,6 @@ export async function APICaller(logPath: string[], route: string, method: string
 
     const payload = {
         ...variables,
-        geo
     };
 
     if (method !== "GET") {
