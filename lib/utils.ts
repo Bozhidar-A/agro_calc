@@ -167,9 +167,3 @@ export function FormatValue(value: number) {
   }
   return value.toFixed(1);
 };
-
-export function GetEmailSafely(authObj: AuthState) {
-  return authObj.isAuthenticated && authObj.user && authObj.user.email
-    ? authObj.user.email
-    : "";
-}
