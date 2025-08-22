@@ -69,7 +69,6 @@ export default function LoggedInInstances({ userId }: { userId: string }) {
             return;
         }
 
-        console.log("I AM A PIECE OF SHIT")
         router.push('/auth/login?updateAuthState=forceLogout');
     }
 
