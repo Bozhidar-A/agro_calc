@@ -3,8 +3,6 @@
 import { SELECTABLE_STRINGS } from "@/lib/LangMap";
 import { useTranslate } from "@/hooks/useTranslate";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import HistoryDisplay from "@/components/HistoryDisplay/HistoryDisplay";
 import { User, History, LogIn } from "lucide-react";
 import SettingsGrid from "@/components/SettingsGrid/SettingsGrid";
@@ -12,19 +10,7 @@ import LoggedInInstances from "@/components/LoggedInInstances/LoggedInInstances"
 
 export default function Profile() {
     const translator = useTranslate();
-    const { userId, email, isAuthenticated } = useAuth();
-    const router = useRouter();
-
-    //scuffed to stop requests firing even after becoming unauth
-    useEffect(() => {
-        if (!isAuthenticated) {
-            router.push("/");
-        }
-    }, [isAuthenticated, router]);
-
-    if (!isAuthenticated) {
-        return null;
-    }
+    const { userId, email } = useAuth();
 
     return (
         <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
@@ -55,7 +41,7 @@ export default function Profile() {
                 <div className="mb-8">
                     <h2 className="text-xl sm:text-2xl font-bold text-green-700 mb-3 sm:mb-4 flex items-center gap-2">
                         <LogIn className="h-5 w-5 sm:h-6 sm:w-6" />
-                        {translator(SELECTABLE_STRINGS.ACTIVE_SESSIONS)}
+                        {translator(SELECTABLE_STRINGS.ACTIVE_OTHER_SESSIONS)}
                     </h2>
                     <div className="border-t border-gray-200 pt-3 sm:pt-4">
                         <LoggedInInstances userId={userId} />

@@ -1,3 +1,4 @@
+import { BackendLogout } from "@/lib/auth-utils";
 import { Log } from "@/lib/logger";
 import { DecodeTokenContent } from "@/lib/utils-server";
 import { DeleteAllRefreshTokensByUserId } from "@/prisma/prisma-utils";
@@ -13,10 +14,11 @@ export async function GET() {
             Log(["auth", "sessions", "endAllSessions"], `GET failed: decodedData or userId is null`);
             return NextResponse.json({ success: false, message: "Invalid token data" });
         }
-        const res = await DeleteAllRefreshTokensByUserId(decodedData.data.userId);
-        Log(["auth", "sessions", "endAllSessions"], `GET returned: ${JSON.stringify(res)}`);
+        const tokenDelete = await DeleteAllRefreshTokensByUserId(decodedData.data.userId);
+        Log(["auth", "sessions", "endAllSessions"], `GET returned: ${JSON.stringify(tokenDelete)}`);
 
-        return NextResponse.json({ success: true, data: res });
+        const res = await BackendLogout();
+        return NextResponse.json(res);
     } catch (error: unknown) {
         const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
         Log(["auth", "sessions", "endAllSessions"], `GET failed with: ${errorMessage}`);
