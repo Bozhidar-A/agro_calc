@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import HistoryDisplay from "@/components/HistoryDisplay/HistoryDisplay";
 import { User, History, LogIn } from "lucide-react";
 import SettingsGrid from "@/components/SettingsGrid/SettingsGrid";
-import LoggedInInstances from "@/components/LoggedInInstances/LoggedInInstances";
+import ActiveSessions from "@/components/ActiveSessions/ActiveSessions";
 
 export default function Profile() {
     const translator = useTranslate();
@@ -44,7 +44,7 @@ export default function Profile() {
                         {translator(SELECTABLE_STRINGS.ACTIVE_OTHER_SESSIONS)}
                     </h2>
                     <div className="border-t border-gray-200 pt-3 sm:pt-4">
-                        <LoggedInInstances userId={userId} />
+                        <ActiveSessions userId={userId} />
                     </div>
                 </div>
 
