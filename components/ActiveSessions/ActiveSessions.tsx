@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Key } from "lucide-react";
 
-export default function LoggedInInstances({ userId }: { userId: string }) {
+export default function ActiveSessions({ userId }: { userId: string }) {
     const translator = useTranslate();
     const router = useRouter();
     const [tokens, setTokens] = useState<any[]>([]);

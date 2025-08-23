@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import LoggedInInstances from "./LoggedInInstances";
+import LoggedInInstances from "./ActiveSessions";
 import { APICaller } from "@/lib/api-util";
 
 // Mock useTranslate to return key
