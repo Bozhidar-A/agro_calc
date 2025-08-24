@@ -64,7 +64,7 @@ export function ValidateMixBalance(data) {
 }
 
 export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
-  const [section, index, fieldName] = name.split('.');
+  const [section, index, _fieldName] = name.split('.');
   const basePath = `${section}.${index}`;
   const item = form.getValues(basePath);
 

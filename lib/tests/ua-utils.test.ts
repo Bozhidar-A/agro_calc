@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { APICaller } from '@/lib/api-util';
 import type { UserAgentNext } from '../interfaces';
 import {
   CreateTempUserLocCookies,

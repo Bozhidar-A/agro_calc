@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { siGithub, siGoogle } from 'simple-icons';
 import { twMerge } from 'tailwind-merge';
-import { AuthState, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 import LangMap from '@/lib/LangMap';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 

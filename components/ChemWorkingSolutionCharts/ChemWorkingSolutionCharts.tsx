@@ -21,11 +21,11 @@ export default function ChemWorkingSolutionCharts({
 }: {
   data: ChemProtWorkingSolutionHistory;
 }) {
+  const translator = useTranslate();
+
   if (!data) {
     return null;
   }
-
-  const translator = useTranslate();
 
   // Colors for charts
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];

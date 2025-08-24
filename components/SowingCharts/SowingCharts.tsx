@@ -20,12 +20,12 @@ import { FormatValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { RootState } from '@/store/store';
 
 export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
+  const translator = useTranslate();
+  const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
+
   if (!data) {
     return null;
   }
-
-  const translator = useTranslate();
-  const unitOfMeasurement = useSelector((state: RootState) => state.local.unitOfMeasurementLength);
 
   // Create data for comparison chart (comparing this calculation with optimal ranges)
   const plantName = translator(data.plantLatinName) || data.plantLatinName;
