@@ -8,15 +8,15 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useTranslate } from '@/hooks/useTranslate';
+import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
-import { Separator } from '@/components/ui/separator';
-import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z.object({
   email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -88,7 +88,9 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center">{translator(SELECTABLE_STRINGS.LOGIN)}</h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
+            <Label htmlFor="email" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.EMAIL)}
+            </Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
@@ -96,7 +98,9 @@ export default function Login() {
           </div>
 
           <div>
-            <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
+            <Label htmlFor="password" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.PASSWORD)}
+            </Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
               <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>

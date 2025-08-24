@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   Bar,
   BarChart,
@@ -11,13 +12,12 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { useTranslate } from '@/hooks/useTranslate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { FormatValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SowingRateSaveData } from '@/lib/interfaces';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { FormatValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { RootState } from '@/store/store';
 
 export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   if (!data) {
@@ -33,15 +33,17 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
   // For the pie chart - relationship between components
   const pieData = [
     {
-      name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-        translator(SELECTABLE_STRINGS.KG_ACRE) :
-        translator(SELECTABLE_STRINGS.KG_HECTARE),
+      name:
+        unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES
+          ? translator(SELECTABLE_STRINGS.KG_ACRE)
+          : translator(SELECTABLE_STRINGS.KG_HECTARE),
       value: data.usedSeedsKgPerAcre,
     },
     {
-      name: unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES ?
-        translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE) :
-        translator(SELECTABLE_STRINGS.PLANTS_PER_HECTARE),
+      name:
+        unitOfMeasurement === UNIT_OF_MEASUREMENT_LENGTH.ACRES
+          ? translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)
+          : translator(SELECTABLE_STRINGS.PLANTS_PER_HECTARE),
       value: data.sowingRateSafeSeedsPerMeterSquared / 100,
     }, // Scale down for better visualization
     {
@@ -125,7 +127,6 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
               {radarData.map((item, index) => {
-
                 // Calculate percentage of max value for visual indicator
                 const percentage = (item.value / item.fullMark) * 100;
 
@@ -200,14 +201,11 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                 <Tooltip
                   formatter={(value, name) => {
                     // Undo scaling for display in tooltip
-                    if (
-                      name ===
-                      translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)
-                    ) {
-                      return (value as number * 100).toFixed(0);
+                    if (name === translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)) {
+                      return ((value as number) * 100).toFixed(0);
                     }
                     if (name === translator(SELECTABLE_STRINGS.KG_ACRE)) {
-                      return (value as number / 10).toFixed(2);
+                      return ((value as number) / 10).toFixed(2);
                     }
                     return value;
                   }}

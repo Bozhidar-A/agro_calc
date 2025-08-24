@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { WikiChemical } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -93,9 +93,7 @@ export default function WikiChemicalProtectionChemicalPage() {
               href={`/wiki/chemical-protection/chemical/${chemical.id}`}
               className="group flex items-center gap-2"
             >
-              <CardTitle className="text-lg text-white">
-                {translator(chemical.nameKey)}
-              </CardTitle>
+              <CardTitle className="text-lg text-white">{translator(chemical.nameKey)}</CardTitle>
               <ExternalLink className="w-5 h-5 text-white" />
             </Link>
             <div className="flex flex-wrap gap-2">

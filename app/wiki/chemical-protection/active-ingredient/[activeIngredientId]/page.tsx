@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { WikiActiveIngredient } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -198,7 +198,8 @@ export default function WikiChemicalProtectionActiveIngredientPage() {
                                   {translator(
                                     SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                                   )}
-                                  : {chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
+                                  : {chemical.pricePer1LiterBGN}{' '}
+                                  {translator(SELECTABLE_STRINGS.BGN)}
                                 </p>
                                 <p>
                                   {translator(

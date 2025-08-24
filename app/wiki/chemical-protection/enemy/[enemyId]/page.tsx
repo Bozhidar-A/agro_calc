@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { WikiEnemy } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -182,13 +182,15 @@ export default function WikiChemicalProtectionEnemyPage() {
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                                 )}
-                                : {chemRelation.chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
+                                : {chemRelation.chemical.pricePer1LiterBGN}{' '}
+                                {translator(SELECTABLE_STRINGS.BGN)}
                               </p>
                               <p>
                                 {translator(
                                   SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
                                 )}
-                                : {chemRelation.chemical.pricePerAcreBGN} {translator(SELECTABLE_STRINGS.BGN)}
+                                : {chemRelation.chemical.pricePerAcreBGN}{' '}
+                                {translator(SELECTABLE_STRINGS.BGN)}
                               </p>
                             </div>
                           </div>
@@ -254,24 +256,24 @@ export default function WikiChemicalProtectionEnemyPage() {
                           {/* Additional Information */}
                           {(chemRelation.chemical.additionalInfo ||
                             chemRelation.chemical.additionalInfoNotes) && (
-                              <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
-                                <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                  {translator(
-                                    SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
-                                  )}
-                                </h4>
-                                <div className="space-y-2 text-black dark:text-white">
-                                  {chemRelation.chemical.additionalInfo && (
-                                    <p>{translator(chemRelation.chemical.additionalInfo)}</p>
-                                  )}
-                                  {chemRelation.chemical.additionalInfoNotes && (
-                                    <p className="text-sm text-black dark:text-white">
-                                      {translator(chemRelation.chemical.additionalInfoNotes)}
-                                    </p>
-                                  )}
-                                </div>
+                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
+                              <h4 className="font-semibold mb-2 text-black dark:text-white">
+                                {translator(
+                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
+                                )}
+                              </h4>
+                              <div className="space-y-2 text-black dark:text-white">
+                                {chemRelation.chemical.additionalInfo && (
+                                  <p>{translator(chemRelation.chemical.additionalInfo)}</p>
+                                )}
+                                {chemRelation.chemical.additionalInfoNotes && (
+                                  <p className="text-sm text-black dark:text-white">
+                                    {translator(chemRelation.chemical.additionalInfoNotes)}
+                                  </p>
+                                )}
                               </div>
-                            )}
+                            </div>
+                          )}
                         </div>
                       </CardContent>
                     </Card>

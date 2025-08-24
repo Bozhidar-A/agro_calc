@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { WikiPlantChemical } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -89,7 +89,7 @@ export default function WikiChemicalProtectionPlantPage() {
       <Card className="w-full h-full">
         <CardHeader className="text-center bg-green-700">
           <CardTitle className="text-2xl sm:text-3xl text-white">
-            {translator(chemicals[0].plant.latinName)} -  {chemicals[0].plant.latinName}
+            {translator(chemicals[0].plant.latinName)} - {chemicals[0].plant.latinName}
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-4 sm:pt-6">
@@ -175,13 +175,15 @@ export default function WikiChemicalProtectionPlantPage() {
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_LITER
                             )}
-                            : {chemData.chemical.pricePer1LiterBGN} {translator(SELECTABLE_STRINGS.BGN)}
+                            : {chemData.chemical.pricePer1LiterBGN}{' '}
+                            {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                           <p>
                             {translator(
                               SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_PRICE_PER_ACRE
                             )}
-                            : {chemData.chemical.pricePerAcreBGN} {translator(SELECTABLE_STRINGS.BGN)}
+                            : {chemData.chemical.pricePerAcreBGN}{' '}
+                            {translator(SELECTABLE_STRINGS.BGN)}
                           </p>
                         </div>
 
@@ -242,24 +244,24 @@ export default function WikiChemicalProtectionPlantPage() {
                         {/* Additional Information */}
                         {(chemData.chemical.additionalInfo ||
                           chemData.chemical.additionalInfoNotes) && (
-                            <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
-                              <h4 className="font-semibold mb-2 text-black dark:text-white">
-                                {translator(
-                                  SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
-                                )}
-                              </h4>
-                              <div className="space-y-2 text-black dark:text-white">
-                                {chemData.chemical.additionalInfo && (
-                                  <p>{translator(chemData.chemical.additionalInfo)}</p>
-                                )}
-                                {chemData.chemical.additionalInfoNotes && (
-                                  <p className="text-sm text-black dark:text-white">
-                                    {translator(chemData.chemical.additionalInfoNotes)}
-                                  </p>
-                                )}
-                              </div>
+                          <div className="bg-green-50 dark:bg-black p-4 rounded-lg">
+                            <h4 className="font-semibold mb-2 text-black dark:text-white">
+                              {translator(
+                                SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO
+                              )}
+                            </h4>
+                            <div className="space-y-2 text-black dark:text-white">
+                              {chemData.chemical.additionalInfo && (
+                                <p>{translator(chemData.chemical.additionalInfo)}</p>
+                              )}
+                              {chemData.chemical.additionalInfoNotes && (
+                                <p className="text-sm text-black dark:text-white">
+                                  {translator(chemData.chemical.additionalInfoNotes)}
+                                </p>
+                              )}
                             </div>
-                          )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </CardContent>

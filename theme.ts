@@ -6,8 +6,8 @@ export const theme = createTheme({
   components: {
     ActionIcon: {
       defaultProps: {
-        color: 'light-dark(var(--mantine-color-black), var(--mantine-color-white))'
-      }
-    }
-  }
+        color: 'light-dark(var(--mantine-color-black), var(--mantine-color-white))',
+      },
+    },
+  },
 });

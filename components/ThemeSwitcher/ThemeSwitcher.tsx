@@ -3,7 +3,6 @@
 import { Moon, Sun, SunMoon } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useDispatch } from 'react-redux';
-import { useTranslate } from '@/hooks/useTranslate';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { LocalSetTheme } from '@/store/slices/localSettingsSlice';
 

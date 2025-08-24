@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from '@prisma/client';
 
 //general
 export interface SupportedOAuthProvider {
@@ -24,7 +24,7 @@ export interface AuthState {
 }
 
 export interface HandleOAuthLoginArgs {
-  provider: "google" | "github";
+  provider: 'google' | 'github';
   providerId: string;
   email: string;
   findUserByProviderId: (id: string) => Promise<User | null>;
@@ -124,7 +124,6 @@ export interface UserAgentNext {
     architecture?: string;
   };
 }
-
 
 //sowing rate interface
 export interface SowingRateDBData {

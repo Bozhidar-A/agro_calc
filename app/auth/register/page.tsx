@@ -6,14 +6,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useTranslate } from '@/hooks/useTranslate';
+import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z
   .object({
@@ -66,7 +66,9 @@ export default function Register() {
         </h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
+            <Label htmlFor="email" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.EMAIL)}
+            </Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
               <p className="text-red-500 text-sm">{translator(errors.email.message as string)}</p>
@@ -74,18 +76,26 @@ export default function Register() {
           </div>
 
           <div>
-            <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
+            <Label htmlFor="password" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.PASSWORD)}
+            </Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message as string)}</p>
+              <p className="text-red-500 text-sm">
+                {translator(errors.password.message as string)}
+              </p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD_CONFIRM)}</Label>
+            <Label htmlFor="confirmPassword" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.PASSWORD_CONFIRM)}
+            </Label>
             <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message as string)}</p>
+              <p className="text-red-500 text-sm">
+                {translator(errors.confirmPassword.message as string)}
+              </p>
             )}
           </div>
 
