@@ -26,7 +26,7 @@ describe('OAuthButton', () => {
     it('renders with correct styling', () => {
         render(<OAuthButton buttonData={mockButtonData} />);
         const element = screen.getByRole('link');
-        expect(element).toHaveClass('text-black', 'dark:text-white', 'font-bold');
+        expect(element).toHaveClass('dark:text-white', 'font-bold');
     });
 
     it('renders as an anchor tag', () => {

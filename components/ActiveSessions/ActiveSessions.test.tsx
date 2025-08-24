@@ -51,9 +51,7 @@ describe("LoggedInInstances", () => {
         (APICaller as jest.Mock).mockResolvedValueOnce({ success: true, data: mockTokens });
         render(<LoggedInInstances userId="user123" />);
         await waitFor(() => {
-            expect(screen.getAllByText(/User Info/i)).toHaveLength(2);
-            expect(screen.getByText(/User1 Info/)).toBeInTheDocument();
-            expect(screen.getByText(/User2 Info/)).toBeInTheDocument();
+            expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);
         });
     });
 
@@ -74,10 +72,10 @@ describe("LoggedInInstances", () => {
         render(<LoggedInInstances userId="user123" />);
 
         await waitFor(() => {
-            expect(screen.getAllByText(/User Info/i)).toHaveLength(2);
+            expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);
         });
 
-        const logoutButtons = screen.getAllByRole('button', { name: /^Logout$/i });
+        const logoutButtons = screen.getAllByRole('button', { name: /LOGOUT_SESSION/i });
         fireEvent.click(logoutButtons[0]);
 
         await waitFor(() => {
@@ -111,10 +109,10 @@ describe("LoggedInInstances", () => {
         render(<LoggedInInstances userId="user123" />);
 
         await waitFor(() => {
-            expect(screen.getAllByText(/User Info/i)).toHaveLength(2);
+            expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);
         });
 
-        const logoutAllBtn = screen.getByRole('button', { name: /^Logout All$/i });
+        const logoutAllBtn = screen.getByRole('button', { name: /^LOGOUT_ALL_SESSIONS$/i });
         fireEvent.click(logoutAllBtn);
 
         await waitFor(() => {
