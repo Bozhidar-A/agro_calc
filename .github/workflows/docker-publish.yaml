@@ -17,8 +17,17 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Run Tests
-        run: yarn run test:all
+        run: yarn test:all
 
       - name: Get short SHA
         id: vars
