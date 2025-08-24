@@ -10,6 +10,15 @@ import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
   title: 'Agro Calc',
   description: 'Agricultural Calculator',
 };
@@ -18,7 +27,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
