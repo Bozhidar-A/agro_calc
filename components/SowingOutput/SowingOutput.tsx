@@ -12,7 +12,7 @@ export default function SowingOutput({ dataToBeSaved }: { dataToBeSaved: SowingR
         <div>
             <Card className="overflow-hidden" id="visualizationSection" data-testid="visualizationSection">
                 <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
-                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-white">
                         <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                         {translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_SOWING_RATE)}
                     </CardTitle>

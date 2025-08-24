@@ -82,14 +82,14 @@ export default function Combined() {
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-green-700 text-primary-foreground">
-          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl dark:text-white font-bold">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
               type="button"
               onClick={() => {
                 SpawnStartDriver(getCombinedSteps(translator));
               }}
-              className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+              className="bg-sky-500 dark:text-white hover:bg-sky-600 text-sm sm:text-base"
             >
               {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
             </Button>
@@ -118,7 +118,7 @@ export default function Combined() {
 
               <Card className="overflow-hidden" id="mixtureSummary">
                 <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl dark:text-white">
                     <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                     {translator(SELECTABLE_STRINGS.COMBINED_SUMMARY_TITLE)}
                   </CardTitle>

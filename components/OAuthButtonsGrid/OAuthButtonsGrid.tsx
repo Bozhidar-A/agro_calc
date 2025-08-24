@@ -22,7 +22,7 @@ export default function OAuthButtonsGrid() {
 
     return (
         <div className="flex flex-col items-center justify-center gap-2">
-            <p className="text-center text-sm text-black dark:text-white">{translator(SELECTABLE_STRINGS.OR)}</p>
+            <p className="text-center text-sm dark:text-white">{translator(SELECTABLE_STRINGS.OR)}</p>
             <div className="flex flex-wrap justify-center gap-2">
                 {Object.values(SUPPORTED_OAUTH_PROVIDERS).map((buttonData) => (
                     <OAuthButton

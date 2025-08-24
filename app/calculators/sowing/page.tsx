@@ -3,7 +3,6 @@
 import "driver.js/dist/driver.css";
 import { useEffect, useState } from 'react';
 import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import useSowingRateForm from '@/hooks/useSowingRateForm';
 import { useTranslate } from '@/hooks/useTranslate';
@@ -98,7 +97,7 @@ export default function SowingRate() {
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-green-700">
-          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+          <CardTitle className="text-2xl sm:text-3xl text-white dark:text-white">
             {translator(SELECTABLE_STRINGS.SOWING_RATE_CALC_TITLE)}
           </CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
@@ -108,7 +107,7 @@ export default function SowingRate() {
                 const steps = culturePicked ? getSowingStepsPickedPlant(translator) : getSowingStepsNoPlant(translator);
                 SpawnStartDriver(steps);
               }}
-              className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+              className="bg-sky-500  dark:text-white hover:bg-sky-600 text-sm sm:text-base"
             >
               {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
             </Button>
@@ -150,10 +149,10 @@ export default function SowingRate() {
               {form.watch('cultureLatinName') && activePlantDbData && (
                 <>
                   <div className="bg-green-700 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 flex flex-col items-center">
-                    <h3 className="text-lg sm:text-xl font-medium mb-2">
+                    <h3 className="text-lg sm:text-xl font-medium mb-2 text-white">
                       {translator(SELECTABLE_STRINGS.SOWING_RATE_SELECTED_CULTURE)}
                     </h3>
-                    <p className="text-xl sm:text-2xl font-bold text-center">
+                    <p className="text-xl sm:text-2xl font-bold text-center text-white">
                       {translator(form.watch('cultureLatinName'))}
                       <span className="ml-2">
                         <i>({form.watch('cultureLatinName')})</i>
@@ -239,7 +238,7 @@ export default function SowingRate() {
                       <SowingTotalArea form={form} dataToBeSaved={dataToBeSaved} />
 
                       <div className="flex justify-center mt-6 sm:mt-8">
-                        <Button id="saveCalculationButton" type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white">
+                        <Button id="saveCalculationButton" type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md dark:text-white">
                           {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                         </Button>
                       </div>

@@ -82,7 +82,7 @@ export default function ResetPassword() {
                         )}
                     </div>
 
-                    <Button type="submit" className="w-full text-black dark:text-white font-bold">
+                    <Button type="submit" className="w-full text-white font-bold">
                         {translator(SELECTABLE_STRINGS.RESET_PASSWORD)}
                     </Button>
                 </form>

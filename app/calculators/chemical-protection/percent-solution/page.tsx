@@ -22,7 +22,7 @@ export default function PercentSolution() {
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
             <Card className="w-full max-w-7xl mx-auto">
                 <CardHeader className="text-center bg-green-700">
-                    <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+                    <CardTitle className="text-2xl sm:text-3xl text-white">
                         {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_CALC_TITLE)}
                     </CardTitle>
                     <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
@@ -31,7 +31,7 @@ export default function PercentSolution() {
                             onClick={() => {
                                 SpawnStartDriver(getChemProtPercentSteps(translator));
                             }}
-                            className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+                            className="bg-sky-500 text-white hover:bg-sky-600 text-sm sm:text-base"
                         >
                             {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
                         </Button>
@@ -63,7 +63,7 @@ export default function PercentSolution() {
                                 <div className="flex flex-col gap-4 sm:gap-6">
                                     <Card className="overflow-hidden" id="result">
                                         <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
-                                            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
+                                            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-white">
                                                 <Droplet className="h-4 w-4 sm:h-5 sm:w-5" />
                                                 {translator(SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT)}
                                             </CardTitle>
@@ -85,7 +85,7 @@ export default function PercentSolution() {
 
                                     {form.formState.isValid && userId && (
                                         <div className="flex justify-center mt-6 sm:mt-8">
-                                            <Button id="saveCalculationButton" type="submit" size="lg" disabled={!form.formState.isValid} className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white">
+                                            <Button id="saveCalculationButton" type="submit" size="lg" disabled={!form.formState.isValid} className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-white">
                                                 {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                                             </Button>
                                         </div>
