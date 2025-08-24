@@ -6,7 +6,7 @@ import { Log } from '@/lib/logger';
 type DecodedLike = JWTVerifyResult<JWTPayload> | JWTPayload | boolean | null | undefined;
 
 function ToJWTPayload(decoded: DecodedLike): JWTPayload | null {
-  if (!decoded || decoded === true || decoded === false) {
+  if (!decoded) {
     return null;
   }
   if (typeof decoded === 'object' && 'payload' in decoded) {

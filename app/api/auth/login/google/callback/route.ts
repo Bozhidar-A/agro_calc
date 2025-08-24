@@ -11,6 +11,7 @@ import {
 } from '@/lib/ua-utils';
 import { SUPPORTED_OAUTH_PROVIDERS } from '@/lib/utils';
 import { AttachGoogleIdToUser, CreateUserGoogle, FindUserByGoogleId } from '@/prisma/prisma-utils';
+import { IdTokenClaims } from '@/lib/interfaces';
 
 export async function GET(request: NextRequest) {
   try {
@@ -48,7 +49,8 @@ export async function GET(request: NextRequest) {
       return new Response(null, { status: 400 });
     }
 
-    const claims = decodeIdToken(tokens.idToken());
+
+    const claims = decodeIdToken(tokens.idToken()) as IdTokenClaims;
     const userId = claims.sub;
     const email = claims.email;
 

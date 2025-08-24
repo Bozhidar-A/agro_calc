@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { CombinedHistoryData, CombinedHistoryDataPlant } from '@/lib/interfaces';
 import { ToFixedNumber } from './math-util';
+import { Plant } from '@prisma/client';
 
 export const CreateZodSchemaForPlantRow = z.object({
   active: z.boolean(),
@@ -41,6 +42,7 @@ export function CreateDefaultValues() {
   };
 }
 
+//@ts-ignore
 export function CalculateParticipation(items) {
   let totalParticipation = 0;
   for (const item of items) {
@@ -51,6 +53,7 @@ export function CalculateParticipation(items) {
   return totalParticipation;
 }
 
+//@ts-ignore
 export function ValidateMixBalance(data) {
   const totalLegumes = CalculateParticipation(data.legume);
   const totalCereals = CalculateParticipation(data.cereal);
@@ -63,13 +66,14 @@ export function ValidateMixBalance(data) {
   return true;
 }
 
+//@ts-ignore
 export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
   const [section, index, _fieldName] = name.split('.');
   const basePath = `${section}.${index}`;
   const item = form.getValues(basePath);
 
   if (item.active && item.seedingRate && item.participation && item.dropdownPlant) {
-    const selectedPlant = dbData.find((plant) => plant.id === item.id);
+    const selectedPlant = dbData.find((plant: Plant) => plant.id === item.id);
     if (selectedPlant) {
       const newSeedingRateInCombination = (item.seedingRate * item.participation) / 100;
       const newpriceSeedsPerAcreBGN =
@@ -99,6 +103,7 @@ export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
 //func to format the saved data to a format easy to use in graph display in the form itself
 //avoids fetches to the db
 //a bit hacky
+//@ts-ignore
 export function FormatCombinedFormSavedToGraphDisplay(submitedData, dbData) {
   const finalData: CombinedHistoryData = {
     plants: [] as CombinedHistoryDataPlant[],
@@ -112,7 +117,7 @@ export function FormatCombinedFormSavedToGraphDisplay(submitedData, dbData) {
   finalData.isDataValid = submitedData.isDataValid;
 
   for (const submitedPlant of submitedData.plants) {
-    const dbPlant = dbData.find((plant) => plant.id === submitedPlant.plantId);
+    const dbPlant = dbData.find((plant: Plant) => plant.id === submitedPlant.plantId);
     if (dbPlant) {
       finalData.plants.push({
         plantLatinName: dbPlant.latinName,

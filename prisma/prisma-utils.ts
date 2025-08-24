@@ -328,6 +328,10 @@ export async function GetSowingInputData() {
 }
 
 export async function GetSowingHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.sowingRateHistory.findMany({
     where: { userId },
     select: {
@@ -426,6 +430,10 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
 }
 
 export async function GetCombinedHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.seedingDataCombinationHistory.findMany({
     where: { userId },
     select: {
@@ -475,6 +483,10 @@ export async function GetChemProtWorkingSolutionInputPlantChems() {
 }
 
 export async function GetChemProtWorkingSolutionHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.chemProtWorkingSolutionHistory.findMany({
     where: { userId },
     select: {
