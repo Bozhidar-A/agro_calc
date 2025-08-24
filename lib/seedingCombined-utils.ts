@@ -1,7 +1,7 @@
+import { Plant } from '@prisma/client';
 import { z } from 'zod';
 import { CombinedHistoryData, CombinedHistoryDataPlant } from '@/lib/interfaces';
 import { ToFixedNumber } from './math-util';
-import { Plant } from '@prisma/client';
 
 export const CreateZodSchemaForPlantRow = z.object({
   active: z.boolean(),
@@ -42,6 +42,7 @@ export function CreateDefaultValues() {
   };
 }
 
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export function CalculateParticipation(items) {
   let totalParticipation = 0;
@@ -53,6 +54,7 @@ export function CalculateParticipation(items) {
   return totalParticipation;
 }
 
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export function ValidateMixBalance(data) {
   const totalLegumes = CalculateParticipation(data.legume);
@@ -66,6 +68,7 @@ export function ValidateMixBalance(data) {
   return true;
 }
 
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
   const [section, index, _fieldName] = name.split('.');
@@ -103,6 +106,7 @@ export function UpdateSeedingComboAndPriceDA(form, name, dbData) {
 //func to format the saved data to a format easy to use in graph display in the form itself
 //avoids fetches to the db
 //a bit hacky
+//eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 export function FormatCombinedFormSavedToGraphDisplay(submitedData, dbData) {
   const finalData: CombinedHistoryData = {

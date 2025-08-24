@@ -256,7 +256,7 @@ describe('Prisma Utils', () => {
       it('should insert new refresh token', async () => {
         (prisma.refreshToken.create as jest.Mock).mockResolvedValue(mockRefreshToken);
 
-        const result = await InsertRefreshTokenByUserId('refresh-token', '123', "somewhere");
+        const result = await InsertRefreshTokenByUserId('refresh-token', '123', 'somewhere');
 
         expect(result).toEqual(mockRefreshToken);
         expect(prisma.refreshToken.create).toHaveBeenCalledWith({
