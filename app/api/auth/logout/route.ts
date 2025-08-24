@@ -1,19 +1,17 @@
-import { BackendLogout } from "@/lib/auth-utils";
-import { Log } from "@/lib/logger";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import { BackendLogout } from '@/lib/auth-utils';
+import { Log } from '@/lib/logger';
 
-export async function POST(req: NextRequest) {
-    try {
-        const { userId } = await req.json();
+export async function GET() {
+  try {
+    Log(['auth', 'logout', 'route'], `GET called`);
+    const res = await BackendLogout();
+    Log(['auth', 'logout', 'route'], `GET returned: ${JSON.stringify(res)}`);
 
-        Log(["auth", "logout", "route"], `POST called with: userId: ${userId}`);
-        const res = await BackendLogout(userId);
-        Log(["auth", "logout", "route"], `POST returned: ${JSON.stringify(res)}`);
-
-        return NextResponse.json(res);
-    } catch (error: unknown) {
-        const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-        Log(["auth", "logout", "route"], `POST failed with: ${errorMessage}`);
-        return NextResponse.json({ success: false, message: `Internal Server Error` });
-    }
+    return NextResponse.json(res);
+  } catch (error: unknown) {
+    const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
+    Log(['auth', 'logout', 'route'], `GET failed with: ${errorMessage}`);
+    return NextResponse.json({ success: true });
+  }
 }

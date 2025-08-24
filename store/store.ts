@@ -1,13 +1,21 @@
 'use client';
 
-import { combineReducers, configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  createListenerMiddleware,
+  isAnyOf,
+} from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
-import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
-import localSettingsReducer, { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } from '@/store/slices/localSettingsSlice';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
+import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
+import localSettingsReducer, {
+  LocalSetLang,
+  LocalSetTheme,
+  LocalSetUnitOfMeasurementLength,
+} from '@/store/slices/localSettingsSlice';
 
 const createNoopStorage = () => {
   return {
@@ -40,28 +48,39 @@ const listenerMiddleware = createListenerMiddleware();
 listenerMiddleware.startListening({
   actionCreator: AuthSuccess,
   effect: async (action, listenerApi) => {
-    console.log('AuthSuccess', action);
+    Log(
+      ['auth', 'success', 'store', 'listener'],
+      `AuthSuccess action received - ${JSON.stringify(action)}`
+    );
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
 
     if (user) {
-      const userSettings = await APICaller(['user', 'settings', 'get', 'store', 'listener'], `/api/user/settings?userId=${user.id}`, 'GET');
+      const userSettings = await APICaller(
+        ['user', 'settings', 'get', 'store', 'listener'],
+        `/api/user/settings?userId=${user.id}`,
+        'GET'
+      );
 
       if (userSettings.success) {
         listenerApi.dispatch(LocalSetLang(userSettings.userSettings.language));
         listenerApi.dispatch(LocalSetTheme(userSettings.userSettings.theme));
-        listenerApi.dispatch(LocalSetUnitOfMeasurementLength(userSettings.userSettings.prefUnitOfMeasurement));
+        listenerApi.dispatch(
+          LocalSetUnitOfMeasurementLength(userSettings.userSettings.prefUnitOfMeasurement)
+        );
       }
     }
   },
 });
 
-
 listenerMiddleware.startListening({
   matcher: isAnyOf(LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength),
   effect: async (action, listenerApi) => {
-    console.log('Settings changed', action);
+    Log(
+      ['local', 'settings', 'change', 'store', 'listener'],
+      `Settings changed - ${JSON.stringify(action)}`
+    );
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
@@ -70,12 +89,17 @@ listenerMiddleware.startListening({
     const unitOfMeasurementLength = state.local.unitOfMeasurementLength;
 
     if (user) {
-      const userSettings = await APICaller(['user', 'settings', 'post', 'store', 'listener'], `/api/user/settings`, 'POST', {
-        userId: user.id,
-        theme,
-        language: lang,
-        prefUnitOfMeasurement: unitOfMeasurementLength,
-      });
+      const userSettings = await APICaller(
+        ['user', 'settings', 'post', 'store', 'listener'],
+        `/api/user/settings`,
+        'POST',
+        {
+          userId: user.id,
+          theme,
+          language: lang,
+          prefUnitOfMeasurement: unitOfMeasurementLength,
+        }
+      );
 
       if (userSettings.success) {
         Log(['user', 'settings', 'post', 'store', 'listener'], 'User settings updated');

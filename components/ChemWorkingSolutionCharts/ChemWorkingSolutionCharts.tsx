@@ -12,16 +12,20 @@ import {
   YAxis,
 } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { useTranslate } from '@/hooks/useTranslate';
 import { ChemProtWorkingSolutionHistory } from '@/lib/interfaces';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
-export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWorkingSolutionHistory }) {
+export default function ChemWorkingSolutionCharts({
+  data,
+}: {
+  data: ChemProtWorkingSolutionHistory;
+}) {
+  const translator = useTranslate();
+
   if (!data) {
     return null;
   }
-
-  const translator = useTranslate();
 
   // Colors for charts
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
@@ -76,7 +80,10 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
     },
     {
       name: translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION),
-      efficiency: (data.totalWorkingSolutionForAreaLiters / (data.roughSprayerCount * data.chemicalPerSprayerML)) * 100,
+      efficiency:
+        (data.totalWorkingSolutionForAreaLiters /
+          (data.roughSprayerCount * data.chemicalPerSprayerML)) *
+        100,
       fill: '#FFBB28',
     },
   ];
@@ -98,7 +105,9 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
         {/* Metrics Overview */}
         <Card>
           <CardHeader>
-            <CardTitle>{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS)}</CardTitle>
+            <CardTitle>
+              {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS)}
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
@@ -120,7 +129,7 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                       <div
                         className="h-2.5 rounded-full"
                         style={{
-                          width: `${Math.min((item.value / Math.max(...barData.map(d => d.value))) * 100, 100)}%`,
+                          width: `${Math.min((item.value / Math.max(...barData.map((d) => d.value))) * 100, 100)}%`,
                           backgroundColor: COLORS[index % COLORS.length],
                         }}
                       />
@@ -177,7 +186,10 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                 <YAxis />
                 <Tooltip
                   formatter={(value: number, name: string) => {
-                    if (name === translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)) {
+                    if (
+                      name ===
+                      translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER)
+                    ) {
                       return `${(value / 1000).toFixed(4)}L`;
                     }
                     return `${value.toFixed(2)}L`;
@@ -214,7 +226,9 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
                 <Bar
                   dataKey="efficiency"
                   fill="#8884d8"
-                  name={translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE)}
+                  name={translator(
+                    SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE
+                  )}
                   radius={[0, 10, 10, 0]}
                 >
                   {efficiencyData.map((_entry, index) => (
@@ -224,7 +238,10 @@ export default function ChemWorkingSolutionCharts({ data }: { data: ChemProtWork
               </BarChart>
             </ResponsiveContainer>
             <div className="text-xs text-center mt-2 text-muted-foreground">
-              *{translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED)}
+              *
+              {translator(
+                SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED
+              )}
             </div>
           </CardContent>
         </Card>

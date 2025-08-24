@@ -8,15 +8,15 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useTranslate } from '@/hooks/useTranslate';
+import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { AuthFailure, AuthLogout, AuthStart, AuthSuccess } from '@/store/slices/authSlice';
-import { Separator } from '@/components/ui/separator';
-import OAuthButtonsGrid from '@/components/OAuthButtonsGrid/OAuthButtonsGrid';
 
 const schema = z.object({
   email: z.string().email(SELECTABLE_STRINGS.INVALID_EMAIL),
@@ -37,22 +37,35 @@ export default function Login() {
 
   useEffect(() => {
     const updateAuthState = searchParams.get('updateAuthState');
-    if (updateAuthState === 'refreshTokenExpired') {
-      toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED));
-      dispatch(AuthLogout());
+    switch (updateAuthState) {
+      case 'refreshTokenExpired':
+        toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_SESSION_EXPIRED));
+        dispatch(AuthLogout());
+        break;
+      case 'resetPasswordWhileAuth':
+        toast.info(translator(SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH));
+        dispatch(AuthLogout());
+        break;
+      case 'forceLogout':
+        toast.info(translator(SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT));
+        dispatch(AuthLogout());
+        break;
+      default:
+        break;
     }
   }, [searchParams]);
 
+  type LoginForm = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginForm>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
 
-  async function HandleSubmit(data) {
+  async function HandleSubmit(data: LoginForm) {
     dispatch(AuthStart('credentials'));
 
     const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', 'POST', data);
@@ -66,7 +79,7 @@ export default function Login() {
     }
 
     dispatch(AuthSuccess({ user: backendWork.user, authType: 'credentials' }));
-    toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
+    // toast.success(translator(SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS));
     router.push('/');
   }
 
@@ -76,22 +89,28 @@ export default function Login() {
         <h2 className="text-2xl font-bold text-center">{translator(SELECTABLE_STRINGS.LOGIN)}</h2>
         <form onSubmit={handleSubmit(HandleSubmit)} className="space-y-4" noValidate>
           <div>
-            <Label htmlFor="email" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.EMAIL)}</Label>
+            <Label htmlFor="email" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.EMAIL)}
+            </Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
-              <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.email.message as string)}</p>
             )}
           </div>
 
           <div>
-            <Label htmlFor="password" className="text-left font-semibold">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
+            <Label htmlFor="password" className="text-left font-semibold">
+              {translator(SELECTABLE_STRINGS.PASSWORD)}
+            </Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
+              <p className="text-red-500 text-sm">
+                {translator(errors.password.message as string)}
+              </p>
             )}
           </div>
 
-          <Button type="submit" className="w-full text-black dark:text-white font-semibold">
+          <Button type="submit" className="w-full text-white font-semibold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
@@ -102,14 +121,14 @@ export default function Login() {
 
         <div className="flex items-center justify-center space-x-2">
           <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-          <Button asChild className="text-black dark:text-white font-semibold">
+          <Button asChild className="text-white font-semibold">
             <Link href="/auth/register" className="hover:underline">
               {translator(SELECTABLE_STRINGS.REGISTER)}
             </Link>
           </Button>
         </div>
         <div className="flex items-center justify-center space-x-2">
-          <Button asChild className="text-black dark:text-white font-semibold">
+          <Button asChild className="text-white font-semibold">
             <Link href="/auth/password/request" className="hover:underline">
               {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>

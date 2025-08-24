@@ -9,6 +9,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   authType: null,
+  showLoginToast: false,
 };
 
 const authSlice = createSlice({
@@ -26,6 +27,7 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.error = null;
       state.authType = action.payload.authType;
+      state.showLoginToast = true;
     },
     AuthFailure: (state, action) => {
       state.loading = false;
@@ -41,8 +43,12 @@ const authSlice = createSlice({
       state.error = null;
       state.authType = null;
     },
+    ClearLoginToast: (state) => {
+      state.showLoginToast = false;
+    },
   },
 });
 
-export const { AuthStart, AuthSuccess, AuthFailure, AuthLogout } = authSlice.actions;
+export const { AuthStart, AuthSuccess, AuthFailure, AuthLogout, ClearLoginToast } =
+  authSlice.actions;
 export default authSlice.reducer;

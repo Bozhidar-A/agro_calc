@@ -1,17 +1,17 @@
-import { renderHook, act, waitFor } from "@testing-library/react";
-import { renderWithReduxHookWrapper } from "@/test-utils/render";
-import { useTranslate } from "@/hooks/useTranslate";
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { useTranslate } from '@/hooks/useTranslate';
+// jest.spyOn(utils, 'GetStrFromLangMapKey').mockImplementation((lang, key) => `${lang}:${key}`);
+import * as utils from '@/lib/utils';
+import { SUPPORTED_LANGS } from '@/lib/utils';
+import { LocalSetLang } from '@/store/slices/localSettingsSlice';
+import { renderWithReduxHookWrapper } from '@/test-utils/render';
 
 //unmock the useTranslate hook for this specific test file
 jest.unmock('@/hooks/useTranslate');
 
-// jest.spyOn(utils, 'GetStrFromLangMapKey').mockImplementation((lang, key) => `${lang}:${key}`);
-import * as utils from '@/lib/utils';
-import { LocalSetLang } from "@/store/slices/localSettingsSlice";
-import { SUPPORTED_LANGS } from "@/lib/utils";
 jest.mock('@/lib/utils', () => ({
   ...jest.requireActual('@/lib/utils'),
-  GetStrFromLangMapKey: jest.fn().mockImplementation((lang, key) => `${lang}:${key}`)
+  GetStrFromLangMapKey: jest.fn().mockImplementation((lang, key) => `${lang}:${key}`),
 }));
 
 describe('useTranslate', () => {
@@ -29,7 +29,7 @@ describe('useTranslate', () => {
     jest.clearAllMocks();
   });
 
-  it("should return the correct string", () => {
+  it('should return the correct string', () => {
     const { wrapper } = renderWithReduxHookWrapper(preloadedState);
     const { result } = renderHook(() => useTranslate(), {
       wrapper,
@@ -42,7 +42,7 @@ describe('useTranslate', () => {
     expect(utils.GetStrFromLangMapKey).toHaveBeenCalledWith(SUPPORTED_LANGS.BG.code, 'HELLO');
   });
 
-  it("should return the correct string after changing the language", async () => {
+  it('should return the correct string after changing the language', async () => {
     const { wrapper, store } = renderWithReduxHookWrapper(preloadedState);
 
     const { result } = renderHook(() => useTranslate(), {

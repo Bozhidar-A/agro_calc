@@ -1,8 +1,13 @@
+import { ChemProtPercentHistory, User } from '@prisma/client';
 import { HashPassword } from '@/lib/auth-utils';
-import { ChemProtWorkingToSave, CombinedCalcDBData, SowingRateDBData, SowingRateSaveData } from '@/lib/interfaces';
+import {
+  ChemProtWorkingToSave,
+  CombinedCalcDBData,
+  SowingRateDBData,
+  SowingRateSaveData,
+} from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
 import { prisma } from '@/lib/prisma';
-import { ChemProtPercentHistory } from '@prisma/client';
 
 export async function FindUserByEmail(email: string) {
   return await prisma.user.findUnique({ where: { email } });
@@ -28,6 +33,34 @@ export async function AttachCredentialsToUser(userId: string, email: string, pas
   });
 }
 
+export async function GetAllRefreshTokensByUserId(
+  userId: string,
+  requesterRefreshToken: string | undefined
+) {
+  if (!userId) {
+    Log(['prisma', 'GetAllRefreshTokensByUserId'], `No userId provided`);
+    return [];
+  }
+
+  if (!requesterRefreshToken) {
+    Log(['prisma', 'GetAllRefreshTokensByUserId'], `No requesterRefreshToken provided`);
+    return [];
+  }
+
+  return await prisma.refreshToken.findMany({
+    where: { userId, NOT: { token: requesterRefreshToken } },
+    select: {
+      id: true,
+      //dont dox people
+      token: false,
+      userInfo: true,
+      createdAt: true,
+      expiresAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
 export async function FindRefreshToken(token: string) {
   return await prisma.refreshToken.findUnique({ where: { token } });
 }
@@ -41,11 +74,25 @@ export async function DeleteAllRefreshTokensByUserId(userId: string) {
   return await prisma.refreshToken.deleteMany({ where: { userId } });
 }
 
-export async function InsertRefreshTokenByUserId(token: string, userId: string) {
+export async function DeleteRefreshTokenById(tokenId: string) {
+  if (!tokenId) {
+    Log(['prisma', 'DeleteRefreshTokenById'], `No tokenId provided`);
+    return;
+  }
+
+  return await prisma.refreshToken.delete({ where: { id: tokenId } });
+}
+
+export async function InsertRefreshTokenByUserId(
+  token: string,
+  userId: string,
+  refreshTokenUserInfo: string
+) {
   return await prisma.refreshToken.create({
     data: {
       token,
       userId,
+      userInfo: refreshTokenUserInfo,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     },
   });
@@ -87,7 +134,7 @@ export async function CreateUserGoogle(googleId: string, email: string) {
   });
 }
 
-export async function AttachGoogleIdToUser(userId: string, googleId: string) {
+export async function AttachGoogleIdToUser(userId: string, googleId: string): Promise<User> {
   return await prisma.user.update({
     where: { id: userId },
     data: { googleId },
@@ -112,7 +159,7 @@ export async function CreateUserGitHub(githubId: string, email: string) {
   });
 }
 
-export async function AttachGitHubIdToUser(userId: string, githubId: string) {
+export async function AttachGitHubIdToUser(userId: string, githubId: string): Promise<User> {
   return await prisma.user.update({
     where: { id: userId },
     data: { githubId },
@@ -125,7 +172,12 @@ export async function FindUserSettingsByUserId(userId: string) {
   });
 }
 
-export async function UpdateUserSettings(userId: string, theme: string, language: string, prefUnitOfMeasurement: string) {
+export async function UpdateUserSettings(
+  userId: string,
+  theme: string,
+  language: string,
+  prefUnitOfMeasurement: string
+) {
   return await prisma.userSettings.upsert({
     where: { userId },
     update: { theme, language, prefUnitOfMeasurement },
@@ -145,7 +197,7 @@ export async function GetSowingInputData() {
         select: {
           id: true,
           latinName: true,
-        }
+        },
       },
       coefficientSecurity: {
         select: {
@@ -154,7 +206,7 @@ export async function GetSowingInputData() {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       wantedPlantsPerMeterSquared: {
         select: {
@@ -163,7 +215,7 @@ export async function GetSowingInputData() {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       massPer1000g: {
         select: {
@@ -172,7 +224,7 @@ export async function GetSowingInputData() {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       purity: {
         select: {
@@ -182,7 +234,7 @@ export async function GetSowingInputData() {
           minSliderVal: true,
           maxSliderVal: true,
           constValue: true,
-        }
+        },
       },
       germination: {
         select: {
@@ -191,7 +243,7 @@ export async function GetSowingInputData() {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       rowSpacingCm: {
         select: {
@@ -201,7 +253,7 @@ export async function GetSowingInputData() {
           minSliderVal: true,
           maxSliderVal: true,
           constValue: true,
-        }
+        },
       },
     },
   });
@@ -275,8 +327,13 @@ export async function GetSowingInputData() {
   return finalData;
 }
 
-export async function GetSowingHistory() {
+export async function GetSowingHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.sowingRateHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       sowingRateSafeSeedsPerMeterSquared: true,
@@ -289,10 +346,10 @@ export async function GetSowingHistory() {
       plant: {
         select: {
           latinName: true,
-          id: true
-        }
-      }
-    }
+          id: true,
+        },
+      },
+    },
   });
 }
 
@@ -372,8 +429,13 @@ export async function InsertSowingHistoryEntry(data: SowingRateSaveData) {
   });
 }
 
-export async function GetCombinedHistory() {
+export async function GetCombinedHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.seedingDataCombinationHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       totalPrice: true,
@@ -388,12 +450,12 @@ export async function GetCombinedHistory() {
           pricePerAcreBGN: true,
           plant: {
             select: {
-              latinName: true
-            }
-          }
-        }
-      }
-    }
+              latinName: true,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -405,23 +467,28 @@ export async function GetChemProtWorkingSolutionInputPlantChems() {
       plant: {
         select: {
           id: true,
-          latinName: true
-        }
+          latinName: true,
+        },
       },
       chemical: {
         select: {
           id: true,
           nameKey: true,
           dosage: true,
-          dosageUnit: true
-        }
-      }
-    }
+          dosageUnit: true,
+        },
+      },
+    },
   });
 }
 
-export async function GetChemProtWorkingSolutionHistory() {
+export async function GetChemProtWorkingSolutionHistory(userId: string) {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
   return await prisma.chemProtWorkingSolutionHistory.findMany({
+    where: { userId },
     select: {
       id: true,
       totalChemicalForAreaLiters: true,
@@ -432,16 +499,16 @@ export async function GetChemProtWorkingSolutionHistory() {
       plant: {
         select: {
           id: true,
-          latinName: true
-        }
+          latinName: true,
+        },
       },
       chemical: {
         select: {
           id: true,
-          nameKey: true
-        }
-      }
-    }
+          nameKey: true,
+        },
+      },
+    },
   });
 }
 
@@ -451,8 +518,10 @@ export async function InsertChemProtWorkingSolutionHistoryEntry(data: ChemProtWo
   });
 }
 
-export async function GetChemProtPercentHistory() {
-  return await prisma.chemProtPercentHistory.findMany();
+export async function GetChemProtPercentHistory(userId: string) {
+  return await prisma.chemProtPercentHistory.findMany({
+    where: { userId },
+  });
 }
 
 export async function InsertChemProtPercentHistoryEntry(data: ChemProtPercentHistory) {
@@ -468,10 +537,10 @@ export function GetAllSowingPlants() {
       plant: {
         select: {
           id: true,
-          latinName: true
-        }
-      }
-    }
+          latinName: true,
+        },
+      },
+    },
   });
 }
 
@@ -486,7 +555,7 @@ export async function GetSowingPlantData(id: string) {
         select: {
           id: true,
           latinName: true,
-        }
+        },
       },
       coefficientSecurity: {
         select: {
@@ -495,7 +564,7 @@ export async function GetSowingPlantData(id: string) {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       wantedPlantsPerMeterSquared: {
         select: {
@@ -504,7 +573,7 @@ export async function GetSowingPlantData(id: string) {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       massPer1000g: {
         select: {
@@ -513,7 +582,7 @@ export async function GetSowingPlantData(id: string) {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       purity: {
         select: {
@@ -523,7 +592,7 @@ export async function GetSowingPlantData(id: string) {
           minSliderVal: true,
           maxSliderVal: true,
           constValue: true,
-        }
+        },
       },
       germination: {
         select: {
@@ -532,7 +601,7 @@ export async function GetSowingPlantData(id: string) {
           unit: true,
           minSliderVal: true,
           maxSliderVal: true,
-        }
+        },
       },
       rowSpacingCm: {
         select: {
@@ -542,7 +611,7 @@ export async function GetSowingPlantData(id: string) {
           minSliderVal: true,
           maxSliderVal: true,
           constValue: true,
-        }
+        },
       },
     },
   });
@@ -646,10 +715,10 @@ export function GetAllChemProtectionPlants() {
       plant: {
         select: {
           id: true,
-          latinName: true
-        }
-      }
-    }
+          latinName: true,
+        },
+      },
+    },
   });
 }
 
@@ -662,8 +731,8 @@ export function GetChemProtectionPlantData(id: string) {
       plant: {
         select: {
           id: true,
-          latinName: true
-        }
+          latinName: true,
+        },
       },
       chemical: {
         select: {
@@ -687,23 +756,23 @@ export function GetChemProtectionPlantData(id: string) {
               activeIngredient: {
                 select: {
                   nameKey: true,
-                  unit: true
-                }
-              }
-            }
+                  unit: true,
+                },
+              },
+            },
           },
           chemicalTargetEnemies: {
             select: {
               enemy: {
                 select: {
-                  latinName: true
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  latinName: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -736,26 +805,26 @@ export function GetAllChemProtectionEnemies() {
                   activeIngredient: {
                     select: {
                       nameKey: true,
-                      unit: true
-                    }
-                  }
-                }
+                      unit: true,
+                    },
+                  },
+                },
               },
               plantUsages: {
                 select: {
                   plant: {
                     select: {
                       id: true,
-                      latinName: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      latinName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -791,26 +860,26 @@ export function GetChemProtectionEnemyData(id: string) {
                   activeIngredient: {
                     select: {
                       nameKey: true,
-                      unit: true
-                    }
-                  }
-                }
+                      unit: true,
+                    },
+                  },
+                },
               },
               plantUsages: {
                 select: {
                   plant: {
                     select: {
                       id: true,
-                      latinName: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      latinName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -837,31 +906,31 @@ export function GetAllChemProtectionChemicals() {
           activeIngredient: {
             select: {
               nameKey: true,
-              unit: true
-            }
-          }
-        }
+              unit: true,
+            },
+          },
+        },
       },
       chemicalTargetEnemies: {
         select: {
           enemy: {
             select: {
-              latinName: true
-            }
-          }
-        }
+              latinName: true,
+            },
+          },
+        },
       },
       plantUsages: {
         select: {
           plant: {
             select: {
               id: true,
-              latinName: true
-            }
-          }
-        }
-      }
-    }
+              latinName: true,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -891,31 +960,31 @@ export function GetChemProtectionChemData(id: string) {
           activeIngredient: {
             select: {
               nameKey: true,
-              unit: true
-            }
-          }
-        }
+              unit: true,
+            },
+          },
+        },
       },
       chemicalTargetEnemies: {
         select: {
           enemy: {
             select: {
-              latinName: true
-            }
-          }
-        }
+              latinName: true,
+            },
+          },
+        },
       },
       plantUsages: {
         select: {
           plant: {
             select: {
               id: true,
-              latinName: true
-            }
-          }
-        }
-      }
-    }
+              latinName: true,
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -949,16 +1018,16 @@ export function GetAllChemProtectionActiveIngredients() {
                   plant: {
                     select: {
                       id: true,
-                      latinName: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      latinName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }
 
@@ -995,15 +1064,15 @@ export function GetChemProtectionActiveIngredientData(id: string) {
                   plant: {
                     select: {
                       id: true,
-                      latinName: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      latinName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 }

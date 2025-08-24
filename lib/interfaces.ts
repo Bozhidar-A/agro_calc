@@ -1,8 +1,11 @@
+import { User } from '@prisma/client';
+
 //general
 export interface SupportedOAuthProvider {
   name: string;
   icon: any;
   authURL: string;
+  currLoc: UserGPSLoc | null;
 }
 
 export interface SupportedLang {
@@ -17,6 +20,26 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   authType: string | null;
+  showLoginToast: boolean;
+}
+
+export interface HandleOAuthLoginArgs {
+  provider: 'google' | 'github';
+  providerId: string;
+  email: string;
+  findUserByProviderId: (id: string) => Promise<User | null>;
+  attachProviderIdToUser: (userId: string, providerId: string) => Promise<User>;
+  createUserWithProvider: (providerId: string, email: string) => Promise<User>;
+  refreshTokenUserInfo: string;
+}
+
+export interface HandleOAuthLoginResult {
+  user: {
+    id: string;
+    email: string;
+  };
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface OAuthClientStateCookie {
@@ -39,6 +62,66 @@ export interface ProvidersProps {
 export interface LangMapInterface {
   [key: string]: {
     [key: string]: string;
+  };
+}
+
+export interface TranslatorInterface {
+  (key: string): string;
+}
+
+export interface ReverseGeocodeAddress {
+  building?: string;
+  road?: string;
+  neighbourhood?: string;
+  suburb?: string;
+  village?: string;
+  town?: string;
+  city?: string;
+  county?: string;
+  state?: string;
+  postcode?: string;
+  country?: string;
+  country_code?: string;
+}
+
+export interface ReverseGeocodeResult {
+  place_id?: number;
+  licence?: string;
+  osm_type?: string;
+  osm_id?: number;
+  lat?: string;
+  lon?: string;
+  display_name?: string;
+  address?: ReverseGeocodeAddress;
+  boundingbox?: [string, string, string, string];
+}
+
+export interface UserGPSLoc {
+  lat: number;
+  lon: number;
+}
+
+export interface UserAgentNext {
+  isBot: boolean;
+  browser: {
+    name?: string;
+    version?: string;
+  };
+  device: {
+    model?: string;
+    type?: string;
+    vendor?: string;
+  };
+  engine: {
+    name?: string;
+    version?: string;
+  };
+  os: {
+    name?: string;
+    version?: string;
+  };
+  cpu: {
+    architecture?: string;
   };
 }
 
@@ -292,7 +375,7 @@ export interface ChemProtPercentHistory {
   desiredPercentage: number;
   sprayerVolume: number;
   calculatedAmount: number;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface ChemProtWorkingInputPlantChem {
@@ -454,3 +537,12 @@ export interface WikiActiveIngredient extends WikiBaseEntity {
     };
   }[];
 }
+
+//needed for typecheck
+export type IdTokenClaims = {
+  sub: string;
+  email: string;
+  email_verified: boolean;
+  name: string;
+  picture: string;
+};

@@ -17,14 +17,11 @@ export function ChemProtWorkingSolutionBuildInputRow({
   return (
     <Card className="overflow-hidden" data-testid="card">
       <CardHeader className="bg-green-700 pb-2" data-testid="card-header">
-        <CardTitle
-          className="flex items-center gap-2 text-lg text-black dark:text-white"
-          data-testid="card-title"
-        >
+        <CardTitle className="flex items-center gap-2 text-lg text-white" data-testid="card-title">
           {icon}
           {displayName}
         </CardTitle>
-        <CardDescription className="text-black/90 dark:text-white/90">
+        <CardDescription className="text-white/90">
           {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
         </CardDescription>
       </CardHeader>
@@ -33,22 +30,31 @@ export function ChemProtWorkingSolutionBuildInputRow({
           <FormField
             control={form.control}
             name={varName}
-            render={({ field }) => (
-              <Input
-                min={0}
-                className="text-center text-xl"
-                type="number"
-                id={id}
-                {...field}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  field.onChange(val === '' ? '' : Number(val));
-                }}
-              />
-            )}
+            render={({ field }) => {
+              const watchedValue = form.watch(varName);
+              const currentValue = watchedValue ?? 0;
+              return (
+                <Input
+                  min={0}
+                  className="text-center text-xl"
+                  type="number"
+                  id={id}
+                  value={currentValue}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val === '') {
+                      field.onChange('');
+                    } else {
+                      const numVal = Number(val);
+                      field.onChange(isNaN(numVal) ? '' : numVal);
+                    }
+                  }}
+                />
+              );
+            }}
           />
           <div className="text-center font-medium mt-1">
-            {`${displayValue ?? (isNaN(form.watch(varName)) ? 0 : form.watch(varName) || 0)} ${unit}`}
+            {`${displayValue ?? (form.watch(varName) || 0)} ${unit}`}
           </div>
         </div>
       </CardContent>

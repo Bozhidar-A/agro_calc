@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import { useTranslate } from '@/hooks/useTranslate';
 import Errored from '@/components/Errored/Errored';
 import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
 import { WikiActiveIngredient } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
@@ -67,7 +67,7 @@ export default function WikiChemicalProtectionActiveIngredientListPage() {
     <div className="container mx-auto py-2 sm:py-6 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-green-700 px-2 sm:px-4">
-          <CardTitle className="text-xl sm:text-2xl md:text-3xl text-black dark:text-white">
+          <CardTitle className="text-xl sm:text-2xl md:text-3xl text-white">
             {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION)}
           </CardTitle>
         </CardHeader>

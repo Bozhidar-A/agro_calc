@@ -4,43 +4,17 @@ import { Providers } from '@/store/providers';
 
 import './globals.css';
 
+import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 import { ThemeProvider } from '@/components/ThemeProvider/ThemeProvider';
 import { Toaster } from '@/components/ui/sonner';
-import { cookies } from 'next/headers';
-import { OAuthClientStateCookie } from '@/lib/interfaces';
 
 export const metadata: Metadata = {
   title: 'Agro Calc',
   description: 'Agricultural Calculator',
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  //handle oauth bounce from callback
-  //this is absolutely terrible but just handles client side state
-  //real auth is double checked on the server
-  const cookieStore = await cookies();
-  const authStateCookie = cookieStore.get('oAuthClientState');
-
-  let initialAuthState: OAuthClientStateCookie | null = null;
-  if (authStateCookie) {
-    try {
-      const parsedState = JSON.parse(authStateCookie.value);
-      //check if the auth state is less than 5 seconds old
-      //this prevents ghost logins from old cookies
-      //even more scuffed
-      if (parsedState.timestamp && (Date.now() - parsedState.timestamp) < 5000) {
-        initialAuthState = parsedState;
-      }
-    } catch (e) {
-      //invalid json I DO NOT CARE
-    }
-  }
-
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -51,10 +25,11 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <Providers initialAuthState={initialAuthState!}>
+        <Providers>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header />
-            {children}
+            <div className="flex flex-col items-center justify-center min-h-screen">{children}</div>
+            <Footer />
             <Toaster richColors />
           </ThemeProvider>
         </Providers>

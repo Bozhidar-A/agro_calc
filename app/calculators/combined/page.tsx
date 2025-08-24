@@ -1,34 +1,34 @@
 'use client';
 
-import "driver.js/dist/driver.css";
+import 'driver.js/dist/driver.css';
+
 import { useEffect, useState } from 'react';
 import { Leaf } from 'lucide-react';
-import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import useSeedingCombinedForm from '@/hooks/useSeedingCombinedForm';
-import { useTranslate } from '@/hooks/useTranslate';
 import CombinedCharts from '@/components/CombinedCharts/CombinedCharts';
+import Errored from '@/components/Errored/Errored';
+import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import { SeedCombinedSection } from '@/components/SeedCombinedSection/SeedCombinedSection';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
+import { useAuth } from '@/hooks/useAuth';
+import useSeedingCombinedForm from '@/hooks/useSeedingCombinedForm';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
+import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
+import { PlantCombinedDBData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { Log } from '@/lib/logger';
 import { RoundToSecondStr } from '@/lib/math-util';
 import {
   CalculateParticipation,
   FormatCombinedFormSavedToGraphDisplay,
 } from '@/lib/seedingCombined-utils';
-import { RootState } from '@/store/store';
 import { CombinationTypes } from '@/lib/utils';
-import { getCombinedSteps, SpawnStartDriver } from '@/lib/driver-utils';
-import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
-import { Log } from "@/lib/logger";
-import Errored from "@/components/Errored/Errored";
-import { PlantCombinedDBData } from "@/lib/interfaces";
 
 export default function Combined() {
-  const authObj = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useAuth();
   const [dbData, setDbData] = useState<PlantCombinedDBData[]>([]);
   const [errored, setErrored] = useState(false);
   const translator = useTranslate();
@@ -45,7 +45,7 @@ export default function Combined() {
           toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
             description: initData.message,
           });
-          Log(["calc", "combined", "page", "init"], `GET failed with: ${initData.message}`);
+          Log(['calc', 'combined', 'page', 'init'], `GET failed with: ${initData.message}`);
           setErrored(true);
           return;
         }
@@ -53,7 +53,7 @@ export default function Combined() {
         setDbData(initData.data);
       } catch (error: unknown) {
         const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-        Log(["calc", "combined", "page", "init"], `GET failed with: ${errorMessage}`);
+        Log(['calc', 'combined', 'page', 'init'], `GET failed with: ${errorMessage}`);
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
@@ -62,35 +62,38 @@ export default function Combined() {
     fetchData();
   }, []);
 
-  const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(authObj, dbData);
+  const { form, finalData, onSubmit, warnings } = useSeedingCombinedForm(dbData);
 
   if (errored) {
-    return <Errored />
+    return <Errored />;
   }
 
   if (!dbData || dbData.length === 0) {
-    return <LoadingDisplay />
+    return <LoadingDisplay />;
   }
 
   const totalParticipation =
-    CalculateParticipation(form.watch(CombinationTypes.LEGUME)) + CalculateParticipation(form.watch(CombinationTypes.CEREAL));
+    CalculateParticipation(form.watch(CombinationTypes.LEGUME)) +
+    CalculateParticipation(form.watch(CombinationTypes.CEREAL));
   const totalPrice = RoundToSecondStr(
     form.watch(CombinationTypes.LEGUME).reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0) +
-    form.watch(CombinationTypes.CEREAL).reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0)
+      form.watch(CombinationTypes.CEREAL).reduce((acc, curr) => acc + curr.priceSeedsPerAcreBGN, 0)
   );
 
   return (
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-green-700 text-primary-foreground">
-          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white font-bold">{translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl dark:text-white font-bold">
+            {translator(SELECTABLE_STRINGS.COMBINED_CALC_TITLE)}
+          </CardTitle>
           <CardDescription className="text-primary-foreground/80 text-base sm:text-lg">
             <Button
               type="button"
               onClick={() => {
                 SpawnStartDriver(getCombinedSteps(translator));
               }}
-              className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+              className="bg-sky-500 dark:text-white hover:bg-sky-600 text-sm sm:text-base"
             >
               {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
             </Button>
@@ -119,7 +122,7 @@ export default function Combined() {
 
               <Card className="overflow-hidden" id="mixtureSummary">
                 <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl dark:text-white">
                     <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
                     {translator(SELECTABLE_STRINGS.COMBINED_SUMMARY_TITLE)}
                   </CardTitle>
@@ -127,7 +130,12 @@ export default function Combined() {
                 <CardContent className="pt-3 sm:pt-4">
                   <div className="space-y-3 sm:space-y-4">
                     <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
-                      <span className="font-semibold text-lg sm:text-xl" id="totalMixtureParticipation">{translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION)}</span>
+                      <span
+                        className="font-semibold text-lg sm:text-xl"
+                        id="totalMixtureParticipation"
+                      >
+                        {translator(SELECTABLE_STRINGS.COMBINED_TOTAL_PARTICIPATION)}
+                      </span>
                       <span
                         className={`text-lg sm:text-xl font-bold ${totalParticipation !== 100 ? 'text-yellow-500' : 'text-green-500'}`}
                       >
@@ -136,7 +144,9 @@ export default function Combined() {
                     </div>
 
                     <div className="flex justify-between items-center border-b pb-2 sm:pb-3">
-                      <span className="font-semibold text-lg sm:text-xl" id="finalPrice">{translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}</span>
+                      <span className="font-semibold text-lg sm:text-xl" id="finalPrice">
+                        {translator(SELECTABLE_STRINGS.COMBINED_FINAL_PRICE)}
+                      </span>
                       <div>
                         <span className="text-lg sm:text-xl font-bold">{totalPrice}</span>
                         <span className="text-lg sm:text-xl"> BGN</span>
@@ -160,7 +170,7 @@ export default function Combined() {
                 </CardContent>
               </Card>
 
-              {authObj.isAuthenticated && (
+              {isAuthenticated && (
                 <div className="flex justify-center w-full">
                   <Button
                     id="saveMixtureCalculation"
@@ -178,7 +188,9 @@ export default function Combined() {
                 <div className="mt-6 sm:mt-8" id="mixtureVisualization">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-xl sm:text-2xl">{translator(SELECTABLE_STRINGS.COMBINED_VISUALIZATION_TITLE)}</CardTitle>
+                      <CardTitle className="text-xl sm:text-2xl">
+                        {translator(SELECTABLE_STRINGS.COMBINED_VISUALIZATION_TITLE)}
+                      </CardTitle>
                       <CardDescription className="text-base sm:text-lg">
                         {translator(SELECTABLE_STRINGS.COMBINED_VISUALIZATION_DESCRIPTION)}
                       </CardDescription>
