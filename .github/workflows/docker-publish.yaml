@@ -17,6 +17,9 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Run Tests
+        run: yarn run test:all
+
       - name: Get short SHA
         id: vars
         run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
