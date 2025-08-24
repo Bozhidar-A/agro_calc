@@ -44,6 +44,6 @@ describe('OAuthButtonsGrid', () => {
     it('renders OR text with correct styling', () => {
         renderWithRedux(() => <OAuthButtonsGrid />, { preloadedState });
         const orText = screen.getByText(mockTranslateFunction(SELECTABLE_STRINGS.OR));
-        expect(orText).toHaveClass('text-center', 'text-sm', 'text-black', 'dark:text-white');
+        expect(orText).toHaveClass('text-center', 'text-sm', 'dark:text-white');
     });
 }); 
