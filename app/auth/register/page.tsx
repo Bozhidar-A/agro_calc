@@ -98,7 +98,7 @@ export default function Register() {
           <Separator className="border-[0.5px] border-black dark:border-white" />
 
           <div className="flex items-center justify-center space-x-2">
-            <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
+            <h2>{translator(SELECTABLE_STRINGS.HAVE_ACC_Q)}</h2>
             <Button asChild className="text-black dark:text-white font-semibold">
               <Link href="/auth/login" className="hover:underline">
                 {translator(SELECTABLE_STRINGS.LOGIN)}
