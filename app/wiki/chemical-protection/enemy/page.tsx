@@ -68,7 +68,7 @@ export default function WikiChemicalProtectionEnemyListPage() {
     <div className="container mx-auto py-2 sm:py-6 px-2 sm:px-4">
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader className="text-center bg-green-700 px-2 sm:px-4">
-          <CardTitle className="text-xl sm:text-2xl md:text-3xl text-black dark:text-white">
+          <CardTitle className="text-xl sm:text-2xl md:text-3xl text-white">
             {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION)}
           </CardTitle>
         </CardHeader>

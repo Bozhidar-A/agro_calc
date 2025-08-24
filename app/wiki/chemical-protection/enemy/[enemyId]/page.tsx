@@ -64,7 +64,7 @@ export default function WikiChemicalProtectionEnemyPage() {
       <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
         <Card className="w-full max-w-7xl mx-auto">
           <CardHeader className="text-center bg-green-700">
-            <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+            <CardTitle className="text-2xl sm:text-3xl text-white">
               {translator(SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION)}
             </CardTitle>
           </CardHeader>
@@ -88,7 +88,7 @@ export default function WikiChemicalProtectionEnemyPage() {
     <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
       <Card className="w-full">
         <CardHeader className="text-center bg-green-700">
-          <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+          <CardTitle className="text-2xl sm:text-3xl text-white">
             {translator(enemy.latinName as keyof typeof SELECTABLE_STRINGS)}
           </CardTitle>
         </CardHeader>
@@ -112,16 +112,16 @@ export default function WikiChemicalProtectionEnemyPage() {
                             href={`/wiki/chemical-protection/chemical/${chemRelation.chemical.id}`}
                             className="group flex items-center gap-2"
                           >
-                            <CardTitle className="text-lg text-black dark:text-white">
+                            <CardTitle className="text-lg text-white">
                               {translator(chemRelation.chemical.nameKey)}
                             </CardTitle>
-                            <ExternalLink className="w-5 h-5 text-black dark:text-white" />
+                            <ExternalLink className="w-5 h-5 text-white" />
                           </Link>
                           <div className="flex flex-wrap gap-2">
-                            <span className="px-2 py-1 bg-white/20 text-black dark:text-white rounded-md text-sm font-medium">
+                            <span className="px-2 py-1 bg-white/20 text-white rounded-md text-sm font-medium">
                               {translator(chemRelation.chemical.type)}
                             </span>
-                            <span className="px-2 py-1 bg-white/20 text-black dark:text-white rounded-md text-sm font-medium">
+                            <span className="px-2 py-1 bg-white/20 text-white rounded-md text-sm font-medium">
                               {translator(chemRelation.chemical.applicationStage)}
                             </span>
                           </div>
