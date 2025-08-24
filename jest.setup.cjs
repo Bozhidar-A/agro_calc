@@ -3,7 +3,7 @@ const { mockTranslateFunction, mockGetStrFromLangMapKey } = require('./test-util
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
-window.HTMLElement.prototype.scrollIntoView = () => { };
+window.HTMLElement.prototype.scrollIntoView = () => {};
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -20,9 +20,9 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 class ResizeObserver {
-  observe() { }
-  unobserve() { }
-  disconnect() { }
+  observe() {}
+  unobserve() {}
+  disconnect() {}
 }
 
 window.ResizeObserver = ResizeObserver;
@@ -37,30 +37,36 @@ jest.mock('lucide-react', () => {
   const React = require('react');
 
   //proxy to mock the icons
-  return new Proxy({}, {
-    get: (_, iconName) => {
-      return function MockIcon(props) {
-        return React.createElement('svg', {
-          'data-testid': `${String(iconName).toLowerCase()}-icon`,
-          'aria-label': String(iconName),
-          ...props
-        });
-      };
+  return new Proxy(
+    {},
+    {
+      get: (_, iconName) => {
+        return function MockIcon(props) {
+          return React.createElement('svg', {
+            'data-testid': `${String(iconName).toLowerCase()}-icon`,
+            'aria-label': String(iconName),
+            ...props,
+          });
+        };
+      },
     }
-  });
+  );
 });
 
 // mock framer-motion to avoid animation-related issues in tests
 jest.mock('framer-motion', () => {
   const React = require('react');
   return {
-    motion: new Proxy({}, {
-      get: (_, element) => {
-        return function MockComponent({ children, ...props }) {
-          return React.createElement(element, props, children);
-        };
+    motion: new Proxy(
+      {},
+      {
+        get: (_, element) => {
+          return function MockComponent({ children, ...props }) {
+            return React.createElement(element, props, children);
+          };
+        },
       }
-    })
+    ),
   };
 });
 
@@ -69,25 +75,48 @@ jest.mock('recharts', () => {
   const React = require('react');
   return {
     ResponsiveContainer: ({ children }) => React.createElement('div', {}, children),
-    PieChart: ({ children }) => React.createElement('div', { 'data-testid': 'pie-chart' }, children),
-    BarChart: ({ children }) => React.createElement('div', { 'data-testid': 'bar-chart' }, children),
-    LineChart: ({ children }) => React.createElement('div', { 'data-testid': 'line-chart' }, children),
-    Line: ({ dataKey, name }) => React.createElement('div', { 'data-testid': 'line', 'data-name': name }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
-    Pie: ({ data, dataKey, nameKey }) => (
-      React.createElement('div', { 'data-testid': 'pie' },
+    PieChart: ({ children }) =>
+      React.createElement('div', { 'data-testid': 'pie-chart' }, children),
+    BarChart: ({ children }) =>
+      React.createElement('div', { 'data-testid': 'bar-chart' }, children),
+    LineChart: ({ children }) =>
+      React.createElement('div', { 'data-testid': 'line-chart' }, children),
+    Line: ({ dataKey, name }) =>
+      React.createElement(
+        'div',
+        { 'data-testid': 'line', 'data-name': name },
+        typeof dataKey === 'function' ? 'transformed-data' : dataKey
+      ),
+    Pie: ({ data, dataKey, nameKey }) =>
+      React.createElement(
+        'div',
+        { 'data-testid': 'pie' },
         data?.map((item, index) => {
           const name = typeof nameKey === 'function' ? nameKey(item) : item[nameKey];
           const value = typeof dataKey === 'function' ? dataKey(item) : item[dataKey];
-          return React.createElement('div', { key: index, 'data-name': name, 'data-value': value }, name);
+          return React.createElement(
+            'div',
+            { key: index, 'data-name': name, 'data-value': value },
+            name
+          );
         })
-      )
-    ),
-    Bar: ({ dataKey, name }) => React.createElement('div', { 'data-testid': 'bar', 'data-name': name }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
+      ),
+    Bar: ({ dataKey, name }) =>
+      React.createElement(
+        'div',
+        { 'data-testid': 'bar', 'data-name': name },
+        typeof dataKey === 'function' ? 'transformed-data' : dataKey
+      ),
     Cell: () => React.createElement('div', { 'data-testid': 'chart-cell' }),
-    XAxis: ({ dataKey }) => React.createElement('div', { 'data-testid': 'x-axis' }, typeof dataKey === 'function' ? 'transformed-data' : dataKey),
+    XAxis: ({ dataKey }) =>
+      React.createElement(
+        'div',
+        { 'data-testid': 'x-axis' },
+        typeof dataKey === 'function' ? 'transformed-data' : dataKey
+      ),
     YAxis: () => React.createElement('div', { 'data-testid': 'y-axis' }),
     Tooltip: () => React.createElement('div', { 'data-testid': 'tooltip' }),
-    Legend: () => React.createElement('div', { 'data-testid': 'legend' })
+    Legend: () => React.createElement('div', { 'data-testid': 'legend' }),
   };
 });
 
@@ -95,14 +124,14 @@ jest.mock('recharts', () => {
 jest.mock('sonner', () => ({
   toast: {
     success: jest.fn(),
-    error: jest.fn()
-  }
+    error: jest.fn(),
+  },
 }));
 
 // Mock API calls
 jest.mock('@/lib/api-util', () => ({
   APICaller: jest.fn(),
-  TryGetUserLocation: jest.fn().mockResolvedValue(null)
+  TryGetUserLocation: jest.fn().mockResolvedValue(null),
 }));
 
 // Mock next/link
@@ -113,12 +142,13 @@ jest.mock('next/link', () => {
 
 jest.mock('@/components/Errored/Errored', () => {
   const React = require('react');
-  return ({ children }) => React.createElement('div', { 'data-testid': 'error-component' }, children);
-})
+  return ({ children }) =>
+    React.createElement('div', { 'data-testid': 'error-component' }, children);
+});
 
 //mock useTranslate hook
 jest.mock('@/hooks/useTranslate', () => ({
-  useTranslate: () => mockTranslateFunction
+  useTranslate: () => mockTranslateFunction,
 }));
 
 //mock useWarnings hook
@@ -127,25 +157,25 @@ jest.mock('@/hooks/useWarnings', () => ({
     warnings: {},
     AddWarning: jest.fn(),
     RemoveWarning: jest.fn(),
-    CountWarnings: jest.fn(() => 0)
-  }))
+    CountWarnings: jest.fn(() => 0),
+  })),
 }));
 
 // Global mock for GetStrFromLangMapKey
 jest.mock('@/lib/utils', () => ({
   ...jest.requireActual('@/lib/utils'),
-  GetStrFromLangMapKey: mockGetStrFromLangMapKey
+  GetStrFromLangMapKey: mockGetStrFromLangMapKey,
 }));
 
 //mock router
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn() })
+  useRouter: () => ({ push: jest.fn() }),
 }));
 
 //mock useAuth hook
 jest.mock('@/hooks/useAuth', () => ({
   useAuth: () => ({
     isAuthenticated: true,
-    userId: 'test-user-id'
-  })
+    userId: 'test-user-id',
+  }),
 }));

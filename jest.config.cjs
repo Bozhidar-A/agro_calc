@@ -12,7 +12,7 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
-  modulePathIgnorePatterns: ['<rootDir>/.next/']
+  modulePathIgnorePatterns: ['<rootDir>/.next/'],
 };
 
 module.exports = createJestConfig(customJestConfig);

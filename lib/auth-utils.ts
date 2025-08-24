@@ -1,8 +1,13 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { User } from '@prisma/client';
 import { compare, hash } from 'bcryptjs';
 import { jwtVerify, SignJWT } from 'jose';
+import { HandleOAuthLoginArgs, HandleOAuthLoginResult } from '@/lib/interfaces';
+import { Log } from '@/lib/logger';
+import { prisma } from '@/lib/prisma';
+import { DecodeTokenContent } from '@/lib/utils-server';
 import {
   AttachCredentialsToUser,
   CreateNewUser,
@@ -14,11 +19,6 @@ import {
   FindUserByEmail,
   InsertRefreshTokenByUserId,
 } from '@/prisma/prisma-utils';
-import { Log } from '@/lib/logger';
-import { User } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
-import { DecodeTokenContent } from '@/lib/utils-server';
-import { HandleOAuthLoginArgs, HandleOAuthLoginResult } from '@/lib/interfaces';
 
 export async function BackendVerifyToken(secret: string, token: string | undefined, type: string) {
   try {
@@ -165,7 +165,11 @@ export async function BackendLogin(email: string, password: string, refreshToken
     Log(['auth', 'login'], `refreshToken: ${refreshToken} for user ${user.id}`);
 
     //insert new refresh token
-    const insertedToken = await InsertRefreshTokenByUserId(refreshToken, user.id, refreshTokenUserInfo);
+    const insertedToken = await InsertRefreshTokenByUserId(
+      refreshToken,
+      user.id,
+      refreshTokenUserInfo
+    );
 
     Log(['auth', 'login'], `Inserted new refresh token ${insertedToken.id} for user ${user.id}`);
 
@@ -232,44 +236,56 @@ export async function HandleOAuthLogin({
   findUserByProviderId,
   attachProviderIdToUser,
   createUserWithProvider,
-  refreshTokenUserInfo
+  refreshTokenUserInfo,
 }: HandleOAuthLoginArgs): Promise<HandleOAuthLoginResult> {
-  Log(["auth", "oauth", provider, "login"], `Starting OAuth login for provider: ${provider}, providerId: ${providerId}, email: ${email}`);
+  Log(
+    ['auth', 'oauth', provider, 'login'],
+    `Starting OAuth login for provider: ${provider}, providerId: ${providerId}, email: ${email}`
+  );
   let user = await findUserByProviderId(providerId);
   if (!user) {
-    Log(["auth", "oauth", provider, "login"], `No user found by providerId. Looking up by email: ${email}`);
+    Log(
+      ['auth', 'oauth', provider, 'login'],
+      `No user found by providerId. Looking up by email: ${email}`
+    );
     const existingUser = await FindUserByEmail(email);
     if (existingUser) {
-      Log(["auth", "oauth", provider, "login"], `Existing user found by email. Attaching providerId to user: ${existingUser.id}`);
+      Log(
+        ['auth', 'oauth', provider, 'login'],
+        `Existing user found by email. Attaching providerId to user: ${existingUser.id}`
+      );
       await attachProviderIdToUser(existingUser.id, providerId);
       user = existingUser;
     } else {
-      Log(["auth", "oauth", provider, "login"], `No user found by email. Creating new user with providerId: ${providerId}`);
+      Log(
+        ['auth', 'oauth', provider, 'login'],
+        `No user found by email. Creating new user with providerId: ${providerId}`
+      );
       user = await createUserWithProvider(providerId, email);
-      Log(["auth", "oauth", provider, "login"], `Created new user: ${user.id}`);
+      Log(['auth', 'oauth', provider, 'login'], `Created new user: ${user.id}`);
     }
   } else {
-    Log(["auth", "oauth", provider, "login"], `User found by providerId: ${user.id}`);
+    Log(['auth', 'oauth', provider, 'login'], `User found by providerId: ${user.id}`);
   }
 
   // Generate tokens
   const encoder = new TextEncoder();
-  const accessToken = await new SignJWT({ userId: user.id, type: "access" })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("15m")
+  const accessToken = await new SignJWT({ userId: user.id, type: 'access' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('15m')
     .sign(encoder.encode(process.env.JWT_SECRET!));
 
-  Log(["auth", "oauth", provider, "login"], `Generated access token for user: ${user.id}`);
+  Log(['auth', 'oauth', provider, 'login'], `Generated access token for user: ${user.id}`);
 
-  const refreshToken = await new SignJWT({ userId: user.id, type: "refresh" })
-    .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("7d")
+  const refreshToken = await new SignJWT({ userId: user.id, type: 'refresh' })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime('7d')
     .sign(encoder.encode(process.env.JWT_REFRESH_SECRET!));
 
-  Log(["auth", "oauth", provider, "login"], `Generated refresh token for user: ${user.id}`);
+  Log(['auth', 'oauth', provider, 'login'], `Generated refresh token for user: ${user.id}`);
 
   await InsertRefreshTokenByUserId(refreshToken, user.id, refreshTokenUserInfo);
-  Log(["auth", "oauth", provider, "login"], `Inserted refresh token for user: ${user.id}`);
+  Log(['auth', 'oauth', provider, 'login'], `Inserted refresh token for user: ${user.id}`);
 
   return {
     user: {
@@ -339,7 +355,12 @@ export async function BackendRefreshAccessToken(refreshToken: string) {
     'refresh'
   );
 
-  if (!validToken || typeof decoded !== 'object' || !('payload' in decoded) || !decoded.payload?.userId) {
+  if (
+    !validToken ||
+    typeof decoded !== 'object' ||
+    !('payload' in decoded) ||
+    !decoded.payload?.userId
+  ) {
     throw new Error('Invalid refresh token');
   }
 
@@ -400,12 +421,19 @@ export async function BackendPasswordResetRequest(email: string) {
     return { success: true, resetToken };
   } catch (error: unknown) {
     const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-    Log(['auth', 'passwordReset', 'request'], `BackendPasswordResetRequest failed with: ${errorMessage}`);
+    Log(
+      ['auth', 'passwordReset', 'request'],
+      `BackendPasswordResetRequest failed with: ${errorMessage}`
+    );
     return { success: false, message: errorMessage };
   }
 }
 
-export async function BackendPasswordReset(token: string, password: string, confirmPassword: string) {
+export async function BackendPasswordReset(
+  token: string,
+  password: string,
+  confirmPassword: string
+) {
   try {
     if (password !== confirmPassword) {
       return { success: false, message: 'Passwords do not match' };

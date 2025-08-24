@@ -1,8 +1,8 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { SUPPORTED_LANGS, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { SUPPORTED_LANGS, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 
 const localSettingsSlice = createSlice({
   name: 'localSettings',
@@ -24,5 +24,6 @@ const localSettingsSlice = createSlice({
   },
 });
 
-export const { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } = localSettingsSlice.actions;
+export const { LocalSetLang, LocalSetTheme, LocalSetUnitOfMeasurementLength } =
+  localSettingsSlice.actions;
 export default localSettingsSlice.reducer;

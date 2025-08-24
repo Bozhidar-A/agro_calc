@@ -124,5 +124,5 @@ export function renderWithReduxHookWrapper(preloadedState: any = {}) {
   return {
     wrapper,
     store,
-  }
+  };
 }

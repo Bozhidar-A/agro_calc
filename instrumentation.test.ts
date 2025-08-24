@@ -1,3 +1,5 @@
+import { prisma } from '@/lib/prisma';
+import { register } from './instrumentation';
 import { SELECTABLE_STRINGS } from './lib/LangMap';
 import { CalculatorValueTypes, CombinationTypes } from './lib/utils';
 
@@ -8,11 +10,11 @@ import { CalculatorValueTypes, CombinationTypes } from './lib/utils';
 var mockDbData = {
   plants: [
     {
-      latinName: SELECTABLE_STRINGS.PISUM_SATIVUM
+      latinName: SELECTABLE_STRINGS.PISUM_SATIVUM,
     },
     {
-      latinName: SELECTABLE_STRINGS.GLYCINE_MAX
-    }
+      latinName: SELECTABLE_STRINGS.GLYCINE_MAX,
+    },
   ],
   SowingRateData: [
     {
@@ -22,40 +24,40 @@ var mockDbData = {
         step: 0.01,
         unit: '',
         minSliderVal: 0.9,
-        maxSliderVal: 0.99
+        maxSliderVal: 0.99,
       },
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: 'plants/m²',
         minSliderVal: 300,
-        maxSliderVal: 400
+        maxSliderVal: 400,
       },
       massPer1000g: {
         type: CalculatorValueTypes.SLIDER,
         step: 0.1,
         unit: 'g',
         minSliderVal: 170,
-        maxSliderVal: 230
+        maxSliderVal: 230,
       },
       purity: {
         type: CalculatorValueTypes.CONST,
         unit: '%',
-        val: 99.0
+        val: 99.0,
       },
       germination: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
         unit: '%',
         minSliderVal: 75.0,
-        maxSliderVal: 100.0
+        maxSliderVal: 100.0,
       },
       rowSpacingCm: {
         type: CalculatorValueTypes.CONST,
         unit: 'cm',
-        val: 12.5
-      }
-    }
+        val: 12.5,
+      },
+    },
   ],
   ChemicalProtectionData: [
     {
@@ -66,8 +68,8 @@ var mockDbData = {
         {
           nameKey: SELECTABLE_STRINGS.PISUM_SATIVUM,
           quantity: 100,
-          unit: SELECTABLE_STRINGS.PISUM_SATIVUM
-        }
+          unit: SELECTABLE_STRINGS.PISUM_SATIVUM,
+        },
       ],
       applicationStage: SELECTABLE_STRINGS.PISUM_SATIVUM,
       chemicalTargetEnemies: [SELECTABLE_STRINGS.PISUM_SATIVUM],
@@ -80,8 +82,8 @@ var mockDbData = {
       pricePer1LiterBGN: 50,
       pricePerAcreBGN: 5,
       additionalInfo: SELECTABLE_STRINGS.PISUM_SATIVUM,
-      additionalInfoNotes: SELECTABLE_STRINGS.PISUM_SATIVUM
-    }
+      additionalInfoNotes: SELECTABLE_STRINGS.PISUM_SATIVUM,
+    },
   ],
   SeedingDataCombination: [
     {
@@ -89,37 +91,37 @@ var mockDbData = {
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 10,
       maxSeedingRate: 20,
-      priceFor1kgSeedsBGN: 5
-    }
+      priceFor1kgSeedsBGN: 5,
+    },
   ],
   ChemicalProtectionEnemiesData: [
     {
-      latinName: SELECTABLE_STRINGS.PISUM_SATIVUM
-    }
+      latinName: SELECTABLE_STRINGS.PISUM_SATIVUM,
+    },
   ],
   activeIngredients: [
     {
       nameKey: 'Test Ingredient 1',
-      unit: 'g/kg'
-    }
+      unit: 'g/kg',
+    },
   ],
   enemies: [
     {
-      latinName: 'Test Enemy 1'
-    }
+      latinName: 'Test Enemy 1',
+    },
   ],
   chemicalTargetEnemies: [
     {
       chemicalId: 'chem-1',
-      enemyId: 'enemy-1'
-    }
+      enemyId: 'enemy-1',
+    },
   ],
   chemicalActiveIngredients: [
     {
       chemicalId: 'chem-1',
       activeIngredientId: 'ingredient-1',
-      quantity: 100
-    }
+      quantity: 100,
+    },
   ],
   seedingDataCombinations: [
     {
@@ -127,9 +129,9 @@ var mockDbData = {
       plantType: CombinationTypes.LEGUME,
       minSeedingRate: 10,
       maxSeedingRate: 20,
-      priceFor1kgSeedsBGN: 5
-    }
-  ]
+      priceFor1kgSeedsBGN: 5,
+    },
+  ],
 };
 
 // Mock the module before imports
@@ -137,12 +139,9 @@ jest.doMock('./instrumentation', () => {
   const originalModule = jest.requireActual('./instrumentation');
   return {
     ...originalModule,
-    dbData: mockDbData
+    dbData: mockDbData,
   };
 });
-
-import { prisma } from '@/lib/prisma';
-import { register } from './instrumentation';
 
 // Mock SELECTABLE_STRINGS and CalculatorValueTypes
 jest.mock('./lib/LangMap', () => ({
@@ -160,19 +159,19 @@ jest.mock('./lib/LangMap', () => ({
     DACTYLIS_GLOMERATA: 'Dactylis glomerata',
     AVENULA_PUBESCENS: 'Avenula pubescens',
     FESTUCA_PRATENSIS: 'Festuca pratensis',
-    FESTUCA_RUBRA: 'Festuca rubra'
-  }
+    FESTUCA_RUBRA: 'Festuca rubra',
+  },
 }));
 
 jest.mock('./lib/utils', () => ({
   CalculatorValueTypes: {
     SLIDER: 'slider',
-    CONST: 'const'
+    CONST: 'const',
   },
   CombinationTypes: {
     LEGUMES: 'legumes',
-    CEREALS: 'cereals'
-  }
+    CEREALS: 'cereals',
+  },
 }));
 
 interface Plant {
@@ -224,52 +223,52 @@ jest.mock('@/lib/prisma', () => ({
     plant: {
       count: jest.fn(),
       create: jest.fn(),
-      findUnique: jest.fn()
+      findUnique: jest.fn(),
     },
     sowingRatePlant: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     plantChemical: {
       create: jest.fn(),
       upsert: jest.fn(),
     },
     chemical: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     activeIngredient: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     enemy: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     chemicalToEnemy: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     chemicalActiveIngredient: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     seedingDataCombination: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRateCoefficientSecurity: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRateWantedPlantsPerMeterSquared: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRateMassPer1000g: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRatePurity: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRateGermination: {
-      create: jest.fn()
+      create: jest.fn(),
     },
     sowingRateRowSpacingCm: {
-      create: jest.fn()
-    }
-  }
+      create: jest.fn(),
+    },
+  },
 }));
 
 // Mock environment variables
@@ -279,7 +278,7 @@ describe('Instrumentation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     process.env = { ...originalEnv };
-    jest.spyOn(console, 'error').mockImplementation(() => { });
+    jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -327,9 +326,13 @@ describe('Instrumentation', () => {
       (prisma.plant.count as jest.Mock).mockResolvedValue(0);
       (prisma.plant.findUnique as jest.Mock).mockResolvedValue({ id: 'test-plant-id' });
       (prisma.plant.create as jest.Mock).mockResolvedValue({ id: 'test-plant-id' });
-      (prisma.sowingRatePlant.create as jest.Mock).mockResolvedValue({ id: 'test-sowing-plant-id' });
+      (prisma.sowingRatePlant.create as jest.Mock).mockResolvedValue({
+        id: 'test-sowing-plant-id',
+      });
       (prisma.chemical.create as jest.Mock).mockResolvedValue({ id: 'test-chemical-id' });
-      (prisma.plantChemical.upsert as jest.Mock).mockResolvedValue({ id: 'test-plant-chemical-id' });
+      (prisma.plantChemical.upsert as jest.Mock).mockResolvedValue({
+        id: 'test-plant-chemical-id',
+      });
 
       await register(mockDbData);
 
@@ -337,55 +340,57 @@ describe('Instrumentation', () => {
       expect(prisma.plant.create).toHaveBeenCalledTimes(mockDbData.plants.length);
       mockDbData.plants.forEach((plant: Plant, index: number) => {
         expect(prisma.plant.create).toHaveBeenNthCalledWith(index + 1, {
-          data: plant
+          data: plant,
         });
       });
 
       //verify chemicals were created
       expect(prisma.chemical.create).toHaveBeenCalledTimes(1);
-      mockDbData.ChemicalProtectionData.forEach((chemicalData: ChemProtectionData, index: number) => {
-        expect(prisma.chemical.create).toHaveBeenNthCalledWith(index + 1, {
-          data: expect.objectContaining({
-            nameKey: chemicalData.nameKey,
-            type: chemicalData.type,
-            applicationStage: chemicalData.applicationStage,
-            dosage: chemicalData.dosage,
-            dosageUnit: chemicalData.dosageUnit,
-            maxApplications: chemicalData.maxApplications,
-            minIntervalBetweenApplicationsDays: chemicalData.minIntervalBetweenApplicationsDays,
-            maxIntervalBetweenApplicationsDays: chemicalData.maxIntervalBetweenApplicationsDays,
-            quarantinePeriodDays: chemicalData.quarantinePeriodDays,
-            pricePer1LiterBGN: chemicalData.pricePer1LiterBGN,
-            pricePerAcreBGN: chemicalData.pricePerAcreBGN,
-            additionalInfo: chemicalData.additionalInfo,
-            additionalInfoNotes: chemicalData.additionalInfoNotes,
-            activeIngredients: {
-              create: chemicalData.activeIngredients.map(ingredient => ({
-                quantity: ingredient.quantity,
-                activeIngredient: {
-                  connectOrCreate: {
-                    where: { nameKey: ingredient.nameKey },
-                    create: {
-                      nameKey: ingredient.nameKey,
-                      unit: ingredient.unit
-                    }
-                  }
-                }
-              }))
-            },
-            chemicalTargetEnemies: {
-              create: chemicalData.chemicalTargetEnemies.map(enemyName => ({
-                enemy: {
-                  connectOrCreate: {
-                    where: { latinName: enemyName },
-                    create: { latinName: enemyName }
-                  }
-                }
-              }))
-            }
-          })
-        });
-      });
+      mockDbData.ChemicalProtectionData.forEach(
+        (chemicalData: ChemProtectionData, index: number) => {
+          expect(prisma.chemical.create).toHaveBeenNthCalledWith(index + 1, {
+            data: expect.objectContaining({
+              nameKey: chemicalData.nameKey,
+              type: chemicalData.type,
+              applicationStage: chemicalData.applicationStage,
+              dosage: chemicalData.dosage,
+              dosageUnit: chemicalData.dosageUnit,
+              maxApplications: chemicalData.maxApplications,
+              minIntervalBetweenApplicationsDays: chemicalData.minIntervalBetweenApplicationsDays,
+              maxIntervalBetweenApplicationsDays: chemicalData.maxIntervalBetweenApplicationsDays,
+              quarantinePeriodDays: chemicalData.quarantinePeriodDays,
+              pricePer1LiterBGN: chemicalData.pricePer1LiterBGN,
+              pricePerAcreBGN: chemicalData.pricePerAcreBGN,
+              additionalInfo: chemicalData.additionalInfo,
+              additionalInfoNotes: chemicalData.additionalInfoNotes,
+              activeIngredients: {
+                create: chemicalData.activeIngredients.map((ingredient) => ({
+                  quantity: ingredient.quantity,
+                  activeIngredient: {
+                    connectOrCreate: {
+                      where: { nameKey: ingredient.nameKey },
+                      create: {
+                        nameKey: ingredient.nameKey,
+                        unit: ingredient.unit,
+                      },
+                    },
+                  },
+                })),
+              },
+              chemicalTargetEnemies: {
+                create: chemicalData.chemicalTargetEnemies.map((enemyName) => ({
+                  enemy: {
+                    connectOrCreate: {
+                      where: { latinName: enemyName },
+                      create: { latinName: enemyName },
+                    },
+                  },
+                })),
+              },
+            }),
+          });
+        }
+      );
 
       //verify sowing rate data was created
       expect(prisma.sowingRatePlant.create).toHaveBeenCalledTimes(mockDbData.SowingRateData.length);
@@ -394,49 +399,56 @@ describe('Instrumentation', () => {
           data: expect.objectContaining({
             plant: {
               connect: {
-                id: 'test-plant-id'
-              }
-            }
-          })
+                id: 'test-plant-id',
+              },
+            },
+          }),
         });
       });
 
       //verify chemical protection data was created
-      expect(prisma.plantChemical.upsert).toHaveBeenCalledTimes(mockDbData.ChemicalProtectionData.length);
-      mockDbData.ChemicalProtectionData.forEach((_chemProtection: ChemProtectionData, index: number) => {
-        expect(prisma.plantChemical.upsert).toHaveBeenNthCalledWith(index + 1, {
-          where: {
-            plantId_chemicalId: {
+      expect(prisma.plantChemical.upsert).toHaveBeenCalledTimes(
+        mockDbData.ChemicalProtectionData.length
+      );
+      mockDbData.ChemicalProtectionData.forEach(
+        (_chemProtection: ChemProtectionData, index: number) => {
+          expect(prisma.plantChemical.upsert).toHaveBeenNthCalledWith(index + 1, {
+            where: {
+              plantId_chemicalId: {
+                plantId: expect.any(String),
+                chemicalId: expect.any(String),
+              },
+            },
+            update: {},
+            create: {
               plantId: expect.any(String),
-              chemicalId: expect.any(String)
-            }
-          },
-          update: {},
-          create: {
-            plantId: expect.any(String),
-            chemicalId: expect.any(String)
-          }
-        });
-      });
+              chemicalId: expect.any(String),
+            },
+          });
+        }
+      );
 
       //verify seeding data combinations were created
-      expect(prisma.seedingDataCombination.create).toHaveBeenCalledTimes(mockDbData.seedingDataCombinations.length);
-      mockDbData.seedingDataCombinations.forEach((combination: SeedingDataCombination, index: number) => {
-        expect(prisma.seedingDataCombination.create).toHaveBeenNthCalledWith(index + 1, {
-          data: {
-            plant: {
-              connect: {
-                id: 'test-plant-id'
-              }
+      expect(prisma.seedingDataCombination.create).toHaveBeenCalledTimes(
+        mockDbData.seedingDataCombinations.length
+      );
+      mockDbData.seedingDataCombinations.forEach(
+        (combination: SeedingDataCombination, index: number) => {
+          expect(prisma.seedingDataCombination.create).toHaveBeenNthCalledWith(index + 1, {
+            data: {
+              plant: {
+                connect: {
+                  id: 'test-plant-id',
+                },
+              },
+              plantType: combination.plantType,
+              minSeedingRate: combination.minSeedingRate,
+              maxSeedingRate: combination.maxSeedingRate,
+              priceFor1kgSeedsBGN: combination.priceFor1kgSeedsBGN,
             },
-            plantType: combination.plantType,
-            minSeedingRate: combination.minSeedingRate,
-            maxSeedingRate: combination.maxSeedingRate,
-            priceFor1kgSeedsBGN: combination.priceFor1kgSeedsBGN
-          }
-        });
-      });
-
+          });
+        }
+      );
 
       //connectOrCreate is not checked in the test
     });

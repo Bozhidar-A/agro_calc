@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
-import { useTranslate } from '@/hooks/useTranslate';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslate } from '@/hooks/useTranslate';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export default function WikiChemicalProtectionPage() {

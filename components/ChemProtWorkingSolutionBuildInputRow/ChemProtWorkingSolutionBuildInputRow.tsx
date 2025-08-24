@@ -17,10 +17,7 @@ export function ChemProtWorkingSolutionBuildInputRow({
   return (
     <Card className="overflow-hidden" data-testid="card">
       <CardHeader className="bg-green-700 pb-2" data-testid="card-header">
-        <CardTitle
-          className="flex items-center gap-2 text-lg text-white"
-          data-testid="card-title"
-        >
+        <CardTitle className="flex items-center gap-2 text-lg text-white" data-testid="card-title">
           {icon}
           {displayName}
         </CardTitle>

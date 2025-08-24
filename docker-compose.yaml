@@ -1,6 +1,6 @@
 services:
   agro_calc:
-    image: "ghcr.io/bozhidar-a/ba-bachelor-work:latest"
+    image: 'ghcr.io/bozhidar-a/ba-bachelor-work:latest'
     profiles:
       - remote
     ports:
@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: "ghcr.io/bozhidar-a/ba-bachelor-work:latest"
+    image: 'ghcr.io/bozhidar-a/ba-bachelor-work:latest'
     profiles:
       - local
     ports:
@@ -43,4 +43,4 @@ services:
       - 8080:8080
 
 volumes:
-  agro_calc_db_data: 
+  agro_calc_db_data:

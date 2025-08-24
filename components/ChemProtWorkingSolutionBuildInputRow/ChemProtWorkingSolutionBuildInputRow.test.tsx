@@ -118,7 +118,13 @@ describe('ChemProtWorkingSolutionBuildInputRow', () => {
 
     const title = screen.getByTestId('card-title');
     expect(title).toHaveClass(
-      'font-semibold', 'tracking-tight', 'flex', 'items-center', 'gap-2', 'text-lg', 'text-white'
+      'font-semibold',
+      'tracking-tight',
+      'flex',
+      'items-center',
+      'gap-2',
+      'text-lg',
+      'text-white'
     );
   });
 });

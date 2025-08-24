@@ -1,12 +1,17 @@
 'use client';
 
-import "driver.js/dist/driver.css";
+import 'driver.js/dist/driver.css';
+
 import { useEffect, useState } from 'react';
 import { Droplet, Leaf, Ruler, Scale, Sprout } from 'lucide-react';
+import { useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
-import useSowingRateForm from '@/hooks/useSowingRateForm';
-import { useTranslate } from '@/hooks/useTranslate';
+import { BuildSowingRateRow } from '@/components/BuildSowingRateRow/BuildSowingRateRow';
+import Errored from '@/components/Errored/Errored';
+import LoadingDisplay from '@/components/LoadingDisplay/LoadingDisplay';
 import SowingCharts from '@/components/SowingCharts/SowingCharts';
+import SowingOutput from '@/components/SowingOutput/SowingOutput';
+import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormField } from '@/components/ui/form';
@@ -17,17 +22,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import useSowingRateForm from '@/hooks/useSowingRateForm';
+import { useTranslate } from '@/hooks/useTranslate';
 import { APICaller } from '@/lib/api-util';
+import {
+  getSowingStepsNoPlant,
+  getSowingStepsPickedPlant,
+  SpawnStartDriver,
+} from '@/lib/driver-utils';
+import { DisplayOutputRowProps, SowingRateDBData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import SowingOutput from '@/components/SowingOutput/SowingOutput';
-import SowingTotalArea from '@/components/SowingTotalArea/SowingTotalArea';
-import { getSowingStepsNoPlant, getSowingStepsPickedPlant, SpawnStartDriver } from '@/lib/driver-utils';
-import { useWatch } from 'react-hook-form';
-import { DisplayOutputRowProps, SowingRateDBData } from "@/lib/interfaces";
-import LoadingDisplay from "@/components/LoadingDisplay/LoadingDisplay";
-import { Log } from "@/lib/logger";
-import Errored from "@/components/Errored/Errored";
-import { BuildSowingRateRow } from "@/components/BuildSowingRateRow/BuildSowingRateRow";
+import { Log } from '@/lib/logger';
 
 export function DisplayOutputRow({ data, text, unit }: DisplayOutputRowProps) {
   return (
@@ -65,7 +70,7 @@ export default function SowingRate() {
         setDbData(res.data);
       } catch (error: unknown) {
         const errorMessage = (error as Error)?.message ?? 'An unknown error occurred';
-        Log(["calc", "sowing", "page", "init"], `GET failed with: ${errorMessage}`);
+        Log(['calc', 'sowing', 'page', 'init'], `GET failed with: ${errorMessage}`);
         toast.error(translator(SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA), {
           description: translator(SELECTABLE_STRINGS.TOAST_TRY_AGAIN_LATER),
         });
@@ -75,9 +80,7 @@ export default function SowingRate() {
     fetchData();
   }, []);
 
-  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(
-    dbData
-  );
+  const { form, onSubmit, warnings, activePlantDbData, dataToBeSaved } = useSowingRateForm(dbData);
 
   //on plant change swap to other drive
   const culturePicked = useWatch({
@@ -86,11 +89,11 @@ export default function SowingRate() {
   });
 
   if (errored) {
-    return <Errored />
+    return <Errored />;
   }
 
   if (!dbData || dbData.length === 0) {
-    return <LoadingDisplay />
+    return <LoadingDisplay />;
   }
 
   return (
@@ -104,7 +107,9 @@ export default function SowingRate() {
             <Button
               type="button"
               onClick={() => {
-                const steps = culturePicked ? getSowingStepsPickedPlant(translator) : getSowingStepsNoPlant(translator);
+                const steps = culturePicked
+                  ? getSowingStepsPickedPlant(translator)
+                  : getSowingStepsNoPlant(translator);
                 SpawnStartDriver(steps);
               }}
               className="bg-sky-500  dark:text-white hover:bg-sky-600 text-sm sm:text-base"
@@ -125,7 +130,10 @@ export default function SowingRate() {
                   name="cultureLatinName"
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger id="cultureSelect" className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs">
+                      <SelectTrigger
+                        id="cultureSelect"
+                        className="text-lg sm:text-xl py-4 sm:py-6 w-full max-w-xs"
+                      >
                         <SelectValue
                           placeholder={translator(SELECTABLE_STRINGS.SOWING_RATE_PICK_CULTURE)}
                         />
@@ -238,7 +246,12 @@ export default function SowingRate() {
                       <SowingTotalArea form={form} dataToBeSaved={dataToBeSaved} />
 
                       <div className="flex justify-center mt-6 sm:mt-8">
-                        <Button id="saveCalculationButton" type="submit" size="lg" className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md dark:text-white">
+                        <Button
+                          id="saveCalculationButton"
+                          type="submit"
+                          size="lg"
+                          className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md dark:text-white"
+                        >
                           {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}
                         </Button>
                       </div>

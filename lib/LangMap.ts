@@ -805,7 +805,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PROFILE]: 'Профил',
     [SELECTABLE_STRINGS.NEED_HELP_Q]: 'Нуждаете се от помощ?',
     [SELECTABLE_STRINGS.HAS_VALUE_OUTSIDE_SUGGESTED_RANGE]: 'Имате стойност извън препоръчаните!',
-    [SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS]: 'Внимание: Изчислението съдържа стойности извън препоръчителния диапазон!',
+    [SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS]:
+      'Внимание: Изчислението съдържа стойности извън препоръчителния диапазон!',
     [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Запази калкулацията',
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Визуализация на калкулацията',
     [SELECTABLE_STRINGS.LOADING]: 'Зареждане...',
@@ -887,20 +888,27 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Паролата е нулирана успешно!',
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]:
       'Възникна грешка при нулиране на паролата',
-    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: "Паролата ви е нулирана, моля влезте отново.",
-    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: "Всички сесии са прекратени. Моля, влезте отново.",
-    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]: "OAuth сесията е изтекла. Моля, влезте отново.",
-    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]: "Неуспешен опит за OAuth вход. Моля, опитайте отново.",
+    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]:
+      'Паролата ви е нулирана, моля влезте отново.',
+    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]:
+      'Всички сесии са прекратени. Моля, влезте отново.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]:
+      'OAuth сесията е изтекла. Моля, влезте отново.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]:
+      'Неуспешен опит за OAuth вход. Моля, опитайте отново.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
     [SELECTABLE_STRINGS.OPEN_CALCULATOR]: 'Отвори калкулатор',
 
     [SELECTABLE_STRINGS.RESET_EMAIL_TITLE]: 'Нулиране на парола',
-    [SELECTABLE_STRINGS.RESET_EMAIL_INSTRUCTIONS]: "Получихме заявка за нулиране на паролата ви. За да продължите с нулирането на паролата, моля кликнете върху бутона по-долу:",
+    [SELECTABLE_STRINGS.RESET_EMAIL_INSTRUCTIONS]:
+      'Получихме заявка за нулиране на паролата ви. За да продължите с нулирането на паролата, моля кликнете върху бутона по-долу:',
     [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON]: 'Нулиране на парола',
-    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]: 'Ако бутонът не работи, моля копирайте и поставете следния линк в браузъра си:',
-    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]: "Ако не сте искали да нулирате паролата си, моля игнорирайте този имейл. Вашата парола няма да бъде променена, освен ако не следвате линка по-горе.",
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]:
+      'Ако бутонът не работи, моля копирайте и поставете следния линк в браузъра си:',
+    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]:
+      'Ако не сте искали да нулирате паролата си, моля игнорирайте този имейл. Вашата парола няма да бъде променена, освен ако не следвате линка по-горе.',
 
     [SELECTABLE_STRINGS.SETTINGS]: 'Настройки',
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT]: 'Предпочитана единица за измерване',
@@ -1012,8 +1020,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.COMBINED_PRICE_PER_ACRE_COMPARISON_LABEL]: 'Цена на семена за дка/лв',
     [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON]:
       'Сравнение на цената на семената за хектар',
-    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL]:
-      'Цена на семена за хектар/лв',
+    [SELECTABLE_STRINGS.COMBINED_PRICE_PER_HECTARE_COMPARISON_LABEL]: 'Цена на семена за хектар/лв',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_COMPARISON]: 'Сравнение на сеитбените норми',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_SINGLE_PLANT]: 'Сеитбена норма - самостоятелно',
     [SELECTABLE_STRINGS.COMBINED_SOWING_RATE_MIX_PLANT]: 'Сеитбена норма - в смеската',
@@ -1067,7 +1074,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CALC_TITLE]: 'Растителна защита',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CALC_DESCRIPTION]:
       'Изберете продукт за растителна защита за защита на растенията',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_SELECT_CHEMICAL]: 'Изберете продукт за растителна защита',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_SELECT_CHEMICAL]:
+      'Изберете продукт за растителна защита',
 
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_HERBICIDE]: 'Хербицид',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEMICAL_TYPE_INSECTICIDE]: 'Инсектицид',
@@ -1449,14 +1457,21 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_SPRAYER_VOLUME]: 'Обем на разтвора',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT]: 'Резултат',
 
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE]: 'Желана концентрация',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE_DESCRIPTION]: 'Изберете желаната концентрация на разтвора',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME]: 'Обем на пръскачката',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]: 'Изберете обема на пръскачката',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE]:
+      'Желана концентрация',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE_DESCRIPTION]:
+      'Изберете желаната концентрация на разтвора',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME]:
+      'Обем на пръскачката',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]:
+      'Изберете обема на пръскачката',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT]: 'Резултат',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT_DESCRIPTION]: 'Резултат от изчислението на желаната концентрация',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION]: 'Запазване на сметката',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION_DESCRIPTION]: 'Запазете сметката за бъдещо използване ако сте се регистрирали',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT_DESCRIPTION]:
+      'Резултат от изчислението на желаната концентрация',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION]:
+      'Запазване на сметката',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION_DESCRIPTION]:
+      'Запазете сметката за бъдещо използване ако сте се регистрирали',
 
     //wiki
     [SELECTABLE_STRINGS.WIKI]: 'Уики',
@@ -1504,56 +1519,85 @@ export const LangMap: LangMapInterface = {
       'Допълнителни бележки',
 
     //chemical protection working solution
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]: 'Химическа защита - Работен Разтвор',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]: 'Изчислете количеството работен разтвор за вашата площ',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "Имате вече сметка за сеитбена норма, искате ли да я използвате за изчислението",
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: "Използвайте това растение",
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]:
+      'Химическа защита - Работен Разтвор',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]:
+      'Изчислете количеството работен разтвор за вашата площ',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]:
+      'Имате вече сметка за сеитбена норма, искате ли да я използвате за изчислението',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: 'Използвайте това растение',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT]: 'Култура',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]: 'Опционално изберете култура, за да получите начална точка за изчислението',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]:
+      'Опционално изберете култура, за да получите начална точка за изчислението',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL]: 'Продукт за растителна защита',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL_DESCRIPTION]: 'Опционално изберете продукт за растителна защита, който е регистриран в България, за да получите начална точка за изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE]: 'Продукт за растителна защита',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL_DESCRIPTION]:
+      'Опционално изберете продукт за растителна защита, който е регистриран в България, за да получите начална точка за изчислението',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE]:
+      'Продукт за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_WORKING_SOLUTION]: 'Работен разтвор',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_SPRAYER_VOLUME]: 'Обем на пръскачката',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA]: 'Площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_RESULTS_TITLE]: 'Резултати от изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT]: "Избрано растение",
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL]: "Избран препарат",
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL]: 'Общо количество продукт за растителна защита',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION]: 'Общо количество работен разтвор',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT]: 'Избрано растение',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL]: 'Избран препарат',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL]:
+      'Общо количество продукт за растителна защита',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION]:
+      'Общо количество работен разтвор',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT]: 'Брой пръскачки',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER]: 'Продукт за растителна защита на пръскачка',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER]:
+      'Продукт за растителна защита на пръскачка',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ]: 'Визуализация на изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_GENERAL]: 'Графично представяне на резултатите',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS]: 'Обща визуализация на параметрите',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ELEMENTS_RELATIONSHIP]: 'Пропорции между параметрите',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_COMPARE_CALCED_PARAMS]: 'Сравнение на изчислените стойности',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_GENERAL]:
+      'Графично представяне на резултатите',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS]:
+      'Обща визуализация на параметрите',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ELEMENTS_RELATIONSHIP]:
+      'Пропорции между параметрите',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_COMPARE_CALCED_PARAMS]:
+      'Сравнение на изчислените стойности',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION]: 'Участие в приложението',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE]: 'Участие (%)',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED]: '*Стойностите са препоръчителни и могат да варират според конкретните условия',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION]: 'Концентрация на химикала',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY]: 'Ефективност на пръскачката',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION]: 'Разпределение на разтвора',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED]:
+      '*Стойностите са препоръчителни и могат да варират според конкретните условия',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION]:
+      'Концентрация на химикала',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY]:
+      'Ефективност на пръскачката',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION]:
+      'Разпределение на разтвора',
 
     //working solution tour
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION]: 'Изберете култура',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]: 'Изберете култура от вашата последна сметка за сеитбена норма',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]:
+      'Изберете култура от вашата последна сметка за сеитбена норма',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]: 'Изберете химикал',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]: 'Изберете химикал от вашата последна сметка за химическа защита',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]: 'Химикал на площ за пръскане',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION]: 'Въведете количеството химикал на площ за пръскане',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION]: 'Работен разтвор на площ за пръскане',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION]: 'Въведете количеството работен разтвор на площ за пръскане',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]:
+      'Изберете химикал от вашата последна сметка за химическа защита',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]:
+      'Химикал на площ за пръскане',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION]:
+      'Въведете количеството химикал на площ за пръскане',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION]:
+      'Работен разтвор на площ за пръскане',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION]:
+      'Въведете количеството работен разтвор на площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME]: 'Обем на пръскачката',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]: 'Въведете количеството обем на пръскачката',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]:
+      'Въведете количеството обем на пръскачката',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA]: 'Площ за пръскане',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA_DESCRIPTION]: 'Въведете площта за пръскане',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA_DESCRIPTION]:
+      'Въведете площта за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS]: 'Резултати от изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS_DESCRIPTION]: 'Резултати от изчислението',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS_DESCRIPTION]:
+      'Резултати от изчислението',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE]: 'Запазване на сметката',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE_DESCRIPTION]: 'Запазете сметката за бъдещо използване ако сте се регистрирали',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS]: 'Графично представяне на резултатите',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS_DESCRIPTION]: 'Графично представяне на резултатите от изчислението',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE_DESCRIPTION]:
+      'Запазете сметката за бъдещо използване ако сте се регистрирали',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS]:
+      'Графично представяне на резултатите',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS_DESCRIPTION]:
+      'Графично представяне на резултатите от изчислението',
   },
   EN: {
     //plants
@@ -1607,7 +1651,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PROFILE]: 'Profile',
     [SELECTABLE_STRINGS.NEED_HELP_Q]: 'Need help?',
     [SELECTABLE_STRINGS.HAS_VALUE_OUTSIDE_SUGGESTED_RANGE]: 'Has value outside suggested range!',
-    [SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS]: 'Warning: Calculation contains values outside the suggested range!',
+    [SELECTABLE_STRINGS.WARNING_OUTSIDE_SUGGESTED_PARAMS]:
+      'Warning: Calculation contains values outside the suggested range!',
     [SELECTABLE_STRINGS.SAVE_CALCULATION]: 'Save calculation',
     [SELECTABLE_STRINGS.CALCULATION_VISUALIZATION]: 'Calculation visualization',
     [SELECTABLE_STRINGS.LOADING]: 'Loading...',
@@ -1691,21 +1736,27 @@ export const LangMap: LangMapInterface = {
       'Failed to send password request',
     [SELECTABLE_STRINGS.TOAST_PASSWORD_RESET_SUCCESS]: 'Succesfully reset password!',
     [SELECTABLE_STRINGS.TOAST_ERROR_PASSWORD_RESET_FAILED]: 'Failed to reset password!',
-    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]: 'Your password has been reset, please log in again.',
-    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]: 'All sessions have been terminated. Please log in again.',
-    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]: 'OAuth session expired. Please log in again.',
-    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]: 'Failed to complete OAuth login. Please try again.',
+    [SELECTABLE_STRINGS.TOAST_INFO_RESET_PASSWORD_WHILE_AUTH]:
+      'Your password has been reset, please log in again.',
+    [SELECTABLE_STRINGS.TOAST_INFO_FORCE_LOGOUT]:
+      'All sessions have been terminated. Please log in again.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_EXPIRED]:
+      'OAuth session expired. Please log in again.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]:
+      'Failed to complete OAuth login. Please try again.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',
     [SELECTABLE_STRINGS.OPEN_CALCULATOR]: 'Open calculator',
 
-    [SELECTABLE_STRINGS.RESET_EMAIL_TITLE]: "Password Reset Request",
+    [SELECTABLE_STRINGS.RESET_EMAIL_TITLE]: 'Password Reset Request',
     [SELECTABLE_STRINGS.RESET_EMAIL_INSTRUCTIONS]:
       'We received a request to reset your password. To proceed with the password reset, please click the button below:',
     [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON]: 'Reset Password',
-    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]: "If the button above doesn't work, you can copy and paste the following link into your browser:",
-    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]: "If you did not request a password reset, please ignore this email. Your password will not be changed unless you follow the link above.",
+    [SELECTABLE_STRINGS.RESET_EMAIL_RESET_BUTTON_NO_WORK]:
+      "If the button above doesn't work, you can copy and paste the following link into your browser:",
+    [SELECTABLE_STRINGS.RESET_EMAIL_DID_NOT_REQUEST_RESET]:
+      'If you did not request a password reset, please ignore this email. Your password will not be changed unless you follow the link above.',
 
     [SELECTABLE_STRINGS.SETTINGS]: 'Settings',
     [SELECTABLE_STRINGS.SETTINGS_PREF_UNIT_OF_MEASUREMENT]: 'Preferred unit of measurement',
@@ -2249,14 +2300,20 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_SPRAYER_VOLUME]: 'Sprayer volume',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_RESULT]: 'Result',
 
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE]: 'Desired percentage',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE_DESCRIPTION]: 'Select the desired percentage of the solution',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE]:
+      'Desired percentage',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_DESIRED_PERCENTAGE_DESCRIPTION]:
+      'Select the desired percentage of the solution',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME]: 'Sprayer volume',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]: 'Select the volume of the sprayer',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]:
+      'Select the volume of the sprayer',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT]: 'Result',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT_DESCRIPTION]: 'Result of the calculation of the desired percentage',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION]: 'Save calculation',
-    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION_DESCRIPTION]: 'Save the calculation for future use if you are registered',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_RESULT_DESCRIPTION]:
+      'Result of the calculation of the desired percentage',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION]:
+      'Save calculation',
+    [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_PERCENT_SOLUTION_TOUR_SAVE_CALCULATION_DESCRIPTION]:
+      'Save the calculation for future use if you are registered',
 
     //wiki
     [SELECTABLE_STRINGS.WIKI]: 'Wiki',
@@ -2306,56 +2363,83 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS]: 'Price for 1kg Seeds',
 
     //chemical protection working solution
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]: 'Chemical Protection - Working Solution',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]: 'Calculate the working solution amount for your area',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]: "You have already calculated the seeding rate for a plant, do you want to calculate with it",
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: "Use this plant",
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE]:
+      'Chemical Protection - Working Solution',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION]:
+      'Calculate the working solution amount for your area',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]:
+      'You have already calculated the seeding rate for a plant, do you want to calculate with it',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: 'Use this plant',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT]: 'Plant',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]: 'Optionally select a plant, to get a starting point for the calculation',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]:
+      'Optionally select a plant, to get a starting point for the calculation',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL]: 'Plant protection product',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL_DESCRIPTION]: 'Optionally select a chemical we work with and is registered in Bulgaria to get a starting point for the calculation',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE]: 'Plant protection product',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_CHEMICAL_DESCRIPTION]:
+      'Optionally select a chemical we work with and is registered in Bulgaria to get a starting point for the calculation',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_CHEMICAL_PER_ACRE]:
+      'Plant protection product',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_WORKING_SOLUTION]: 'Working solution',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_SPRAYER_VOLUME]: 'Sprayer volume',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA]: 'Area to be sprayed',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_RESULTS_TITLE]: 'Calculation Results',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT]: 'Selected Plant',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL]: 'Selected Chemical',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL]: 'Total plant protection product amount',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL]:
+      'Total plant protection product amount',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION]: 'Total working solution amount',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_COUNT]: 'Number of sprayers',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER]: 'Plant protection product per sprayer',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_PER_SPRAYER]:
+      'Plant protection product per sprayer',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ]: 'Calculation Visualization',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_GENERAL]: 'Graphical representation of the results',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS]: 'General visualization of parameters',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ELEMENTS_RELATIONSHIP]: 'Proportions between parameters',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_COMPARE_CALCED_PARAMS]: 'Comparison of calculated values',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_GENERAL]:
+      'Graphical representation of the results',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ALL_ELEMENTS]:
+      'General visualization of parameters',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_ELEMENTS_RELATIONSHIP]:
+      'Proportions between parameters',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_COMPARE_CALCED_PARAMS]:
+      'Comparison of calculated values',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION]: 'Application Participation',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE]: 'Participation (%)',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED]: '*Values are suggested and may vary depending on specific conditions',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION]: 'Chemical Concentration',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_PERCENTAGE]:
+      'Participation (%)',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED]:
+      '*Values are suggested and may vary depending on specific conditions',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION]:
+      'Chemical Concentration',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY]: 'Sprayer Efficiency',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION]: 'Solution Distribution',
 
     //working solution tour
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION]: 'Plant selection',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]: 'Select the plant you want to calculate the working solution for taken from your latest sowing rate calculation',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]:
+      'Select the plant you want to calculate the working solution for taken from your latest sowing rate calculation',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]: 'Chemical selection',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]: 'Select the chemical you want to calculate the working solution for taken from your latest chemical protection calculation',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]: 'Chemical per area to be sprayed',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION]: 'Enter the amount of chemical per area to be sprayed',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION]: 'Working solution per area to be sprayed',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION]: 'Enter the amount of working solution per area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]:
+      'Select the chemical you want to calculate the working solution for taken from your latest chemical protection calculation',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]:
+      'Chemical per area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION]:
+      'Enter the amount of chemical per area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION]:
+      'Working solution per area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION]:
+      'Enter the amount of working solution per area to be sprayed',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME]: 'Sprayer volume',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]: 'Enter the amount of sprayer volume per area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SPRAYER_VOLUME_DESCRIPTION]:
+      'Enter the amount of sprayer volume per area to be sprayed',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA]: 'Area to be sprayed',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA_DESCRIPTION]: 'Enter the area to be sprayed',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_AREA_DESCRIPTION]:
+      'Enter the area to be sprayed',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS]: 'Results of the calculation',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS_DESCRIPTION]: 'Results of the calculation',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_RESULTS_DESCRIPTION]:
+      'Results of the calculation',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE]: 'Save calculation',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE_DESCRIPTION]: 'Save the calculation for future use if you are registered',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS]: 'Graphical representation of the results',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS_DESCRIPTION]: 'Graphical representation of the results',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_SAVE_DESCRIPTION]:
+      'Save the calculation for future use if you are registered',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS]:
+      'Graphical representation of the results',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHARTS_DESCRIPTION]:
+      'Graphical representation of the results',
   },
 };
 

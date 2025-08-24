@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-
 import Sidebar from '@/components/Sidebar/Sidebar';
 
 export default function Header() {
