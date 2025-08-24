@@ -85,7 +85,7 @@ export default function Sidebar() {
                                     {translator(SELECTABLE_STRINGS.LOGIN)}
                                 </Link>
                             </Button>
-                            <Button asChild variant="default" className="w-1/2 font-medium">
+                            <Button asChild variant="default" className="w-1/2 font-medium text-white">
                                 <Link href="/auth/register" onClick={() => setOpen(false)}>
                                     <UserPlus className="mr-2 h-4 w-4" />
                                     {translator(SELECTABLE_STRINGS.REGISTER)}

@@ -13,7 +13,7 @@ export function OAuthButton({ buttonData }: { buttonData: SupportedOAuthProvider
     }
 
     return (
-        <Button asChild className="text-black dark:text-white font-bold" >
+        <Button asChild className="dark:text-white font-bold" >
             <a href={url}>
                 <SimpleIconToSVG icon={buttonData.icon} />
             </a>

@@ -44,17 +44,17 @@ export default function ChemicalProtectionWorkingSolution() {
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
             <Card className="w-full max-w-7xl mx-auto">
                 <CardHeader className="text-center bg-green-700">
-                    <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+                    <CardTitle className="text-2xl sm:text-3xl text-white">
                         {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_TITLE)}
                     </CardTitle>
-                    <CardDescription className="text-black dark:text-white sm:text-lg flex flex-col gap-2 items-center">
+                    <CardDescription className="text-white sm:text-lg flex flex-col gap-2 items-center">
                         {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
                         <Button
                             type="button"
                             onClick={() => {
                                 SpawnStartDriver(getChemProtWorkingSolutionSteps(translator));
                             }}
-                            className="bg-sky-500 text-black dark:text-white hover:bg-sky-600 text-sm sm:text-base"
+                            className="bg-sky-500 text-white hover:bg-sky-600 text-sm sm:text-base"
                         >
                             {translator(SELECTABLE_STRINGS.NEED_HELP_Q)}
                         </Button>
@@ -224,7 +224,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                 <div className="flex flex-col gap-4 sm:gap-6">
                                     <Card id="results" className="overflow-hidden">
                                         <CardHeader className="pb-3 sm:pb-4 bg-green-700 text-primary-foreground">
-                                            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-black dark:text-white">
+                                            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl text-white">
                                                 <Beaker className="h-4 w-4 sm:h-5 sm:w-5" />
                                                 {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_RESULTS_TITLE)}
                                             </CardTitle>
@@ -264,7 +264,7 @@ export default function ChemicalProtectionWorkingSolution() {
                                                     type="submit"
                                                     size="lg"
                                                     disabled={!form.formState.isValid}
-                                                    className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-black dark:text-white"
+                                                    className="px-6 sm:px-8 text-lg sm:text-xl w-full max-w-md text-white"
                                                     id="saveCalculationButton"
                                                 >
                                                     {translator(SELECTABLE_STRINGS.SAVE_CALCULATION)}

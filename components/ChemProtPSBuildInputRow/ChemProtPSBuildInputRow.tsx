@@ -21,7 +21,7 @@ export function ChemProtPSBuildInputRow({
   return (
     <Card className="overflow-hidden" id={tourId} data-testid={tourId}>
       <CardHeader className="bg-green-700 pb-2">
-        <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
+        <CardTitle className="flex items-center gap-2 text-lg text-white">
           {icon}
           {displayName}
         </CardTitle>

@@ -64,21 +64,21 @@ export default function RequestResetPassword() {
                         )}
                     </div>
 
-                    <Button type="submit" className="w-full text-black dark:text-white font-bold">
+                    <Button type="submit" className="w-full text-white font-bold">
                         {translator(SELECTABLE_STRINGS.REQUEST_PASSWORD_RESET)}
                     </Button>
                 </form>
 
                 <div className="flex flex-col gap-2 items-center justify-center space-x-2">
                     <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-                    <Button asChild className="text-black dark:text-white font-bold">
+                    <Button asChild className="text-white font-bold">
                         <Link href="/auth/register" className="hover:underline">
                             {translator(SELECTABLE_STRINGS.REGISTER)}
                         </Link>
                     </Button>
                     <Separator className="border-[0.5px] border-black dark:border-white" />
                     <h2>{translator(SELECTABLE_STRINGS.HAVE_ACC_Q)}</h2>
-                    <Button asChild className="text-black dark:text-white font-bold">
+                    <Button asChild className="text-white font-bold">
                         <Link href="/auth/login" className="hover:underline">
                             {translator(SELECTABLE_STRINGS.LOGIN)}
                         </Link>

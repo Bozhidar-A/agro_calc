@@ -37,11 +37,11 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
     return (
         <Card className="overflow-hidden" id={tourId} data-testid={tourId}>
             <CardHeader className="bg-green-700 pb-2">
-                <CardTitle className="flex items-center gap-2 text-lg text-black dark:text-white">
+                <CardTitle className="flex items-center gap-2 text-lg text-white">
                     {icon}
                     {displayName}
                 </CardTitle>
-                <CardDescription className="text-black/90 dark:text-white/90">
+                <CardDescription className="text-white/90">
                     {neededData.type === CalculatorValueTypes.SLIDER
                         ? `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_RANGE)}: ${neededData.minSliderVal} - ${neededData.maxSliderVal}`
                         : `${translator(SELECTABLE_STRINGS.SOWING_RATE_INPUT_SUGGESTED_VALUE)}: ${neededData.constValue}`}

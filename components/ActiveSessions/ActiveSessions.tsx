@@ -94,7 +94,7 @@ export default function ActiveSessions({ userId }: { userId: string }) {
                     </Link>
                 </div>
                 <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row gap-2 sm:gap-4">
-                    <Button onClick={HandleKillAllSessions} className="w-full sm:w-auto" variant="outline">Logout All</Button>
+                    <Button onClick={HandleKillAllSessions} className="w-full sm:w-auto" variant="outline">{translator(SELECTABLE_STRINGS.LOGOUT_ALL_SESSIONS)}</Button>
                 </div>
                 <div className="grid gap-3 sm:gap-4">
                     {tokens.length > 0 ? tokens.map((token) => (
@@ -106,15 +106,15 @@ export default function ActiveSessions({ userId }: { userId: string }) {
                             <div className="p-3 sm:p-6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                     <div>
-                                        <p className="text-xs sm:text-sm font-medium">User Info</p>
+                                        <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SESSION_USER_INFO)}</p>
                                         <pre className="whitespace-pre-wrap break-words text-xs text-zinc-800 dark:text-zinc-100 max-w-xs">{token.userInfo}</pre>
                                     </div>
                                     <div>
-                                        <p className="text-xs sm:text-sm font-medium">Expires</p>
+                                        <p className="text-xs sm:text-sm font-medium">{translator(SELECTABLE_STRINGS.SESSION_EXPIRES)}</p>
                                         <p className="text-base sm:text-lg">{new Date(token.expiresAt).toLocaleString()}</p>
                                     </div>
                                     <div className="col-span-1 sm:col-span-2 flex justify-end mt-2">
-                                        <Button onClick={() => HandleKillSession(token.id)} variant="destructive" size="sm">Logout</Button>
+                                        <Button onClick={() => HandleKillSession(token.id)} variant="destructive" size="sm">{translator(SELECTABLE_STRINGS.LOGOUT_SESSION)}</Button>
                                     </div>
                                 </div>
                             </div>

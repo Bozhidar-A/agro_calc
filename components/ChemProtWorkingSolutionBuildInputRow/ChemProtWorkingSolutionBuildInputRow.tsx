@@ -18,13 +18,13 @@ export function ChemProtWorkingSolutionBuildInputRow({
     <Card className="overflow-hidden" data-testid="card">
       <CardHeader className="bg-green-700 pb-2" data-testid="card-header">
         <CardTitle
-          className="flex items-center gap-2 text-lg text-black dark:text-white"
+          className="flex items-center gap-2 text-lg text-white"
           data-testid="card-title"
         >
           {icon}
           {displayName}
         </CardTitle>
-        <CardDescription className="text-black/90 dark:text-white/90">
+        <CardDescription className="text-white/90">
           {translator(SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CALC_DESCRIPTION)}
         </CardDescription>
       </CardHeader>

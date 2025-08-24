@@ -103,7 +103,7 @@ export default function Login() {
             )}
           </div>
 
-          <Button type="submit" className="w-full text-black dark:text-white font-semibold">
+          <Button type="submit" className="w-full text-white font-semibold">
             {translator(SELECTABLE_STRINGS.SUBMIT)}
           </Button>
 
@@ -114,14 +114,14 @@ export default function Login() {
 
         <div className="flex items-center justify-center space-x-2">
           <h2>{translator(SELECTABLE_STRINGS.NO_ACC_Q)}</h2>
-          <Button asChild className="text-black dark:text-white font-semibold">
+          <Button asChild className="text-white font-semibold">
             <Link href="/auth/register" className="hover:underline">
               {translator(SELECTABLE_STRINGS.REGISTER)}
             </Link>
           </Button>
         </div>
         <div className="flex items-center justify-center space-x-2">
-          <Button asChild className="text-black dark:text-white font-semibold">
+          <Button asChild className="text-white font-semibold">
             <Link href="/auth/password/request" className="hover:underline">
               {translator(SELECTABLE_STRINGS.FORGOT_PASSWORD)}
             </Link>

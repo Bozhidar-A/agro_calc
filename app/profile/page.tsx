@@ -21,7 +21,7 @@ export default function Profile() {
                         <User className="h-6 w-6 sm:h-7 sm:w-7" />
                         {translator(SELECTABLE_STRINGS.PROFILE)}
                     </h1>
-                    <p className="text-base sm:text-lg text-gray-600">
+                    <p className="text-base sm:text-lg text-gray-600" data-testid="profile-email">
                         {translator(SELECTABLE_STRINGS.HEADER_WELCOME)}
                         {email}
                     </p>
