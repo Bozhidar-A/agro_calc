@@ -65,7 +65,6 @@ export default function Login() {
     mode: 'onChange',
   });
 
-
   async function HandleSubmit(data: LoginForm) {
     dispatch(AuthStart('credentials'));
 
@@ -105,7 +104,9 @@ export default function Login() {
             </Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message as string)}</p>
+              <p className="text-red-500 text-sm">
+                {translator(errors.password.message as string)}
+              </p>
             )}
           </div>
 

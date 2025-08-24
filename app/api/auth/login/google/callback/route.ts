@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { decodeIdToken } from 'arctic';
 import { HandleOAuthLogin } from '@/lib/auth-utils';
+import { IdTokenClaims } from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
 import { google } from '@/lib/oauth-utils';
 import {
@@ -11,7 +12,6 @@ import {
 } from '@/lib/ua-utils';
 import { SUPPORTED_OAUTH_PROVIDERS } from '@/lib/utils';
 import { AttachGoogleIdToUser, CreateUserGoogle, FindUserByGoogleId } from '@/prisma/prisma-utils';
-import { IdTokenClaims } from '@/lib/interfaces';
 
 export async function GET(request: NextRequest) {
   try {
@@ -48,7 +48,6 @@ export async function GET(request: NextRequest) {
     } catch {
       return new Response(null, { status: 400 });
     }
-
 
     const claims = decodeIdToken(tokens.idToken()) as IdTokenClaims;
     const userId = claims.sub;
