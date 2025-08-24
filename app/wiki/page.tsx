@@ -13,7 +13,7 @@ export default function WikiPage() {
         <div className="container mx-auto py-4 sm:py-8 px-2 sm:px-4">
             <Card className="w-full max-w-7xl mx-auto">
                 <CardHeader className="text-center bg-green-700">
-                    <CardTitle className="text-2xl sm:text-3xl text-black dark:text-white">
+                    <CardTitle className="text-2xl sm:text-3xl text-white">
                         {translator(SELECTABLE_STRINGS.WIKI)}
                     </CardTitle>
                 </CardHeader>
