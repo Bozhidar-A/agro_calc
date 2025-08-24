@@ -28,7 +28,7 @@ describe('useChemProtPercentForm', () => {
   });
 
   it('initializes with default values', () => {
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
 
     expect(result.current.form.getValues()).toEqual({
       desiredPercentage: 0,
@@ -38,7 +38,7 @@ describe('useChemProtPercentForm', () => {
   });
 
   it('calculates amount when form values change', async () => {
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
 
     await act(async () => {
       await result.current.form.setValue('desiredPercentage', 5);
@@ -55,7 +55,7 @@ describe('useChemProtPercentForm', () => {
   });
 
   it('validates form values', async () => {
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
     let isValid = true;
     await act(async () => {
       await result.current.form.setValue('desiredPercentage', -1);
@@ -68,7 +68,7 @@ describe('useChemProtPercentForm', () => {
   it('handles successful form submission', async () => {
     (APICaller as jest.Mock).mockResolvedValue({ success: true });
 
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
 
     await act(async () => {
       await result.current.form.setValue('desiredPercentage', 5);
@@ -104,7 +104,7 @@ describe('useChemProtPercentForm', () => {
       message: errorMessage,
     });
 
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
 
     await act(async () => {
       await result.current.form.setValue('desiredPercentage', 5);
@@ -126,7 +126,7 @@ describe('useChemProtPercentForm', () => {
   it('handles API errors', async () => {
     (APICaller as jest.Mock).mockRejectedValue(new Error('Network Error'));
 
-    const { result } = renderHook(() => useChemProtPercentForm(mockAuthObject));
+    const { result } = renderHook(() => useChemProtPercentForm());
 
     await act(async () => {
       await result.current.form.setValue('desiredPercentage', 5);

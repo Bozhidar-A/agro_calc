@@ -20,6 +20,7 @@ describe('useSeedingCombinedForm', () => {
     loading: false,
     error: null,
     authType: 'local',
+    showLoginToast: false,
   };
 
   const mockDbData: PlantCombinedDBData[] = [
@@ -183,7 +184,7 @@ describe('useSeedingCombinedForm', () => {
   });
 
   it('prevents submission when not authenticated', async () => {
-    authMock = { isAuthenticated: false, userId: null };
+    authMock = { isAuthenticated: false, userId: "null" };
     const { result } = renderHook(() => useSeedingCombinedForm(mockDbData), {
       wrapper: renderWithReduxHookWrapper(preloadedState).wrapper,
     });

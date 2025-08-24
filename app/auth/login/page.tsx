@@ -55,16 +55,18 @@ export default function Login() {
     }
   }, [searchParams]);
 
+  type LoginForm = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginForm>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
 
-  async function HandleSubmit(data) {
+
+  async function HandleSubmit(data: LoginForm) {
     dispatch(AuthStart('credentials'));
 
     const backendWork = await APICaller(['auth', 'login'], '/api/auth/login', 'POST', data);
@@ -93,7 +95,7 @@ export default function Login() {
             </Label>
             <Input id="email" type="email" {...register('email')} />
             {errors.email && (
-              <p className="text-red-500 text-sm">{translator(errors.email.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.email.message as string)}</p>
             )}
           </div>
 
@@ -103,7 +105,7 @@ export default function Login() {
             </Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.password.message as string)}</p>
             )}
           </div>
 

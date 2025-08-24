@@ -537,3 +537,12 @@ export interface WikiActiveIngredient extends WikiBaseEntity {
     };
   }[];
 }
+
+//needed for typecheck
+export type IdTokenClaims = {
+  sub: string;
+  email: string;
+  email_verified: boolean;
+  name: string;
+  picture: string;
+};

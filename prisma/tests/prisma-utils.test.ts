@@ -256,7 +256,7 @@ describe('Prisma Utils', () => {
       it('should insert new refresh token', async () => {
         (prisma.refreshToken.create as jest.Mock).mockResolvedValue(mockRefreshToken);
 
-        const result = await InsertRefreshTokenByUserId('refresh-token', '123');
+        const result = await InsertRefreshTokenByUserId('refresh-token', '123', "somewhere");
 
         expect(result).toEqual(mockRefreshToken);
         expect(prisma.refreshToken.create).toHaveBeenCalledWith({
@@ -264,6 +264,7 @@ describe('Prisma Utils', () => {
             token: 'refresh-token',
             userId: '123',
             expiresAt: expect.any(Date),
+            userInfo: 'somewhere',
           },
         });
       });
@@ -464,13 +465,14 @@ describe('Prisma Utils', () => {
           const mockHistory = [
             {
               id: '123',
+              userId: 'user-123',
               sowingRateSafeSeedsPerMeterSquared: 100,
               plant: { latinName: 'Test Plant' },
             },
           ];
           (prisma.sowingRateHistory.findMany as jest.Mock).mockResolvedValue(mockHistory);
 
-          const result = await GetSowingHistory();
+          const result = await GetSowingHistory(mockHistory[0].userId);
 
           expect(result).toEqual(mockHistory);
         });
@@ -508,6 +510,7 @@ describe('Prisma Utils', () => {
           const mockHistory = [
             {
               id: '123',
+              userId: 'user-123',
               totalChemicalForAreaLiters: 100,
               plant: { latinName: 'Test Plant' },
             },
@@ -516,7 +519,7 @@ describe('Prisma Utils', () => {
             mockHistory
           );
 
-          const result = await GetChemProtWorkingSolutionHistory();
+          const result = await GetChemProtWorkingSolutionHistory(mockHistory[0].userId);
 
           expect(result).toEqual(mockHistory);
         });
@@ -823,6 +826,7 @@ describe('Prisma Utils', () => {
         const mockHistory = [
           {
             id: 'history-123',
+            userId: 'user-123',
             totalPrice: 100,
             isDataValid: true,
             createdAt: new Date(),
@@ -842,7 +846,7 @@ describe('Prisma Utils', () => {
         ];
         (prisma.seedingDataCombinationHistory.findMany as jest.Mock).mockResolvedValue(mockHistory);
 
-        const result = await GetCombinedHistory();
+        const result = await GetCombinedHistory(mockHistory[0].userId);
 
         expect(result).toEqual(mockHistory);
       });

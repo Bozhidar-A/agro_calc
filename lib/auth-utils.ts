@@ -358,7 +358,7 @@ export async function BackendRefreshAccessToken(refreshToken: string) {
   if (
     !validToken ||
     typeof decoded !== 'object' ||
-    !('payload' in decoded) ||
+    !(decoded && 'payload' in decoded) ||
     !decoded.payload?.userId
   ) {
     throw new Error('Invalid refresh token');

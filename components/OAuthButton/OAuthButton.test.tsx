@@ -8,6 +8,7 @@ describe('OAuthButton', () => {
     name: 'GitHub',
     authURL: 'https://example.com/auth',
     icon: 'github',
+    currLoc: null
   };
 
   it('renders with correct auth URL', () => {

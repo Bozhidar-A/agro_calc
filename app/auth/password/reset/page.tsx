@@ -32,18 +32,19 @@ export default function ResetPassword() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
+  type ResetForm = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<ResetForm>({
     resolver: zodResolver(schema),
     mode: 'onChange',
   });
   const router = useRouter();
   const translator = useTranslate();
 
-  async function HandleSubmit(data) {
+  async function HandleSubmit(data: ResetForm) {
     const backendWork = await APICaller(
       ['auth', 'passwordReset', 'reset'],
       '/api/auth/passwordReset/reset',
@@ -75,7 +76,7 @@ export default function ResetPassword() {
             <Label htmlFor="password">{translator(SELECTABLE_STRINGS.PASSWORD)}</Label>
             <Input id="password" type="password" {...register('password')} />
             {errors.password && (
-              <p className="text-red-500 text-sm">{translator(errors.password.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.password.message as string)}</p>
             )}
           </div>
 
@@ -83,7 +84,7 @@ export default function ResetPassword() {
             <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message)}</p>
+              <p className="text-red-500 text-sm">{translator(errors.confirmPassword.message as string)}</p>
             )}
           </div>
 
