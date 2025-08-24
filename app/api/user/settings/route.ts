@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     Log(['api', 'user', 'settings', 'get'], 'User settings found');
     return NextResponse.json({ success: true, userSettings }, { status: 200 });
-  } catch (error) {
+  } catch {
     Log(['api', 'user', 'settings', 'get'], 'Error getting user settings');
   }
 }
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     Log(['api', 'user', 'settings', 'post'], 'User settings updated');
     return NextResponse.json({ success: true, userSettings }, { status: 200 });
-  } catch (error) {
+  } catch {
     Log(['api', 'user', 'settings', 'post'], 'Error updating user settings');
     return NextResponse.json(
       { success: false, error: 'Error updating user settings' },

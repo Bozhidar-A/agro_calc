@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { Log } from '@/lib/logger';
 import { GetSowingInputData } from '@/prisma/prisma-utils';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     Log(['calc', 'sowing', 'input', 'fetch'], `GET called`);
     const res = await GetSowingInputData();
