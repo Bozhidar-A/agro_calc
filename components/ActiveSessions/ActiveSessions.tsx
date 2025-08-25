@@ -11,7 +11,7 @@ import { Log } from '@/lib/logger';
 import Errored from '../Errored/Errored';
 import LoadingDisplay from '../LoadingDisplay/LoadingDisplay';
 
-export default function ActiveSessions({ userId }: { userId: string }) {
+export default function ActiveSessions() {
   const translator = useTranslate();
   const router = useRouter();
   const [tokens, setTokens] = useState<any[]>([]);
@@ -46,7 +46,7 @@ export default function ActiveSessions({ userId }: { userId: string }) {
 
   useEffect(() => {
     FetchSessions();
-  }, [userId]);
+  }, []);
 
   async function HandleKillSession(tokenId: string) {
     const result = await APICaller(

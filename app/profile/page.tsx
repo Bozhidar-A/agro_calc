@@ -10,7 +10,7 @@ import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export default function Profile() {
   const translator = useTranslate();
-  const { userId, email } = useAuth();
+  const { email } = useAuth();
 
   return (
     <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
@@ -44,7 +44,7 @@ export default function Profile() {
             {translator(SELECTABLE_STRINGS.ACTIVE_OTHER_SESSIONS)}
           </h2>
           <div className="border-t border-gray-200 pt-3 sm:pt-4">
-            <ActiveSessions userId={userId} />
+            <ActiveSessions />
           </div>
         </div>
 
