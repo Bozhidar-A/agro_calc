@@ -1,37 +1,113 @@
-# Mantine Next.js template
+# Agro Calc
 
-This is a template for [Next.js](https://nextjs.org/) app router + [Mantine](https://mantine.dev/).
-If you want to use pages router instead, see [next-pages-template](https://github.com/mantinedev/next-pages-template).
+A modern web application for agricultural calculations, built with Next.js, TypeScript, and Tailwind CSS.
 
-## Features
+**Live on VPS with k8s @** [https://agro-calc.musaka.top](https://agro-calc.musaka.top)
 
-This template comes with the following features:
+## 🧰 Tech Stack
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Jest](https://jestjs.io/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+- **Frontend:** Next.js 15, TypeScript, Tailwind CSS
+- **Backend:** Next.js API routes  
+- **Database:** PostgreSQL with Prisma ORM
+- **Auth:** Custom JWT with Arctic
+- **Testing:** Jest, React Testing Library
+- **Code Quality:** ESLint, Stylelint, Prettier
+- **Deployment:** Docker + Kubernetes
 
-## npm scripts
+## 📦 Quick Start
 
-### Build and dev scripts
+### Prerequisites
+- Node.js 22
+- PostgreSQL database
+- Yarn 4+ (via Corepack)
 
-- `dev` – start dev server
-- `build` – bundle application for production
-- `analyze` – analyzes application bundle with [@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
+### Installation
 
-### Testing scripts
+```bash
+# Enable Corepack for Yarn 4
+corepack enable
 
-- `typecheck` – checks TypeScript types
-- `lint` – runs ESLint
-- `prettier:check` – checks files with Prettier
-- `jest` – runs jest tests
-- `jest:watch` – starts jest watch
-- `test` – runs `jest`, `prettier:check`, `lint` and `typecheck` scripts
+# Install dependencies
+yarn install
 
-### Other scripts
+# Set up environment
+cp .env.sample .env
+# Fill in your DATABASE_URL and other required values
 
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `prettier:write` – formats all files with Prettier
+# Initialize database
+yarn init-db
+
+# Start development server
+yarn dev
+```
+
+Visit `http://localhost:3000`
+
+## 🛠️ Available Scripts
+
+### Development
+- `yarn dev` - Start development server
+- `yarn build` - Production build
+- `yarn start` - Start production server
+- `yarn analyze` - Bundle analysis
+
+### Database  
+- `yarn init-db` - Reset and initialize database
+- `yarn reset-db` - Reset DB and push schema
+
+### Code Quality
+- `yarn typecheck` - TypeScript type checking
+- `yarn lint` - Run ESLint and Stylelint
+- `yarn eslint` - ESLint only
+- `yarn stylelint` - Stylelint only
+- `yarn prettier:check` - Check formatting
+- `yarn prettier:write` - Fix formatting
+
+### Testing
+- `yarn jest` - Run tests
+- `yarn jest:watch` - Run tests in watch mode
+- `yarn test:all` - All quality checks (tests + lint + format + types)
+- `yarn test-coverage` - Test coverage report
+
+## 🔐 Environment Variables
+
+Copy `.env.sample` to `.env` and configure:
+
+| Variable          | Description             | Example                                           |
+| ----------------- | ----------------------- | ------------------------------------------------- |
+| `DATABASE_URL`    | PostgreSQL connection   | `postgresql://user:pass@localhost:5432/agro_calc` |
+| `SALT_ROUNDS`     | Password hashing rounds | `10`                                              |
+| `NEXTAUTH_SECRET` | JWT secret              | Generate with `openssl rand -base64 32`           |
+| `NEXTAUTH_URL`    | Application URL         | `https://agro-calc.musaka.top`                    |
+| `NODE_ENV`        | Environment             | `development` or `production`                     |
+
+## 🐳 Docker
+
+```bash
+# Run with docker-compose (includes PostgreSQL)
+docker compose up --build
+
+# Or pull the built image
+docker pull ghcr.io/bozhidar-a/agro_calc:latest
+```
+
+## 🚀 Deployment
+
+The app auto-deploys to Kubernetes when pushing to the `release` branch:
+
+1. Tests run automatically
+2. Docker image builds and pushes to GHCR
+3. Tagged with both `latest` and short commit SHA
+4. Kubernetes pulls and deploys the new image
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run `yarn test:all` to ensure quality
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see [LICENSE](./LICENSE) file.
