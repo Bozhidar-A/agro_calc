@@ -2,7 +2,36 @@
 
 A modern web application for agricultural calculations, built with Next.js, TypeScript, and Tailwind CSS.
 
-**Live on VPS with k8s @** [https://agro-calc.musaka.top](https://agro-calc.musaka.top)
+**Live hosted on a VPS with k8s @** [https://agro-calc.musaka.top](https://agro-calc.musaka.top)
+
+<!-- Build & Deployment Status -->
+[![Build & Publish](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml/badge.svg?branch=release)](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml)
+[![Docker Build](https://img.shields.io/github/actions/workflow/status/Bozhidar-A/agro_calc/docker-publish.yaml?branch=release&label=docker%20build&logo=docker&logoColor=white)](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml)
+[![Docker Image](https://img.shields.io/badge/docker-ghcr.io-2496ED?logo=docker&logoColor=white)](https://github.com/Bozhidar-A/agro_calc/pkgs/container/agro_calc)
+
+<!-- Code Quality & Testing -->
+[![Tests](https://img.shields.io/github/actions/workflow/status/Bozhidar-A/agro_calc/docker-publish.yaml?branch=release&label=tests&logo=jest&logoColor=white)](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml)
+[![Coverage](https://img.shields.io/badge/coverage-81.7%25-brightgreen?logo=jest&logoColor=white)](https://github.com/Bozhidar-A/agro_calc)
+[![Code Quality](https://img.shields.io/github/actions/workflow/status/Bozhidar-A/agro_calc/docker-publish.yaml?branch=release&label=quality&logo=eslint&logoColor=white)](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml)
+[![TypeScript](https://img.shields.io/github/actions/workflow/status/Bozhidar-A/agro_calc/docker-publish.yaml?branch=release&label=typescript&logo=typescript&logoColor=white)](https://github.com/Bozhidar-A/agro_calc/actions/workflows/docker-publish.yaml)
+
+<!-- Project Status -->
+[![Website Status](https://img.shields.io/website?url=https%3A//agro-calc.musaka.top&logo=netcup&logoColor=white)](https://agro-calc.musaka.top)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Bozhidar-A/agro_calc?logo=github)](https://github.com/Bozhidar-A/agro_calc/commits)
+
+<!-- Tech Stack -->
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js&logoColor=white)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)](https://postgresql.org)
+[![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)](https://prisma.io)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://reactjs.org)
+
+<!-- Repository Stats -->
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Bozhidar-A/agro_calc?logo=github)](https://github.com/Bozhidar-A/agro_calc/issues)
+[![GitHub stars](https://img.shields.io/github/stars/Bozhidar-A/agro_calc?style=social)](https://github.com/Bozhidar-A/agro_calc/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Bozhidar-A/agro_calc?style=social)](https://github.com/Bozhidar-A/agro_calc/network/members)
 
 ## 🧰 Tech Stack
 
@@ -93,7 +122,7 @@ docker pull ghcr.io/bozhidar-a/agro_calc:latest
 
 ## 🚀 Deployment
 
-The app auto-deploys to builds a new Docker image when pushing to the `release` branch:
+The app auto-builds a new Docker image when pushing to the `release` branch:
 
 1. Tests run automatically
 2. Docker image builds and pushes to GHCR
