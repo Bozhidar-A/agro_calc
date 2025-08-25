@@ -93,12 +93,11 @@ docker pull ghcr.io/bozhidar-a/agro_calc:latest
 
 ## 🚀 Deployment
 
-The app auto-deploys to Kubernetes when pushing to the `release` branch:
+The app auto-deploys to builds a new Docker image when pushing to the `release` branch:
 
 1. Tests run automatically
 2. Docker image builds and pushes to GHCR
 3. Tagged with both `latest` and short commit SHA
-4. Kubernetes pulls and deploys the new image
 
 ## 🤝 Contributing
 
