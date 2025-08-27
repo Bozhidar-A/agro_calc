@@ -19,7 +19,7 @@
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "test:all": "jest && npm run prettier:check && npm run lint && npm run typecheck",
     "test:jest": "jest",
-    "test-coverage": "jest --coverage"
+    "test-coverage": "jest --coverage --coverageReporters=text --coverageReporters=text-summary --coverageReporters=lcov --coverageReporters=json-summary --silent"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
