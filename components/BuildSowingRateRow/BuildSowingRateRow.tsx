@@ -116,7 +116,7 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
             />
           )}
           <div className="text-center font-medium mt-1">
-            {`${form.watch(varName) || 0} ${FetchUnitIfExist(neededData)}`}
+            {`${form.watch(varName) || 0} ${neededData.unit ? translator(neededData.unit) : ''}`}
           </div>
         </div>
       </CardContent>

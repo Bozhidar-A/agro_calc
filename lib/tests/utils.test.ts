@@ -122,12 +122,3 @@ describe('ArrayContainsAndItemsStartsWith', () => {
     expect(ArrayContainsAndItemsStartsWith(['apple', 'banana', 'carrot'], 'dog')).toBe(false);
   });
 });
-
-describe('FetchUnitIfExist', () => {
-  it('should return unit if present', () => {
-    expect(FetchUnitIfExist({ unit: 'kg' })).toBe('kg');
-  });
-  it('should return empty string if unit is missing', () => {
-    expect(FetchUnitIfExist({ unit: '' })).toBe('');
-  });
-});

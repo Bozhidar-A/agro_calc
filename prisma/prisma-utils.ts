@@ -283,7 +283,7 @@ export async function GetSowingInputData() {
       wantedPlantsPerMeterSquared: {
         type: plant.wantedPlantsPerMeterSquared?.type ?? 'slider',
         step: plant.wantedPlantsPerMeterSquared?.step ?? 1,
-        unit: plant.wantedPlantsPerMeterSquared?.unit ?? 'plants/m²',
+        unit: plant.wantedPlantsPerMeterSquared?.unit ?? 'PLANTS_PER_M2',
         minSliderVal: plant.wantedPlantsPerMeterSquared?.minSliderVal ?? 0,
         maxSliderVal: plant.wantedPlantsPerMeterSquared?.maxSliderVal ?? 0,
       },
@@ -640,7 +640,7 @@ export async function GetSowingPlantData(id: string) {
     wantedPlantsPerMeterSquared: {
       type: sowingData.wantedPlantsPerMeterSquared?.type ?? 'slider',
       step: sowingData.wantedPlantsPerMeterSquared?.step ?? 1,
-      unit: sowingData.wantedPlantsPerMeterSquared?.unit ?? 'plants/m²',
+      unit: sowingData.wantedPlantsPerMeterSquared?.unit ?? 'PLANTS_PER_M2',
       minSliderVal: sowingData.wantedPlantsPerMeterSquared?.minSliderVal ?? 0,
       maxSliderVal: sowingData.wantedPlantsPerMeterSquared?.maxSliderVal ?? 0,
     },

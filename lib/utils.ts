@@ -77,10 +77,6 @@ export function GetStrFromLangMapKey(lang: string, str: string) {
   return str;
 }
 
-export function FetchUnitIfExist(data: { unit: string }) {
-  return data.unit ? `${data.unit}` : '';
-}
-
 export function Base64URLSafeEncode(str: string) {
   // Convert string to base64
   const base64 = btoa(unescape(encodeURIComponent(str)));

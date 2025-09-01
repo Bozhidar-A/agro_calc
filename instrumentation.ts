@@ -65,7 +65,7 @@ const dbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 600,
         maxSliderVal: 700,
       },
@@ -110,7 +110,7 @@ const dbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 300,
         maxSliderVal: 400,
       },
@@ -155,7 +155,7 @@ const dbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 30,
         maxSliderVal: 40,
       },
@@ -200,7 +200,7 @@ const dbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 25,
         maxSliderVal: 35,
       },
@@ -243,7 +243,7 @@ const dbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 7,
         maxSliderVal: 7.5,
       },
