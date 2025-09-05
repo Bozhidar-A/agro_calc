@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { OAuthButton } from '@/components/OAuthButton/OAuthButton';
 import { useTranslate } from '@/hooks/useTranslate';
-import { TryGetUserLocation } from '@/lib/api-util';
+import { TryGetUserLocation } from '@/lib/geo-utils';
 import { UserGPSLoc } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { SUPPORTED_OAUTH_PROVIDERS } from '@/lib/utils';

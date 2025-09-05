@@ -32,8 +32,11 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const { pathname } = request.nextUrl;
 
+  Log(['middleware'], `Request made to: ${pathname}`);
+
   if (pathname === '/') {
     Log(['middleware'], `Trying to access root route, letting through`);
+
     return NextResponse.next();
   }
 

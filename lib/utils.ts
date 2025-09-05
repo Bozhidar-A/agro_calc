@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { siGithub, siGoogle } from 'simple-icons';
 import { twMerge } from 'tailwind-merge';
-import { RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { ConsentProps, RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 import LangMap from '@/lib/LangMap';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 
@@ -65,6 +65,15 @@ export const tooltipProps: RechartsTooltipProps = {
   labelStyle: { color: 'hsl(var(--muted-foreground))' },
   wrapperStyle: { outline: 'none' },
 };
+
+export const DEFAULT_CONSENT: ConsentProps = {
+  necessary: true,
+  preferences: false,
+  location: false,
+  updatedAt: Date.now().toString(),
+};
+
+export const CONSENT_KEY = 'consent.v1';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
