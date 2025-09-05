@@ -5,14 +5,8 @@ import { DEFAULT_CONSENT_COOKIE } from '@/lib/utils';
 
 const consentSlice = createSlice({
     name: 'consent',
-    initialState: {
-        hasConsented: true, //default to true to avoid infinite redirect loop
-        ...DEFAULT_CONSENT_COOKIE
-    },
+    initialState: DEFAULT_CONSENT_COOKIE,
     reducers: {
-        ConsentSetHasConsented: (state, action) => {
-            state.hasConsented = action.payload;
-        },
         //none for necessary since its always true
         ConsentSetPreferences: (state, action) => {
             state.preferences = action.payload;
@@ -28,6 +22,6 @@ const consentSlice = createSlice({
     },
 });
 
-export const { ConsentSetHasConsented, ConsentSetPreferences, ConsentSetLocation, UpdateConsentDate } =
+export const { ConsentSetPreferences, ConsentSetLocation, UpdateConsentDate } =
     consentSlice.actions;
 export default consentSlice.reducer;

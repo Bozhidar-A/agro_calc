@@ -20,17 +20,13 @@ import {
 
 import { useConsent } from '@/hooks/useConsent';
 import type { ConsentDialogProps } from '@/lib/interfaces';
-import { useSelector } from 'react-redux';
 
 export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) {
     const router = useRouter();
-    const consentReduxObj = useSelector((state: any) => state.consent);
-
 
     const {
         preferences,
         location,
-        setHasConsented,
         setPreferences,
         setLocation,
         updateConsentDate,
@@ -81,14 +77,12 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
             SetClientConsent(data);
             setPreferences(data.preferences);
             setLocation(data.location);
-            setHasConsented(true);
             updateConsentDate();
             toast.success('Saved privacy settings');
             onOpenChange?.(false);
             router.refresh();
         } catch {
             toast.error('Failed to save privacy settings');
-            setHasConsented(true);
         }
     }
 
@@ -116,7 +110,6 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                     <DialogTitle className="text-center">Privacy & Cookies</DialogTitle>
                     <DialogDescription className="text-center">
                         Control how we use cookies and related data. Necessary cookies are always on.
-                        {JSON.stringify(consentReduxObj)}
                     </DialogDescription>
                 </DialogHeader>
 

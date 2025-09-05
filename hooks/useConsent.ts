@@ -1,6 +1,6 @@
 import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { ConsentSetHasConsented, ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from "@/store/slices/consentSlice";
+import { ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from "@/store/slices/consentSlice";
 
 import { CONSENT_KEY, DEFAULT_CONSENT_COOKIE } from '@/lib/utils';
 import type { ConsentProps } from '@/lib/interfaces';
@@ -41,13 +41,9 @@ export function useConsent() {
     const dispatch = useDispatch();
     const consent = useSelector((state: RootState) => state.consent);
 
-    const hasConsented = consent?.hasConsented ?? false;
     const preferences = consent?.preferences ?? false;
     const location = consent?.location ?? null;
 
-    const setHasConsented = (value: boolean) => {
-        dispatch(ConsentSetHasConsented(value));
-    }
     const setPreferences = (value: any) => {
         console.log("Setting preferences to:", value);
         dispatch(ConsentSetPreferences(value));
@@ -60,5 +56,5 @@ export function useConsent() {
         dispatch(UpdateConsentDate());
     }
 
-    return { hasConsented, preferences, location, setHasConsented, setPreferences, setLocation, updateConsentDate, GetClientConsent, SetClientConsent };
+    return { preferences, location, setPreferences, setLocation, updateConsentDate, GetClientConsent, SetClientConsent };
 }
