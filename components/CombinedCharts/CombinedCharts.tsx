@@ -20,7 +20,7 @@ import { useTranslate } from '@/hooks/useTranslate';
 import { CombinedHistoryData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { KgPerAcreToKgPerHectare } from '@/lib/math-util';
-import { UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { tooltipProps, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 
 export default function CombinedCharts({ data }: { data: CombinedHistoryData | null }) {
   const translator = useTranslate();
@@ -56,7 +56,7 @@ export default function CombinedCharts({ data }: { data: CombinedHistoryData | n
               <BarChart data={data.plants}>
                 <XAxis dataKey={(item) => translator(item.plantLatinName)} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip {...tooltipProps} />
                 <Legend />
                 <Bar
                   dataKey="seedingRate"
@@ -85,7 +85,7 @@ export default function CombinedCharts({ data }: { data: CombinedHistoryData | n
                   fill="#82ca9d"
                   label
                 />
-                <Tooltip />
+                <Tooltip {...tooltipProps} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -106,7 +106,7 @@ export default function CombinedCharts({ data }: { data: CombinedHistoryData | n
               <LineChart data={data.plants}>
                 <XAxis dataKey={(item) => translator(item.plantLatinName)} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip {...tooltipProps} />
                 <Legend />
                 <Line
                   type="monotone"
@@ -137,7 +137,7 @@ export default function CombinedCharts({ data }: { data: CombinedHistoryData | n
               <BarChart data={data.plants}>
                 <XAxis dataKey={(item) => translator(item.plantLatinName)} />
                 <YAxis />
-                <Tooltip />
+                <Tooltip {...tooltipProps} />
                 <Legend />
                 <Bar
                   dataKey="seedingRate"

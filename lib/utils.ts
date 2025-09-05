@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { siGithub, siGoogle } from 'simple-icons';
 import { twMerge } from 'tailwind-merge';
-import { SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 import LangMap from '@/lib/LangMap';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 
@@ -49,6 +49,22 @@ export enum CalculatorValueTypes {
   CONST = 'const',
   ABOVE_ZERO = 'aboveZero',
 }
+
+//const tooltip formatting in the expected format of the chart
+export const tooltipProps: RechartsTooltipProps = {
+  contentStyle: {
+    backgroundColor: 'hsl(var(--popover))',
+    border: '1px solid hsl(var(--border))',
+    borderRadius: '0.5rem',
+    padding: '0.5rem 0.75rem',
+    color: 'hsl(var(--popover-foreground))',
+    boxShadow:
+      '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  },
+  itemStyle: { color: 'green' },
+  labelStyle: { color: 'hsl(var(--muted-foreground))' },
+  wrapperStyle: { outline: 'none' },
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

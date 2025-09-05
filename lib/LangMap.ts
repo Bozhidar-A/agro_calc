@@ -1839,7 +1839,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.SOWING_RATE_TOUR_SAVE_CALCULATION_DESCRIPTION]:
       'After all parameters are set and results are generated, the user can save the configuration. This is useful for future reference or for comparing different scenarios.',
 
-    [SELECTABLE_STRINGS.COMBINED_CALC_TITLE]: 'Mixed Seeding Rate',
+    [SELECTABLE_STRINGS.COMBINED_CALC_TITLE]: 'Mixed Seeding Rate Calculator',
     [SELECTABLE_STRINGS.COMBINED_CALC_DESCRIPTION]:
       'Calculate the exact seeding rate for your crop mixtures',
     [SELECTABLE_STRINGS.COMBINED_LEGUME_TITLE]: 'Perennial Legume Forage Crops',

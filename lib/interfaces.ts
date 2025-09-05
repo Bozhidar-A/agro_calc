@@ -427,6 +427,34 @@ export interface ChemProtWorkingSolutionHistory {
   chemicalPerSprayerML: number;
 }
 
+export interface RechartsTooltipProps {
+  contentStyle: RechartsTooltipPropsContentStyle;
+  itemStyle: RechartsTooltipPropsItemStyle;
+  labelStyle: RechartsTooltipPropsLabelStyle;
+  wrapperStyle: RechartsTooltipPropsWrapperStyle;
+}
+
+export interface RechartsTooltipPropsContentStyle {
+  backgroundColor: string;
+  border: string;
+  borderRadius: string;
+  padding: string;
+  color: string;
+  boxShadow: string;
+}
+
+export interface RechartsTooltipPropsItemStyle {
+  color: string;
+}
+
+export interface RechartsTooltipPropsLabelStyle {
+  color: string;
+}
+
+export interface RechartsTooltipPropsWrapperStyle {
+  outline: string;
+}
+
 //wiki interface
 export interface WikiBaseEntity {
   id: string;
