@@ -3,7 +3,7 @@ const { mockTranslateFunction, mockGetStrFromLangMapKey } = require('./test-util
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
-window.HTMLElement.prototype.scrollIntoView = () => {};
+window.HTMLElement.prototype.scrollIntoView = () => { };
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -20,9 +20,9 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe() { }
+  unobserve() { }
+  disconnect() { }
 }
 
 window.ResizeObserver = ResizeObserver;
@@ -131,6 +131,10 @@ jest.mock('sonner', () => ({
 // Mock API calls
 jest.mock('@/lib/api-util', () => ({
   APICaller: jest.fn(),
+}));
+
+//mock geo stuff
+jest.mock('@/lib/geo-utils', () => ({
   TryGetUserLocation: jest.fn().mockResolvedValue(null),
 }));
 

@@ -195,7 +195,7 @@ export default function Sidebar() {
             <Button
               variant="ghost"
               className="w-full justify-start font-normal"
-              data-testid="settings-button"
+              data-testid="gdpr-settings-button"
               onClick={() => setConsentOpen(true)}
             >
               <Euro className="mr-2 h-4 w-4" />
