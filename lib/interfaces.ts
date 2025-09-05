@@ -1,6 +1,18 @@
 import { User } from '@prisma/client';
 
 //general
+export interface ConsentCookieProps {
+  necessary: true;              // always true
+  preferences: boolean;         // utils stuff like dark mode, language
+  location: boolean;            // location-in-requests
+  updatedAt?: string;
+}
+
+export interface ConsentDialogProps {
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
+}
+
 export interface SupportedOAuthProvider {
   name: string;
   icon: any;
@@ -68,6 +80,11 @@ export interface LangMapInterface {
 export interface TranslatorInterface {
   (key: string): string;
 }
+
+export interface APICallerOpts {
+  noCache?: boolean;
+  includeLocation?: boolean;
+};
 
 export interface ReverseGeocodeAddress {
   building?: string;

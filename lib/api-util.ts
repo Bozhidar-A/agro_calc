@@ -1,5 +1,5 @@
-import { UserGPSLoc } from './interfaces';
-import { Log } from './logger';
+import { APICallerOpts, UserGPSLoc } from '@/lib/interfaces';
+import { Log } from '@/lib/logger';
 
 export async function TryGetUserLocation(): Promise<UserGPSLoc | null> {
   if (!('geolocation' in navigator)) {
@@ -19,15 +19,24 @@ export async function TryGetUserLocation(): Promise<UserGPSLoc | null> {
   });
 }
 
-export async function APICaller(logPath: string[], route: string, method: string, variables?: any) {
+export async function APICaller(
+  logPath: string[],
+  route: string,
+  method: string,
+  variables?: any,
+  opts: APICallerOpts = {}
+) {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
 
-  const geo = await TryGetUserLocation();
-  if (geo && geo.lat && geo.lon) {
-    headers['x-user-lat'] = geo.lat.toString();
-    headers['x-user-lon'] = geo.lon.toString();
+  // only attach location if explicitly allowed
+  if (opts.includeLocation) {
+    const geo = await TryGetUserLocation();
+    if (geo && geo.lat && geo.lon) {
+      headers['x-user-lat'] = String(geo.lat);
+      headers['x-user-lon'] = String(geo.lon);
+    }
   }
 
   Log(logPath, `Calling ${route} ${method} ${variables ? JSON.stringify(variables) : ''}`);
@@ -36,25 +45,20 @@ export async function APICaller(logPath: string[], route: string, method: string
     method,
     credentials: 'include',
     headers,
+    cache: opts.noCache ? 'no-store' : 'default',
   };
 
-  const payload = {
-    ...variables,
-  };
-
+  const payload = { ...variables };
   if (method !== 'GET') {
     fetchOptions.body = JSON.stringify(payload);
   }
 
-  const res = await fetch(`${route}`, fetchOptions);
+  const res = await fetch(route, fetchOptions);
 
   if (!res.ok) {
-    Log(logPath, `API call failed with: ${res.statusText}`);
     return { success: false, message: res.statusText };
   }
 
   const data = await res.json();
-  Log(logPath, `API call returned: ${JSON.stringify(data)}`);
-
   return data;
-}
+} 

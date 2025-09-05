@@ -16,6 +16,7 @@ import localSettingsReducer, {
   LocalSetTheme,
   LocalSetUnitOfMeasurementLength,
 } from '@/store/slices/localSettingsSlice';
+import consentReducer from '@/store/slices/consentSlice';
 
 const createNoopStorage = () => {
   return {
@@ -41,6 +42,7 @@ const persistConfig = {
 const combinedReducer = combineReducers({
   auth: authReducer,
   local: localSettingsReducer,
+  consent: consentReducer
 });
 
 const listenerMiddleware = createListenerMiddleware();
