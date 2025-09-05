@@ -85,7 +85,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
     };
 
     return (
-        <Dialog open={open} onOpenChange={() => { }} modal>
+        <Dialog open={open} onOpenChange={onOpenChange} modal>
             <DialogContent
                 className="sm:max-w-md space-y-6"
                 onEscapeKeyDown={(e) => e.preventDefault()}
