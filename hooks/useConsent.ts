@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { ConsentSetHasConsented, ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from "@/store/slices/consentSlice";
 
 import { CONSENT_KEY, DEFAULT_CONSENT_COOKIE } from '@/lib/utils';
-import type { ConsentCookieProps } from '@/lib/interfaces';
+import type { ConsentProps } from '@/lib/interfaces';
 import { GetLocalStorageItem, SetLocalStorageItem } from '@/lib/localstorage-util';
 
-export function GetClientConsent(): ConsentCookieProps {
+export function GetClientConsent(): ConsentProps {
     if (typeof window === 'undefined') {
         return { ...DEFAULT_CONSENT_COOKIE, updatedAt: Date.now().toString() };
     }
-    const parsed = GetLocalStorageItem<ConsentCookieProps>(CONSENT_KEY);
+    const parsed = GetLocalStorageItem<ConsentProps>(CONSENT_KEY);
     if (parsed) {
         return {
             necessary: true,
@@ -22,8 +22,8 @@ export function GetClientConsent(): ConsentCookieProps {
     return { ...DEFAULT_CONSENT_COOKIE, updatedAt: Date.now().toString() };
 }
 
-export function SetClientConsent(value: Partial<ConsentCookieProps>): ConsentCookieProps {
-    const normalized: ConsentCookieProps = {
+export function SetClientConsent(value: Partial<ConsentProps>): ConsentProps {
+    const normalized: ConsentProps = {
         necessary: true,
         preferences: Boolean(value.preferences),
         location: Boolean(value.location),

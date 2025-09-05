@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 
 //general
-export interface ConsentCookieProps {
+export interface ConsentProps {
   necessary: true;              // always true
   preferences: boolean;         // utils stuff like dark mode, language
   location: boolean;            // location-in-requests

@@ -11,6 +11,7 @@ import {
   Settings,
   User,
   UserPlus,
+  Euro
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
@@ -29,7 +30,8 @@ import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 import { AuthLogout } from '@/store/slices/authSlice';
-import SettingsGrid from '../SettingsGrid/SettingsGrid';
+import SettingsGrid from '@/components/SettingsGrid/SettingsGrid';
+import ConsentForm from '@/components/ConsentForm/ConsentForm';
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -37,6 +39,8 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { isAuthenticated, user, email } = useAuth();
+
+  const [consentOpen, setConsentOpen] = useState(false);
 
   async function HandleLogout() {
     const backendWork = await APICaller(['auth', 'logout'], '/api/auth/logout', 'GET');
@@ -182,9 +186,22 @@ export default function Sidebar() {
                     {translator(SELECTABLE_STRINGS.SETTINGS)}
                   </DialogTitle>
                 </DialogHeader>
+
                 <SettingsGrid />
+
               </DialogContent>
             </Dialog>
+
+            <Button
+              variant="ghost"
+              className="w-full justify-start font-normal"
+              data-testid="settings-button"
+              onClick={() => setConsentOpen(true)}
+            >
+              <Euro className="mr-2 h-4 w-4" />
+              GDPR settings
+            </Button>
+            <ConsentForm open={consentOpen} onOpenChange={setConsentOpen} />
           </div>
         </div>
       </SheetContent>

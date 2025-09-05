@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { siGithub, siGoogle } from 'simple-icons';
 import { twMerge } from 'tailwind-merge';
-import { ConsentCookieProps, RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import { ConsentProps, RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
 import LangMap from '@/lib/LangMap';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 
@@ -66,7 +66,7 @@ export const tooltipProps: RechartsTooltipProps = {
   wrapperStyle: { outline: 'none' },
 };
 
-export const DEFAULT_CONSENT_COOKIE: ConsentCookieProps = {
+export const DEFAULT_CONSENT_COOKIE: ConsentProps = {
   necessary: true,
   preferences: false,
   location: false,
