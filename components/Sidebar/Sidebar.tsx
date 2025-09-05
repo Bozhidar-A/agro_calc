@@ -199,7 +199,7 @@ export default function Sidebar() {
               onClick={() => setConsentOpen(true)}
             >
               <Euro className="mr-2 h-4 w-4" />
-              GDPR settings
+              {translator(SELECTABLE_STRINGS.GDPR_CONSENT_TITLE)}
             </Button>
             <ConsentForm open={consentOpen} onOpenChange={setConsentOpen} />
           </div>

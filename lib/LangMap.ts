@@ -90,6 +90,8 @@ export enum SELECTABLE_STRINGS {
   TOAST_INFO_FORCE_LOGOUT = 'TOAST_INFO_FORCE_LOGOUT',
   TOAST_ERROR_OAUTH_CALLBACK_EXPIRED = 'TOAST_ERROR_OAUTH_CALLBACK_EXPIRED',
   TOAST_ERROR_OAUTH_CALLBACK_FAILED = 'TOAST_ERROR_OAUTH_CALLBACK_FAILED',
+  TOAST_INFO_CONSENT_SAVED = 'TOAST_INFO_CONSENT_SAVED',
+  TOAST_ERROR_CONSENT_SAVED_FAIL = 'TOAST_ERROR_CONSENT_SAVED_FAIL',
 
   AGRICULTURAL_CALCULATORS = 'AGRICULTURAL_CALCULATORS',
   SELECT_CALCULATOR = 'SELECT_CALCULATOR',
@@ -923,6 +925,8 @@ export const LangMap: LangMapInterface = {
       'OAuth сесията е изтекла. Моля, влезте отново.',
     [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]:
       'Неуспешен опит за OAuth вход. Моля, опитайте отново.',
+    [SELECTABLE_STRINGS.TOAST_INFO_CONSENT_SAVED]: 'Предпочитанията за поверителност са запазени.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_CONSENT_SAVED_FAIL]: 'Възникна грешка при запазване на предпочитанията за поверителност.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
@@ -1668,7 +1672,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'plants/hectare',
     [SELECTABLE_STRINGS.BGN]: 'BGN',
 
-    [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'Privacy & Local Data',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'GDPR - Privacy & Local Data',
     [SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION]: `We use cookies and your browser's local storage to improve your experience on our site. \n By default, we only use necessary cookies and storage for core features.`,
     [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY]: 'Necessary',
     [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]: 'Required for login and core features. Cannot be disabled. Cookies and Local Browser Storage used.',
@@ -1784,6 +1788,8 @@ export const LangMap: LangMapInterface = {
       'OAuth session expired. Please log in again.',
     [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]:
       'Failed to complete OAuth login. Please try again.',
+    [SELECTABLE_STRINGS.TOAST_INFO_CONSENT_SAVED]: 'Privacy settings saved successfully!',
+    [SELECTABLE_STRINGS.TOAST_ERROR_CONSENT_SAVED_FAIL]: 'Failed to save privacy settings!',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Agricultural calculators',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Select calculator',

@@ -81,11 +81,11 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
             setPreferences(data.preferences);
             setLocation(data.location);
             updateConsentDate();
-            toast.success('Saved privacy settings');
+            toast.success(translate(SELECTABLE_STRINGS.TOAST_INFO_CONSENT_SAVED));
             onOpenChange(false);
             router.refresh();
         } catch {
-            toast.error('Failed to save privacy settings');
+            toast.error(translate(SELECTABLE_STRINGS.TOAST_ERROR_CONSENT_SAVED_FAIL));
         }
     }
 
@@ -105,9 +105,6 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
         <Dialog open={open} onOpenChange={onOpenChange} modal >
             <DialogContent
                 className="sm:max-w-md space-y-6"
-                onEscapeKeyDown={(e) => e.preventDefault()}
-                onPointerDownOutside={(e) => e.preventDefault()}
-                onInteractOutside={(e) => e.preventDefault()}
             >
                 <DialogHeader>
                     <DialogTitle className="text-center">{translate(SELECTABLE_STRINGS.GDPR_CONSENT_TITLE)}</DialogTitle>
