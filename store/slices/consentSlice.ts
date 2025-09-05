@@ -1,11 +1,11 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import { DEFAULT_CONSENT_COOKIE } from '@/lib/utils';
+import { DEFAULT_CONSENT } from '@/lib/utils';
 
 const consentSlice = createSlice({
     name: 'consent',
-    initialState: DEFAULT_CONSENT_COOKIE,
+    initialState: DEFAULT_CONSENT,
     reducers: {
         //none for necessary since its always true
         ConsentSetPreferences: (state, action) => {

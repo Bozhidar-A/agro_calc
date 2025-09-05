@@ -66,7 +66,7 @@ export const tooltipProps: RechartsTooltipProps = {
   wrapperStyle: { outline: 'none' },
 };
 
-export const DEFAULT_CONSENT_COOKIE: ConsentProps = {
+export const DEFAULT_CONSENT: ConsentProps = {
   necessary: true,
   preferences: false,
   location: false,

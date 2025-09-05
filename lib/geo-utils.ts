@@ -1,6 +1,19 @@
-import { UserGPSLoc } from '@/lib/interfaces';
+import { GetClientConsent } from '@/hooks/useConsent';
+import { ConsentProps, UserGPSLoc } from '@/lib/interfaces';
+import { Log } from './logger';
 
 export async function TryGetUserLocation(): Promise<UserGPSLoc | null> {
+    const consent: ConsentProps = GetClientConsent();
+
+    // only attempt to get location if explicitly allowed
+
+    if (!consent.location) {
+        Log(['consent', 'location'], `User has NOT consented to location. Skipping location retrieval.`);
+        return null;
+    } else {
+        Log(['consent', 'location'], `User has consented to location. Attempting to retrieve location.`);
+    }
+
     if (!('geolocation' in navigator)) {
         return null;
     }
