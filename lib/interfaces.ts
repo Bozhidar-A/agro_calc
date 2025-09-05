@@ -10,7 +10,7 @@ export interface ConsentProps {
 
 export interface ConsentDialogProps {
   open: boolean;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 export interface SupportedOAuthProvider {

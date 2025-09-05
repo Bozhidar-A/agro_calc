@@ -173,7 +173,7 @@ jest.mock('@/lib/utils', () => ({
 
 //mock router
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn() }),
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
 
 //mock useAuth hook
@@ -192,6 +192,8 @@ jest.mock('@/hooks/useConsent', () => ({
     setPreferences: jest.fn(),
     setLocation: jest.fn(),
     updateConsentDate: jest.fn(),
+    SetClientConsent: jest.fn(),
+    GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
   })),
   SetClientConsent: jest.fn(),
   GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),

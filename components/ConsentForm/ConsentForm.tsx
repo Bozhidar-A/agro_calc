@@ -82,7 +82,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
             setLocation(data.location);
             updateConsentDate();
             toast.success('Saved privacy settings');
-            onOpenChange?.(false);
+            onOpenChange(false);
             router.refresh();
         } catch {
             toast.error('Failed to save privacy settings');
