@@ -19,15 +19,20 @@ import {
 } from '@/components/ui/dialog';
 
 import { useConsent } from '@/hooks/useConsent';
-import type { ConsentProps, ConsentDialogProps } from '@/lib/interfaces';
+import type { ConsentDialogProps } from '@/lib/interfaces';
 import { useSelector } from 'react-redux';
 
 export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) {
     const router = useRouter();
     const consentReduxObj = useSelector((state: any) => state.consent);
 
+
     const {
+        preferences,
+        location,
         setHasConsented,
+        setPreferences,
+        setLocation,
         updateConsentDate,
         SetClientConsent,
     } = useConsent();
@@ -42,25 +47,40 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
         location: z.boolean(),
     });
 
+
     const {
         handleSubmit,
         setValue,
         watch,
+        reset,
     } = useForm<z.infer<typeof ConsentSchema>>({
         resolver: zodResolver(ConsentSchema),
         mode: 'onChange',
         defaultValues: {
             necessary: true,
-            preferences: false,
-            location: false,
+            preferences: Boolean(preferences),
+            location: Boolean(location),
         },
     });
+
+    // Sync form state with consent values from useConsent when dialog opens
+    useEffect(() => {
+        if (open) {
+            reset({
+                necessary: true,
+                preferences: Boolean(preferences),
+                location: Boolean(location),
+            });
+        }
+    }, [open, preferences, location, reset]);
 
     const form = watch();
 
     function OnSave(data: z.infer<typeof ConsentSchema>) {
         try {
             SetClientConsent(data);
+            setPreferences(data.preferences);
+            setLocation(data.location);
             setHasConsented(true);
             updateConsentDate();
             toast.success('Saved privacy settings');
