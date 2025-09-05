@@ -27,6 +27,7 @@ class ResizeObserver {
 
 window.ResizeObserver = ResizeObserver;
 
+
 //fix for redux persist
 jest.mock('redux-persist/integration/react', () => ({
   PersistGate: ({ children }) => children,
@@ -197,4 +198,9 @@ jest.mock('@/hooks/useConsent', () => ({
   })),
   SetClientConsent: jest.fn(),
   GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
+}));
+
+jest.mock('@/lib/localstorage-util', () => ({
+  GetLocalStorageItem: jest.fn(),
+  SetLocalStorageItem: jest.fn(),
 }));

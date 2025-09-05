@@ -102,7 +102,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
     };
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange} modal>
+        <Dialog open={open} onOpenChange={onOpenChange} modal >
             <DialogContent
                 className="sm:max-w-md space-y-6"
                 onEscapeKeyDown={(e) => e.preventDefault()}
@@ -120,6 +120,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                     onSubmit={handleSubmit(OnSave)}
                     className="space-y-4"
                     noValidate
+                    data-testid="consent-form"
                 >
                     {/* NECESSARY */}
                     <div className="space-y-2 rounded-lg border p-4 text-left">

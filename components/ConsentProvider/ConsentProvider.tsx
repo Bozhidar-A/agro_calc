@@ -1,13 +1,13 @@
 'use client';
 
-
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 import { CONSENT_KEY } from '@/lib/utils';
 import ConsentForm from '@/components/ConsentForm/ConsentForm';
 import { GetLocalStorageItem } from '@/lib/localstorage-util';
 
 export function ConsentProvider({ children }: React.PropsWithChildren) {
-    const [showConsent, setShowConsent] = useState(false);
+    const [showConsent, setShowConsent] = React.useState(false);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
