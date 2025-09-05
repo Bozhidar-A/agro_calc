@@ -57,6 +57,12 @@ listenerMiddleware.startListening({
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
+    const preferences = state.consent.preferences;
+
+    if (!preferences) {
+      Log(['consent', 'preferences', 'settings', 'store', 'listener'], `User has not consented to preferences. Skipping loading user settings.`);
+      return;
+    }
 
     if (user) {
       const userSettings = await APICaller(
@@ -89,6 +95,13 @@ listenerMiddleware.startListening({
     const lang = state.local.lang;
     const theme = state.local.theme;
     const unitOfMeasurementLength = state.local.unitOfMeasurementLength;
+
+    const preferences = state.consent.preferences;
+
+    if (!preferences) {
+      Log(['consent', 'preferences', 'settings', 'store', 'listener'], `User has not consented to preferences. Skipping saving user settings.`);
+      return;
+    }
 
     if (user) {
       const userSettings = await APICaller(

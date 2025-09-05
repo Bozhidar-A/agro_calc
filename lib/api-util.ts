@@ -1,23 +1,7 @@
-import { APICallerOpts, UserGPSLoc } from '@/lib/interfaces';
+import { useConsent } from '@/hooks/useConsent';
+import { APICallerOpts } from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
-
-export async function TryGetUserLocation(): Promise<UserGPSLoc | null> {
-  if (!('geolocation' in navigator)) {
-    return null;
-  }
-
-  return new Promise((resolve) => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) =>
-        resolve({
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude,
-        }),
-      () => resolve(null), // user denied or error
-      { enableHighAccuracy: false, timeout: 5000 }
-    );
-  });
-}
+import { TryGetUserLocation } from '@/lib/geo-utils';
 
 export async function APICaller(
   logPath: string[],
@@ -26,12 +10,17 @@ export async function APICaller(
   variables?: any,
   opts: APICallerOpts = {}
 ) {
+  const consent = useConsent();
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
 
   // only attach location if explicitly allowed
-  if (opts.includeLocation) {
+  if (opts.includeLocation && consent.location) {
+
+    consent.location ? Log(['consent', 'location', ...logPath], `User has consented to location. Including location headers.`) : Log(['consent', 'location', ...logPath], `User has NOT consented to location. Skipping location headers.`);
+
     const geo = await TryGetUserLocation();
     if (geo && geo.lat && geo.lon) {
       headers['x-user-lat'] = String(geo.lat);
