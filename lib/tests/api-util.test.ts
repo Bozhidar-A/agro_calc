@@ -19,10 +19,6 @@ describe('APICaller', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockFetch.mockClear();
-    GetClientConsent.mockReset();
-    TryGetUserLocation.mockReset();
-    // Always return a valid consent object by default
-    GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: false });
   });
 
   it('should set cache to no-store if opts.noCache is true', async () => {

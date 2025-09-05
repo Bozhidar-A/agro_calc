@@ -186,5 +186,13 @@ jest.mock('@/hooks/useAuth', () => ({
 
 //consent
 jest.mock('@/hooks/useConsent', () => ({
+  useConsent: jest.fn(() => ({
+    preferences: false,
+    location: false,
+    setPreferences: jest.fn(),
+    setLocation: jest.fn(),
+    updateConsentDate: jest.fn(),
+  })),
+  SetClientConsent: jest.fn(),
   GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
 }));
