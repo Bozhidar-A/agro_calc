@@ -1,3 +1,4 @@
+
 import { TryGetUserLocation } from "@/lib/geo-utils";
 import { UserGPSLoc } from "@/lib/interfaces";
 
@@ -25,13 +26,31 @@ describe('TryGetUserLocation', () => {
         });
     });
 
-    it('returns null if geolocation is not available', async () => {
+
+    it('returns null if geolocation is not available and location consent is false', async () => {
+        const { GetClientConsent } = require('@/hooks/useConsent');
+        GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: false });
         (global as any).navigator = {};
         const result = await TryGetUserLocation();
         expect(result).toBeNull();
     });
 
-    it('returns coordinates if geolocation is available and succeeds', async () => {
+    it('returns null if location consent is false even if geolocation is available', async () => {
+        const { GetClientConsent } = require('@/hooks/useConsent');
+        GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: false });
+        (global as any).navigator = {
+            geolocation: {
+                getCurrentPosition: jest.fn(),
+            },
+        };
+        const result = await TryGetUserLocation();
+        expect(result).toBeNull();
+    });
+
+
+    it('returns coordinates if geolocation is available, succeeds, and location consent is true', async () => {
+        const { GetClientConsent } = require('@/hooks/useConsent');
+        GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: true });
         const mockGetCurrentPosition = jest.fn((success: PositionCallback) => {
             setTimeout(() => {
                 success({
@@ -57,7 +76,10 @@ describe('TryGetUserLocation', () => {
         expect(result).toEqual<UserGPSLoc>({ lat: 42, lon: 24 });
     });
 
-    it('returns null if geolocation fails/denied', async () => {
+
+    it('returns null if geolocation fails/denied and location consent is true', async () => {
+        const { GetClientConsent } = require('@/hooks/useConsent');
+        GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: true });
         const mockGetCurrentPosition = jest.fn(
             (_success: PositionCallback, error: PositionErrorCallback) => {
                 setTimeout(() => {

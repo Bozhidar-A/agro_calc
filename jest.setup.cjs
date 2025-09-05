@@ -183,3 +183,8 @@ jest.mock('@/hooks/useAuth', () => ({
     userId: 'test-user-id',
   }),
 }));
+
+//consent
+jest.mock('@/hooks/useConsent', () => ({
+  GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
+}));

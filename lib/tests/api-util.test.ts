@@ -1,6 +1,8 @@
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 
+jest.unmock('@/lib/api-util');
+
 // Mock fetch at module level
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
@@ -10,34 +12,79 @@ jest.mock('@/lib/logger', () => ({
   Log: jest.fn(),
 }));
 
-// Partial mock for api-util: keep TryGetUserLocation real, mock APICaller
-jest.mock('@/lib/api-util', () => {
-  const actual = jest.requireActual('@/lib/api-util');
-  return {
-    ...actual, // keep TryGetUserLocation
-    APICaller: jest.fn().mockImplementation(async (logPath, route, method, variables) => {
-      Log(logPath, `Calling ${route} ${method} ${variables ? JSON.stringify(variables) : ''}`);
-      const headers = { 'Content-Type': 'application/json' };
-      const fetchOptions: RequestInit = { method, credentials: 'include', headers };
-      if (method !== 'GET' && variables) {
-        fetchOptions.body = JSON.stringify(variables);
-      }
-      const res = await mockFetch(route, fetchOptions);
-      if (!res.ok) {
-        Log(logPath, `API call failed with: ${res.statusText}`);
-        return { success: false, message: res.statusText };
-      }
-      const data = await res.json();
-      Log(logPath, `API call returned: ${JSON.stringify(data)}`);
-      return data;
-    }),
-  };
-});
-
 describe('APICaller', () => {
+  const { GetClientConsent } = require('@/hooks/useConsent');
+  const { TryGetUserLocation } = require('@/lib/geo-utils');
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockFetch.mockClear();
+    GetClientConsent.mockReset();
+    TryGetUserLocation.mockReset();
+    // Always return a valid consent object by default
+    GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: false });
+  });
+
+  it('should set cache to no-store if opts.noCache is true', async () => {
+    const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
+    mockFetch.mockResolvedValueOnce(mockResponse);
+
+    await APICaller(['test'], '/api/test', 'GET', undefined, { noCache: true });
+
+    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.objectContaining({
+      cache: 'no-store',
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    }));
+  });
+
+  it('should include location headers if consent is true and location is available', async () => {
+    GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: true });
+    TryGetUserLocation.mockResolvedValue({ lat: 10, lon: 20 });
+    const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
+    mockFetch.mockResolvedValueOnce(mockResponse);
+
+    await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
+
+    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.objectContaining({
+      headers: expect.objectContaining({
+        'x-user-lat': '10',
+        'x-user-lon': '20',
+      }),
+    }));
+  });
+
+  it('should NOT include location headers if consent is false', async () => {
+    GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: false });
+    TryGetUserLocation.mockResolvedValue({ lat: 10, lon: 20 });
+    const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
+    mockFetch.mockResolvedValueOnce(mockResponse);
+
+    await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
+
+    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.not.objectContaining({
+      headers: expect.objectContaining({
+        'x-user-lat': '10',
+        'x-user-lon': '20',
+      }),
+    }));
+  });
+
+  it('should NOT include location headers if TryGetUserLocation returns null', async () => {
+    GetClientConsent.mockReturnValue({ necessary: true, preferences: false, location: true });
+    TryGetUserLocation.mockResolvedValue(null);
+    const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
+    mockFetch.mockResolvedValueOnce(mockResponse);
+
+    await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
+
+    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.not.objectContaining({
+      headers: expect.objectContaining({
+        'x-user-lat': expect.any(String),
+        'x-user-lon': expect.any(String),
+      }),
+    }));
   });
 
   it('should make a successful GET request', async () => {
@@ -50,6 +97,7 @@ describe('APICaller', () => {
     const result = await APICaller(['test'], '/api/test', 'GET');
 
     expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+      cache: 'default',
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -69,6 +117,7 @@ describe('APICaller', () => {
     const result = await APICaller(['test'], '/api/test', 'POST', variables);
 
     expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+      cache: 'default',
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -112,6 +161,7 @@ describe('APICaller', () => {
     await APICaller(['test'], '/api/test', 'GET', variables);
 
     expect(mockFetch).toHaveBeenCalledWith('/api/test', {
+      cache: 'default',
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
