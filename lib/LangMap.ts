@@ -138,6 +138,19 @@ export enum SELECTABLE_STRINGS {
   PLANTS_PER_HECTARE = 'PLANTS_PER_HECTARE',
   BGN = 'BGN',
 
+  //gdpr consent form
+  GDPR_CONSENT_TITLE = 'GDPR_CONSENT_TITLE',
+  GDPR_CONSENT_DESCRIPTION = 'GDPR_CONSENT_DESCRIPTION',
+  GDPR_CONSENT_NECESSARY = 'GDPR_CONSENT_NECESSARY',
+  GDPR_CONSENT_NECESSARY_DESCRIPTION = 'GDPR_CONSENT_NECESSARY_DESCRIPTION',
+  GDPR_CONSENT_PREFERENCES = 'GDPR_CONSENT_PREFERENCES',
+  GDPR_CONSENT_PREFERENCES_DESCRIPTION = 'GDPR_CONSENT_PREFERENCES_DESCRIPTION',
+  GDPR_CONSENT_LOCATION = 'GDPR_CONSENT_LOCATION',
+  GDPR_CONSENT_LOCATION_DESCRIPTION = 'GDPR_CONSENT_LOCATION_DESCRIPTION',
+  GDPR_CONSENT_SAVE = 'GDPR_CONSENT_SAVE',
+  GDPR_CONSENT_REJECT_OPTIONAL = 'GDPR_CONSENT_REJECT_OPTIONAL',
+  GDPR_CONSENT_ACCEPT_ALL = 'GDPR_CONSENT_ACCEPT_ALL',
+
   //latin names
   // Seeding crops
   PISUM_SATIVUM = 'Pisum sativum', // Грах (Pea)
@@ -795,6 +808,18 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'брой растения/декар',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'брой растения/хектар',
     [SELECTABLE_STRINGS.BGN]: 'лв',
+
+    [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'Поверителност и локални данни',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION]: `Използваме бисквитки и локалното хранилище на вашия браузър, за да подобрим вашето изживяване в сайта. \n По подразбиране използваме само необходимите бисквитки и съхранение за основни функции.`,
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY]: 'Необходими',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]: 'Необходими за вход и основни функции. Не могат да бъдат изключени. Използват се бисквитки и локално хранилище в браузъра.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES]: 'Предпочитания',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]: 'Запазване на вашия език и цветова тема. По избор.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION]: 'Местоположение',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]: 'Включване на приблизително местоположение в заявките за сигурност и информация. По избор.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_SAVE]: 'Запази предпочитанията',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_REJECT_OPTIONAL]: 'Откажи незадължителните',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_ACCEPT_ALL]: 'Приеми всички',
 
     [SELECTABLE_STRINGS.GET_STARTED]: 'Да започваме!',
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Добре дошли, ',
@@ -1642,6 +1667,18 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.PLANTS_PER_ACRE]: 'plants/acre',
     [SELECTABLE_STRINGS.PLANTS_PER_HECTARE]: 'plants/hectare',
     [SELECTABLE_STRINGS.BGN]: 'BGN',
+
+    [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'Privacy & Local Data',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION]: `We use cookies and your browser's local storage to improve your experience on our site. \n By default, we only use necessary cookies and storage for core features.`,
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY]: 'Necessary',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]: 'Required for login and core features. Cannot be disabled. Cookies and Local Browser Storage used.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES]: 'Preferences',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]: 'Save your language and color theme. Optional.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION]: 'Location',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]: 'Include approximate location with requests for security and information. Optional.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_SAVE]: 'Save preferences',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_REJECT_OPTIONAL]: 'Reject optional',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_ACCEPT_ALL]: 'Accept all',
 
     [SELECTABLE_STRINGS.GET_STARTED]: "Let's start!",
     [SELECTABLE_STRINGS.HEADER_WELCOME]: 'Welcome, ',

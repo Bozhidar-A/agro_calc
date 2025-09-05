@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { BackendLogout, BackendRefreshAccessToken, BackendVerifyToken } from './lib/auth-utils';
 import { Log } from './lib/logger';
-import { ArrayContainsAndItemsStartsWith, DEFAULT_CONSENT_COOKIE } from './lib/utils';
+import { ArrayContainsAndItemsStartsWith } from './lib/utils';
 
 export async function middleware(request: NextRequest) {
   const routeDefinitions = {

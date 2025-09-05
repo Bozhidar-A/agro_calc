@@ -20,8 +20,11 @@ import {
 
 import { useConsent } from '@/hooks/useConsent';
 import type { ConsentDialogProps } from '@/lib/interfaces';
+import { useTranslate } from '@/hooks/useTranslate';
+import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 
 export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) {
+    const translate = useTranslate();
     const router = useRouter();
 
     const {
@@ -107,9 +110,9 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                 onInteractOutside={(e) => e.preventDefault()}
             >
                 <DialogHeader>
-                    <DialogTitle className="text-center">Privacy & Cookies</DialogTitle>
+                    <DialogTitle className="text-center">{translate(SELECTABLE_STRINGS.GDPR_CONSENT_TITLE)}</DialogTitle>
                     <DialogDescription className="text-center">
-                        Control how we use cookies and related data. Necessary cookies are always on.
+                        {translate(SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION)}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -122,12 +125,12 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                     <div className="space-y-2 rounded-lg border p-4 text-left">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="nec" className="font-semibold">
-                                Necessary
+                                {translate(SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY)}
                             </Label>
                             <Switch id="nec" checked disabled />
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Required for login and core features. Cannot be disabled.
+                            {translate(SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION)}
                         </p>
                     </div>
 
@@ -135,7 +138,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                     <div className="space-y-2 rounded-lg border p-4 text-left">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="pref" className="font-semibold">
-                                Preferences
+                                {translate(SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES)}
                             </Label>
                             <Switch
                                 id="pref"
@@ -143,14 +146,14 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                                 onCheckedChange={(v) => setValue('preferences', Boolean(v))}
                             />
                         </div>
-                        <p className="text-sm text-muted-foreground">Save your language and color theme. Optional.</p>
+                        <p className="text-sm text-muted-foreground">{translate(SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION)}</p>
                     </div>
 
                     {/* LOCATION */}
                     <div className="space-y-2 rounded-lg border p-4 text-left">
                         <div className="flex items-center justify-between">
                             <Label htmlFor="loc" className="font-semibold">
-                                Location
+                                {translate(SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION)}
                             </Label>
                             <Switch
                                 id="loc"
@@ -159,7 +162,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                             />
                         </div>
                         <p className="text-sm text-muted-foreground">
-                            Include approximate location with requests (for security). Optional.
+                            {translate(SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION)}
                         </p>
                     </div>
 
@@ -167,7 +170,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                         type="submit"
                         className="w-full text-white font-semibold"
                     >
-                        Save
+                        {translate(SELECTABLE_STRINGS.GDPR_CONSENT_SAVE)}
                     </Button>
 
                     <div className="flex items-center justify-center gap-2">
@@ -177,7 +180,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                             onClick={OnDeclineOptional}
                             className="font-semibold"
                         >
-                            Decline optional
+                            {translate(SELECTABLE_STRINGS.GDPR_CONSENT_REJECT_OPTIONAL)}
                         </Button>
                         <Button
                             type="button"
@@ -185,7 +188,7 @@ export default function ConsentForm({ open, onOpenChange }: ConsentDialogProps) 
                             onClick={OnAcceptAll}
                             className="font-semibold"
                         >
-                            Accept all
+                            {translate(SELECTABLE_STRINGS.GDPR_CONSENT_ACCEPT_ALL)}
                         </Button>
                     </div>
                 </form>

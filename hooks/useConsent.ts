@@ -2,13 +2,13 @@ import { RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from "@/store/slices/consentSlice";
 
-import { CONSENT_KEY, DEFAULT_CONSENT_COOKIE } from '@/lib/utils';
+import { CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
 import type { ConsentProps } from '@/lib/interfaces';
 import { GetLocalStorageItem, SetLocalStorageItem } from '@/lib/localstorage-util';
 
 export function GetClientConsent(): ConsentProps {
     if (typeof window === 'undefined') {
-        return { ...DEFAULT_CONSENT_COOKIE, updatedAt: Date.now().toString() };
+        return { ...DEFAULT_CONSENT, updatedAt: Date.now().toString() };
     }
     const parsed = GetLocalStorageItem<ConsentProps>(CONSENT_KEY);
     if (parsed) {
@@ -19,7 +19,7 @@ export function GetClientConsent(): ConsentProps {
             updatedAt: parsed.updatedAt ?? Date.now().toString(),
         };
     }
-    return { ...DEFAULT_CONSENT_COOKIE, updatedAt: Date.now().toString() };
+    return { ...DEFAULT_CONSENT, updatedAt: Date.now().toString() };
 }
 
 export function SetClientConsent(value: Partial<ConsentProps>): ConsentProps {
