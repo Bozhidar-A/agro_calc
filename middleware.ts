@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { BackendLogout, BackendRefreshAccessToken, BackendVerifyToken } from './lib/auth-utils';
 import { Log } from './lib/logger';
-import { ArrayContainsAndItemsStartsWith } from './lib/utils';
+import { ArrayContainsAndItemsStartsWith, DEFAULT_CONSENT_COOKIE } from './lib/utils';
 
 export async function middleware(request: NextRequest) {
   const routeDefinitions = {
@@ -32,8 +32,11 @@ export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const { pathname } = request.nextUrl;
 
+  Log(['middleware'], `Request made to: ${pathname}`);
+
   if (pathname === '/') {
     Log(['middleware'], `Trying to access root route, letting through`);
+
     return NextResponse.next();
   }
 
