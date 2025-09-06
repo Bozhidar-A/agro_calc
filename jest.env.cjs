@@ -1,0 +1,1 @@
+process.env.NEXT_PUBLIC_GDPR_CONSENT_KEY = "consent.v1";

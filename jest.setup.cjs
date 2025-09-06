@@ -167,10 +167,15 @@ jest.mock('@/hooks/useWarnings', () => ({
 }));
 
 // Global mock for GetStrFromLangMapKey
-jest.mock('@/lib/utils', () => ({
-  ...jest.requireActual('@/lib/utils'),
-  GetStrFromLangMapKey: mockGetStrFromLangMapKey,
-}));
+jest.mock('@/lib/utils', () => {
+  const actual = jest.requireActual('@/lib/utils');
+  return {
+    ...actual,
+    GetStrFromLangMapKey: mockGetStrFromLangMapKey,
+    // ensure the consent key is defined for tests (use env if present, otherwise actual or fallback)
+    CONSENT_KEY: process.env.NEXT_PUBLIC_GDPR_CONSENT_KEY || actual.CONSENT_KEY || 'consent.v1',
+  };
+});
 
 //mock router
 jest.mock('next/navigation', () => ({
