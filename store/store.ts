@@ -11,12 +11,12 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
+import consentReducer from '@/store/slices/consentSlice';
 import localSettingsReducer, {
   LocalSetLang,
   LocalSetTheme,
   LocalSetUnitOfMeasurementLength,
 } from '@/store/slices/localSettingsSlice';
-import consentReducer from '@/store/slices/consentSlice';
 
 const createNoopStorage = () => {
   return {
@@ -42,7 +42,7 @@ const persistConfig = {
 const combinedReducer = combineReducers({
   auth: authReducer,
   local: localSettingsReducer,
-  consent: consentReducer
+  consent: consentReducer,
 });
 
 const listenerMiddleware = createListenerMiddleware();
@@ -60,7 +60,10 @@ listenerMiddleware.startListening({
     const preferences = state.consent.preferences;
 
     if (!preferences) {
-      Log(['consent', 'preferences', 'settings', 'store', 'listener'], `User has not consented to preferences. Skipping loading user settings.`);
+      Log(
+        ['consent', 'preferences', 'settings', 'store', 'listener'],
+        `User has not consented to preferences. Skipping loading user settings.`
+      );
       return;
     }
 
@@ -99,7 +102,10 @@ listenerMiddleware.startListening({
     const preferences = state.consent.preferences;
 
     if (!preferences) {
-      Log(['consent', 'preferences', 'settings', 'store', 'listener'], `User has not consented to preferences. Skipping saving user settings.`);
+      Log(
+        ['consent', 'preferences', 'settings', 'store', 'listener'],
+        `User has not consented to preferences. Skipping saving user settings.`
+      );
       return;
     }
 

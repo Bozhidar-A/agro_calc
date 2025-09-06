@@ -27,12 +27,15 @@ describe('APICaller', () => {
 
     await APICaller(['test'], '/api/test', 'GET', undefined, { noCache: true });
 
-    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.objectContaining({
-      cache: 'no-store',
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/test',
+      expect.objectContaining({
+        cache: 'no-store',
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      })
+    );
   });
 
   it('should include location headers if consent is true and location is available', async () => {
@@ -43,12 +46,15 @@ describe('APICaller', () => {
 
     await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
 
-    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.objectContaining({
-      headers: expect.objectContaining({
-        'x-user-lat': '10',
-        'x-user-lon': '20',
-      }),
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/test',
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'x-user-lat': '10',
+          'x-user-lon': '20',
+        }),
+      })
+    );
   });
 
   it('should NOT include location headers if consent is false', async () => {
@@ -59,12 +65,15 @@ describe('APICaller', () => {
 
     await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
 
-    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.not.objectContaining({
-      headers: expect.objectContaining({
-        'x-user-lat': '10',
-        'x-user-lon': '20',
-      }),
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/test',
+      expect.not.objectContaining({
+        headers: expect.objectContaining({
+          'x-user-lat': '10',
+          'x-user-lon': '20',
+        }),
+      })
+    );
   });
 
   it('should NOT include location headers if TryGetUserLocation returns null', async () => {
@@ -75,12 +84,15 @@ describe('APICaller', () => {
 
     await APICaller(['test'], '/api/test', 'POST', {}, { includeLocation: true });
 
-    expect(mockFetch).toHaveBeenCalledWith('/api/test', expect.not.objectContaining({
-      headers: expect.objectContaining({
-        'x-user-lat': expect.any(String),
-        'x-user-lon': expect.any(String),
-      }),
-    }));
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/test',
+      expect.not.objectContaining({
+        headers: expect.objectContaining({
+          'x-user-lat': expect.any(String),
+          'x-user-lon': expect.any(String),
+        }),
+      })
+    );
   });
 
   it('should make a successful GET request', async () => {

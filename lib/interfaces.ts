@@ -2,9 +2,9 @@ import { User } from '@prisma/client';
 
 //general
 export interface ConsentProps {
-  necessary: true;              // always true
-  preferences: boolean;         // utils stuff like dark mode, language
-  location: boolean;            // location-in-requests
+  necessary: true; // always true
+  preferences: boolean; // utils stuff like dark mode, language
+  location: boolean; // location-in-requests
   updatedAt?: string;
 }
 
@@ -84,7 +84,7 @@ export interface TranslatorInterface {
 export interface APICallerOpts {
   noCache?: boolean;
   includeLocation?: boolean;
-};
+}
 
 export interface ReverseGeocodeAddress {
   building?: string;

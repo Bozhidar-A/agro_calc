@@ -95,7 +95,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS),
       value: data.usedSeedsKgPerAcre * 10,
-    }
+    },
   ];
 
   // Colors for charts
@@ -256,7 +256,10 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
               >
                 <XAxis type="number" domain={[0, 100]} />
                 <YAxis dataKey="name" type="category" />
-                <Tooltip {...tooltipProps} formatter={(value) => `${(value as number).toFixed(1)}%`} />
+                <Tooltip
+                  {...tooltipProps}
+                  formatter={(value) => `${(value as number).toFixed(1)}%`}
+                />
                 <Legend />
                 <Bar
                   dataKey="efficiency"

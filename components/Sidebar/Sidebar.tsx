@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import {
   Book,
   Calculator,
+  Euro,
   Home,
   LogIn,
   LogOut,
@@ -11,10 +12,11 @@ import {
   Settings,
   User,
   UserPlus,
-  Euro
 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'sonner';
+import ConsentForm from '@/components/ConsentForm/ConsentForm';
+import SettingsGrid from '@/components/SettingsGrid/SettingsGrid';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -30,8 +32,6 @@ import { APICaller } from '@/lib/api-util';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { Log } from '@/lib/logger';
 import { AuthLogout } from '@/store/slices/authSlice';
-import SettingsGrid from '@/components/SettingsGrid/SettingsGrid';
-import ConsentForm from '@/components/ConsentForm/ConsentForm';
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -188,7 +188,6 @@ export default function Sidebar() {
                 </DialogHeader>
 
                 <SettingsGrid />
-
               </DialogContent>
             </Dialog>
 

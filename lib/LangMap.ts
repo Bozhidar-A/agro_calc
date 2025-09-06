@@ -814,11 +814,14 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'Поверителност и локални данни',
     [SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION]: `Използваме бисквитки и локалното хранилище на вашия браузър, за да подобрим вашето изживяване в сайта. \n По подразбиране използваме само необходимите бисквитки и съхранение за основни функции.`,
     [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY]: 'Необходими',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]: 'Необходими за вход и основни функции. Не могат да бъдат изключени. Използват се бисквитки и локално хранилище в браузъра.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]:
+      'Необходими за вход и основни функции. Не могат да бъдат изключени. Използват се бисквитки и локално хранилище в браузъра.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES]: 'Предпочитания',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]: 'Запазване на вашия език и цветова тема. По избор.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]:
+      'Запазване на вашия език и цветова тема. По избор.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION]: 'Местоположение',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]: 'Включване на приблизително местоположение в заявките за сигурност и информация. По избор.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]:
+      'Включване на приблизително местоположение в заявките за сигурност и информация. По избор.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_SAVE]: 'Запази предпочитанията',
     [SELECTABLE_STRINGS.GDPR_CONSENT_REJECT_OPTIONAL]: 'Откажи незадължителните',
     [SELECTABLE_STRINGS.GDPR_CONSENT_ACCEPT_ALL]: 'Приеми всички',
@@ -926,7 +929,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_ERROR_OAUTH_CALLBACK_FAILED]:
       'Неуспешен опит за OAuth вход. Моля, опитайте отново.',
     [SELECTABLE_STRINGS.TOAST_INFO_CONSENT_SAVED]: 'Предпочитанията за поверителност са запазени.',
-    [SELECTABLE_STRINGS.TOAST_ERROR_CONSENT_SAVED_FAIL]: 'Възникна грешка при запазване на предпочитанията за поверителност.',
+    [SELECTABLE_STRINGS.TOAST_ERROR_CONSENT_SAVED_FAIL]:
+      'Възникна грешка при запазване на предпочитанията за поверителност.',
 
     [SELECTABLE_STRINGS.AGRICULTURAL_CALCULATORS]: 'Аграрни калкулатори',
     [SELECTABLE_STRINGS.SELECT_CALCULATOR]: 'Изберете калкулатор',
@@ -1675,11 +1679,14 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.GDPR_CONSENT_TITLE]: 'GDPR - Privacy & Local Data',
     [SELECTABLE_STRINGS.GDPR_CONSENT_DESCRIPTION]: `We use cookies and your browser's local storage to improve your experience on our site. \n By default, we only use necessary cookies and storage for core features.`,
     [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY]: 'Necessary',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]: 'Required for login and core features. Cannot be disabled. Cookies and Local Browser Storage used.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_NECESSARY_DESCRIPTION]:
+      'Required for login and core features. Cannot be disabled. Cookies and Local Browser Storage used.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES]: 'Preferences',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]: 'Save your language and color theme. Optional.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_PREFERENCES_DESCRIPTION]:
+      'Save your language and color theme. Optional.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION]: 'Location',
-    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]: 'Include approximate location with requests for security and information. Optional.',
+    [SELECTABLE_STRINGS.GDPR_CONSENT_LOCATION_DESCRIPTION]:
+      'Include approximate location with requests for security and information. Optional.',
     [SELECTABLE_STRINGS.GDPR_CONSENT_SAVE]: 'Save preferences',
     [SELECTABLE_STRINGS.GDPR_CONSENT_REJECT_OPTIONAL]: 'Reject optional',
     [SELECTABLE_STRINGS.GDPR_CONSENT_ACCEPT_ALL]: 'Accept all',

@@ -1,7 +1,12 @@
 import { clsx, type ClassValue } from 'clsx';
 import { siGithub, siGoogle } from 'simple-icons';
 import { twMerge } from 'tailwind-merge';
-import { ConsentProps, RechartsTooltipProps, SupportedLang, SupportedOAuthProvider } from '@/lib/interfaces';
+import {
+  ConsentProps,
+  RechartsTooltipProps,
+  SupportedLang,
+  SupportedOAuthProvider,
+} from '@/lib/interfaces';
 import LangMap from '@/lib/LangMap';
 import { AcresToHectares, ToFixedNumber } from './math-util';
 
@@ -58,8 +63,7 @@ export const tooltipProps: RechartsTooltipProps = {
     borderRadius: '0.5rem',
     padding: '0.5rem 0.75rem',
     color: 'hsl(var(--popover-foreground))',
-    boxShadow:
-      '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
   },
   itemStyle: { color: 'green' },
   labelStyle: { color: 'hsl(var(--muted-foreground))' },

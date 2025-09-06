@@ -34,7 +34,7 @@ describe('LoggedInInstances', () => {
   });
 
   it('renders loading state initially', async () => {
-    (APICaller as jest.Mock).mockImplementation(() => new Promise(() => { }));
+    (APICaller as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<LoggedInInstances />);
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });

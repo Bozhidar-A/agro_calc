@@ -1,9 +1,7 @@
-
 import { GetClientConsent } from '@/hooks/useConsent';
+import { TryGetUserLocation } from '@/lib/geo-utils';
 import { APICallerOpts, ConsentProps } from '@/lib/interfaces';
 import { Log } from '@/lib/logger';
-import { TryGetUserLocation } from '@/lib/geo-utils';
-
 
 export async function APICaller(
   logPath: string[],
@@ -20,7 +18,15 @@ export async function APICaller(
   };
 
   // only attach location if explicitly allowed
-  consent.location ? Log(['consent', 'location', ...logPath], `User has consented to location. Including location headers.`) : Log(['consent', 'location', ...logPath], `User has NOT consented to location. Skipping location headers.`);
+  consent.location
+    ? Log(
+        ['consent', 'location', ...logPath],
+        `User has consented to location. Including location headers.`
+      )
+    : Log(
+        ['consent', 'location', ...logPath],
+        `User has NOT consented to location. Skipping location headers.`
+      );
   if (opts.includeLocation && consent.location) {
     const geo = await TryGetUserLocation();
     if (geo && geo.lat && geo.lon) {
@@ -51,4 +57,4 @@ export async function APICaller(
 
   const data = await res.json();
   return data;
-} 
+}
