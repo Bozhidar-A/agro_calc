@@ -1,7 +1,7 @@
-import { APICaller } from '@/lib/api-util';
-import { Log } from '@/lib/logger';
 import * as useConsentModule from '@/hooks/useConsent';
+import { APICaller } from '@/lib/api-util';
 import * as geoUtilsModule from '@/lib/geo-utils';
+import { Log } from '@/lib/logger';
 
 jest.unmock('@/lib/api-util');
 
@@ -40,7 +40,9 @@ describe('APICaller', () => {
   });
 
   it('should include location headers if consent is true and location is available', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: true } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: true } as any);
     jest.spyOn(geoUtilsModule, 'TryGetUserLocation').mockResolvedValue({ lat: 10, lon: 20 } as any);
     const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
     mockFetch.mockResolvedValueOnce(mockResponse);
@@ -59,7 +61,9 @@ describe('APICaller', () => {
   });
 
   it('should NOT include location headers if consent is false', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: false } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: false } as any);
     jest.spyOn(geoUtilsModule, 'TryGetUserLocation').mockResolvedValue({ lat: 10, lon: 20 } as any);
     const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
     mockFetch.mockResolvedValueOnce(mockResponse);
@@ -78,7 +82,9 @@ describe('APICaller', () => {
   });
 
   it('should NOT include location headers if TryGetUserLocation returns null', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: true } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: true } as any);
     jest.spyOn(geoUtilsModule, 'TryGetUserLocation').mockResolvedValue(null as any);
     const mockResponse = { ok: true, json: () => Promise.resolve({ success: true }) };
     mockFetch.mockResolvedValueOnce(mockResponse);

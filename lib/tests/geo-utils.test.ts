@@ -1,6 +1,6 @@
+import * as useConsentModule from '@/hooks/useConsent';
 import { TryGetUserLocation } from '@/lib/geo-utils';
 import { UserGPSLoc } from '@/lib/interfaces';
-import * as useConsentModule from '@/hooks/useConsent';
 
 jest.unmock('@/lib/geo-utils');
 
@@ -27,14 +27,18 @@ describe('TryGetUserLocation', () => {
   });
 
   it('returns null if geolocation is not available and location consent is false', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: false } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: false } as any);
     (global as any).navigator = {};
     const result = await TryGetUserLocation();
     expect(result).toBeNull();
   });
 
   it('returns null if location consent is false even if geolocation is available', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: false } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: false } as any);
     (global as any).navigator = {
       geolocation: {
         getCurrentPosition: jest.fn(),
@@ -45,7 +49,9 @@ describe('TryGetUserLocation', () => {
   });
 
   it('returns coordinates if geolocation is available, succeeds, and location consent is true', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: true } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: true } as any);
     const mockGetCurrentPosition = jest.fn((success: PositionCallback) => {
       setTimeout(() => {
         success({
@@ -72,7 +78,9 @@ describe('TryGetUserLocation', () => {
   });
 
   it('returns null if geolocation fails/denied and location consent is true', async () => {
-    jest.spyOn(useConsentModule, 'GetClientConsent').mockReturnValue({ necessary: true, preferences: false, location: true } as any);
+    jest
+      .spyOn(useConsentModule, 'GetClientConsent')
+      .mockReturnValue({ necessary: true, preferences: false, location: true } as any);
     const mockGetCurrentPosition = jest.fn(
       (_success: PositionCallback, error: PositionErrorCallback) => {
         setTimeout(() => {
