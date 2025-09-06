@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { BuildSowingRateRowProps, SowingRateDBData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
-import { CalculatorValueTypes, FetchUnitIfExist } from '@/lib/utils';
+import { CalculatorValueTypes } from '@/lib/utils';
 
 type SowingRateField = {
   type: string;

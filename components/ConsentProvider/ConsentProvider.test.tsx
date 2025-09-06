@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
 import { ConsentProvider } from './ConsentProvider';
+import * as localstorage from '@/lib/localstorage-util';
 
 describe('ConsentProvider', () => {
   afterEach(() => {
@@ -9,8 +10,7 @@ describe('ConsentProvider', () => {
   });
 
   it('renders children and does not show ConsentForm when local storage has consent', async () => {
-    const localstorage = require('@/lib/localstorage-util');
-    localstorage.GetLocalStorageItem.mockReturnValue({
+    jest.spyOn(localstorage, "GetLocalStorageItem").mockReturnValue({
       necessary: true,
       preferences: false,
       location: false,
@@ -30,8 +30,7 @@ describe('ConsentProvider', () => {
   });
 
   it('shows ConsentForm when local storage missing', async () => {
-    const localstorage = require('@/lib/localstorage-util');
-    localstorage.GetLocalStorageItem.mockReturnValue(null);
+    jest.spyOn(localstorage, "GetLocalStorageItem").mockReturnValue(null);
 
     render(
       <ConsentProvider>

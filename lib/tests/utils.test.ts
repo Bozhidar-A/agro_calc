@@ -3,7 +3,6 @@ import {
   Base64URLSafeDecode,
   Base64URLSafeEncode,
   CalculatorValueTypes,
-  FetchUnitIfExist,
   FormatInterval,
   FormatQuarantine,
   FormatValue,
