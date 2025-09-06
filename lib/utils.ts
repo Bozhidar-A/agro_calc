@@ -77,7 +77,7 @@ export const DEFAULT_CONSENT: ConsentProps = {
   updatedAt: Date.now().toString(),
 };
 
-export const CONSENT_KEY = 'consent.v1';
+export const GDPR_CONSENT_KEY = process.env.NEXT_PUBLIC_GDPR_CONSENT_KEY || 'consent.v1';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

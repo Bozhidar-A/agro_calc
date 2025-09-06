@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import ConsentForm from '@/components/ConsentForm/ConsentForm';
 import { useConsent } from '@/hooks/useConsent';
 import { GetLocalStorageItem } from '@/lib/localstorage-util';
-import { CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
+import { GDPR_CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
 
 export function ConsentProvider({ children }: React.PropsWithChildren) {
   const [showConsent, setShowConsent] = React.useState(false);
@@ -12,7 +12,7 @@ export function ConsentProvider({ children }: React.PropsWithChildren) {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const raw = GetLocalStorageItem(CONSENT_KEY);
+    const raw = GetLocalStorageItem(GDPR_CONSENT_KEY);
     if (raw === null) {
       //set default consent to necessary only
       SetClientConsent(DEFAULT_CONSENT);

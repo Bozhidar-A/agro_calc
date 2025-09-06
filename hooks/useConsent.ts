@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import type { ConsentProps } from '@/lib/interfaces';
 import { GetLocalStorageItem, SetLocalStorageItem } from '@/lib/localstorage-util';
-import { CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
+import { GDPR_CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
 import {
   ConsentSetLocation,
   ConsentSetPreferences,
@@ -13,7 +13,7 @@ export function GetClientConsent(): ConsentProps {
   if (typeof window === 'undefined') {
     return { ...DEFAULT_CONSENT, updatedAt: Date.now().toString() };
   }
-  const parsed = GetLocalStorageItem<ConsentProps>(CONSENT_KEY);
+  const parsed = GetLocalStorageItem<ConsentProps>(GDPR_CONSENT_KEY);
   if (parsed) {
     return {
       necessary: true,
@@ -33,7 +33,7 @@ export function SetClientConsent(value: Partial<ConsentProps>): ConsentProps {
     updatedAt: Date.now().toString(),
   };
   try {
-    SetLocalStorageItem(CONSENT_KEY, normalized);
+    SetLocalStorageItem(GDPR_CONSENT_KEY, normalized);
   } catch {
     // ignore
   }
@@ -48,11 +48,9 @@ export function useConsent() {
   const location = consent?.location ?? null;
 
   const setPreferences = (value: any) => {
-    console.log('Setting preferences to:', value);
     dispatch(ConsentSetPreferences(value));
   };
   const setLocation = (value: any) => {
-    console.log('Setting location to:', value);
     dispatch(ConsentSetLocation(value));
   };
   const updateConsentDate = () => {

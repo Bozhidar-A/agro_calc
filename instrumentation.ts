@@ -2307,6 +2307,11 @@ export async function register(initData: typeof dbData = dbData) {
     process.exit(1);
   }
 
+  if (!process.env.NEXT_PUBLIC_GDPR_CONSENT_KEY) {
+    console.error('NEXT_PUBLIC_GDPR_CONSENT_KEY not set');
+    process.exit(1);
+  }
+
   if (!process.env.JWT_SECRET) {
     console.error('JWT_SECRET not set');
     process.exit(1);
