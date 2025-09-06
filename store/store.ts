@@ -11,7 +11,7 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
-import consentReducer from '@/store/slices/consentSlice';
+import consentReducer, { ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from '@/store/slices/consentSlice';
 import localSettingsReducer, {
   LocalSetLang,
   LocalSetTheme,
@@ -126,6 +126,23 @@ listenerMiddleware.startListening({
         Log(['user', 'settings', 'post', 'store', 'listener'], 'User settings updated');
       }
     }
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(ConsentSetPreferences, ConsentSetLocation, UpdateConsentDate),
+  effect: async (action, listenerApi) => {
+    const state = listenerApi.getState() as RootState;
+    const next = {
+      preferences: state.consent.preferences,
+      location: state.consent.location,
+      updatedAt: state.consent.updatedAt ?? Date.now().toString(),
+    };
+
+    Log(
+      ['consent', 'change', 'store', 'listener'],
+      `Consent changed - action: ${JSON.stringify(action)}; to: ${JSON.stringify(next)}`
+    );
   },
 });
 
