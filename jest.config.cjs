@@ -14,6 +14,9 @@ const customJestConfig = {
   },
   testEnvironment: 'jest-environment-jsdom',
   modulePathIgnorePatterns: ['<rootDir>/.next/'],
+
+  //no coverage html report
+  coverageReporters: ['text', 'lcov']
 };
 
 module.exports = createJestConfig(customJestConfig);
