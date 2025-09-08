@@ -7,12 +7,11 @@ import { Log } from '@/lib/logger';
 //simple log for build info on load
 function BuildInfoLogger() {
   const commit = process.env.NEXT_PUBLIC_COMMIT_SHA;
-  const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_URL;
 
   Log(
     ['Build Info'],
-    `Agro-Calc (https://github.com/bozhidar-a/agro_calc)\n Running @ ${hostUrl}\n Build: ${commit} - ${buildTime}`
+    `Agro-Calc (https://github.com/bozhidar-a/agro_calc)\n Running @ ${hostUrl}\n Build: ${commit}`
   );
 
   // No UI component, just logging

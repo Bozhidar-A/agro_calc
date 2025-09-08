@@ -29,10 +29,9 @@ jobs:
       - name: Run Tests
         run: yarn test:all
 
-      - name: Set build vars (short SHA + build time)
+      - name: Set build vars
         run: |
           echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-          echo "BUILD_TIME=$(date -u +%FT%TZ)" >> $GITHUB_ENV
 
       - name: Login to GitHub Container Registry (ghcr.io)
         uses: docker/login-action@v3
@@ -53,7 +52,6 @@ jobs:
           build-args: |
             NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}
             NEXT_PUBLIC_COMMIT_SHA=${{ env.SHORT_SHA }}
-            NEXT_PUBLIC_BUILD_TIME=${{ env.BUILD_TIME }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ env.SHORT_SHA }}
