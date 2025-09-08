@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import ConsentForm from '@/components/ConsentForm/ConsentForm';
 import { useConsent } from '@/hooks/useConsent';
 import { GetLocalStorageItem } from '@/lib/localstorage-util';
-import { GDPR_CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
+import { DEFAULT_CONSENT, GDPR_CONSENT_KEY } from '@/lib/utils';
 
 export function ConsentProvider({ children }: React.PropsWithChildren) {
   const [showConsent, setShowConsent] = React.useState(false);

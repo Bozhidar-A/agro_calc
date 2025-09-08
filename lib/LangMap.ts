@@ -1549,7 +1549,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE]: 'Максимална сеитбена норма',
     [SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS]: 'Цена за 1 kg семена',
 
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]: 'Продукти за растителна защита срещу',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]:
+      'Продукти за растителна защита срещу',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES]:
       'Допълнителни бележки',
 
@@ -1606,7 +1607,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION]: 'Изберете култура',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]:
       'Изберете култура от вашата последна сметка за сеитбена норма',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]: 'Изберете продукти за растителна защита',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]:
+      'Изберете продукти за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]:
       'Изберете продукт за растителна защита от вашата последна сметка за химическа защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]:

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import type { ConsentProps } from '@/lib/interfaces';
 import { GetLocalStorageItem, SetLocalStorageItem } from '@/lib/localstorage-util';
-import { GDPR_CONSENT_KEY, DEFAULT_CONSENT } from '@/lib/utils';
+import { DEFAULT_CONSENT, GDPR_CONSENT_KEY } from '@/lib/utils';
 import {
   ConsentSetLocation,
   ConsentSetPreferences,

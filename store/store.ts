@@ -11,7 +11,11 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
-import consentReducer, { ConsentSetLocation, ConsentSetPreferences, UpdateConsentDate } from '@/store/slices/consentSlice';
+import consentReducer, {
+  ConsentSetLocation,
+  ConsentSetPreferences,
+  UpdateConsentDate,
+} from '@/store/slices/consentSlice';
 import localSettingsReducer, {
   LocalSetLang,
   LocalSetTheme,
