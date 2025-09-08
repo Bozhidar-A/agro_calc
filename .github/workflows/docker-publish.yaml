@@ -49,10 +49,11 @@ jobs:
           tags: |
             ${{ env.IMAGE_BASE }}:latest
             ${{ env.IMAGE_BASE }}:${{ env.SHORT_SHA }}
+            ${{ env.IMAGE_BASE }}:docker-publish-run-${{ github.run_number }}
           build-args: |
             NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}
             NEXT_PUBLIC_COMMIT_SHA=${{ env.SHORT_SHA }}
-            NEXT_PUBLIC_COMMIT_SHA=${{ env.BUILD_TIME }}
+            NEXT_PUBLIC_BUILD_TIME=${{ env.BUILD_TIME }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.version=${{ env.SHORT_SHA }}
