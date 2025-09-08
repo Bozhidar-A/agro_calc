@@ -905,7 +905,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.TOAST_ERROR_LOADING_DATA]: 'Възникна грешка при зареждането на данните',
     [SELECTABLE_STRINGS.TOAST_ERROR_NOT_LOGGED_IN]:
       'Трябва да сте влезли в профила си, за да запазите изчислението!',
-    [SELECTABLE_STRINGS.TOAST_ERROR_NO_PLANT_SELECTED]: 'Не сте избрали растение за изчисление!',
+    [SELECTABLE_STRINGS.TOAST_ERROR_NO_PLANT_SELECTED]: 'Не сте избрали култура за изчисление!',
     [SELECTABLE_STRINGS.TOAST_SAVE_SUCCESS]: 'Изчислението е запазено успешно!',
     [SELECTABLE_STRINGS.TOAST_REGISTER_SUCCESS]: 'Успешна регистрация! Моля влезте.',
     [SELECTABLE_STRINGS.TOAST_LOGIN_SUCCESS]: 'Успешен вход!',
@@ -1066,9 +1066,9 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION]: 'Активиране на култура',
     [SELECTABLE_STRINGS.COMBINED_TOUR_CROP_ACTIVATION_DESCRIPTION]:
       'Отметнете това поле, за да активирате определена култура във вашата смес. Само активираните култури ще бъдат включени в окончателното изчисление на нормата на засяване.',
-    [SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION]: 'Избор на растение',
+    [SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION]: 'Избор на култура',
     [SELECTABLE_STRINGS.COMBINED_TOUR_PLANT_SELECTION_DESCRIPTION]:
-      'Изберете конкретната сортова разновидност от падащото меню. Всяко растение има различни характеристики и изисквания за засяване.',
+      'Изберете конкретната сортова разновидност от падащото меню. Всяка култура има различни характеристики и изисквания за засяване.',
     [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE]: 'Норма засяване в чист посев',
     [SELECTABLE_STRINGS.COMBINED_TOUR_SOWING_RATE_SINGLE_DESCRIPTION]:
       'Това показва препоръчителната норма на засяване, ако тази култура се засява самостоятелно, базирана на агрономически стандарти и характеристики на културата.',
@@ -1272,7 +1272,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO]:
       'Прилага се локализирано, по време на сеитба в браздата.',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_TRIKA_EXPERT_INFO_NOTES]:
-      'Поставянето на инсектицида до семената по време на сеитба или до корените по време на окопаване/загърляне формира образуването на защитен филм около семето или коренчетата, предпазва от почвени инсекти като гъсеници на нощенки, ларви на бръмбари, телени червеи и други неприятели. В гранулите на Трика Експерт, като коформуланти са включени азот и фосфор в съотношение 7:35. Поради тази причина с прилагането на препарата се постига двоен ефект- предпазване и подхранване.',
+      'Поставянето на инсектицида до семената по време на сеитба или до корените по време на окопаване/загърляне формира образуването на защитен филм около семето или коренчетата, предпазва от почвени инсекти като гъсеници на нощенки, ларви на бръмбари, телени червеи и други неприятели. В гранулите на Трика Експерт, като коформуланти са включени азот и фосфор в съотношение 7:35. Поради тази причина с прилагането на продукт за растителна защита се постига двоен ефект- предпазване и подхранване.',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC]: 'РЕТЕНГО 20 ЕК',
     [SELECTABLE_STRINGS.CHEMICAL_PROTECTION_CHEM_RETENGO_20_EC_INFO]:
       'Третирането на посева може да се извърши от поникване до пълно оформяне на бобовите на соята.',
@@ -1521,13 +1521,13 @@ export const LangMap: LangMapInterface = {
       'Започнете оттук и отидете на страницата, която искате да разгледате.',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_PLANTS]: 'Култури',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ENEMIES]: 'Неприятели',
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_CHEMICALS]: 'Химикали',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_CHEMICALS]: 'Продукти за растителна защита',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENTS]: 'Активни вещества',
 
     //wiki chemical protection active ingredient
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_UNIT]: 'Мерна единица',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_CHEMICALS_USING]:
-      'Химикали използващи тази съставка',
+      'Продукти за растителна защита използващи тази съставка',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE_INFO]:
       'Информация за дозировка',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_DOSAGE]: 'Дозировка',
@@ -1549,7 +1549,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.WIKI_COMBINED_MAX_SEEDING_RATE]: 'Максимална сеитбена норма',
     [SELECTABLE_STRINGS.WIKI_COMBINED_PRICE_FOR_1KG_SEEDS]: 'Цена за 1 kg семена',
 
-    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]: 'Химикали срещу',
+    [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_EFFECTIVE_CHEMICALS]: 'Продукти за растителна защита срещу',
     [SELECTABLE_STRINGS.WIKI_CHEMICAL_PROTECTION_ACTIVE_INGREDIENT_ADDITIONAL_INFO_NOTES]:
       'Допълнителни бележки',
 
@@ -1560,7 +1560,7 @@ export const LangMap: LangMapInterface = {
       'Изчислете количеството работен разтвор за вашата площ',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_LAST_USED_PLANT]:
       'Имате вече сметка за сеитбена норма, искате ли да я използвате за изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: 'Използвайте това растение',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_USE_THIS_PLANT]: 'Използвайте тази култура',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT]: 'Култура',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SELECT_PLANT_DESCRIPTION]:
       'Опционално изберете култура, за да получите начална точка за изчислението',
@@ -1573,8 +1573,8 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_SPRAYER_VOLUME]: 'Обем на пръскачката',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_INPUT_AREA]: 'Площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_RESULTS_TITLE]: 'Резултати от изчислението',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT]: 'Избрано растение',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL]: 'Избран препарат',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_PLANT]: 'Избрана култура',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL]: 'Избран продукт за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_CHEMICAL]:
       'Общо количество продукт за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOTAL_SOLUTION]:
@@ -1596,7 +1596,7 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_VIZ_PARTICIPATION_SUGGESTED]:
       '*Стойностите са препоръчителни и могат да варират според конкретните условия',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_CHEMICAL_CONCENTRATION]:
-      'Концентрация на химикала',
+      'Концентрация на продукти за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SPRAYER_EFFICIENCY]:
       'Ефективност на пръскачката',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_SOLUTION_DISTRIBUTION]:
@@ -1606,13 +1606,13 @@ export const LangMap: LangMapInterface = {
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION]: 'Изберете култура',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_PLANT_SELECTION_DESCRIPTION]:
       'Изберете култура от вашата последна сметка за сеитбена норма',
-    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]: 'Изберете химикал',
+    [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION]: 'Изберете продукти за растителна защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_SELECTION_DESCRIPTION]:
-      'Изберете химикал от вашата последна сметка за химическа защита',
+      'Изберете продукт за растителна защита от вашата последна сметка за химическа защита',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE]:
-      'Химикал на площ за пръскане',
+      'Продукт за растителна защита на площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_CHEMICAL_PER_ACRE_DESCRIPTION]:
-      'Въведете количеството химикал на площ за пръскане',
+      'Въведете количеството продукт за растителна защита на площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION]:
       'Работен разтвор на площ за пръскане',
     [SELECTABLE_STRINGS.CHEM_PROT_WORKING_SOLUTION_TOUR_WORKING_SOLUTION_DESCRIPTION]:
