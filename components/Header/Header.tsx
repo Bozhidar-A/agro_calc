@@ -10,12 +10,14 @@ function BuildInfoLogger() {
   const buildTime = process.env.NEXT_PUBLIC_BUILD_TIME;
   const hostUrl = process.env.NEXT_PUBLIC_HOST_URL;
 
-  Log(["Build Info"], `Agro-Calc (https://github.com/bozhidar-a/agro_calc)\n Running @ ${hostUrl}\n Build: ${commit} - ${buildTime}`);
+  Log(
+    ['Build Info'],
+    `Agro-Calc (https://github.com/bozhidar-a/agro_calc)\n Running @ ${hostUrl}\n Build: ${commit} - ${buildTime}`
+  );
 
   // No UI component, just logging
   return null;
 }
-
 
 export default function Header() {
   return (
