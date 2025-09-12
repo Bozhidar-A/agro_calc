@@ -6,16 +6,44 @@ import { Log } from '@/lib/logger';
 
 //simple log for build info on load
 function BuildInfoLogger() {
-  const commit = process.env.NEXT_PUBLIC_COMMIT_SHA;
+  // Only public, non-sensitive vars
   const hostUrl = process.env.NEXT_PUBLIC_HOST_URL;
+  const commit = process.env.NEXT_PUBLIC_COMMIT_SHA;
+  const branchName = process.env.NEXT_PUBLIC_BRANCH_NAME;
+  const dockerTag = process.env.NEXT_PUBLIC_DOCKER_IMG_TAG;
 
-  Log(
-    ['Build Info'],
-    `Agro-Calc (https://github.com/bozhidar-a/agro_calc)\n Running @ ${hostUrl}\n Build: ${commit}`
-  );
+  // Allow turning logging off in prod unless explicitly enabled
+  const shouldLog =
+    process.env.NODE_ENV !== "production" ||
+    process.env.NEXT_PUBLIC_LOG_BUILD_INFO === "1";
 
-  // No UI component, just logging
-  return null;
+  if (!shouldLog) {
+    return null;
+  }
+
+  let buildInfo =
+    `Agro-Calc (https://github.com/bozhidar-a/agro_calc)` +
+    `\n Running @ ${hostUrl ?? "(unknown)"}`;
+
+  if (commit || branchName) {
+    buildInfo += `\n Built from:`;
+
+    if (commit) {
+      buildInfo += `\n - commit: ${commit}`;
+    }
+
+    if (branchName) {
+      buildInfo += `\n - branch: ${branchName}`;
+    }
+  }
+
+  if (dockerTag) {
+    buildInfo += `\n Docker image tag: ${dockerTag}`;
+  }
+
+  Log(["Build Info"], buildInfo); // your existing logger
+
+  return null; // no UI
 }
 
 export default function Header() {
