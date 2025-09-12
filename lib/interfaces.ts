@@ -1,6 +1,18 @@
 import { User } from '@prisma/client';
 
 //general
+export interface ConsentProps {
+  necessary: true; // always true
+  preferences: boolean; // utils stuff like dark mode, language
+  location: boolean; // location-in-requests
+  updatedAt?: string;
+}
+
+export interface ConsentDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
 export interface SupportedOAuthProvider {
   name: string;
   icon: any;
@@ -67,6 +79,11 @@ export interface LangMapInterface {
 
 export interface TranslatorInterface {
   (key: string): string;
+}
+
+export interface APICallerOpts {
+  noCache?: boolean;
+  includeLocation?: boolean;
 }
 
 export interface ReverseGeocodeAddress {
@@ -425,6 +442,34 @@ export interface ChemProtWorkingSolutionHistory {
   totalWorkingSolutionForAreaLiters: number;
   roughSprayerCount: number;
   chemicalPerSprayerML: number;
+}
+
+export interface RechartsTooltipProps {
+  contentStyle: RechartsTooltipPropsContentStyle;
+  itemStyle: RechartsTooltipPropsItemStyle;
+  labelStyle: RechartsTooltipPropsLabelStyle;
+  wrapperStyle: RechartsTooltipPropsWrapperStyle;
+}
+
+export interface RechartsTooltipPropsContentStyle {
+  backgroundColor: string;
+  border: string;
+  borderRadius: string;
+  padding: string;
+  color: string;
+  boxShadow: string;
+}
+
+export interface RechartsTooltipPropsItemStyle {
+  color: string;
+}
+
+export interface RechartsTooltipPropsLabelStyle {
+  color: string;
+}
+
+export interface RechartsTooltipPropsWrapperStyle {
+  outline: string;
 }
 
 //wiki interface

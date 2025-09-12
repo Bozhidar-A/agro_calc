@@ -41,7 +41,7 @@ describe('useSowingRateForm', () => {
       },
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 20,
         maxSliderVal: 200,
         constValue: 100,

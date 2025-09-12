@@ -10,16 +10,16 @@
     "analyze": "ANALYZE=true next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "npm run eslint && npm run stylelint",
+    "lint": "yarn run eslint && yarn run stylelint",
     "eslint": "next lint",
     "stylelint": "stylelint \"**/*.css\" --cache --allow-empty-input",
     "jest": "jest",
     "jest:watch": "jest --watch",
     "prettier:check": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
-    "test:all": "jest && npm run prettier:check && npm run lint && npm run typecheck",
+    "test:all": "jest && yarn run prettier:check && yarn run lint && yarn run typecheck",
     "test:jest": "jest",
-    "test-coverage": "jest --coverage"
+    "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=text-summary --coverageReporters=lcov --coverageReporters=json-summary --silent"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -34,6 +34,7 @@
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.12",
     "@reduxjs/toolkit": "^2.5.0",
     "@tabler/icons-react": "^3.6.0",

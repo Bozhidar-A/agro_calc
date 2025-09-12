@@ -29,7 +29,7 @@ var mockDbData = {
       wantedPlantsPerMeterSquared: {
         type: CalculatorValueTypes.SLIDER,
         step: 1,
-        unit: 'plants/m²',
+        unit: 'PLANTS_PER_M2',
         minSliderVal: 300,
         maxSliderVal: 400,
       },

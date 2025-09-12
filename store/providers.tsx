@@ -2,6 +2,7 @@
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ConsentProvider } from '@/components/ConsentProvider/ConsentProvider';
 import { ProvidersProps } from '@/lib/interfaces';
 import { persistor, store } from '@/store/store';
 
@@ -9,7 +10,7 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-        {children}
+        <ConsentProvider>{children}</ConsentProvider>
       </PersistGate>
     </Provider>
   );

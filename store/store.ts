@@ -11,6 +11,11 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 import { APICaller } from '@/lib/api-util';
 import { Log } from '@/lib/logger';
 import authReducer, { AuthSuccess } from '@/store/slices/authSlice';
+import consentReducer, {
+  ConsentSetLocation,
+  ConsentSetPreferences,
+  UpdateConsentDate,
+} from '@/store/slices/consentSlice';
 import localSettingsReducer, {
   LocalSetLang,
   LocalSetTheme,
@@ -41,6 +46,7 @@ const persistConfig = {
 const combinedReducer = combineReducers({
   auth: authReducer,
   local: localSettingsReducer,
+  consent: consentReducer,
 });
 
 const listenerMiddleware = createListenerMiddleware();
@@ -55,6 +61,15 @@ listenerMiddleware.startListening({
 
     const state = listenerApi.getState() as RootState;
     const user = state.auth.user;
+    const preferences = state.consent.preferences;
+
+    if (!preferences) {
+      Log(
+        ['consent', 'preferences', 'settings', 'store', 'listener'],
+        `User has not consented to preferences. Skipping loading user settings.`
+      );
+      return;
+    }
 
     if (user) {
       const userSettings = await APICaller(
@@ -88,6 +103,16 @@ listenerMiddleware.startListening({
     const theme = state.local.theme;
     const unitOfMeasurementLength = state.local.unitOfMeasurementLength;
 
+    const preferences = state.consent.preferences;
+
+    if (!preferences) {
+      Log(
+        ['consent', 'preferences', 'settings', 'store', 'listener'],
+        `User has not consented to preferences. Skipping saving user settings.`
+      );
+      return;
+    }
+
     if (user) {
       const userSettings = await APICaller(
         ['user', 'settings', 'post', 'store', 'listener'],
@@ -105,6 +130,23 @@ listenerMiddleware.startListening({
         Log(['user', 'settings', 'post', 'store', 'listener'], 'User settings updated');
       }
     }
+  },
+});
+
+listenerMiddleware.startListening({
+  matcher: isAnyOf(ConsentSetPreferences, ConsentSetLocation, UpdateConsentDate),
+  effect: async (action, listenerApi) => {
+    const state = listenerApi.getState() as RootState;
+    const next = {
+      preferences: state.consent.preferences,
+      location: state.consent.location,
+      updatedAt: state.consent.updatedAt ?? Date.now().toString(),
+    };
+
+    Log(
+      ['consent', 'change', 'store', 'listener'],
+      `Consent changed - action: ${JSON.stringify(action)}; to: ${JSON.stringify(next)}`
+    );
   },
 });
 

@@ -3,7 +3,6 @@ import {
   Base64URLSafeDecode,
   Base64URLSafeEncode,
   CalculatorValueTypes,
-  FetchUnitIfExist,
   FormatInterval,
   FormatQuarantine,
   FormatValue,
@@ -120,14 +119,5 @@ describe('ArrayContainsAndItemsStartsWith', () => {
   });
   it('should return false if no item starts with given string', () => {
     expect(ArrayContainsAndItemsStartsWith(['apple', 'banana', 'carrot'], 'dog')).toBe(false);
-  });
-});
-
-describe('FetchUnitIfExist', () => {
-  it('should return unit if present', () => {
-    expect(FetchUnitIfExist({ unit: 'kg' })).toBe('kg');
-  });
-  it('should return empty string if unit is missing', () => {
-    expect(FetchUnitIfExist({ unit: '' })).toBe('');
   });
 });

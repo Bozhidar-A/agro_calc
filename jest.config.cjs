@@ -5,6 +5,7 @@ const createJestConfig = nextJest({
 });
 
 const customJestConfig = {
+  setupFiles: ['<rootDir>/jest.env.cjs'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.cjs'],
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/components/$1',
@@ -13,6 +14,9 @@ const customJestConfig = {
   },
   testEnvironment: 'jest-environment-jsdom',
   modulePathIgnorePatterns: ['<rootDir>/.next/'],
+
+  //no coverage html report
+  coverageReporters: ['text', 'lcov']
 };
 
 module.exports = createJestConfig(customJestConfig);

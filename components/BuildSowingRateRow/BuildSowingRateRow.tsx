@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { BuildSowingRateRowProps, SowingRateDBData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
 import { IsValueOutOfBounds } from '@/lib/sowing-utils';
-import { CalculatorValueTypes, FetchUnitIfExist } from '@/lib/utils';
+import { CalculatorValueTypes } from '@/lib/utils';
 
 type SowingRateField = {
   type: string;
@@ -116,7 +116,7 @@ export function BuildSowingRateRow<T extends Exclude<keyof SowingRateDBData, 'pl
             />
           )}
           <div className="text-center font-medium mt-1">
-            {`${form.watch(varName) || 0} ${FetchUnitIfExist(neededData)}`}
+            {`${form.watch(varName) || 0} ${neededData.unit ? translator(neededData.unit) : ''}`}
           </div>
         </div>
       </CardContent>

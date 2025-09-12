@@ -23,7 +23,7 @@ describe('BuildSowingRateRow', () => {
     },
     wantedPlantsPerMeterSquared: {
       type: CalculatorValueTypes.CONST,
-      unit: 'plants/m²',
+      unit: 'PLANTS_PER_M2',
       constValue: 50,
     },
     massPer1000g: {

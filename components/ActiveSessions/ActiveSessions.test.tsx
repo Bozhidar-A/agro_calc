@@ -35,13 +35,13 @@ describe('LoggedInInstances', () => {
 
   it('renders loading state initially', async () => {
     (APICaller as jest.Mock).mockImplementation(() => new Promise(() => {}));
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
   });
 
   it('renders errored state if API fails', async () => {
     (APICaller as jest.Mock).mockResolvedValueOnce({ success: false });
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
     await waitFor(() => {
       expect(screen.getByTestId('error-component')).toBeInTheDocument();
     });
@@ -49,7 +49,7 @@ describe('LoggedInInstances', () => {
 
   it('renders tokens if API succeeds', async () => {
     (APICaller as jest.Mock).mockResolvedValueOnce({ success: true, data: mockTokens });
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
     await waitFor(() => {
       expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);
     });
@@ -57,7 +57,7 @@ describe('LoggedInInstances', () => {
 
   it('shows no sessions message if tokens empty', async () => {
     (APICaller as jest.Mock).mockResolvedValueOnce({ success: true, data: [] });
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
     await waitFor(() => {
       expect(screen.getByText('NO_OTHER_SESSIONS')).toBeInTheDocument();
     });
@@ -69,7 +69,7 @@ describe('LoggedInInstances', () => {
       .mockResolvedValueOnce({ success: true }) // endSession
       .mockResolvedValueOnce({ success: true, data: mockTokens }); // refetch
 
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
 
     await waitFor(() => {
       expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);
@@ -104,7 +104,7 @@ describe('LoggedInInstances', () => {
       .mockResolvedValueOnce({ success: true, data: mockTokens }) // initial fetch
       .mockResolvedValueOnce({ success: true }); // endAllSessions
 
-    render(<LoggedInInstances userId="user123" />);
+    render(<LoggedInInstances />);
 
     await waitFor(() => {
       expect(screen.getAllByText(/^\s*User.* Info\s*$/i)).toHaveLength(2);

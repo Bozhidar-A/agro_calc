@@ -3,7 +3,7 @@ const { mockTranslateFunction, mockGetStrFromLangMapKey } = require('./test-util
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
-window.HTMLElement.prototype.scrollIntoView = () => {};
+window.HTMLElement.prototype.scrollIntoView = () => { };
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -20,12 +20,13 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
+  observe() { }
+  unobserve() { }
+  disconnect() { }
 }
 
 window.ResizeObserver = ResizeObserver;
+
 
 //fix for redux persist
 jest.mock('redux-persist/integration/react', () => ({
@@ -131,6 +132,10 @@ jest.mock('sonner', () => ({
 // Mock API calls
 jest.mock('@/lib/api-util', () => ({
   APICaller: jest.fn(),
+}));
+
+//mock geo stuff
+jest.mock('@/lib/geo-utils', () => ({
   TryGetUserLocation: jest.fn().mockResolvedValue(null),
 }));
 
@@ -162,14 +167,19 @@ jest.mock('@/hooks/useWarnings', () => ({
 }));
 
 // Global mock for GetStrFromLangMapKey
-jest.mock('@/lib/utils', () => ({
-  ...jest.requireActual('@/lib/utils'),
-  GetStrFromLangMapKey: mockGetStrFromLangMapKey,
-}));
+jest.mock('@/lib/utils', () => {
+  const actual = jest.requireActual('@/lib/utils');
+  return {
+    ...actual,
+    GetStrFromLangMapKey: mockGetStrFromLangMapKey,
+    // ensure the consent key is defined for tests (use env if present, otherwise actual or fallback)
+    CONSENT_KEY: process.env.NEXT_PUBLIC_GDPR_CONSENT_KEY || actual.CONSENT_KEY || 'consent.v1',
+  };
+});
 
 //mock router
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn() }),
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
 
 //mock useAuth hook
@@ -178,4 +188,24 @@ jest.mock('@/hooks/useAuth', () => ({
     isAuthenticated: true,
     userId: 'test-user-id',
   }),
+}));
+
+//consent
+jest.mock('@/hooks/useConsent', () => ({
+  useConsent: jest.fn(() => ({
+    preferences: false,
+    location: false,
+    setPreferences: jest.fn(),
+    setLocation: jest.fn(),
+    updateConsentDate: jest.fn(),
+    SetClientConsent: jest.fn(),
+    GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
+  })),
+  SetClientConsent: jest.fn(),
+  GetClientConsent: jest.fn(() => ({ necessary: true, preferences: false, location: false })),
+}));
+
+jest.mock('@/lib/localstorage-util', () => ({
+  GetLocalStorageItem: jest.fn(),
+  SetLocalStorageItem: jest.fn(),
 }));

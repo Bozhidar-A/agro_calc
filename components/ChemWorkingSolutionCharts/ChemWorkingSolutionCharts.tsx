@@ -15,6 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useTranslate } from '@/hooks/useTranslate';
 import { ChemProtWorkingSolutionHistory } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
+import { tooltipProps } from '@/lib/utils';
 
 export default function ChemWorkingSolutionCharts({
   data,
@@ -165,7 +166,7 @@ export default function ChemWorkingSolutionCharts({
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => `${value.toFixed(2)}L`} />
+                <Tooltip {...tooltipProps} formatter={(value: number) => `${value.toFixed(2)}L`} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -185,6 +186,7 @@ export default function ChemWorkingSolutionCharts({
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip
+                  {...tooltipProps}
                   formatter={(value: number, name: string) => {
                     if (
                       name ===
@@ -221,7 +223,7 @@ export default function ChemWorkingSolutionCharts({
               >
                 <XAxis type="number" domain={[0, 100]} />
                 <YAxis dataKey="name" type="category" />
-                <Tooltip formatter={(value: number) => `${value.toFixed(1)}%`} />
+                <Tooltip {...tooltipProps} formatter={(value: number) => `${value.toFixed(1)}%`} />
                 <Legend />
                 <Bar
                   dataKey="efficiency"

@@ -16,7 +16,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useTranslate } from '@/hooks/useTranslate';
 import { SowingRateSaveData } from '@/lib/interfaces';
 import { SELECTABLE_STRINGS } from '@/lib/LangMap';
-import { FormatValue, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
+import { FormatValue, tooltipProps, UNIT_OF_MEASUREMENT_LENGTH } from '@/lib/utils';
 import { RootState } from '@/store/store';
 
 export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
@@ -95,10 +95,6 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
     {
       name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_USED_SEEDS),
       value: data.usedSeedsKgPerAcre * 10,
-    }, // Scale up for visualization
-    {
-      name: translator(SELECTABLE_STRINGS.SOWING_RATE_OUTPUT_ROW_SPACING),
-      value: data.internalRowHeightCm,
     },
   ];
 
@@ -131,7 +127,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                 const percentage = (item.value / item.fullMark) * 100;
 
                 return (
-                  <div key={item.metric} className="space-y-2">
+                  <div key={item.metric} className="space-y-2 mb-5">
                     <div className="flex justify-between items-center">
                       <span className="text-sm font-medium">{item.metric}</span>
                       <span className="text-sm font-bold">{FormatValue(item.value)}</span>
@@ -144,9 +140,6 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                           backgroundColor: COLORS[index % COLORS.length],
                         }}
                       />
-                    </div>
-                    <div className="text-xs text-gray-500 text-right">
-                      Max: {FormatValue(item.fullMark)}
                     </div>
                   </div>
                 );
@@ -170,7 +163,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  outerRadius={80}
+                  outerRadius={120}
                   fill="#8884d8"
                   dataKey="value"
                   label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
@@ -179,7 +172,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => (value as number).toFixed(2)} />
+                <Tooltip {...tooltipProps} formatter={(value) => (value as number).toFixed(2)} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -199,6 +192,7 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip
+                  {...tooltipProps}
                   formatter={(value, name) => {
                     // Undo scaling for display in tooltip
                     if (name === translator(SELECTABLE_STRINGS.PLANTS_PER_ACRE)) {
@@ -262,11 +256,14 @@ export default function SowingCharts({ data }: { data: SowingRateSaveData }) {
               >
                 <XAxis type="number" domain={[0, 100]} />
                 <YAxis dataKey="name" type="category" />
-                <Tooltip formatter={(value) => `${(value as number).toFixed(1)}%`} />
+                <Tooltip
+                  {...tooltipProps}
+                  formatter={(value) => `${(value as number).toFixed(1)}%`}
+                />
                 <Legend />
                 <Bar
                   dataKey="efficiency"
-                  fill="#8884d8"
+                  fill="#82ca9d"
                   name={`${translator(SELECTABLE_STRINGS.SOWING_RATE_VIZ_PLANTING_EFFICIENCY_PARTICIPATION)} (%)`}
                   radius={[0, 10, 10, 0]}
                 >
