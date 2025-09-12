@@ -14,8 +14,7 @@ function BuildInfoLogger() {
 
   // Allow turning logging off in prod unless explicitly enabled
   const shouldLog =
-    process.env.NODE_ENV !== "production" ||
-    process.env.NEXT_PUBLIC_LOG_BUILD_INFO === "1";
+    process.env.NODE_ENV !== 'production' || process.env.NEXT_PUBLIC_LOG_BUILD_INFO === '1';
 
   if (!shouldLog) {
     return null;
@@ -23,7 +22,7 @@ function BuildInfoLogger() {
 
   let buildInfo =
     `Agro-Calc (https://github.com/bozhidar-a/agro_calc)` +
-    `\n Running @ ${hostUrl ?? "(unknown)"}`;
+    `\n Running @ ${hostUrl ?? '(unknown)'}`;
 
   if (commit || branchName) {
     buildInfo += `\n Built from:`;
@@ -41,7 +40,7 @@ function BuildInfoLogger() {
     buildInfo += `\n Docker image tag: ${dockerTag}`;
   }
 
-  Log(["Build Info"], buildInfo); // your existing logger
+  Log(['Build Info'], buildInfo); // your existing logger
 
   return null; // no UI
 }
