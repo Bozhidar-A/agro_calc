@@ -765,6 +765,7 @@ export function GetChemProtectionPlantData(id: string) {
             select: {
               enemy: {
                 select: {
+                  id: true,
                   latinName: true,
                 },
               },
@@ -915,6 +916,7 @@ export function GetAllChemProtectionChemicals() {
         select: {
           enemy: {
             select: {
+              id: true,
               latinName: true,
             },
           },
@@ -969,6 +971,7 @@ export function GetChemProtectionChemData(id: string) {
         select: {
           enemy: {
             select: {
+              id: true,
               latinName: true,
             },
           },
