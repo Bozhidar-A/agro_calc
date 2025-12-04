@@ -19,7 +19,7 @@
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "test:all": "jest && yarn run prettier:check && yarn run lint && yarn run typecheck",
     "test:jest": "jest",
-    "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=text-summary --coverageReporters=lcov --coverageReporters=json-summary --silent"
+    "test:coverage": "jest --coverage --coverageReporters=text --coverageReporters=text-summary --coverageReporters=lcov --coverageReporters=json-summary --silent --colors"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
