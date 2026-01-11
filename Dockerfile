@@ -71,9 +71,9 @@ COPY --from=builder /app/.next/static ./.next/static
 # Delete cache
 RUN rm -rf .next/cache
 
-# Copy Prisma files
+# Copy Prisma files and node_modules (ensures locked versions are used at runtime)
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules ./node_modules
 
 # Switch to non-root user
 USER nextjs
